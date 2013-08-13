@@ -1,0 +1,2513 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\tensor.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c     1    #include "stdafx.h"
+        tensor.c     2    
+        tensor.c     3    #include "defs.h"
+        tensor.c     4    
+        tensor.c     5    static void promote_tensor(void);
+        tensor.c     6    static int compatible(U *, U *);
+        tensor.c     7    
+        tensor.c     8    //-----------------------------------------------------------------------------
+        tensor.c     9    //
+        tensor.c    10    //      Called from the "eval" module to evaluate tensor elements.
+        tensor.c    11    //
+        tensor.c    12    //      p1 points to the tensor operand.
+        tensor.c    13    //
+        tensor.c    14    //-----------------------------------------------------------------------------
+        tensor.c    15    
+        tensor.c    16    void
+        tensor.c    17    eval_tensor(void)
+P   00000000              _eval_tensor:                    ; function: eval_tensor
+                                                           ; frame size=40
+    00000000 2FE6                   MOV.L       R14,@-R15
+        tensor.c    18    {
+        tensor.c    19            int i, ndim, nelem;
+        tensor.c    20            U **a, **b;
+        tensor.c    21    
+        tensor.c    22            //---------------------------------------------------------------------
+        tensor.c    23            //
+        tensor.c    24            //      create a new tensor for the result
+        tensor.c    25            //
+        tensor.c    26            //---------------------------------------------------------------------
+        tensor.c    27    
+        tensor.c    28            nelem = p1->u.tensor->nelem;
+    00000002 E064                   MOV         #100,R0
+        tensor.c    29    
+        tensor.c    30            ndim = p1->u.tensor->ndim;
+        tensor.c    31    
+        tensor.c    32            p2 = alloc_tensor(nelem);
+    00000004 D345                   MOV.L       L1279+10,R3; _alloc_tensor
+    00000006 2FD6                   MOV.L       R13,@-R15
+    00000008 2FC6                   MOV.L       R12,@-R15
+    0000000A 2FB6                   MOV.L       R11,@-R15
+    0000000C 2FA6                   MOV.L       R10,@-R15
+    0000000E 2F96                   MOV.L       R9,@-R15
+    00000010 2F86                   MOV.L       R8,@-R15
+    00000012 4F22                   STS.L       PR,@-R15
+    00000014 DE3F                   MOV.L       L1279+2,R14; _p1
+    00000016 7FFC                   ADD         #-4,R15
+    00000018 DD3F                   MOV.L       L1279+6,R13; _p2
+    0000001A 64E2                   MOV.L       @R14,R4
+    0000001C 6442                   MOV.L       @R4,R4
+    0000001E 0C4E                   MOV.L       @(R0,R4),R12
+    00000020 6B42                   MOV.L       @R4,R11
+    00000022 430B                   JSR         @R3
+    00000024 64C3                   MOV         R12,R4
+        tensor.c    33    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c    34            p2->u.tensor->ndim = ndim;
+    00000026 6203                   MOV         R0,R2
+    00000028 2D02                   MOV.L       R0,@R13
+        tensor.c    35    
+        tensor.c    36            for (i = 0; i < ndim; i++)
+    0000002A E600                   MOV         #0,R6
+    0000002C 6322                   MOV.L       @R2,R3
+    0000002E 4B15                   CMP/PL      R11
+    00000030 23B2                   MOV.L       R11,@R3
+    00000032 6563                   MOV         R6,R5
+    00000034 8F0F                   BF/S        L1187
+    00000036 6463                   MOV         R6,R4
+    00000038              L1188:                            
+        tensor.c    37                    p2->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    00000038 60D2                   MOV.L       @R13,R0
+    0000003A 7501                   ADD         #1,R5
+    0000003C 6302                   MOV.L       @R0,R3
+    0000003E 35B3                   CMP/GE      R11,R5
+    00000040 60E2                   MOV.L       @R14,R0
+    00000042 7304                   ADD         #4,R3
+    00000044 6002                   MOV.L       @R0,R0
+    00000046 334C                   ADD         R4,R3
+    00000048 6203                   MOV         R0,R2
+    0000004A 7204                   ADD         #4,R2
+    0000004C 324C                   ADD         R4,R2
+    0000004E 6122                   MOV.L       @R2,R1
+    00000050 2312                   MOV.L       R1,@R3
+    00000052 8FF1                   BF/S        L1188
+    00000054 7404                   ADD         #4,R4
+    00000056              L1187:                            
+        tensor.c    38    
+        tensor.c    39            //---------------------------------------------------------------------
+        tensor.c    40            //
+        tensor.c    41            //      b = eval(a)
+        tensor.c    42            //
+        tensor.c    43            //---------------------------------------------------------------------
+        tensor.c    44    
+        tensor.c    45            a = p1->u.tensor->elem;
+        tensor.c    46            b = p2->u.tensor->elem;
+        tensor.c    47    
+        tensor.c    48            for (i = 0; i < nelem; i++) {
+    00000056 6B63                   MOV         R6,R11
+    00000058 D931                   MOV.L       L1279+14,R9; _pop
+    0000005A 4C15                   CMP/PL      R12
+    0000005C 62E2                   MOV.L       @R14,R2
+    0000005E 6122                   MOV.L       @R2,R1
+    00000060 DA30                   MOV.L       L1279+18,R10; _push
+    00000062 7168                   ADD         #104,R1
+    00000064 2F12                   MOV.L       R1,@R15
+    00000066 68D2                   MOV.L       @R13,R8
+    00000068 6882                   MOV.L       @R8,R8
+    0000006A 7868                   ADD         #104,R8
+    0000006C 8F10                   BF/S        L1189
+    0000006E 6E63                   MOV         R6,R14
+    00000070              L1190:                            
+        tensor.c    49                    push(a[i]);
+    00000070 60F2                   MOV.L       @R15,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000072 4A0B                   JSR         @R10
+    00000074 04EE                   MOV.L       @(R0,R14),R4
+        tensor.c    50                    eval();
+    00000076 D22C                   MOV.L       L1279+22,R2; _eval
+    00000078 420B                   JSR         @R2
+    0000007A 0009                   NOP
+        tensor.c    51                    b[i] = pop();
+    0000007C 63E3                   MOV         R14,R3
+    0000007E 338C                   ADD         R8,R3
+    00000080 490B                   JSR         @R9
+    00000082 2F36                   MOV.L       R3,@-R15
+    00000084 63F6                   MOV.L       @R15+,R3
+    00000086 7B01                   ADD         #1,R11
+    00000088 2302                   MOV.L       R0,@R3
+    0000008A 3BC3                   CMP/GE      R12,R11
+    0000008C 8FF0                   BF/S        L1190
+    0000008E 7E04                   ADD         #4,R14
+    00000090              L1189:                            
+        tensor.c    52            }
+        tensor.c    53    
+        tensor.c    54            //---------------------------------------------------------------------
+        tensor.c    55            //
+        tensor.c    56            //      push the result
+        tensor.c    57            //
+        tensor.c    58            //---------------------------------------------------------------------
+        tensor.c    59    
+        tensor.c    60            push(p2);
+    00000090 4A0B                   JSR         @R10
+    00000092 64D2                   MOV.L       @R13,R4
+        tensor.c    61    
+        tensor.c    62            promote_tensor();
+    00000094 7F04                   ADD         #4,R15
+    00000096 4F26                   LDS.L       @R15+,PR
+    00000098 68F6                   MOV.L       @R15+,R8
+    0000009A 69F6                   MOV.L       @R15+,R9
+    0000009C 6AF6                   MOV.L       @R15+,R10
+    0000009E 6BF6                   MOV.L       @R15+,R11
+    000000A0 6CF6                   MOV.L       @R15+,R12
+    000000A2 6DF6                   MOV.L       @R15+,R13
+    000000A4 A444                   BRA         __$promote_tensor
+    000000A6 6EF6                   MOV.L       @R15+,R14
+        tensor.c    63    }
+        tensor.c    64    
+        tensor.c    65    //-----------------------------------------------------------------------------
+        tensor.c    66    //
+        tensor.c    67    //      Add tensors
+        tensor.c    68    //
+        tensor.c    69    //      Input:          Operands on stack
+        tensor.c    70    //
+        tensor.c    71    //      Output:         Result on stack
+        tensor.c    72    //
+        tensor.c    73    //-----------------------------------------------------------------------------
+        tensor.c    74    
+        tensor.c    75    void
+        tensor.c    76    tensor_plus_tensor(void)
+    000000A8              _tensor_plus_tensor:             ; function: tensor_plus_tensor
+                                                           ; frame size=48
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000A8 2FE6                   MOV.L       R14,@-R15
+    000000AA 2FD6                   MOV.L       R13,@-R15
+    000000AC 2FC6                   MOV.L       R12,@-R15
+    000000AE 2FB6                   MOV.L       R11,@-R15
+    000000B0 2FA6                   MOV.L       R10,@-R15
+    000000B2 2F96                   MOV.L       R9,@-R15
+    000000B4 2F86                   MOV.L       R8,@-R15
+    000000B6 4F22                   STS.L       PR,@-R15
+        tensor.c    77    {
+        tensor.c    78            int i, ndim, nelem;
+        tensor.c    79            U **a, **b, **c;
+        tensor.c    80    
+        tensor.c    81            save();
+    000000B8 D31C                   MOV.L       L1279+26,R3; _save
+    000000BA 7FF4                   ADD         #-12,R15
+    000000BC 430B                   JSR         @R3
+    000000BE 0009                   NOP
+        tensor.c    82    
+        tensor.c    83            p2 = pop();
+    000000C0 D917                   MOV.L       L1279+14,R9; _pop
+    000000C2 490B                   JSR         @R9
+    000000C4 0009                   NOP
+    000000C6 D214                   MOV.L       L1279+6,R2 ; _p2
+        tensor.c    84            p1 = pop();
+    000000C8 DA12                   MOV.L       L1279+2,R10; _p1
+    000000CA 490B                   JSR         @R9
+    000000CC 2202                   MOV.L       R0,@R2
+        tensor.c    85    
+        tensor.c    86            // are the dimension lists equal?
+        tensor.c    87    
+        tensor.c    88            ndim = p1->u.tensor->ndim;
+    000000CE 6603                   MOV         R0,R6
+    000000D0 DD14                   MOV.L       L1279+18,R13; _push
+    000000D2 2A02                   MOV.L       R0,@R10
+    000000D4 6E62                   MOV.L       @R6,R14
+    000000D6 6EE2                   MOV.L       @R14,R14
+    000000D8 D30F                   MOV.L       L1279+6,R3 ; _p2
+    000000DA 6732                   MOV.L       @R3,R7
+    000000DC 6272                   MOV.L       @R7,R2
+    000000DE 6122                   MOV.L       @R2,R1
+    000000E0 3E10                   CMP/EQ      R1,R14
+    000000E2 8B0F                   BF          L1149
+        tensor.c    89    
+        tensor.c    90            if (ndim != p2->u.tensor->ndim) {
+        tensor.c    91                    push(symbol(NIL));
+        tensor.c    92                    restore();
+        tensor.c    93                    return;
+        tensor.c    94            }
+        tensor.c    95    
+        tensor.c    96            for (i = 0; i < ndim; i++)
+    000000E4 EB00                   MOV         #0,R11
+    000000E6 65B3                   MOV         R11,R5
+    000000E8 4E15                   CMP/PL      R14
+    000000EA 8F27                   BF/S        L1193
+    000000EC 64B3                   MOV         R11,R4
+    000000EE              L1194:                            
+        tensor.c    97                    if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i]) {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000EE 6362                   MOV.L       @R6,R3
+    000000F0 6072                   MOV.L       @R7,R0
+    000000F2 7304                   ADD         #4,R3
+    000000F4 334C                   ADD         R4,R3
+    000000F6 6203                   MOV         R0,R2
+    000000F8 6332                   MOV.L       @R3,R3
+    000000FA 7204                   ADD         #4,R2
+    000000FC 324C                   ADD         R4,R2
+    000000FE 6122                   MOV.L       @R2,R1
+    00000100 3310                   CMP/EQ      R1,R3
+    00000102 8917                   BT          L1195
+    00000104              L1149:
+        tensor.c    98                            push(symbol(NIL));
+    00000104 DC0A                   MOV.L       L1279+30,R12; _symtab
+    00000106 9E04                   MOV.W       L1279,R14  ; H'0570
+    00000108 64C2                   MOV.L       @R12,R4
+    0000010A 4D0B                   JSR         @R13
+    0000010C 34EC                   ADD         R14,R4
+    0000010E A05B                   BRA         L1148
+    00000110 0009                   NOP
+    00000112              L1279:                            
+    00000112 0570                   .DATA.W     H'0570
+    00000114 <00000000>             .DATA.L     _p1
+    00000118 <00000000>             .DATA.L     _p2
+    0000011C <00000000>             .DATA.L     _alloc_tensor
+    00000120 <00000000>             .DATA.L     _pop
+    00000124 <00000000>             .DATA.L     _push
+    00000128 <00000000>             .DATA.L     _eval
+    0000012C <00000000>             .DATA.L     _save
+    00000130 <00000000>             .DATA.L     _symtab
+    00000134              L1195:                            
+    00000134 7501                   ADD         #1,R5
+    00000136 35E3                   CMP/GE      R14,R5
+    00000138 8FD9                   BF/S        L1194
+    0000013A 7404                   ADD         #4,R4
+    0000013C              L1193:                            
+        tensor.c    99                            restore();
+        tensor.c   100                            return;
+        tensor.c   101                    }
+        tensor.c   102    
+        tensor.c   103            // create a new tensor for the result
+        tensor.c   104    
+        tensor.c   105            nelem = p1->u.tensor->nelem;
+    0000013C 6862                   MOV.L       @R6,R8
+    0000013E E064                   MOV         #100,R0
+        tensor.c   106    
+        tensor.c   107            p3 = alloc_tensor(nelem);
+    00000140 DC92                   MOV.L       L1280,R12  ; _p3
+    00000142 088E                   MOV.L       @(R0,R8),R8
+    00000144 D392                   MOV.L       L1280+4,R3 ; _alloc_tensor
+    00000146 430B                   JSR         @R3
+    00000148 6483                   MOV         R8,R4
+        tensor.c   108    
+        tensor.c   109            p3->u.tensor->ndim = ndim;
+    0000014A 6203                   MOV         R0,R2
+    0000014C 2C02                   MOV.L       R0,@R12
+        tensor.c   110    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   111            for (i = 0; i < ndim; i++)
+    0000014E 65B3                   MOV         R11,R5
+    00000150 6322                   MOV.L       @R2,R3
+    00000152 4E15                   CMP/PL      R14
+    00000154 23E2                   MOV.L       R14,@R3
+    00000156 8F0F                   BF/S        L1196
+    00000158 64B3                   MOV         R11,R4
+    0000015A              L1197:                            
+    0000015A 7501                   ADD         #1,R5
+        tensor.c   112                    p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    0000015C 60C2                   MOV.L       @R12,R0
+    0000015E 35E3                   CMP/GE      R14,R5
+    00000160 6302                   MOV.L       @R0,R3
+    00000162 7304                   ADD         #4,R3
+    00000164 60A2                   MOV.L       @R10,R0
+    00000166 334C                   ADD         R4,R3
+    00000168 6002                   MOV.L       @R0,R0
+    0000016A 6203                   MOV         R0,R2
+    0000016C 7204                   ADD         #4,R2
+    0000016E 324C                   ADD         R4,R2
+    00000170 6122                   MOV.L       @R2,R1
+    00000172 2312                   MOV.L       R1,@R3
+    00000174 8FF1                   BF/S        L1197
+    00000176 7404                   ADD         #4,R4
+    00000178              L1196:                            
+        tensor.c   113    
+        tensor.c   114            // c = a + b
+        tensor.c   115    
+        tensor.c   116            a = p1->u.tensor->elem;
+    00000178 62A2                   MOV.L       @R10,R2
+        tensor.c   117            b = p2->u.tensor->elem;
+        tensor.c   118            c = p3->u.tensor->elem;
+        tensor.c   119    
+        tensor.c   120            for (i = 0; i < nelem; i++) {
+    0000017A 4815                   CMP/PL      R8
+    0000017C 6122                   MOV.L       @R2,R1
+    0000017E 6AB3                   MOV         R11,R10
+    00000180 D284                   MOV.L       L1280+8,R2 ; _p2
+    00000182 7168                   ADD         #104,R1
+    00000184 1F11                   MOV.L       R1,@(4,R15)
+    00000186 6322                   MOV.L       @R2,R3
+    00000188 6132                   MOV.L       @R3,R1
+    0000018A 6013                   MOV         R1,R0
+    0000018C 7068                   ADD         #104,R0
+    0000018E 2F02                   MOV.L       R0,@R15
+    00000190 63C2                   MOV.L       @R12,R3
+    00000192 6132                   MOV.L       @R3,R1
+    00000194 6013                   MOV         R1,R0
+    00000196 7068                   ADD         #104,R0
+    00000198 1F02                   MOV.L       R0,@(8,R15)
+    0000019A 8F13                   BF/S        L1198
+    0000019C 6EB3                   MOV         R11,R14
+    0000019E DB7E                   MOV.L       L1280+12,R11; _add
+    000001A0              L1199:                            
+        tensor.c   121                    push(a[i]);
+    000001A0 50F1                   MOV.L       @(4,R15),R0
+    000001A2 4D0B                   JSR         @R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001A4 04EE                   MOV.L       @(R0,R14),R4
+        tensor.c   122                    push(b[i]);
+    000001A6 60F2                   MOV.L       @R15,R0
+    000001A8 4D0B                   JSR         @R13
+    000001AA 04EE                   MOV.L       @(R0,R14),R4
+        tensor.c   123                    add();
+    000001AC 4B0B                   JSR         @R11
+    000001AE 0009                   NOP
+        tensor.c   124                    c[i] = pop();
+    000001B0 50F2                   MOV.L       @(8,R15),R0
+    000001B2 30EC                   ADD         R14,R0
+    000001B4 490B                   JSR         @R9
+    000001B6 2F06                   MOV.L       R0,@-R15
+    000001B8 63F6                   MOV.L       @R15+,R3
+    000001BA 7A01                   ADD         #1,R10
+    000001BC 2302                   MOV.L       R0,@R3
+    000001BE 3A83                   CMP/GE      R8,R10
+    000001C0 8FEE                   BF/S        L1199
+    000001C2 7E04                   ADD         #4,R14
+    000001C4              L1198:                            
+        tensor.c   125            }
+        tensor.c   126    
+        tensor.c   127            // push the result
+        tensor.c   128    
+        tensor.c   129            push(p3);
+    000001C4 4D0B                   JSR         @R13
+    000001C6 64C2                   MOV.L       @R12,R4
+    000001C8              L1148:
+        tensor.c   130    
+        tensor.c   131            restore();
+    000001C8 D374                   MOV.L       L1280+16,R3; _restore
+    000001CA 7F0C                   ADD         #12,R15
+    000001CC 4F26                   LDS.L       @R15+,PR
+    000001CE 68F6                   MOV.L       @R15+,R8
+    000001D0 69F6                   MOV.L       @R15+,R9
+    000001D2 6AF6                   MOV.L       @R15+,R10
+    000001D4 6BF6                   MOV.L       @R15+,R11
+    000001D6 6CF6                   MOV.L       @R15+,R12
+    000001D8 6DF6                   MOV.L       @R15+,R13
+    000001DA 432B                   JMP         @R3
+    000001DC 6EF6                   MOV.L       @R15+,R14
+        tensor.c   132    }
+        tensor.c   133    
+        tensor.c   134    //-----------------------------------------------------------------------------
+        tensor.c   135    //
+        tensor.c   136    //      careful not to reorder factors
+        tensor.c   137    //
+        tensor.c   138    //-----------------------------------------------------------------------------
+        tensor.c   139    
+        tensor.c   140    void
+        tensor.c   141    tensor_times_scalar(void)
+    000001DE              _tensor_times_scalar:            ; function: tensor_times_scalar
+                                                           ; frame size=44
+    000001DE 2FE6                   MOV.L       R14,@-R15
+    000001E0 2FD6                   MOV.L       R13,@-R15
+    000001E2 2FC6                   MOV.L       R12,@-R15
+    000001E4 2FB6                   MOV.L       R11,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001E6 2FA6                   MOV.L       R10,@-R15
+    000001E8 2F96                   MOV.L       R9,@-R15
+    000001EA 2F86                   MOV.L       R8,@-R15
+    000001EC 4F22                   STS.L       PR,@-R15
+    000001EE 7FF8                   ADD         #-8,R15
+        tensor.c   142    {
+        tensor.c   143            int i, ndim, nelem;
+        tensor.c   144            U **a, **b;
+        tensor.c   145    
+        tensor.c   146            save();
+    000001F0 D36B                   MOV.L       L1280+20,R3; _save
+    000001F2 430B                   JSR         @R3
+    000001F4 0009                   NOP
+        tensor.c   147    
+        tensor.c   148            p2 = pop();
+    000001F6 D867                   MOV.L       L1280+8,R8 ; _p2
+    000001F8 D96A                   MOV.L       L1280+24,R9; _pop
+    000001FA 490B                   JSR         @R9
+    000001FC 0009                   NOP
+        tensor.c   149            p1 = pop();
+    000001FE DE6A                   MOV.L       L1280+28,R14; _p1
+    00000200 490B                   JSR         @R9
+    00000202 2802                   MOV.L       R0,@R8
+    00000204 2E02                   MOV.L       R0,@R14
+        tensor.c   150    
+        tensor.c   151            ndim = p1->u.tensor->ndim;
+    00000206 6403                   MOV         R0,R4
+        tensor.c   152            nelem = p1->u.tensor->nelem;
+        tensor.c   153    
+        tensor.c   154            p3 = alloc_tensor(nelem);
+    00000208 DC60                   MOV.L       L1280,R12  ; _p3
+    0000020A E064                   MOV         #100,R0
+    0000020C D360                   MOV.L       L1280+4,R3 ; _alloc_tensor
+    0000020E 6442                   MOV.L       @R4,R4
+    00000210 6D42                   MOV.L       @R4,R13
+    00000212 0B4E                   MOV.L       @(R0,R4),R11
+    00000214 430B                   JSR         @R3
+    00000216 64B3                   MOV         R11,R4
+    00000218 2C02                   MOV.L       R0,@R12
+        tensor.c   155    
+        tensor.c   156            p3->u.tensor->ndim = ndim;
+    0000021A 6203                   MOV         R0,R2
+    0000021C 6322                   MOV.L       @R2,R3
+        tensor.c   157    
+        tensor.c   158            for (i = 0; i < ndim; i++)
+    0000021E E600                   MOV         #0,R6
+    00000220 23D2                   MOV.L       R13,@R3
+    00000222 4D15                   CMP/PL      R13
+    00000224 6563                   MOV         R6,R5
+    00000226 8F0F                   BF/S        L1200
+    00000228 6463                   MOV         R6,R4
+    0000022A              L1201:                            
+    0000022A 7501                   ADD         #1,R5
+        tensor.c   159                    p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    0000022C 60C2                   MOV.L       @R12,R0
+    0000022E 35D3                   CMP/GE      R13,R5
+    00000230 6302                   MOV.L       @R0,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000232 7304                   ADD         #4,R3
+    00000234 60E2                   MOV.L       @R14,R0
+    00000236 334C                   ADD         R4,R3
+    00000238 6002                   MOV.L       @R0,R0
+    0000023A 6203                   MOV         R0,R2
+    0000023C 7204                   ADD         #4,R2
+    0000023E 324C                   ADD         R4,R2
+    00000240 6122                   MOV.L       @R2,R1
+    00000242 2312                   MOV.L       R1,@R3
+    00000244 8FF1                   BF/S        L1201
+    00000246 7404                   ADD         #4,R4
+    00000248              L1200:                            
+        tensor.c   160    
+        tensor.c   161            a = p1->u.tensor->elem;
+    00000248 62E2                   MOV.L       @R14,R2
+        tensor.c   162            b = p3->u.tensor->elem;
+        tensor.c   163    
+        tensor.c   164            for (i = 0; i < nelem; i++) {
+    0000024A 6A63                   MOV         R6,R10
+    0000024C DD57                   MOV.L       L1280+32,R13; _push
+    0000024E 4B15                   CMP/PL      R11
+    00000250 6122                   MOV.L       @R2,R1
+    00000252 7168                   ADD         #104,R1
+    00000254 2F12                   MOV.L       R1,@R15
+    00000256 63C2                   MOV.L       @R12,R3
+    00000258 6232                   MOV.L       @R3,R2
+    0000025A 6123                   MOV         R2,R1
+    0000025C 7168                   ADD         #104,R1
+    0000025E 1F11                   MOV.L       R1,@(4,R15)
+    00000260 8F12                   BF/S        L1202
+    00000262 6E63                   MOV         R6,R14
+    00000264              L1203:                            
+        tensor.c   165                    push(a[i]);
+    00000264 60F2                   MOV.L       @R15,R0
+    00000266 4D0B                   JSR         @R13
+    00000268 04EE                   MOV.L       @(R0,R14),R4
+        tensor.c   166                    push(p2);
+    0000026A 4D0B                   JSR         @R13
+    0000026C 6482                   MOV.L       @R8,R4
+        tensor.c   167                    multiply();
+    0000026E D250                   MOV.L       L1280+36,R2; _multiply
+    00000270 420B                   JSR         @R2
+    00000272 0009                   NOP
+        tensor.c   168                    b[i] = pop();
+    00000274 50F1                   MOV.L       @(4,R15),R0
+    00000276 30EC                   ADD         R14,R0
+    00000278 490B                   JSR         @R9
+    0000027A 2F06                   MOV.L       R0,@-R15
+    0000027C 63F6                   MOV.L       @R15+,R3
+    0000027E 7A01                   ADD         #1,R10
+    00000280 2302                   MOV.L       R0,@R3
+    00000282 3AB3                   CMP/GE      R11,R10
+    00000284 8FEE                   BF/S        L1203
+    00000286 7E04                   ADD         #4,R14
+    00000288              L1202:                            
+        tensor.c   169            }
+        tensor.c   170    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   171            push(p3);
+    00000288 4D0B                   JSR         @R13
+    0000028A 64C2                   MOV.L       @R12,R4
+        tensor.c   172            restore();
+    0000028C D343                   MOV.L       L1280+16,R3; _restore
+    0000028E 7F08                   ADD         #8,R15
+    00000290 4F26                   LDS.L       @R15+,PR
+    00000292 68F6                   MOV.L       @R15+,R8
+    00000294 69F6                   MOV.L       @R15+,R9
+    00000296 6AF6                   MOV.L       @R15+,R10
+    00000298 6BF6                   MOV.L       @R15+,R11
+    0000029A 6CF6                   MOV.L       @R15+,R12
+    0000029C 6DF6                   MOV.L       @R15+,R13
+    0000029E 432B                   JMP         @R3
+    000002A0 6EF6                   MOV.L       @R15+,R14
+        tensor.c   173    }
+        tensor.c   174    
+        tensor.c   175    void
+        tensor.c   176    scalar_times_tensor(void)
+    000002A2              _scalar_times_tensor:            ; function: scalar_times_tensor
+                                                           ; frame size=44
+    000002A2 2FE6                   MOV.L       R14,@-R15
+    000002A4 2FD6                   MOV.L       R13,@-R15
+    000002A6 2FC6                   MOV.L       R12,@-R15
+    000002A8 2FB6                   MOV.L       R11,@-R15
+    000002AA 2FA6                   MOV.L       R10,@-R15
+    000002AC 2F96                   MOV.L       R9,@-R15
+    000002AE 2F86                   MOV.L       R8,@-R15
+    000002B0 4F22                   STS.L       PR,@-R15
+    000002B2 7FF8                   ADD         #-8,R15
+        tensor.c   177    {
+        tensor.c   178            int i, ndim, nelem;
+        tensor.c   179            U **a, **b;
+        tensor.c   180    
+        tensor.c   181            save();
+    000002B4 D33A                   MOV.L       L1280+20,R3; _save
+    000002B6 430B                   JSR         @R3
+    000002B8 0009                   NOP
+        tensor.c   182    
+        tensor.c   183            p2 = pop();
+    000002BA D93A                   MOV.L       L1280+24,R9; _pop
+    000002BC DE35                   MOV.L       L1280+8,R14; _p2
+    000002BE 490B                   JSR         @R9
+    000002C0 0009                   NOP
+        tensor.c   184            p1 = pop();
+    000002C2 D839                   MOV.L       L1280+28,R8; _p1
+    000002C4 490B                   JSR         @R9
+    000002C6 2E02                   MOV.L       R0,@R14
+    000002C8 2802                   MOV.L       R0,@R8
+        tensor.c   185    
+        tensor.c   186            ndim = p2->u.tensor->ndim;
+        tensor.c   187            nelem = p2->u.tensor->nelem;
+    000002CA E064                   MOV         #100,R0
+        tensor.c   188    
+        tensor.c   189            p3 = alloc_tensor(nelem);
+    000002CC DC2F                   MOV.L       L1280,R12  ; _p3
+    000002CE 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002D0 D32F                   MOV.L       L1280+4,R3 ; _alloc_tensor
+    000002D2 6442                   MOV.L       @R4,R4
+    000002D4 6D42                   MOV.L       @R4,R13
+    000002D6 0B4E                   MOV.L       @(R0,R4),R11
+    000002D8 430B                   JSR         @R3
+    000002DA 64B3                   MOV         R11,R4
+    000002DC 2C02                   MOV.L       R0,@R12
+        tensor.c   190    
+        tensor.c   191            p3->u.tensor->ndim = ndim;
+    000002DE 6203                   MOV         R0,R2
+    000002E0 6322                   MOV.L       @R2,R3
+        tensor.c   192    
+        tensor.c   193            for (i = 0; i < ndim; i++)
+    000002E2 E600                   MOV         #0,R6
+    000002E4 23D2                   MOV.L       R13,@R3
+    000002E6 4D15                   CMP/PL      R13
+    000002E8 6563                   MOV         R6,R5
+    000002EA 8F0F                   BF/S        L1204
+    000002EC 6463                   MOV         R6,R4
+    000002EE              L1205:                            
+    000002EE 7501                   ADD         #1,R5
+        tensor.c   194                    p3->u.tensor->dim[i] = p2->u.tensor->dim[i];
+    000002F0 60C2                   MOV.L       @R12,R0
+    000002F2 35D3                   CMP/GE      R13,R5
+    000002F4 6302                   MOV.L       @R0,R3
+    000002F6 7304                   ADD         #4,R3
+    000002F8 60E2                   MOV.L       @R14,R0
+    000002FA 334C                   ADD         R4,R3
+    000002FC 6002                   MOV.L       @R0,R0
+    000002FE 6203                   MOV         R0,R2
+    00000300 7204                   ADD         #4,R2
+    00000302 324C                   ADD         R4,R2
+    00000304 6122                   MOV.L       @R2,R1
+    00000306 2312                   MOV.L       R1,@R3
+    00000308 8FF1                   BF/S        L1205
+    0000030A 7404                   ADD         #4,R4
+    0000030C              L1204:                            
+        tensor.c   195    
+        tensor.c   196            a = p2->u.tensor->elem;
+    0000030C 62E2                   MOV.L       @R14,R2
+        tensor.c   197            b = p3->u.tensor->elem;
+        tensor.c   198    
+        tensor.c   199            for (i = 0; i < nelem; i++) {
+    0000030E 6A63                   MOV         R6,R10
+    00000310 DD26                   MOV.L       L1280+32,R13; _push
+    00000312 4B15                   CMP/PL      R11
+    00000314 6122                   MOV.L       @R2,R1
+    00000316 7168                   ADD         #104,R1
+    00000318 2F12                   MOV.L       R1,@R15
+    0000031A 63C2                   MOV.L       @R12,R3
+    0000031C 6232                   MOV.L       @R3,R2
+    0000031E 6123                   MOV         R2,R1
+    00000320 7168                   ADD         #104,R1
+    00000322 1F11                   MOV.L       R1,@(4,R15)
+    00000324 8F12                   BF/S        L1206
+    00000326 6E63                   MOV         R6,R14
+    00000328              L1207:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   200                    push(p1);
+    00000328 4D0B                   JSR         @R13
+    0000032A 6482                   MOV.L       @R8,R4
+        tensor.c   201                    push(a[i]);
+    0000032C 60F2                   MOV.L       @R15,R0
+    0000032E 4D0B                   JSR         @R13
+    00000330 04EE                   MOV.L       @(R0,R14),R4
+        tensor.c   202                    multiply();
+    00000332 D21F                   MOV.L       L1280+36,R2; _multiply
+    00000334 420B                   JSR         @R2
+    00000336 0009                   NOP
+        tensor.c   203                    b[i] = pop();
+    00000338 50F1                   MOV.L       @(4,R15),R0
+    0000033A 30EC                   ADD         R14,R0
+    0000033C 490B                   JSR         @R9
+    0000033E 2F06                   MOV.L       R0,@-R15
+    00000340 63F6                   MOV.L       @R15+,R3
+    00000342 7A01                   ADD         #1,R10
+    00000344 2302                   MOV.L       R0,@R3
+    00000346 3AB3                   CMP/GE      R11,R10
+    00000348 8FEE                   BF/S        L1207
+    0000034A 7E04                   ADD         #4,R14
+    0000034C              L1206:                            
+        tensor.c   204            }
+        tensor.c   205    
+        tensor.c   206            push(p3);
+    0000034C 4D0B                   JSR         @R13
+    0000034E 64C2                   MOV.L       @R12,R4
+        tensor.c   207    
+        tensor.c   208            restore();
+    00000350 D312                   MOV.L       L1280+16,R3; _restore
+    00000352 7F08                   ADD         #8,R15
+    00000354 4F26                   LDS.L       @R15+,PR
+    00000356 68F6                   MOV.L       @R15+,R8
+    00000358 69F6                   MOV.L       @R15+,R9
+    0000035A 6AF6                   MOV.L       @R15+,R10
+    0000035C 6BF6                   MOV.L       @R15+,R11
+    0000035E 6CF6                   MOV.L       @R15+,R12
+    00000360 6DF6                   MOV.L       @R15+,R13
+    00000362 432B                   JMP         @R3
+    00000364 6EF6                   MOV.L       @R15+,R14
+        tensor.c   209    }
+        tensor.c   210    
+        tensor.c   211    int
+        tensor.c   212    is_square_matrix(U *p)
+    00000366              _is_square_matrix:               ; function: is_square_matrix
+                                                           ; frame size=0
+        tensor.c   213    {
+        tensor.c   214            if (istensor(p) && p->u.tensor->ndim == 2 && p->u.tensor->dim[0] == p->u.tensor->dim[1])
+    00000366 8448                   MOV.B       @(8,R4),R0
+    00000368 600C                   EXTU.B      R0,R0
+    0000036A 8804                   CMP/EQ      #4,R0
+    0000036C 8B0B                   BF          L1208
+    0000036E 6042                   MOV.L       @R4,R0
+    00000370 6002                   MOV.L       @R0,R0
+    00000372 8802                   CMP/EQ      #2,R0
+    00000374 8B07                   BF          L1208
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000376 6242                   MOV.L       @R4,R2
+    00000378 6323                   MOV         R2,R3
+    0000037A 5132                   MOV.L       @(8,R3),R1
+    0000037C 5221                   MOV.L       @(4,R2),R2
+    0000037E 3210                   CMP/EQ      R1,R2
+    00000380 8B01                   BF          L1208
+        tensor.c   215                    return 1;
+    00000382 000B                   RTS
+    00000384 E001                   MOV         #1,R0
+    00000386              L1208:                            
+        tensor.c   216            else
+        tensor.c   217                    return 0;
+    00000386 E000                   MOV         #0,R0
+        tensor.c   218    }
+    00000388              L1209:                            
+    00000388 000B                   RTS
+    0000038A 0009                   NOP
+    0000038C              L1280:                            
+    0000038C <00000000>             .DATA.L     _p3
+    00000390 <00000000>             .DATA.L     _alloc_tensor
+    00000394 <00000000>             .DATA.L     _p2
+    00000398 <00000000>             .DATA.L     _add
+    0000039C <00000000>             .DATA.L     _restore
+    000003A0 <00000000>             .DATA.L     _save
+    000003A4 <00000000>             .DATA.L     _pop
+    000003A8 <00000000>             .DATA.L     _p1
+    000003AC <00000000>             .DATA.L     _push
+    000003B0 <00000000>             .DATA.L     _multiply
+        tensor.c   219    
+        tensor.c   220    //-----------------------------------------------------------------------------
+        tensor.c   221    //
+        tensor.c   222    //      gradient of tensor
+        tensor.c   223    //
+        tensor.c   224    //-----------------------------------------------------------------------------
+        tensor.c   225    
+        tensor.c   226    void
+        tensor.c   227    d_tensor_tensor(void)
+    000003B4              _d_tensor_tensor:                ; function: d_tensor_tensor
+                                                           ; frame size=56
+    000003B4 2FE6                   MOV.L       R14,@-R15
+        tensor.c   228    {
+        tensor.c   229            int i, j, ndim, nelem;
+        tensor.c   230            U **a, **b, **c;
+        tensor.c   231    
+        tensor.c   232            ndim = p1->u.tensor->ndim;
+        tensor.c   233            nelem = p1->u.tensor->nelem;
+    000003B6 E064                   MOV         #100,R0
+    000003B8 2FD6                   MOV.L       R13,@-R15
+    000003BA E318                   MOV         #24,R3
+    000003BC 2FC6                   MOV.L       R12,@-R15
+    000003BE 2FB6                   MOV.L       R11,@-R15
+    000003C0 2FA6                   MOV.L       R10,@-R15
+    000003C2 2F96                   MOV.L       R9,@-R15
+    000003C4 2F86                   MOV.L       R8,@-R15
+    000003C6 4F22                   STS.L       PR,@-R15
+    000003C8 4F12                   STS.L       MACL,@-R15
+    000003CA 7FF0                   ADD         #-16,R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003CC DBA3                   MOV.L       L1281,R11  ; _p1
+    000003CE 64B2                   MOV.L       @R11,R4
+    000003D0 DCA3                   MOV.L       L1281+4,R12; _push
+    000003D2 6442                   MOV.L       @R4,R4
+    000003D4 DDA3                   MOV.L       L1281+8,R13; _p2
+    000003D6 6E42                   MOV.L       @R4,R14
+    000003D8 69E3                   MOV         R14,R9
+    000003DA 7901                   ADD         #1,R9
+    000003DC 3933                   CMP/GE      R3,R9
+    000003DE 8D68                   BT/S        __$dont_evaluate$1101
+    000003E0 084E                   MOV.L       @(R0,R4),R8
+        tensor.c   234    
+        tensor.c   235            if (ndim + 1 >= MAXDIM)
+        tensor.c   236                    goto dont_evaluate;
+        tensor.c   237    
+        tensor.c   238            p3 = alloc_tensor(nelem * p2->u.tensor->nelem);
+    000003E2 DAA1                   MOV.L       L1281+12,R10; _p3
+    000003E4 64D2                   MOV.L       @R13,R4
+    000003E6 6442                   MOV.L       @R4,R4
+    000003E8 D3A0                   MOV.L       L1281+16,R3; _alloc_tensor
+    000003EA 044E                   MOV.L       @(R0,R4),R4
+    000003EC 0847                   MUL.L       R4,R8
+    000003EE 430B                   JSR         @R3
+    000003F0 041A                   STS         MACL,R4
+        tensor.c   239    
+        tensor.c   240            p3->u.tensor->ndim = ndim + 1;
+    000003F2 6203                   MOV         R0,R2
+    000003F4 2A02                   MOV.L       R0,@R10
+        tensor.c   241    
+        tensor.c   242            for (i = 0; i < ndim; i++)
+    000003F6 4E15                   CMP/PL      R14
+    000003F8 6322                   MOV.L       @R2,R3
+    000003FA 2392                   MOV.L       R9,@R3
+    000003FC E900                   MOV         #0,R9
+    000003FE 6593                   MOV         R9,R5
+    00000400 8F0F                   BF/S        L1212
+    00000402 6493                   MOV         R9,R4
+    00000404              L1213:                            
+        tensor.c   243                    p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    00000404 60A2                   MOV.L       @R10,R0
+    00000406 7501                   ADD         #1,R5
+    00000408 6302                   MOV.L       @R0,R3
+    0000040A 35E3                   CMP/GE      R14,R5
+    0000040C 60B2                   MOV.L       @R11,R0
+    0000040E 7304                   ADD         #4,R3
+    00000410 6002                   MOV.L       @R0,R0
+    00000412 334C                   ADD         R4,R3
+    00000414 6203                   MOV         R0,R2
+    00000416 7204                   ADD         #4,R2
+    00000418 324C                   ADD         R4,R2
+    0000041A 6122                   MOV.L       @R2,R1
+    0000041C 2312                   MOV.L       R1,@R3
+    0000041E 8FF1                   BF/S        L1213
+    00000420 7404                   ADD         #4,R4
+    00000422              L1212:                            
+        tensor.c   244    
+        tensor.c   245            p3->u.tensor->dim[ndim] = p2->u.tensor->dim[0];
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000422 4E08                   SHLL2       R14
+    00000424 62D2                   MOV.L       @R13,R2
+    00000426 60A2                   MOV.L       @R10,R0
+    00000428 6002                   MOV.L       @R0,R0
+    0000042A 6303                   MOV         R0,R3
+    0000042C 7304                   ADD         #4,R3
+    0000042E 3E3C                   ADD         R3,R14
+    00000430 6322                   MOV.L       @R2,R3
+    00000432 5131                   MOV.L       @(4,R3),R1
+    00000434 2E12                   MOV.L       R1,@R14
+        tensor.c   246    
+        tensor.c   247            a = p1->u.tensor->elem;
+    00000436 63B2                   MOV.L       @R11,R3
+    00000438 6132                   MOV.L       @R3,R1
+    0000043A 7168                   ADD         #104,R1
+    0000043C 1F13                   MOV.L       R1,@(12,R15)
+        tensor.c   248            b = p2->u.tensor->elem;
+    0000043E 63D2                   MOV.L       @R13,R3
+    00000440 6132                   MOV.L       @R3,R1
+    00000442 7168                   ADD         #104,R1
+    00000444 1F11                   MOV.L       R1,@(4,R15)
+        tensor.c   249            c = p3->u.tensor->elem;
+    00000446 63A2                   MOV.L       @R10,R3
+    00000448 6232                   MOV.L       @R3,R2
+    0000044A 6123                   MOV         R2,R1
+    0000044C 7168                   ADD         #104,R1
+    0000044E 2F12                   MOV.L       R1,@R15
+        tensor.c   250    
+        tensor.c   251            for (i = 0; i < nelem; i++) {
+    00000450 A029                   BRA         L1214
+    00000452 6B93                   MOV         R9,R11
+    00000454              L1215:                            
+    00000454 53F3                   MOV.L       @(12,R15),R3
+        tensor.c   252                    for (j = 0; j < p2->u.tensor->nelem; j++) {
+    00000456 6E93                   MOV         R9,R14
+    00000458 62B3                   MOV         R11,R2
+    0000045A 4208                   SHLL2       R2
+    0000045C 323C                   ADD         R3,R2
+    0000045E A01B                   BRA         L1216
+    00000460 1F22                   MOV.L       R2,@(8,R15)
+    00000462              L1217:                            
+        tensor.c   253                            push(a[i]);
+    00000462 54F2                   MOV.L       @(8,R15),R4
+    00000464 4C0B                   JSR         @R12
+    00000466 6442                   MOV.L       @R4,R4
+        tensor.c   254                            push(b[j]);
+    00000468 50F1                   MOV.L       @(4,R15),R0
+    0000046A 64E3                   MOV         R14,R4
+    0000046C 4408                   SHLL2       R4
+    0000046E 4C0B                   JSR         @R12
+    00000470 044E                   MOV.L       @(R0,R4),R4
+        tensor.c   255                            derivative();
+    00000472 D37F                   MOV.L       L1281+20,R3; _derivative
+    00000474 430B                   JSR         @R3
+    00000476 0009                   NOP
+        tensor.c   256                            c[i * p2->u.tensor->nelem + j] = pop();
+    00000478 62D2                   MOV.L       @R13,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   16
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000047A E064                   MOV         #100,R0
+    0000047C 6322                   MOV.L       @R2,R3
+    0000047E 013E                   MOV.L       @(R0,R3),R1
+    00000480 60F2                   MOV.L       @R15,R0
+    00000482 0B17                   MUL.L       R1,R11
+    00000484 D37B                   MOV.L       L1281+24,R3; _pop
+    00000486 011A                   STS         MACL,R1
+    00000488 31EC                   ADD         R14,R1
+    0000048A 4108                   SHLL2       R1
+    0000048C 301C                   ADD         R1,R0
+    0000048E 430B                   JSR         @R3
+    00000490 2F06                   MOV.L       R0,@-R15
+    00000492 7E01                   ADD         #1,R14
+    00000494 62F6                   MOV.L       @R15+,R2
+    00000496 2202                   MOV.L       R0,@R2
+    00000498              L1216:                            
+    00000498 63D2                   MOV.L       @R13,R3
+    0000049A E064                   MOV         #100,R0
+    0000049C 6232                   MOV.L       @R3,R2
+    0000049E 012E                   MOV.L       @(R0,R2),R1
+    000004A0 3E13                   CMP/GE      R1,R14
+    000004A2 8BDE                   BF          L1217
+    000004A4 7B01                   ADD         #1,R11
+    000004A6              L1214:                            
+    000004A6 3B83                   CMP/GE      R8,R11
+    000004A8 8BD4                   BF          L1215
+        tensor.c   257                    }
+        tensor.c   258            }
+        tensor.c   259    
+        tensor.c   260            push(p3);
+    000004AA 4C0B                   JSR         @R12
+    000004AC 64A2                   MOV.L       @R10,R4
+        tensor.c   261    
+        tensor.c   262            return;
+    000004AE A014                   BRA         L1218
+    000004B0 0009                   NOP
+    000004B2              __$dont_evaluate$1101:           ; label: dont_evaluate
+        tensor.c   263    
+        tensor.c   264    dont_evaluate:
+        tensor.c   265    
+        tensor.c   266            push_symbol(DERIVATIVE);
+    000004B2 D371                   MOV.L       L1281+28,R3; _push_symbol
+    000004B4 430B                   JSR         @R3
+    000004B6 E41E                   MOV         #30,R4
+        tensor.c   267            push(p1);
+    000004B8 4C0B                   JSR         @R12
+    000004BA 64B2                   MOV.L       @R11,R4
+        tensor.c   268            push(p2);
+    000004BC 4C0B                   JSR         @R12
+    000004BE 64D2                   MOV.L       @R13,R4
+        tensor.c   269            list(3);
+    000004C0 D26E                   MOV.L       L1281+32,R2; _list
+    000004C2 E403                   MOV         #3,R4
+    000004C4 7F10                   ADD         #16,R15
+    000004C6 4F16                   LDS.L       @R15+,MACL
+    000004C8 4F26                   LDS.L       @R15+,PR
+    000004CA 68F6                   MOV.L       @R15+,R8
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   17
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000004CC 69F6                   MOV.L       @R15+,R9
+    000004CE 6AF6                   MOV.L       @R15+,R10
+    000004D0 6BF6                   MOV.L       @R15+,R11
+    000004D2 6CF6                   MOV.L       @R15+,R12
+    000004D4 6DF6                   MOV.L       @R15+,R13
+    000004D6 422B                   JMP         @R2
+    000004D8 6EF6                   MOV.L       @R15+,R14
+    000004DA              L1218:                            
+        tensor.c   270    }
+    000004DA 7F10                   ADD         #16,R15
+    000004DC 4F16                   LDS.L       @R15+,MACL
+    000004DE 4F26                   LDS.L       @R15+,PR
+    000004E0 68F6                   MOV.L       @R15+,R8
+    000004E2 69F6                   MOV.L       @R15+,R9
+    000004E4 6AF6                   MOV.L       @R15+,R10
+    000004E6 6BF6                   MOV.L       @R15+,R11
+    000004E8 6CF6                   MOV.L       @R15+,R12
+    000004EA 6DF6                   MOV.L       @R15+,R13
+    000004EC 000B                   RTS
+    000004EE 6EF6                   MOV.L       @R15+,R14
+        tensor.c   271    
+        tensor.c   272    //-----------------------------------------------------------------------------
+        tensor.c   273    //
+        tensor.c   274    //      gradient of scalar
+        tensor.c   275    //
+        tensor.c   276    //-----------------------------------------------------------------------------
+        tensor.c   277    
+        tensor.c   278    void
+        tensor.c   279    d_scalar_tensor(void)
+    000004F0              _d_scalar_tensor:                ; function: d_scalar_tensor
+                                                           ; frame size=32
+    000004F0 2FE6                   MOV.L       R14,@-R15
+        tensor.c   280    {
+        tensor.c   281            int i;
+        tensor.c   282            U **a, **b;
+        tensor.c   283    
+        tensor.c   284            p3 = alloc_tensor(p2->u.tensor->nelem);
+    000004F2 E064                   MOV         #100,R0
+    000004F4 D35D                   MOV.L       L1281+16,R3; _alloc_tensor
+    000004F6 2FD6                   MOV.L       R13,@-R15
+    000004F8 2FC6                   MOV.L       R12,@-R15
+    000004FA 2FB6                   MOV.L       R11,@-R15
+    000004FC 2FA6                   MOV.L       R10,@-R15
+    000004FE 2F96                   MOV.L       R9,@-R15
+    00000500 2F86                   MOV.L       R8,@-R15
+    00000502 4F22                   STS.L       PR,@-R15
+    00000504 DB58                   MOV.L       L1281+12,R11; _p3
+    00000506 DC57                   MOV.L       L1281+8,R12; _p2
+    00000508 64C2                   MOV.L       @R12,R4
+    0000050A 6442                   MOV.L       @R4,R4
+    0000050C 430B                   JSR         @R3
+    0000050E 044E                   MOV.L       @(R0,R4),R4
+    00000510 2B02                   MOV.L       R0,@R11
+        tensor.c   285    
+        tensor.c   286            p3->u.tensor->ndim = 1;
+    00000512 6203                   MOV         R0,R2
+        tensor.c   287    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   18
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   288            p3->u.tensor->dim[0] = p2->u.tensor->dim[0];
+        tensor.c   289    
+        tensor.c   290            a = p2->u.tensor->elem;
+        tensor.c   291            b = p3->u.tensor->elem;
+        tensor.c   292    
+        tensor.c   293            for (i = 0; i < p2->u.tensor->nelem; i++) {
+    00000514 DD52                   MOV.L       L1281+4,R13; _push
+    00000516 E101                   MOV         #1,R1
+    00000518 6322                   MOV.L       @R2,R3
+    0000051A 2312                   MOV.L       R1,@R3
+    0000051C 63B2                   MOV.L       @R11,R3
+    0000051E 6232                   MOV.L       @R3,R2
+    00000520 61C2                   MOV.L       @R12,R1
+    00000522 6312                   MOV.L       @R1,R3
+    00000524 5031                   MOV.L       @(4,R3),R0
+    00000526 1201                   MOV.L       R0,@(4,R2)
+    00000528 69C2                   MOV.L       @R12,R9
+    0000052A 6992                   MOV.L       @R9,R9
+    0000052C 68B2                   MOV.L       @R11,R8
+    0000052E 7968                   ADD         #104,R9
+    00000530 6882                   MOV.L       @R8,R8
+    00000532 7868                   ADD         #104,R8
+    00000534 A010                   BRA         L1219
+    00000536 EE00                   MOV         #0,R14
+    00000538              L1220:                            
+        tensor.c   294                    push(p1);
+    00000538 D248                   MOV.L       L1281,R2   ; _p1
+    0000053A 4D0B                   JSR         @R13
+    0000053C 6422                   MOV.L       @R2,R4
+        tensor.c   295                    push(a[i]);
+    0000053E 6AE3                   MOV         R14,R10
+    00000540 4A08                   SHLL2       R10
+    00000542 60A3                   MOV         R10,R0
+    00000544 4D0B                   JSR         @R13
+    00000546 049E                   MOV.L       @(R0,R9),R4
+        tensor.c   296                    derivative();
+    00000548 D349                   MOV.L       L1281+20,R3; _derivative
+    0000054A 430B                   JSR         @R3
+    0000054C 0009                   NOP
+        tensor.c   297                    b[i] = pop();
+    0000054E D349                   MOV.L       L1281+24,R3; _pop
+    00000550 430B                   JSR         @R3
+    00000552 3A8C                   ADD         R8,R10
+    00000554 2A02                   MOV.L       R0,@R10
+    00000556 7E01                   ADD         #1,R14
+    00000558              L1219:                            
+    00000558 62C2                   MOV.L       @R12,R2
+    0000055A E064                   MOV         #100,R0
+    0000055C 6322                   MOV.L       @R2,R3
+    0000055E 013E                   MOV.L       @(R0,R3),R1
+    00000560 3E13                   CMP/GE      R1,R14
+    00000562 8BE9                   BF          L1220
+        tensor.c   298            }
+        tensor.c   299    
+        tensor.c   300            push(p3);
+    00000564 4D0B                   JSR         @R13
+    00000566 64B2                   MOV.L       @R11,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   19
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   301    }
+    00000568 4F26                   LDS.L       @R15+,PR
+    0000056A 68F6                   MOV.L       @R15+,R8
+    0000056C 69F6                   MOV.L       @R15+,R9
+    0000056E 6AF6                   MOV.L       @R15+,R10
+    00000570 6BF6                   MOV.L       @R15+,R11
+    00000572 6CF6                   MOV.L       @R15+,R12
+    00000574 6DF6                   MOV.L       @R15+,R13
+    00000576 000B                   RTS
+    00000578 6EF6                   MOV.L       @R15+,R14
+        tensor.c   302    
+        tensor.c   303    //-----------------------------------------------------------------------------
+        tensor.c   304    //
+        tensor.c   305    //      Derivative of tensor
+        tensor.c   306    //
+        tensor.c   307    //-----------------------------------------------------------------------------
+        tensor.c   308    
+        tensor.c   309    void
+        tensor.c   310    d_tensor_scalar(void)
+    0000057A              _d_tensor_scalar:                ; function: d_tensor_scalar
+                                                           ; frame size=36
+        tensor.c   311    {
+        tensor.c   312            int i;
+        tensor.c   313            U **a, **b;
+        tensor.c   314    
+        tensor.c   315            p3 = alloc_tensor(p1->u.tensor->nelem);
+    0000057A E064                   MOV         #100,R0
+    0000057C D33B                   MOV.L       L1281+16,R3; _alloc_tensor
+    0000057E 2FE6                   MOV.L       R14,@-R15
+    00000580 2FD6                   MOV.L       R13,@-R15
+    00000582 2FC6                   MOV.L       R12,@-R15
+    00000584 2FB6                   MOV.L       R11,@-R15
+    00000586 2FA6                   MOV.L       R10,@-R15
+    00000588 2F96                   MOV.L       R9,@-R15
+    0000058A 2F86                   MOV.L       R8,@-R15
+    0000058C 4F22                   STS.L       PR,@-R15
+    0000058E 7FFC                   ADD         #-4,R15
+    00000590 DD35                   MOV.L       L1281+12,R13; _p3
+    00000592 DE32                   MOV.L       L1281,R14  ; _p1
+    00000594 64E2                   MOV.L       @R14,R4
+    00000596 6442                   MOV.L       @R4,R4
+    00000598 430B                   JSR         @R3
+    0000059A 044E                   MOV.L       @(R0,R4),R4
+    0000059C 2D02                   MOV.L       R0,@R13
+        tensor.c   316    
+        tensor.c   317            p3->u.tensor->ndim = p1->u.tensor->ndim;
+    0000059E 6203                   MOV         R0,R2
+    000005A0 61E2                   MOV.L       @R14,R1
+        tensor.c   318    
+        tensor.c   319            for (i = 0; i < p1->u.tensor->ndim; i++)
+    000005A2 E500                   MOV         #0,R5
+    000005A4 6322                   MOV.L       @R2,R3
+    000005A6 6212                   MOV.L       @R1,R2
+    000005A8 6022                   MOV.L       @R2,R0
+    000005AA 2302                   MOV.L       R0,@R3
+    000005AC A00E                   BRA         L1221
+    000005AE 6453                   MOV         R5,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   20
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000005B0              L1222:                            
+        tensor.c   320                    p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    000005B0 60D2                   MOV.L       @R13,R0
+    000005B2 6643                   MOV         R4,R6
+    000005B4 6302                   MOV.L       @R0,R3
+    000005B6 4608                   SHLL2       R6
+    000005B8 60E2                   MOV.L       @R14,R0
+    000005BA 7401                   ADD         #1,R4
+    000005BC 6002                   MOV.L       @R0,R0
+    000005BE 7304                   ADD         #4,R3
+    000005C0 336C                   ADD         R6,R3
+    000005C2 6203                   MOV         R0,R2
+    000005C4 7204                   ADD         #4,R2
+    000005C6 326C                   ADD         R6,R2
+    000005C8 6122                   MOV.L       @R2,R1
+    000005CA 2312                   MOV.L       R1,@R3
+    000005CC              L1221:                            
+    000005CC 63E2                   MOV.L       @R14,R3
+    000005CE 6232                   MOV.L       @R3,R2
+    000005D0 6122                   MOV.L       @R2,R1
+    000005D2 3413                   CMP/GE      R1,R4
+    000005D4 8BEC                   BF          L1222
+        tensor.c   321    
+        tensor.c   322            a = p1->u.tensor->elem;
+    000005D6 62E2                   MOV.L       @R14,R2
+        tensor.c   323            b = p3->u.tensor->elem;
+        tensor.c   324    
+        tensor.c   325            for (i = 0; i < p1->u.tensor->nelem; i++) {
+    000005D8 D825                   MOV.L       L1281+20,R8; _derivative
+    000005DA 6122                   MOV.L       @R2,R1
+    000005DC DB20                   MOV.L       L1281+4,R11; _push
+    000005DE 7168                   ADD         #104,R1
+    000005E0 2F12                   MOV.L       R1,@R15
+    000005E2 69D2                   MOV.L       @R13,R9
+    000005E4 6992                   MOV.L       @R9,R9
+    000005E6 7968                   ADD         #104,R9
+    000005E8 A00F                   BRA         L1223
+    000005EA 6C53                   MOV         R5,R12
+    000005EC              L1224:                            
+        tensor.c   326                    push(a[i]);
+    000005EC 60F2                   MOV.L       @R15,R0
+    000005EE 6AC3                   MOV         R12,R10
+    000005F0 4A08                   SHLL2       R10
+    000005F2 4B0B                   JSR         @R11
+    000005F4 04AE                   MOV.L       @(R0,R10),R4
+        tensor.c   327                    push(p2);
+    000005F6 D21B                   MOV.L       L1281+8,R2 ; _p2
+    000005F8 4B0B                   JSR         @R11
+    000005FA 6422                   MOV.L       @R2,R4
+        tensor.c   328                    derivative();
+    000005FC 480B                   JSR         @R8
+    000005FE 0009                   NOP
+        tensor.c   329                    b[i] = pop();
+    00000600 D31C                   MOV.L       L1281+24,R3; _pop
+    00000602 430B                   JSR         @R3
+    00000604 3A9C                   ADD         R9,R10
+    00000606 7C01                   ADD         #1,R12
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   21
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000608 2A02                   MOV.L       R0,@R10
+    0000060A              L1223:                            
+    0000060A E064                   MOV         #100,R0
+    0000060C 62E2                   MOV.L       @R14,R2
+    0000060E 6322                   MOV.L       @R2,R3
+    00000610 013E                   MOV.L       @(R0,R3),R1
+    00000612 3C13                   CMP/GE      R1,R12
+    00000614 8BEA                   BF          L1224
+        tensor.c   330            }
+        tensor.c   331    
+        tensor.c   332            push(p3);
+    00000616 4B0B                   JSR         @R11
+    00000618 64D2                   MOV.L       @R13,R4
+        tensor.c   333    }
+    0000061A 7F04                   ADD         #4,R15
+    0000061C 4F26                   LDS.L       @R15+,PR
+    0000061E 68F6                   MOV.L       @R15+,R8
+    00000620 69F6                   MOV.L       @R15+,R9
+    00000622 6AF6                   MOV.L       @R15+,R10
+    00000624 6BF6                   MOV.L       @R15+,R11
+    00000626 6CF6                   MOV.L       @R15+,R12
+    00000628 6DF6                   MOV.L       @R15+,R13
+    0000062A 000B                   RTS
+    0000062C 6EF6                   MOV.L       @R15+,R14
+        tensor.c   334    
+        tensor.c   335    int
+        tensor.c   336    compare_tensors(U *p1, U *p2)
+    0000062E              _compare_tensors:                ; function: compare_tensors
+                                                           ; frame size=24
+    0000062E 2FE6                   MOV.L       R14,@-R15
+    00000630 2FD6                   MOV.L       R13,@-R15
+    00000632 6E43                   MOV         R4,R14
+    00000634 2FC6                   MOV.L       R12,@-R15
+    00000636 6D53                   MOV         R5,R13
+    00000638 2FB6                   MOV.L       R11,@-R15
+    0000063A 2FA6                   MOV.L       R10,@-R15
+    0000063C 4F22                   STS.L       PR,@-R15
+        tensor.c   337    {
+        tensor.c   338            int i;
+        tensor.c   339    
+        tensor.c   340            if (p1->u.tensor->ndim < p2->u.tensor->ndim)
+    0000063E 63E2                   MOV.L       @R14,R3
+    00000640 62D2                   MOV.L       @R13,R2
+    00000642 6122                   MOV.L       @R2,R1
+    00000644 6332                   MOV.L       @R3,R3
+    00000646 3313                   CMP/GE      R1,R3
+    00000648 8B53                   BF          L1151
+        tensor.c   341                    return -1;
+        tensor.c   342    
+        tensor.c   343            if (p1->u.tensor->ndim > p2->u.tensor->ndim)
+    0000064A 63E2                   MOV.L       @R14,R3
+    0000064C 62D2                   MOV.L       @R13,R2
+    0000064E 6122                   MOV.L       @R2,R1
+    00000650 6332                   MOV.L       @R3,R3
+    00000652 3317                   CMP/GT      R1,R3
+    00000654 894F                   BT          L1153
+        tensor.c   344                    return 1;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   22
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   345    
+        tensor.c   346            for (i = 0; i < p1->u.tensor->ndim; i++) {
+    00000656 E500                   MOV         #0,R5
+    00000658 A029                   BRA         L1228
+    0000065A 6453                   MOV         R5,R4
+    0000065C              L1281:                            
+    0000065C <00000000>             .DATA.L     _p1
+    00000660 <00000000>             .DATA.L     _push
+    00000664 <00000000>             .DATA.L     _p2
+    00000668 <00000000>             .DATA.L     _p3
+    0000066C <00000000>             .DATA.L     _alloc_tensor
+    00000670 <00000000>             .DATA.L     _derivative
+    00000674 <00000000>             .DATA.L     _pop
+    00000678 <00000000>             .DATA.L     _push_symbol
+    0000067C <00000000>             .DATA.L     _list
+    00000680              L1229:                            
+        tensor.c   347                    if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
+    00000680 63E2                   MOV.L       @R14,R3
+    00000682 7304                   ADD         #4,R3
+    00000684 60D2                   MOV.L       @R13,R0
+    00000686 33CC                   ADD         R12,R3
+    00000688 6332                   MOV.L       @R3,R3
+    0000068A 6203                   MOV         R0,R2
+    0000068C 7204                   ADD         #4,R2
+    0000068E 32CC                   ADD         R12,R2
+    00000690 6122                   MOV.L       @R2,R1
+    00000692 3313                   CMP/GE      R1,R3
+    00000694 8B2D                   BF          L1151
+        tensor.c   348                            return -1;
+        tensor.c   349                    if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
+    00000696 63E2                   MOV.L       @R14,R3
+    00000698 60D2                   MOV.L       @R13,R0
+    0000069A 7304                   ADD         #4,R3
+    0000069C 33CC                   ADD         R12,R3
+    0000069E 6203                   MOV         R0,R2
+    000006A0 6332                   MOV.L       @R3,R3
+    000006A2 7204                   ADD         #4,R2
+    000006A4 32CC                   ADD         R12,R2
+    000006A6 6122                   MOV.L       @R2,R1
+    000006A8 3317                   CMP/GT      R1,R3
+    000006AA 8924                   BT          L1153
+    000006AC 7401                   ADD         #1,R4
+    000006AE              L1228:                            
+    000006AE 6C43                   MOV         R4,R12
+    000006B0 63E2                   MOV.L       @R14,R3
+    000006B2 6232                   MOV.L       @R3,R2
+    000006B4 3423                   CMP/GE      R2,R4
+    000006B6 8FE3                   BF/S        L1229
+    000006B8 4C08                   SHLL2       R12
+        tensor.c   350                            return 1;
+        tensor.c   351            }
+        tensor.c   352    
+        tensor.c   353            for (i = 0; i < p1->u.tensor->nelem; i++) {
+    000006BA A01F                   BRA         L1232
+    000006BC 6B53                   MOV         R5,R11
+    000006BE              L1233:                            
+    000006BE 6CB3                   MOV         R11,R12
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   23
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000006C0 65D2                   MOV.L       @R13,R5
+    000006C2 4C08                   SHLL2       R12
+    000006C4 64E2                   MOV.L       @R14,R4
+    000006C6 7568                   ADD         #104,R5
+    000006C8 DA84                   MOV.L       L1282+2,R10; _equal
+    000006CA 7468                   ADD         #104,R4
+    000006CC 35CC                   ADD         R12,R5
+    000006CE 34CC                   ADD         R12,R4
+    000006D0 6552                   MOV.L       @R5,R5
+    000006D2 4A0B                   JSR         @R10
+    000006D4 6442                   MOV.L       @R4,R4
+    000006D6 2008                   TST         R0,R0
+    000006D8 8B0F                   BF          L1235
+        tensor.c   354                    if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+        tensor.c   355                            continue;
+        tensor.c   356                    if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+    000006DA DB81                   MOV.L       L1282+6,R11; _lessp
+    000006DC 65D2                   MOV.L       @R13,R5
+    000006DE 7568                   ADD         #104,R5
+    000006E0 64E2                   MOV.L       @R14,R4
+    000006E2 35CC                   ADD         R12,R5
+    000006E4 6552                   MOV.L       @R5,R5
+    000006E6 7468                   ADD         #104,R4
+    000006E8 34CC                   ADD         R12,R4
+    000006EA 4B0B                   JSR         @R11
+    000006EC 6442                   MOV.L       @R4,R4
+    000006EE 2008                   TST         R0,R0
+    000006F0 8901                   BT          L1153
+    000006F2              L1151:
+        tensor.c   357                            return -1;
+    000006F2 A009                   BRA         L1226
+    000006F4 E0FF                   MOV         #-1,R0
+    000006F6              L1153:
+        tensor.c   358                    else
+        tensor.c   359                            return 1;
+    000006F6 A007                   BRA         L1226
+    000006F8 E001                   MOV         #1,R0
+    000006FA              L1235:                            
+    000006FA 7B01                   ADD         #1,R11
+    000006FC              L1232:                            
+    000006FC 63E2                   MOV.L       @R14,R3
+    000006FE E064                   MOV         #100,R0
+    00000700 023E                   MOV.L       @(R0,R3),R2
+    00000702 3B23                   CMP/GE      R2,R11
+    00000704 8BDB                   BF          L1233
+        tensor.c   360            }
+        tensor.c   361    
+        tensor.c   362            return 0;
+    00000706 E000                   MOV         #0,R0
+        tensor.c   363    }
+    00000708              L1226:                            
+    00000708 4F26                   LDS.L       @R15+,PR
+    0000070A 6AF6                   MOV.L       @R15+,R10
+    0000070C 6BF6                   MOV.L       @R15+,R11
+    0000070E 6CF6                   MOV.L       @R15+,R12
+    00000710 6DF6                   MOV.L       @R15+,R13
+    00000712 000B                   RTS
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   24
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000714 6EF6                   MOV.L       @R15+,R14
+        tensor.c   364    
+        tensor.c   365    //-----------------------------------------------------------------------------
+        tensor.c   366    //
+        tensor.c   367    //      Raise a tensor to a power
+        tensor.c   368    //
+        tensor.c   369    //      Input:          p1      tensor
+        tensor.c   370    //
+        tensor.c   371    //                      p2      exponent
+        tensor.c   372    //
+        tensor.c   373    //      Output:         Result on stack
+        tensor.c   374    //
+        tensor.c   375    //-----------------------------------------------------------------------------
+        tensor.c   376    
+        tensor.c   377    void
+        tensor.c   378    power_tensor(void)
+    00000716              _power_tensor:                   ; function: power_tensor
+                                                           ; frame size=36
+    00000716 2FE6                   MOV.L       R14,@-R15
+    00000718 2FD6                   MOV.L       R13,@-R15
+    0000071A 2FC6                   MOV.L       R12,@-R15
+    0000071C 2FB6                   MOV.L       R11,@-R15
+    0000071E 2FA6                   MOV.L       R10,@-R15
+    00000720 2F96                   MOV.L       R9,@-R15
+    00000722 2F86                   MOV.L       R8,@-R15
+    00000724 4F22                   STS.L       PR,@-R15
+    00000726 4F12                   STS.L       MACL,@-R15
+        tensor.c   379    {
+        tensor.c   380            int i, k, n;
+        tensor.c   381    
+        tensor.c   382            // first and last dims must be equal
+        tensor.c   383    
+        tensor.c   384            k = p1->u.tensor->ndim - 1;
+    00000728 DE6E                   MOV.L       L1282+10,R14; _p1
+    0000072A 64E2                   MOV.L       @R14,R4
+        tensor.c   385    
+        tensor.c   386            if (p1->u.tensor->dim[0] != p1->u.tensor->dim[k]) {
+    0000072C DC6E                   MOV.L       L1282+14,R12; _push
+    0000072E 6442                   MOV.L       @R4,R4
+    00000730 6542                   MOV.L       @R4,R5
+    00000732 6643                   MOV         R4,R6
+    00000734 75FF                   ADD         #-1,R5
+    00000736 7604                   ADD         #4,R6
+    00000738 6262                   MOV.L       @R6,R2
+    0000073A 6053                   MOV         R5,R0
+    0000073C 4008                   SHLL2       R0
+    0000073E 036E                   MOV.L       @(R0,R6),R3
+    00000740 3230                   CMP/EQ      R3,R2
+    00000742 8B09                   BF          L1156
+        tensor.c   387                    push_symbol(POWER);
+        tensor.c   388                    push(p1);
+        tensor.c   389                    push(p2);
+        tensor.c   390                    list(3);
+        tensor.c   391                    return;
+        tensor.c   392            }
+        tensor.c   393    
+        tensor.c   394            push(p2);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   25
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000744 D369                   MOV.L       L1282+18,R3; _p2
+    00000746 4C0B                   JSR         @R12
+    00000748 6432                   MOV.L       @R3,R4
+        tensor.c   395    
+        tensor.c   396            n = pop_integer();
+    0000074A D269                   MOV.L       L1282+22,R2; _pop_integer
+    0000074C 420B                   JSR         @R2
+    0000074E 0009                   NOP
+        tensor.c   397    
+        tensor.c   398            if (n == (int) 0x80000000) {
+    00000750 D368                   MOV.L       L1282+26,R3; H'80000000
+    00000752 6D03                   MOV         R0,R13
+    00000754 3D30                   CMP/EQ      R3,R13
+    00000756 8B13                   BF          L1240
+    00000758              L1156:
+        tensor.c   399                    push_symbol(POWER);
+    00000758 D367                   MOV.L       L1282+30,R3; _push_symbol
+    0000075A 430B                   JSR         @R3
+    0000075C E454                   MOV         #84,R4
+        tensor.c   400                    push(p1);
+    0000075E 4C0B                   JSR         @R12
+    00000760 64E2                   MOV.L       @R14,R4
+        tensor.c   401                    push(p2);
+    00000762 D262                   MOV.L       L1282+18,R2; _p2
+    00000764 4C0B                   JSR         @R12
+    00000766 6422                   MOV.L       @R2,R4
+        tensor.c   402                    list(3);
+    00000768 4F16                   LDS.L       @R15+,MACL
+    0000076A E403                   MOV         #3,R4
+    0000076C D363                   MOV.L       L1282+34,R3; _list
+    0000076E 4F26                   LDS.L       @R15+,PR
+    00000770 68F6                   MOV.L       @R15+,R8
+    00000772 69F6                   MOV.L       @R15+,R9
+    00000774 6AF6                   MOV.L       @R15+,R10
+    00000776 6BF6                   MOV.L       @R15+,R11
+    00000778 6CF6                   MOV.L       @R15+,R12
+    0000077A 6DF6                   MOV.L       @R15+,R13
+    0000077C 432B                   JMP         @R3
+    0000077E 6EF6                   MOV.L       @R15+,R14
+    00000780              L1240:                            
+    00000780 2DD8                   TST         R13,R13
+    00000782 8F30                   BF/S        L1241
+    00000784 64E2                   MOV.L       @R14,R4
+        tensor.c   403                    return;
+        tensor.c   404            }
+        tensor.c   405    
+        tensor.c   406            if (n == 0) {
+        tensor.c   407                    if (p1->u.tensor->ndim != 2)
+    00000786 6042                   MOV.L       @R4,R0
+    00000788 6002                   MOV.L       @R0,R0
+    0000078A 8802                   CMP/EQ      #2,R0
+    0000078C 8903                   BT          L1242
+        tensor.c   408                            stop("power(tensor,0) with tensor rank not equal to 2");
+    0000078E D45C                   MOV.L       L1282+38,R4; L1127
+    00000790 D25C                   MOV.L       L1282+42,R2; _stop
+    00000792 420B                   JSR         @R2
+    00000794 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   26
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000796              L1242:                            
+        tensor.c   409                    n = p1->u.tensor->dim[0];
+    00000796 6DE2                   MOV.L       @R14,R13
+        tensor.c   410                    p1 = alloc_tensor(n * n);
+    00000798 D35B                   MOV.L       L1282+46,R3; _alloc_tensor
+    0000079A 6DD2                   MOV.L       @R13,R13
+    0000079C 5DD1                   MOV.L       @(4,R13),R13
+    0000079E 0DD7                   MUL.L       R13,R13
+    000007A0 430B                   JSR         @R3
+    000007A2 041A                   STS         MACL,R4
+    000007A4 2E02                   MOV.L       R0,@R14
+        tensor.c   411                    p1->u.tensor->ndim = 2;
+    000007A6 6203                   MOV         R0,R2
+    000007A8 6322                   MOV.L       @R2,R3
+    000007AA E102                   MOV         #2,R1
+    000007AC 2312                   MOV.L       R1,@R3
+        tensor.c   412                    p1->u.tensor->dim[0] = n;
+        tensor.c   413                    p1->u.tensor->dim[1] = n;
+        tensor.c   414                    for (i = 0; i < n; i++)
+    000007AE 4D15                   CMP/PL      R13
+    000007B0 63E2                   MOV.L       @R14,R3
+    000007B2 6232                   MOV.L       @R3,R2
+    000007B4 12D1                   MOV.L       R13,@(4,R2)
+    000007B6 63E2                   MOV.L       @R14,R3
+    000007B8 6232                   MOV.L       @R3,R2
+    000007BA 12D2                   MOV.L       R13,@(8,R2)
+    000007BC 8F0F                   BF/S        L1243
+    000007BE E400                   MOV         #0,R4
+    000007C0 D552                   MOV.L       L1282+50,R5; _one
+    000007C2              L1244:                            
+        tensor.c   415                            p1->u.tensor->elem[n * i + i] = one;
+    000007C2 60E2                   MOV.L       @R14,R0
+    000007C4 04D7                   MUL.L       R13,R4
+    000007C6 6002                   MOV.L       @R0,R0
+    000007C8 6152                   MOV.L       @R5,R1
+    000007CA 031A                   STS         MACL,R3
+    000007CC 334C                   ADD         R4,R3
+    000007CE 4308                   SHLL2       R3
+    000007D0 6203                   MOV         R0,R2
+    000007D2 7268                   ADD         #104,R2
+    000007D4 332C                   ADD         R2,R3
+    000007D6 7401                   ADD         #1,R4
+    000007D8 2312                   MOV.L       R1,@R3
+    000007DA 34D3                   CMP/GE      R13,R4
+    000007DC 8BF1                   BF          L1244
+    000007DE              L1243:                            
+        tensor.c   416                    push(p1);
+    000007DE 4C0B                   JSR         @R12
+    000007E0 64E2                   MOV.L       @R14,R4
+        tensor.c   417                    return;
+    000007E2 A023                   BRA         L1239
+    000007E4 0009                   NOP
+    000007E6              L1241:                            
+        tensor.c   418            }
+        tensor.c   419    
+        tensor.c   420            if (n < 0) {
+    000007E6 4D11                   CMP/PZ      R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   27
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000007E8 8908                   BT          L1245
+        tensor.c   421                    n = -n;
+        tensor.c   422                    push(p1);
+    000007EA 4C0B                   JSR         @R12
+    000007EC 6DDB                   NEG         R13,R13
+        tensor.c   423                    inv();
+    000007EE D348                   MOV.L       L1282+54,R3; _inv
+    000007F0 430B                   JSR         @R3
+    000007F2 0009                   NOP
+        tensor.c   424                    p1 = pop();
+    000007F4 D247                   MOV.L       L1282+58,R2; _pop
+    000007F6 420B                   JSR         @R2
+    000007F8 0009                   NOP
+    000007FA 2E02                   MOV.L       R0,@R14
+    000007FC              L1245:                            
+        tensor.c   425            }
+        tensor.c   426    
+        tensor.c   427            push(p1);
+    000007FC 4C0B                   JSR         @R12
+    000007FE 64E2                   MOV.L       @R14,R4
+        tensor.c   428    
+        tensor.c   429            for (i = 1; i < n; i++) {
+    00000800 EB01                   MOV         #1,R11
+    00000802 3BD3                   CMP/GE      R13,R11
+    00000804 8912                   BT          L1239
+    00000806 D844                   MOV.L       L1282+62,R8; _inner
+    00000808 D944                   MOV.L       L1282+66,R9; _stack
+    0000080A DA45                   MOV.L       L1282+70,R10; _tos
+    0000080C              L1247:                            
+        tensor.c   430                    push(p1);
+    0000080C 4C0B                   JSR         @R12
+    0000080E 64E2                   MOV.L       @R14,R4
+        tensor.c   431                    inner();
+    00000810 480B                   JSR         @R8
+    00000812 0009                   NOP
+        tensor.c   432                    if (iszero(stack[tos - 1]))
+    00000814 60A2                   MOV.L       @R10,R0
+    00000816 70FF                   ADD         #-1,R0
+    00000818 6392                   MOV.L       @R9,R3
+    0000081A 4008                   SHLL2       R0
+    0000081C D241                   MOV.L       L1282+74,R2; _iszero
+    0000081E 420B                   JSR         @R2
+    00000820 043E                   MOV.L       @(R0,R3),R4
+    00000822 2008                   TST         R0,R0
+    00000824 8B02                   BF          L1239
+    00000826 7B01                   ADD         #1,R11
+    00000828 3BD3                   CMP/GE      R13,R11
+    0000082A 8BEF                   BF          L1247
+    0000082C              L1239:                            
+        tensor.c   433                            break;
+        tensor.c   434            }
+        tensor.c   435    }
+    0000082C 4F16                   LDS.L       @R15+,MACL
+    0000082E 4F26                   LDS.L       @R15+,PR
+    00000830 68F6                   MOV.L       @R15+,R8
+    00000832 69F6                   MOV.L       @R15+,R9
+    00000834 6AF6                   MOV.L       @R15+,R10
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   28
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000836 6BF6                   MOV.L       @R15+,R11
+    00000838 6CF6                   MOV.L       @R15+,R12
+    0000083A 6DF6                   MOV.L       @R15+,R13
+    0000083C 000B                   RTS
+    0000083E 6EF6                   MOV.L       @R15+,R14
+        tensor.c   436    
+        tensor.c   437    void
+        tensor.c   438    copy_tensor(void)
+    00000840              _copy_tensor:                    ; function: copy_tensor
+                                                           ; frame size=12
+    00000840 2FE6                   MOV.L       R14,@-R15
+    00000842 2FD6                   MOV.L       R13,@-R15
+    00000844 4F22                   STS.L       PR,@-R15
+        tensor.c   439    {
+        tensor.c   440            int i;
+        tensor.c   441    
+        tensor.c   442            save();
+    00000846 D338                   MOV.L       L1282+78,R3; _save
+    00000848 430B                   JSR         @R3
+    0000084A 0009                   NOP
+        tensor.c   443    
+        tensor.c   444            p1 = pop();
+    0000084C DE25                   MOV.L       L1282+10,R14; _p1
+    0000084E D231                   MOV.L       L1282+58,R2; _pop
+    00000850 420B                   JSR         @R2
+    00000852 0009                   NOP
+    00000854 2E02                   MOV.L       R0,@R14
+        tensor.c   445    
+        tensor.c   446            p2 = alloc_tensor(p1->u.tensor->nelem);
+    00000856 6403                   MOV         R0,R4
+    00000858 D32B                   MOV.L       L1282+46,R3; _alloc_tensor
+    0000085A E064                   MOV         #100,R0
+    0000085C DD23                   MOV.L       L1282+18,R13; _p2
+    0000085E 6442                   MOV.L       @R4,R4
+    00000860 430B                   JSR         @R3
+    00000862 044E                   MOV.L       @(R0,R4),R4
+    00000864 2D02                   MOV.L       R0,@R13
+        tensor.c   447    
+        tensor.c   448            p2->u.tensor->ndim = p1->u.tensor->ndim;
+    00000866 6203                   MOV         R0,R2
+    00000868 61E2                   MOV.L       @R14,R1
+        tensor.c   449    
+        tensor.c   450            for (i = 0; i < p1->u.tensor->ndim; i++)
+    0000086A E600                   MOV         #0,R6
+    0000086C 6322                   MOV.L       @R2,R3
+    0000086E 6212                   MOV.L       @R1,R2
+    00000870 6022                   MOV.L       @R2,R0
+    00000872 2302                   MOV.L       R0,@R3
+    00000874 A00E                   BRA         L1250
+    00000876 6463                   MOV         R6,R4
+    00000878              L1251:                            
+        tensor.c   451                    p2->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    00000878 60D2                   MOV.L       @R13,R0
+    0000087A 6543                   MOV         R4,R5
+    0000087C 6302                   MOV.L       @R0,R3
+    0000087E 4508                   SHLL2       R5
+    00000880 60E2                   MOV.L       @R14,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   29
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000882 7401                   ADD         #1,R4
+    00000884 6002                   MOV.L       @R0,R0
+    00000886 7304                   ADD         #4,R3
+    00000888 335C                   ADD         R5,R3
+    0000088A 6203                   MOV         R0,R2
+    0000088C 7204                   ADD         #4,R2
+    0000088E 325C                   ADD         R5,R2
+    00000890 6122                   MOV.L       @R2,R1
+    00000892 2312                   MOV.L       R1,@R3
+    00000894              L1250:                            
+    00000894 63E2                   MOV.L       @R14,R3
+    00000896 6232                   MOV.L       @R3,R2
+    00000898 6122                   MOV.L       @R2,R1
+    0000089A 3413                   CMP/GE      R1,R4
+    0000089C 8BEC                   BF          L1251
+        tensor.c   452    
+        tensor.c   453            for (i = 0; i < p1->u.tensor->nelem; i++)
+    0000089E A00E                   BRA         L1252
+    000008A0 6463                   MOV         R6,R4
+    000008A2              L1253:                            
+        tensor.c   454                    p2->u.tensor->elem[i] = p1->u.tensor->elem[i];
+    000008A2 6543                   MOV         R4,R5
+    000008A4 60D2                   MOV.L       @R13,R0
+    000008A6 4508                   SHLL2       R5
+    000008A8 6302                   MOV.L       @R0,R3
+    000008AA 7401                   ADD         #1,R4
+    000008AC 60E2                   MOV.L       @R14,R0
+    000008AE 7368                   ADD         #104,R3
+    000008B0 6002                   MOV.L       @R0,R0
+    000008B2 335C                   ADD         R5,R3
+    000008B4 6203                   MOV         R0,R2
+    000008B6 7268                   ADD         #104,R2
+    000008B8 325C                   ADD         R5,R2
+    000008BA 6122                   MOV.L       @R2,R1
+    000008BC 2312                   MOV.L       R1,@R3
+    000008BE              L1252:                            
+    000008BE E064                   MOV         #100,R0
+    000008C0 63E2                   MOV.L       @R14,R3
+    000008C2 6232                   MOV.L       @R3,R2
+    000008C4 012E                   MOV.L       @(R0,R2),R1
+    000008C6 3413                   CMP/GE      R1,R4
+    000008C8 8BEB                   BF          L1253
+        tensor.c   455    
+        tensor.c   456            push(p2);
+    000008CA D207                   MOV.L       L1282+14,R2; _push
+    000008CC 420B                   JSR         @R2
+    000008CE 64D2                   MOV.L       @R13,R4
+        tensor.c   457    
+        tensor.c   458            restore();
+    000008D0 4F26                   LDS.L       @R15+,PR
+    000008D2 6DF6                   MOV.L       @R15+,R13
+    000008D4 D315                   MOV.L       L1282+82,R3; _restore
+    000008D6 432B                   JMP         @R3
+    000008D8 6EF6                   MOV.L       @R15+,R14
+    000008DA              L1282:                            
+    000008DA 0000                   .DATA.W     0
+    000008DC <00000000>             .DATA.L     _equal
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   30
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000008E0 <00000000>             .DATA.L     _lessp
+    000008E4 <00000000>             .DATA.L     _p1
+    000008E8 <00000000>             .DATA.L     _push
+    000008EC <00000000>             .DATA.L     _p2
+    000008F0 <00000000>             .DATA.L     _pop_integer
+    000008F4 80000000               .DATA.L     H'80000000
+    000008F8 <00000000>             .DATA.L     _push_symbol
+    000008FC <00000000>             .DATA.L     _list
+    00000900 <00000000>             .DATA.L     L1127
+    00000904 <00000000>             .DATA.L     _stop
+    00000908 <00000000>             .DATA.L     _alloc_tensor
+    0000090C <00000000>             .DATA.L     _one
+    00000910 <00000000>             .DATA.L     _inv
+    00000914 <00000000>             .DATA.L     _pop
+    00000918 <00000000>             .DATA.L     _inner
+    0000091C <00000000>             .DATA.L     _stack
+    00000920 <00000000>             .DATA.L     _tos
+    00000924 <00000000>             .DATA.L     _iszero
+    00000928 <00000000>             .DATA.L     _save
+    0000092C <00000000>             .DATA.L     _restore
+        tensor.c   459    }
+        tensor.c   460    
+        tensor.c   461    // Tensors with elements that are also tensors get promoted to a higher rank.
+        tensor.c   462    
+        tensor.c   463    static void
+        tensor.c   464    promote_tensor(void)
+    00000930              __$promote_tensor:               ; function: promote_tensor
+                                                           ; frame size=28
+    00000930 2FE6                   MOV.L       R14,@-R15
+    00000932 2FD6                   MOV.L       R13,@-R15
+    00000934 2FC6                   MOV.L       R12,@-R15
+    00000936 2FB6                   MOV.L       R11,@-R15
+    00000938 2FA6                   MOV.L       R10,@-R15
+    0000093A 4F22                   STS.L       PR,@-R15
+    0000093C 4F12                   STS.L       MACL,@-R15
+        tensor.c   465    {
+        tensor.c   466            int i, j, k, nelem, ndim;
+        tensor.c   467    
+        tensor.c   468            save();
+    0000093E D371                   MOV.L       L1283,R3   ; _save
+    00000940 430B                   JSR         @R3
+    00000942 0009                   NOP
+        tensor.c   469    
+        tensor.c   470            p1 = pop();
+    00000944 DE70                   MOV.L       L1283+4,R14; _p1
+    00000946 D271                   MOV.L       L1283+8,R2 ; _pop
+    00000948 420B                   JSR         @R2
+    0000094A 0009                   NOP
+    0000094C 2E02                   MOV.L       R0,@R14
+    0000094E 6403                   MOV         R0,R4
+    00000950 8448                   MOV.B       @(8,R4),R0
+    00000952 600C                   EXTU.B      R0,R0
+    00000954 8804                   CMP/EQ      #4,R0
+    00000956 8B21                   BF          L1159
+        tensor.c   471    
+        tensor.c   472            if (!istensor(p1)) {
+        tensor.c   473                    push(p1);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   31
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   474                    restore();
+        tensor.c   475                    return;
+        tensor.c   476            }
+        tensor.c   477    
+        tensor.c   478            p2 = p1->u.tensor->elem[0];
+    00000958 DD6D                   MOV.L       L1283+12,R13; _p2
+    0000095A 6342                   MOV.L       @R4,R3
+    0000095C DA6D                   MOV.L       L1283+16,R10; L1139
+    0000095E 7368                   ADD         #104,R3
+    00000960 DB6D                   MOV.L       L1283+20,R11; _stop
+    00000962 6232                   MOV.L       @R3,R2
+    00000964 2D22                   MOV.L       R2,@R13
+        tensor.c   479    
+        tensor.c   480            for (i = 1; i < p1->u.tensor->nelem; i++)
+    00000966 A00E                   BRA         L1256
+    00000968 EC01                   MOV         #1,R12
+    0000096A              L1257:                            
+        tensor.c   481                    if (!compatible(p2, p1->u.tensor->elem[i]))
+    0000096A 65C3                   MOV         R12,R5
+    0000096C 60E2                   MOV.L       @R14,R0
+    0000096E 4508                   SHLL2       R5
+    00000970 6302                   MOV.L       @R0,R3
+    00000972 7368                   ADD         #104,R3
+    00000974 353C                   ADD         R3,R5
+    00000976 6552                   MOV.L       @R5,R5
+    00000978 B095                   BSR         __$compatible
+    0000097A 64D2                   MOV.L       @R13,R4
+    0000097C 2008                   TST         R0,R0
+    0000097E 8B01                   BF          L1258
+        tensor.c   482                            stop("Cannot promote tensor due to inconsistent tensor components.");
+    00000980 4B0B                   JSR         @R11
+    00000982 64A3                   MOV         R10,R4
+    00000984              L1258:                            
+    00000984 7C01                   ADD         #1,R12
+    00000986              L1256:                            
+    00000986 E064                   MOV         #100,R0
+    00000988 62E2                   MOV.L       @R14,R2
+    0000098A 6322                   MOV.L       @R2,R3
+    0000098C 013E                   MOV.L       @(R0,R3),R1
+    0000098E 3C13                   CMP/GE      R1,R12
+    00000990 8BEB                   BF          L1257
+    00000992 64D2                   MOV.L       @R13,R4
+    00000994 8448                   MOV.B       @(8,R4),R0
+    00000996 600C                   EXTU.B      R0,R0
+    00000998 8804                   CMP/EQ      #4,R0
+    0000099A 8904                   BT          L1259
+    0000099C              L1159:
+        tensor.c   483    
+        tensor.c   484            if (!istensor(p2)) {
+        tensor.c   485                    push(p1);
+    0000099C D25F                   MOV.L       L1283+24,R2; _push
+    0000099E 420B                   JSR         @R2
+    000009A0 64E2                   MOV.L       @R14,R4
+    000009A2 A077                   BRA         L1158
+    000009A4 0009                   NOP
+    000009A6              L1259:                            
+        tensor.c   486                    restore();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   32
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   487                    return;
+        tensor.c   488            }
+        tensor.c   489    
+        tensor.c   490            ndim = p1->u.tensor->ndim + p2->u.tensor->ndim;
+        tensor.c   491    
+        tensor.c   492            if (ndim > MAXDIM)
+    000009A6 E218                   MOV         #24,R2
+    000009A8 6AE2                   MOV.L       @R14,R10
+    000009AA 6AA2                   MOV.L       @R10,R10
+    000009AC 6342                   MOV.L       @R4,R3
+    000009AE 6332                   MOV.L       @R3,R3
+    000009B0 6AA2                   MOV.L       @R10,R10
+    000009B2 3A3C                   ADD         R3,R10
+    000009B4 3A27                   CMP/GT      R2,R10
+    000009B6 8B02                   BF          L1260
+        tensor.c   493                    stop("tensor rank > 24");
+    000009B8 D459                   MOV.L       L1283+28,R4; L1141
+    000009BA 4B0B                   JSR         @R11
+    000009BC 0009                   NOP
+    000009BE              L1260:                            
+        tensor.c   494    
+        tensor.c   495            nelem = p1->u.tensor->nelem * p2->u.tensor->nelem;
+    000009BE E064                   MOV         #100,R0
+        tensor.c   496    
+        tensor.c   497            p3 = alloc_tensor(nelem);
+    000009C0 DC58                   MOV.L       L1283+32,R12; _p3
+    000009C2 64E2                   MOV.L       @R14,R4
+    000009C4 63D2                   MOV.L       @R13,R3
+    000009C6 6442                   MOV.L       @R4,R4
+    000009C8 6232                   MOV.L       @R3,R2
+    000009CA 032E                   MOV.L       @(R0,R2),R3
+    000009CC 024E                   MOV.L       @(R0,R4),R2
+    000009CE 0237                   MUL.L       R3,R2
+    000009D0 D355                   MOV.L       L1283+36,R3; _alloc_tensor
+    000009D2 430B                   JSR         @R3
+    000009D4 041A                   STS         MACL,R4
+        tensor.c   498    
+        tensor.c   499            p3->u.tensor->ndim = ndim;
+    000009D6 6203                   MOV         R0,R2
+    000009D8 2C02                   MOV.L       R0,@R12
+        tensor.c   500    
+        tensor.c   501            for (i = 0; i < p1->u.tensor->ndim; i++)
+    000009DA E500                   MOV         #0,R5
+    000009DC 6322                   MOV.L       @R2,R3
+    000009DE 23A2                   MOV.L       R10,@R3
+    000009E0 A00E                   BRA         L1261
+    000009E2 6453                   MOV         R5,R4
+    000009E4              L1262:                            
+        tensor.c   502                    p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    000009E4 60C2                   MOV.L       @R12,R0
+    000009E6 6643                   MOV         R4,R6
+    000009E8 6302                   MOV.L       @R0,R3
+    000009EA 4608                   SHLL2       R6
+    000009EC 60E2                   MOV.L       @R14,R0
+    000009EE 7401                   ADD         #1,R4
+    000009F0 6002                   MOV.L       @R0,R0
+    000009F2 7304                   ADD         #4,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   33
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000009F4 336C                   ADD         R6,R3
+    000009F6 6203                   MOV         R0,R2
+    000009F8 7204                   ADD         #4,R2
+    000009FA 326C                   ADD         R6,R2
+    000009FC 6122                   MOV.L       @R2,R1
+    000009FE 2312                   MOV.L       R1,@R3
+    00000A00              L1261:                            
+    00000A00 63E2                   MOV.L       @R14,R3
+    00000A02 6232                   MOV.L       @R3,R2
+    00000A04 6122                   MOV.L       @R2,R1
+    00000A06 3413                   CMP/GE      R1,R4
+    00000A08 8BEC                   BF          L1262
+        tensor.c   503    
+        tensor.c   504            for (j = 0; j < p2->u.tensor->ndim; j++)
+    00000A0A A010                   BRA         L1263
+    00000A0C 6653                   MOV         R5,R6
+    00000A0E              L1264:                            
+        tensor.c   505                    p3->u.tensor->dim[i + j] = p2->u.tensor->dim[j];
+    00000A0E 6343                   MOV         R4,R3
+    00000A10 60C2                   MOV.L       @R12,R0
+    00000A12 336C                   ADD         R6,R3
+    00000A14 6202                   MOV.L       @R0,R2
+    00000A16 4308                   SHLL2       R3
+    00000A18 60D2                   MOV.L       @R13,R0
+    00000A1A 7204                   ADD         #4,R2
+    00000A1C 6102                   MOV.L       @R0,R1
+    00000A1E 332C                   ADD         R2,R3
+    00000A20 6263                   MOV         R6,R2
+    00000A22 4208                   SHLL2       R2
+    00000A24 7104                   ADD         #4,R1
+    00000A26 321C                   ADD         R1,R2
+    00000A28 6022                   MOV.L       @R2,R0
+    00000A2A 7601                   ADD         #1,R6
+    00000A2C 2302                   MOV.L       R0,@R3
+    00000A2E              L1263:                            
+    00000A2E 63D2                   MOV.L       @R13,R3
+    00000A30 6232                   MOV.L       @R3,R2
+    00000A32 6122                   MOV.L       @R2,R1
+    00000A34 3613                   CMP/GE      R1,R6
+    00000A36 8BEA                   BF          L1264
+        tensor.c   506    
+        tensor.c   507            k = 0;
+    00000A38 6753                   MOV         R5,R7
+        tensor.c   508    
+        tensor.c   509            for (i = 0; i < p1->u.tensor->nelem; i++) {
+    00000A3A A022                   BRA         L1265
+    00000A3C 6653                   MOV         R5,R6
+    00000A3E              L1266:                            
+        tensor.c   510                    p2 = p1->u.tensor->elem[i];
+    00000A3E 6363                   MOV         R6,R3
+    00000A40 60E2                   MOV.L       @R14,R0
+    00000A42 4308                   SHLL2       R3
+    00000A44 6002                   MOV.L       @R0,R0
+    00000A46 6203                   MOV         R0,R2
+    00000A48 7268                   ADD         #104,R2
+    00000A4A 332C                   ADD         R2,R3
+    00000A4C 6132                   MOV.L       @R3,R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   34
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000A4E 2D12                   MOV.L       R1,@R13
+        tensor.c   511                    for (j = 0; j < p2->u.tensor->nelem; j++)
+    00000A50 A010                   BRA         L1267
+    00000A52 6453                   MOV         R5,R4
+    00000A54              L1268:                            
+        tensor.c   512                            p3->u.tensor->elem[k++] = p2->u.tensor->elem[j];
+    00000A54 60C2                   MOV.L       @R12,R0
+    00000A56 6373                   MOV         R7,R3
+    00000A58 6202                   MOV.L       @R0,R2
+    00000A5A 7701                   ADD         #1,R7
+    00000A5C 60D2                   MOV.L       @R13,R0
+    00000A5E 4308                   SHLL2       R3
+    00000A60 6102                   MOV.L       @R0,R1
+    00000A62 7268                   ADD         #104,R2
+    00000A64 332C                   ADD         R2,R3
+    00000A66 6243                   MOV         R4,R2
+    00000A68 4208                   SHLL2       R2
+    00000A6A 7168                   ADD         #104,R1
+    00000A6C 321C                   ADD         R1,R2
+    00000A6E 7401                   ADD         #1,R4
+    00000A70 6022                   MOV.L       @R2,R0
+    00000A72 2302                   MOV.L       R0,@R3
+    00000A74              L1267:                            
+    00000A74 63D2                   MOV.L       @R13,R3
+    00000A76 E064                   MOV         #100,R0
+    00000A78 6232                   MOV.L       @R3,R2
+    00000A7A 012E                   MOV.L       @(R0,R2),R1
+    00000A7C 3413                   CMP/GE      R1,R4
+    00000A7E 8BE9                   BF          L1268
+    00000A80 7601                   ADD         #1,R6
+    00000A82              L1265:                            
+    00000A82 E064                   MOV         #100,R0
+    00000A84 62E2                   MOV.L       @R14,R2
+    00000A86 6322                   MOV.L       @R2,R3
+    00000A88 013E                   MOV.L       @(R0,R3),R1
+    00000A8A 3613                   CMP/GE      R1,R6
+    00000A8C 8BD7                   BF          L1266
+        tensor.c   513            }
+        tensor.c   514    
+        tensor.c   515            push(p3);
+    00000A8E D223                   MOV.L       L1283+24,R2; _push
+    00000A90 420B                   JSR         @R2
+    00000A92 64C2                   MOV.L       @R12,R4
+    00000A94              L1158:
+        tensor.c   516    
+        tensor.c   517            restore();
+    00000A94 4F16                   LDS.L       @R15+,MACL
+    00000A96 4F26                   LDS.L       @R15+,PR
+    00000A98 D324                   MOV.L       L1283+40,R3; _restore
+    00000A9A 6AF6                   MOV.L       @R15+,R10
+    00000A9C 6BF6                   MOV.L       @R15+,R11
+    00000A9E 6CF6                   MOV.L       @R15+,R12
+    00000AA0 6DF6                   MOV.L       @R15+,R13
+    00000AA2 432B                   JMP         @R3
+    00000AA4 6EF6                   MOV.L       @R15+,R14
+        tensor.c   518    }
+        tensor.c   519    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   35
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        tensor.c   520    static int
+        tensor.c   521    compatible(U *p, U *q)
+    00000AA6              __$compatible:                   ; function: compatible
+                                                           ; frame size=0
+        tensor.c   522    {
+        tensor.c   523            int i;
+        tensor.c   524    
+        tensor.c   525            if (!istensor(p) && !istensor(q))
+    00000AA6 8448                   MOV.B       @(8,R4),R0
+    00000AA8 600C                   EXTU.B      R0,R0
+    00000AAA 8804                   CMP/EQ      #4,R0
+    00000AAC 8903                   BT          L1269
+    00000AAE 8458                   MOV.B       @(8,R5),R0
+    00000AB0 600C                   EXTU.B      R0,R0
+    00000AB2 8804                   CMP/EQ      #4,R0
+    00000AB4 8B23                   BF          L1163
+    00000AB6              L1269:                            
+        tensor.c   526                    return 1;
+        tensor.c   527    
+        tensor.c   528            if (!istensor(p) || !istensor(q))
+    00000AB6 8448                   MOV.B       @(8,R4),R0
+    00000AB8 600C                   EXTU.B      R0,R0
+    00000ABA 8804                   CMP/EQ      #4,R0
+    00000ABC 8B18                   BF          L1162
+    00000ABE 8458                   MOV.B       @(8,R5),R0
+    00000AC0 600C                   EXTU.B      R0,R0
+    00000AC2 8804                   CMP/EQ      #4,R0
+    00000AC4 8B14                   BF          L1162
+        tensor.c   529                    return 0;
+        tensor.c   530    
+        tensor.c   531            if (p->u.tensor->ndim != q->u.tensor->ndim)
+    00000AC6 6242                   MOV.L       @R4,R2
+    00000AC8 6352                   MOV.L       @R5,R3
+    00000ACA 6132                   MOV.L       @R3,R1
+    00000ACC 6222                   MOV.L       @R2,R2
+    00000ACE 3210                   CMP/EQ      R1,R2
+    00000AD0 8B0E                   BF          L1162
+        tensor.c   532                    return 0;
+        tensor.c   533    
+        tensor.c   534            for (i = 0; i < p->u.tensor->ndim; i++)
+    00000AD2 A010                   BRA         L1274
+    00000AD4 E600                   MOV         #0,R6
+    00000AD6              L1275:                            
+        tensor.c   535                    if (p->u.tensor->dim[i] != q->u.tensor->dim[i])
+    00000AD6 6763                   MOV         R6,R7
+    00000AD8 6052                   MOV.L       @R5,R0
+    00000ADA 4708                   SHLL2       R7
+    00000ADC 6342                   MOV.L       @R4,R3
+    00000ADE 6203                   MOV         R0,R2
+    00000AE0 7304                   ADD         #4,R3
+    00000AE2 337C                   ADD         R7,R3
+    00000AE4 6332                   MOV.L       @R3,R3
+    00000AE6 7204                   ADD         #4,R2
+    00000AE8 327C                   ADD         R7,R2
+    00000AEA 6122                   MOV.L       @R2,R1
+    00000AEC 3310                   CMP/EQ      R1,R3
+    00000AEE 8901                   BT          L1276
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   36
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000AF0              L1162:
+        tensor.c   536                            return 0;
+    00000AF0 000B                   RTS
+    00000AF2 E000                   MOV         #0,R0
+    00000AF4              L1276:                            
+    00000AF4 7601                   ADD         #1,R6
+    00000AF6              L1274:                            
+    00000AF6 6342                   MOV.L       @R4,R3
+    00000AF8 6232                   MOV.L       @R3,R2
+    00000AFA 3623                   CMP/GE      R2,R6
+    00000AFC 8BEB                   BF          L1275
+    00000AFE              L1163:
+        tensor.c   537    
+        tensor.c   538            return 1;
+    00000AFE E001                   MOV         #1,R0
+        tensor.c   539    }
+    00000B00              L1270:                            
+    00000B00 000B                   RTS
+    00000B02 0009                   NOP
+    00000B04              L1283:                            
+    00000B04 <00000000>             .DATA.L     _save
+    00000B08 <00000000>             .DATA.L     _p1
+    00000B0C <00000000>             .DATA.L     _pop
+    00000B10 <00000000>             .DATA.L     _p2
+    00000B14 <00000000>             .DATA.L     L1139
+    00000B18 <00000000>             .DATA.L     _stop
+    00000B1C <00000000>             .DATA.L     _push
+    00000B20 <00000000>             .DATA.L     L1141
+    00000B24 <00000000>             .DATA.L     _p3
+    00000B28 <00000000>             .DATA.L     _alloc_tensor
+    00000B2C <00000000>             .DATA.L     _restore
+C   00000000              L1127:
+    00000000 706F776572             .SDATA      "power(tensor,0) with tensor rank not equal to 2"
+             2874656E73   
+             6F722C3029   
+             2077697468   
+             2074656E73   
+             6F72207261   
+             6E6B206E6F   
+             7420657175   
+             616C20746F   
+             2032         
+    0000002F 00                     .DATA.B     H'00
+    00000030              L1139:
+    00000030 43616E6E6F             .SDATA      "Cannot promote tensor due to inconsistent tensor components."
+             742070726F   
+             6D6F746520   
+             74656E736F   
+             7220647565   
+             20746F2069   
+             6E636F6E73   
+             697374656E   
+             742074656E   
+             736F722063   
+             6F6D706F6E   
+             656E74732E   
+    0000006C 00                     .DATA.B     H'00
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE   37
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000006D 00000001               .RES.B      1
+    0000006E 00000002               .RES.W      1
+    00000070              L1141:
+    00000070 74656E736F             .SDATA      "tensor rank > 24"
+             722072616E   
+             6B203E2032   
+             34           
+    00000080 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:33  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      539
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000B30 Byte(s)
+CONSTANT SECTION (C):                               00000081 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000BB1 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           25
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          11
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:           123
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkEA0C.tmp 
+

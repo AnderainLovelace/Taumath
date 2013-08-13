@@ -1,0 +1,335 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\mcmp.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          mcmp.c     1    // Bignum compare
+          mcmp.c     2    //
+          mcmp.c     3    //      returns
+          mcmp.c     4    //
+          mcmp.c     5    //      -1              a < b
+          mcmp.c     6    //
+          mcmp.c     7    //      0               a = b
+          mcmp.c     8    //
+          mcmp.c     9    //      1               a > b
+          mcmp.c    10    
+          mcmp.c    11    #include "stdafx.h"
+          mcmp.c    12    #include "defs.h"
+          mcmp.c    13    
+          mcmp.c    14    int
+          mcmp.c    15    mcmp(unsigned int *a, unsigned int *b)
+P   00000000              _mcmp:                           ; function: mcmp
+                                                           ; frame size=4
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 6743                   MOV         R4,R7
+    00000004 77F8                   ADD         #-8,R7
+    00000006 6072                   MOV.L       @R7,R0
+    00000008 88FF                   CMP/EQ      #-1,R0
+    0000000A 8B04                   BF          L1115
+    0000000C 6053                   MOV         R5,R0
+    0000000E 70F8                   ADD         #-8,R0
+    00000010 6002                   MOV.L       @R0,R0
+    00000012 8801                   CMP/EQ      #1,R0
+    00000014 8938                   BT          L1088
+    00000016              L1115:                            
+          mcmp.c    16    {
+          mcmp.c    17            int i;
+          mcmp.c    18    
+          mcmp.c    19            if (MSIGN(a) == -1 && MSIGN(b) == 1)
+          mcmp.c    20                    return -1;
+          mcmp.c    21    
+          mcmp.c    22            if (MSIGN(a) == 1 && MSIGN(b) == -1)
+    00000016 6072                   MOV.L       @R7,R0
+    00000018 8801                   CMP/EQ      #1,R0
+    0000001A 8B04                   BF          L1117
+    0000001C 6053                   MOV         R5,R0
+    0000001E 70F8                   ADD         #-8,R0
+    00000020 6002                   MOV.L       @R0,R0
+    00000022 88FF                   CMP/EQ      #-1,R0
+    00000024 892D                   BT          L1084
+    00000026              L1117:                            
+    00000026 6643                   MOV         R4,R6
+    00000028 76FC                   ADD         #-4,R6
+    0000002A 6E53                   MOV         R5,R14
+    0000002C 6362                   MOV.L       @R6,R3
+    0000002E 7EFC                   ADD         #-4,R14
+    00000030 62E2                   MOV.L       @R14,R2
+    00000032 3323                   CMP/GE      R2,R3
+    00000034 8B18                   BF          L1072
+          mcmp.c    23                    return 1;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          mcmp.c    24    
+          mcmp.c    25            // same sign
+          mcmp.c    26    
+          mcmp.c    27            if (MLENGTH(a) < MLENGTH(b)) {
+          mcmp.c    28                    if (MSIGN(a) == 1)
+          mcmp.c    29                            return -1;
+          mcmp.c    30                    else
+          mcmp.c    31                            return 1;
+          mcmp.c    32            }
+          mcmp.c    33    
+          mcmp.c    34            if (MLENGTH(a) > MLENGTH(b)) {
+    00000036 63E2                   MOV.L       @R14,R3
+    00000038 6262                   MOV.L       @R6,R2
+    0000003A 3237                   CMP/GT      R3,R2
+    0000003C 891E                   BT          L1071
+          mcmp.c    35                    if (MSIGN(a) == 1)
+          mcmp.c    36                            return 1;
+          mcmp.c    37                    else
+          mcmp.c    38                            return -1;
+          mcmp.c    39            }
+          mcmp.c    40    
+          mcmp.c    41            // same length
+          mcmp.c    42    
+          mcmp.c    43            for (i = MLENGTH(a) - 1; i > 0; i--)
+    0000003E 6662                   MOV.L       @R6,R6
+    00000040 76FF                   ADD         #-1,R6
+    00000042 4615                   CMP/PL      R6
+    00000044 8B09                   BF          L1124
+    00000046              L1125:                            
+          mcmp.c    44                    if (a[i] != b[i])
+    00000046 6E63                   MOV         R6,R14
+    00000048 4E08                   SHLL2       R14
+    0000004A 60E3                   MOV         R14,R0
+    0000004C 034E                   MOV.L       @(R0,R4),R3
+    0000004E 025E                   MOV.L       @(R0,R5),R2
+    00000050 3320                   CMP/EQ      R2,R3
+    00000052 8B02                   BF          L1124
+    00000054 76FF                   ADD         #-1,R6
+    00000056 4615                   CMP/PL      R6
+    00000058 89F5                   BT          L1125
+    0000005A              L1124:                            
+    0000005A 4608                   SHLL2       R6
+    0000005C 6063                   MOV         R6,R0
+    0000005E 034E                   MOV.L       @(R0,R4),R3
+    00000060 025E                   MOV.L       @(R0,R5),R2
+    00000062 3322                   CMP/HS      R2,R3
+    00000064 8D05                   BT/S        L1128
+    00000066 6E63                   MOV         R6,R14
+    00000068              L1072:
+          mcmp.c    45                            break;
+          mcmp.c    46    
+          mcmp.c    47            if (a[i] < b[i]) {
+          mcmp.c    48                    if (MSIGN(a) == 1)
+    00000068 6072                   MOV.L       @R7,R0
+    0000006A 8801                   CMP/EQ      #1,R0
+    0000006C 8B09                   BF          L1084
+    0000006E A00B                   BRA         L1088
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000070 0009                   NOP
+    00000072              L1128:                            
+          mcmp.c    49                            return -1;
+          mcmp.c    50                    else
+          mcmp.c    51                            return 1;
+          mcmp.c    52            }
+          mcmp.c    53    
+          mcmp.c    54            if (a[i] > b[i]) {
+    00000072 60E3                   MOV         R14,R0
+    00000074 034E                   MOV.L       @(R0,R4),R3
+    00000076 025E                   MOV.L       @(R0,R5),R2
+    00000078 3326                   CMP/HI      R2,R3
+    0000007A 8B08                   BF          L1136
+    0000007C              L1071:
+          mcmp.c    55                    if (MSIGN(a) == 1)
+    0000007C 6072                   MOV.L       @R7,R0
+    0000007E 8801                   CMP/EQ      #1,R0
+    00000080 8B02                   BF          L1088
+    00000082              L1084:
+          mcmp.c    56                            return 1;
+    00000082 E001                   MOV         #1,R0
+    00000084 000B                   RTS
+    00000086 6EF6                   MOV.L       @R15+,R14
+    00000088              L1088:
+          mcmp.c    57                    else
+          mcmp.c    58                            return -1;
+    00000088 E0FF                   MOV         #-1,R0
+    0000008A 000B                   RTS
+    0000008C 6EF6                   MOV.L       @R15+,R14
+    0000008E              L1136:                            
+          mcmp.c    59            }
+          mcmp.c    60    
+          mcmp.c    61            return 0;
+    0000008E E000                   MOV         #0,R0
+          mcmp.c    62    }
+    00000090              L1116:                            
+    00000090 000B                   RTS
+    00000092 6EF6                   MOV.L       @R15+,R14
+          mcmp.c    63    
+          mcmp.c    64    int
+          mcmp.c    65    mcmpint(unsigned int *a, int n)
+    00000094              _mcmpint:                        ; function: mcmpint
+                                                           ; frame size=16
+    00000094 2FE6                   MOV.L       R14,@-R15
+    00000096 4F22                   STS.L       PR,@-R15
+          mcmp.c    66    {
+          mcmp.c    67            int t;
+          mcmp.c    68            unsigned int *b;
+          mcmp.c    69            b = mint(n);
+    00000098 D309                   MOV.L       L1137+2,R3 ; _mint
+    0000009A 7FF8                   ADD         #-8,R15
+    0000009C 1F41                   MOV.L       R4,@(4,R15)
+    0000009E 2F52                   MOV.L       R5,@R15
+    000000A0 430B                   JSR         @R3
+    000000A2 6453                   MOV         R5,R4
+    000000A4 6E03                   MOV         R0,R14
+          mcmp.c    70            t = mcmp(a, b);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000A6 6503                   MOV         R0,R5
+    000000A8 BFAA                   BSR         _mcmp
+    000000AA 54F1                   MOV.L       @(4,R15),R4
+    000000AC 2F02                   MOV.L       R0,@R15
+          mcmp.c    71            mfree(b);
+    000000AE D305                   MOV.L       L1137+6,R3 ; _mfree
+    000000B0 430B                   JSR         @R3
+    000000B2 64E3                   MOV         R14,R4
+          mcmp.c    72            return t;
+    000000B4 60F2                   MOV.L       @R15,R0
+          mcmp.c    73    }
+    000000B6 7F08                   ADD         #8,R15
+    000000B8 4F26                   LDS.L       @R15+,PR
+    000000BA 000B                   RTS
+    000000BC 6EF6                   MOV.L       @R15+,R14
+    000000BE              L1137:                            
+    000000BE 0000                   .DATA.W     0
+    000000C0 <00000000>             .DATA.L     _mint
+    000000C4 <00000000>             .DATA.L     _mfree
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       73
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000C8 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000C8 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk9C65.tmp 
+

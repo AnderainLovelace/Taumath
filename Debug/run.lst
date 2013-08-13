@@ -1,0 +1,929 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\run.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+           run.c     1    #include "stdafx.h"
+           run.c     2    #include "defs.h"
+           run.c     3    
+           run.c     4    jmp_buf stop_return, draw_stop_return;
+           run.c     5    
+           run.c     6    void
+           run.c     7    stop(char *s)
+P   00000000              _stop:                           ; function: stop
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+           run.c     8    {
+           run.c     9            if (draw_flag == 2)
+    00000004 D30E                   MOV.L       L1125+2,R3 ; _draw_flag
+    00000006 7FFC                   ADD         #-4,R15
+    00000008 2F42                   MOV.L       R4,@R15
+    0000000A 6032                   MOV.L       @R3,R0
+    0000000C 8802                   CMP/EQ      #2,R0
+    0000000E 8B06                   BF          L1093
+           run.c    10                    longjmp(draw_stop_return, 1);
+    00000010 D40C                   MOV.L       L1125+6,R4 ; _draw_stop_return
+    00000012 7F04                   ADD         #4,R15
+    00000014 D10C                   MOV.L       L1125+10,R1; _longjmp
+    00000016 E501                   MOV         #1,R5
+    00000018 4F26                   LDS.L       @R15+,PR
+    0000001A 412B                   JMP         @R1
+    0000001C 6EF6                   MOV.L       @R15+,R14
+    0000001E              L1093:                            
+           run.c    11            else {
+           run.c    12                    printstr("Stop: ");
+    0000001E DE0B                   MOV.L       L1125+14,R14; _printstr
+    00000020 D40B                   MOV.L       L1125+18,R4; L1062
+    00000022 4E0B                   JSR         @R14
+    00000024 0009                   NOP
+           run.c    13                    printstr(s);
+    00000026 4E0B                   JSR         @R14
+    00000028 64F2                   MOV.L       @R15,R4
+           run.c    14                    printstr("\n");
+    0000002A D40A                   MOV.L       L1125+22,R4; L1063
+    0000002C 4E0B                   JSR         @R14
+    0000002E 0009                   NOP
+           run.c    15                    longjmp(stop_return, 1);
+    00000030 D409                   MOV.L       L1125+26,R4; _stop_return
+    00000032 7F04                   ADD         #4,R15
+    00000034 D304                   MOV.L       L1125+10,R3; _longjmp
+    00000036 E501                   MOV         #1,R5
+    00000038 4F26                   LDS.L       @R15+,PR
+    0000003A 432B                   JMP         @R3
+    0000003C 6EF6                   MOV.L       @R15+,R14
+    0000003E              L1125:                            
+    0000003E 0000                   .DATA.W     0
+    00000040 <00000000>             .DATA.L     _draw_flag
+    00000044 <00000000>             .DATA.L     _draw_stop_return
+    00000048 <00000000>             .DATA.L     _longjmp
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000004C <00000000>             .DATA.L     _printstr
+    00000050 <00000000>             .DATA.L     L1062
+    00000054 <00000000>             .DATA.L     L1063
+    00000058 <00000000>             .DATA.L     _stop_return
+           run.c    16            }
+           run.c    17    }
+           run.c    18    
+           run.c    19    void
+           run.c    20    run(char *s)
+    0000005C              _run:                            ; function: run
+                                                           ; frame size=32
+    0000005C 2FE6                   MOV.L       R14,@-R15
+    0000005E 2FD6                   MOV.L       R13,@-R15
+    00000060 2FC6                   MOV.L       R12,@-R15
+    00000062 2FB6                   MOV.L       R11,@-R15
+    00000064 2FA6                   MOV.L       R10,@-R15
+    00000066 6B43                   MOV         R4,R11
+           run.c    21    {
+           run.c    22            int i, n;
+           run.c    23    
+           run.c    24            if (setjmp(stop_return))
+    00000068 D337                   MOV.L       L1126+10,R3; _setjmp
+    0000006A 2F96                   MOV.L       R9,@-R15
+    0000006C 2F86                   MOV.L       R8,@-R15
+    0000006E 4F22                   STS.L       PR,@-R15
+    00000070 D434                   MOV.L       L1126+6,R4 ; _stop_return
+    00000072 430B                   JSR         @R3
+    00000074 0009                   NOP
+    00000076 2008                   TST         R0,R0
+    00000078 8B58                   BF          L1096
+           run.c    25                    return;
+           run.c    26    
+           run.c    27            init();
+    0000007A D334                   MOV.L       L1126+14,R3; _init
+    0000007C 430B                   JSR         @R3
+    0000007E 0009                   NOP
+    00000080 D833                   MOV.L       L1126+18,R8; _symtab
+    00000082 D934                   MOV.L       L1126+22,R9; _printchar
+           run.c    28    
+           run.c    29            while (1) {
+    00000084              L1098:                            
+           run.c    30    
+           run.c    31                    n = scan(s);
+    00000084 D334                   MOV.L       L1126+26,R3; _scan
+    00000086 430B                   JSR         @R3
+    00000088 64B3                   MOV         R11,R4
+           run.c    32    
+           run.c    33                    p1 = pop();
+    0000008A D234                   MOV.L       L1126+30,R2; _pop
+    0000008C 420B                   JSR         @R2
+    0000008E 6E03                   MOV         R0,R14
+    00000090 D333                   MOV.L       L1126+34,R3; _p1
+           run.c    34                    check_stack();
+    00000092 B075                   BSR         _check_stack
+    00000094 2302                   MOV.L       R0,@R3
+           run.c    35    
+           run.c    36                    if (n == 0)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000096 2EE8                   TST         R14,R14
+    00000098 8948                   BT          L1096
+           run.c    37                            break;
+           run.c    38    
+           run.c    39                    // if debug mode then print the source text
+           run.c    40    
+           run.c    41                    if (equaln(get_binding(symbol(TRACE)), 1)) {
+    0000009A 9350                   MOV.W       L1126,R3   ; H'05A0
+    0000009C 6482                   MOV.L       @R8,R4
+    0000009E D231                   MOV.L       L1126+38,R2; _get_binding
+    000000A0 420B                   JSR         @R2
+    000000A2 343C                   ADD         R3,R4
+    000000A4 D330                   MOV.L       L1126+42,R3; _equaln
+    000000A6 6403                   MOV         R0,R4
+    000000A8 430B                   JSR         @R3
+    000000AA E501                   MOV         #1,R5
+    000000AC 2008                   TST         R0,R0
+    000000AE 8917                   BT          L1101
+           run.c    42                            for (i = 0; i < n; i++)
+    000000B0 EA00                   MOV         #0,R10
+    000000B2 E400                   MOV         #0,R4
+    000000B4 34BC                   ADD         R11,R4
+    000000B6 6D43                   MOV         R4,R13
+    000000B8 4E15                   CMP/PL      R14
+    000000BA 8F0A                   BF/S        L1102
+    000000BC 6C43                   MOV         R4,R12
+    000000BE              L1103:                            
+           run.c    43                                    if (s[i] != '\r')
+    000000BE 60C0                   MOV.B       @R12,R0
+    000000C0 880D                   CMP/EQ      #13,R0
+    000000C2 8901                   BT          L1104
+           run.c    44                                            printchar(s[i]);
+    000000C4 490B                   JSR         @R9
+    000000C6 64D0                   MOV.B       @R13,R4
+    000000C8              L1104:                            
+    000000C8 7A01                   ADD         #1,R10
+    000000CA 7D01                   ADD         #1,R13
+    000000CC 3AE3                   CMP/GE      R14,R10
+    000000CE 8FF6                   BF/S        L1103
+    000000D0 7C01                   ADD         #1,R12
+    000000D2              L1102:                            
+           run.c    45                            if (s[n - 1] != '\n') // n is not zero, see above
+    000000D2 60E3                   MOV         R14,R0
+    000000D4 70FF                   ADD         #-1,R0
+    000000D6 00BC                   MOV.B       @(R0,R11),R0
+    000000D8 880A                   CMP/EQ      #10,R0
+    000000DA 8901                   BT          L1101
+           run.c    46                                    printchar('\n');
+    000000DC 490B                   JSR         @R9
+    000000DE E40A                   MOV         #10,R4
+    000000E0              L1101:                            
+           run.c    47                    }
+           run.c    48    
+           run.c    49                    s += n;
+           run.c    50    
+           run.c    51                    push(p1);
+    000000E0 D21F                   MOV.L       L1126+34,R2; _p1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000E2 3BEC                   ADD         R14,R11
+    000000E4 D321                   MOV.L       L1126+46,R3; _push
+    000000E6 430B                   JSR         @R3
+    000000E8 6422                   MOV.L       @R2,R4
+           run.c    52                    top_level_eval();
+    000000EA B067                   BSR         _top_level_eval
+    000000EC 0009                   NOP
+           run.c    53    
+           run.c    54                    p2 = pop();
+    000000EE D31B                   MOV.L       L1126+30,R3; _pop
+    000000F0 430B                   JSR         @R3
+    000000F2 0009                   NOP
+    000000F4 D11E                   MOV.L       L1126+50,R1; _p2
+           run.c    55                    check_stack();
+    000000F6 B043                   BSR         _check_stack
+    000000F8 2102                   MOV.L       R0,@R1
+    000000FA D21D                   MOV.L       L1126+50,R2; _p2
+    000000FC 9320                   MOV.W       L1126+2,R3 ; H'0570
+    000000FE 6E22                   MOV.L       @R2,R14
+    00000100 6182                   MOV.L       @R8,R1
+    00000102 313C                   ADD         R3,R1
+    00000104 3E10                   CMP/EQ      R1,R14
+    00000106 89BD                   BT          L1098
+           run.c    56    
+           run.c    57                    if (p2 == symbol(NIL))
+           run.c    58                            continue;
+           run.c    59    
+           run.c    60                    // print string w/o quotes
+           run.c    61    
+           run.c    62                    if (isstr(p2)) {
+    00000108 84E8                   MOV.B       @(8,R14),R0
+    0000010A 600C                   EXTU.B      R0,R0
+    0000010C 8803                   CMP/EQ      #3,R0
+    0000010E 8B08                   BF          L1107
+           run.c    63                            printstr(p2->u.str);
+    00000110 D218                   MOV.L       L1126+54,R2; _printstr
+    00000112 420B                   JSR         @R2
+    00000114 64E2                   MOV.L       @R14,R4
+           run.c    64                            printstr("\n");
+    00000116 D418                   MOV.L       L1126+58,R4; L1063
+    00000118 D316                   MOV.L       L1126+54,R3; _printstr
+    0000011A 430B                   JSR         @R3
+    0000011C 0009                   NOP
+           run.c    65                            continue;
+    0000011E AFB1                   BRA         L1098
+    00000120 0009                   NOP
+    00000122              L1107:                            
+           run.c    66                    }
+           run.c    67    
+           run.c    68                    display(p2);
+    00000122 D316                   MOV.L       L1126+62,R3; _display
+    00000124 430B                   JSR         @R3
+    00000126 64E3                   MOV         R14,R4
+    00000128 AFAC                   BRA         L1098
+    0000012A 0009                   NOP
+    0000012C              L1096:                            
+           run.c    69            }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+           run.c    70    }
+    0000012C 4F26                   LDS.L       @R15+,PR
+    0000012E 68F6                   MOV.L       @R15+,R8
+    00000130 69F6                   MOV.L       @R15+,R9
+    00000132 6AF6                   MOV.L       @R15+,R10
+    00000134 6BF6                   MOV.L       @R15+,R11
+    00000136 6CF6                   MOV.L       @R15+,R12
+    00000138 6DF6                   MOV.L       @R15+,R13
+    0000013A 000B                   RTS
+    0000013C 6EF6                   MOV.L       @R15+,R14
+    0000013E              L1126:                            
+    0000013E 05A0                   .DATA.W     H'05A0
+    00000140 0570                   .DATA.W     H'0570
+    00000142 0000                   .DATA.W     0
+    00000144 <00000000>             .DATA.L     _stop_return
+    00000148 <00000000>             .DATA.L     _setjmp
+    0000014C <00000000>             .DATA.L     _init
+    00000150 <00000000>             .DATA.L     _symtab
+    00000154 <00000000>             .DATA.L     _printchar
+    00000158 <00000000>             .DATA.L     _scan
+    0000015C <00000000>             .DATA.L     _pop
+    00000160 <00000000>             .DATA.L     _p1
+    00000164 <00000000>             .DATA.L     _get_binding
+    00000168 <00000000>             .DATA.L     _equaln
+    0000016C <00000000>             .DATA.L     _push
+    00000170 <00000000>             .DATA.L     _p2
+    00000174 <00000000>             .DATA.L     _printstr
+    00000178 <00000000>             .DATA.L     L1063
+    0000017C <00000000>             .DATA.L     _display
+           run.c    71    
+           run.c    72    void
+           run.c    73    check_stack(void)
+    00000180              _check_stack:                    ; function: check_stack
+                                                           ; frame size=4
+    00000180 4F22                   STS.L       PR,@-R15
+           run.c    74    {
+           run.c    75            if (tos != 0)
+    00000182 D222                   MOV.L       L1127+6,R2 ; _tos
+    00000184 6322                   MOV.L       @R2,R3
+    00000186 2338                   TST         R3,R3
+    00000188 8902                   BT          L1108
+           run.c    76                    stop("stack error");
+    0000018A D421                   MOV.L       L1127+10,R4; L1072
+    0000018C BF38                   BSR         _stop
+    0000018E 0009                   NOP
+    00000190              L1108:                            
+           run.c    77            if (frame != stack + TOS)
+    00000190 9339                   MOV.W       L1127,R3   ; H'07D0
+    00000192 D120                   MOV.L       L1127+14,R1; _stack
+    00000194 6212                   MOV.L       @R1,R2
+    00000196 323C                   ADD         R3,R2
+    00000198 D11F                   MOV.L       L1127+18,R1; _frame
+    0000019A 6012                   MOV.L       @R1,R0
+    0000019C 3020                   CMP/EQ      R2,R0
+    0000019E 8902                   BT          L1109
+           run.c    78                    stop("frame error");
+    000001A0 D41E                   MOV.L       L1127+22,R4; L1073
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001A2 AF2D                   BRA         _stop
+    000001A4 4F26                   LDS.L       @R15+,PR
+    000001A6              L1109:                            
+           run.c    79    }
+    000001A6 4F26                   LDS.L       @R15+,PR
+    000001A8 000B                   RTS
+    000001AA 0009                   NOP
+           run.c    80    
+           run.c    81    // cannot reference symbols yet
+           run.c    82    
+           run.c    83    void
+           run.c    84    echo_input(char *s)
+    000001AC              _echo_input:                     ; function: echo_input
+                                                           ; frame size=4
+    000001AC 4F22                   STS.L       PR,@-R15
+           run.c    85    {
+           run.c    86            printstr(s);
+    000001AE D31C                   MOV.L       L1127+26,R3; _printstr
+    000001B0 430B                   JSR         @R3
+    000001B2 0009                   NOP
+           run.c    87            printstr("\n");
+    000001B4 D41B                   MOV.L       L1127+30,R4; L1063
+    000001B6 D21A                   MOV.L       L1127+26,R2; _printstr
+    000001B8 422B                   JMP         @R2
+    000001BA 4F26                   LDS.L       @R15+,PR
+           run.c    88    }
+           run.c    89    
+           run.c    90    // returns nil on stack if no result to print
+           run.c    91    
+           run.c    92    void
+           run.c    93    top_level_eval(void)
+    000001BC              _top_level_eval:                 ; function: top_level_eval
+                                                           ; frame size=36
+    000001BC 2FE6                   MOV.L       R14,@-R15
+    000001BE 2FD6                   MOV.L       R13,@-R15
+    000001C0 2FC6                   MOV.L       R12,@-R15
+    000001C2 2FB6                   MOV.L       R11,@-R15
+    000001C4 2FA6                   MOV.L       R10,@-R15
+    000001C6 2F96                   MOV.L       R9,@-R15
+    000001C8 2F86                   MOV.L       R8,@-R15
+    000001CA 4F22                   STS.L       PR,@-R15
+    000001CC D816                   MOV.L       L1127+34,R8; _push_symbol
+    000001CE 7FFC                   ADD         #-4,R15
+    000001D0 DA16                   MOV.L       L1127+38,R10; _pop
+    000001D2 DC17                   MOV.L       L1127+42,R12; _p1
+    000001D4 DD17                   MOV.L       L1127+46,R13; _push
+    000001D6 DE18                   MOV.L       L1127+50,R14; _p2
+           run.c    94    {
+           run.c    95            save();
+    000001D8 D318                   MOV.L       L1127+54,R3; _save
+    000001DA 430B                   JSR         @R3
+    000001DC 0009                   NOP
+           run.c    96    
+           run.c    97            trigmode = 0;
+    000001DE E200                   MOV         #0,R2
+    000001E0 D317                   MOV.L       L1127+58,R3; _trigmode
+    000001E2 2322                   MOV.L       R2,@R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+           run.c    98    
+           run.c    99            p1 = symbol(AUTOEXPAND);
+    000001E4 DB17                   MOV.L       L1127+62,R11; _symtab
+    000001E6 920F                   MOV.W       L1127+2,R2 ; H'057C
+    000001E8 61B2                   MOV.L       @R11,R1
+    000001EA 312C                   ADD         R2,R1
+    000001EC 2C12                   MOV.L       R1,@R12
+           run.c   100    
+           run.c   101            if (iszero(get_binding(p1)))
+    000001EE D916                   MOV.L       L1127+66,R9; _get_binding
+    000001F0 490B                   JSR         @R9
+    000001F2 6413                   MOV         R1,R4
+    000001F4 D315                   MOV.L       L1127+70,R3; _iszero
+    000001F6 430B                   JSR         @R3
+    000001F8 6403                   MOV         R0,R4
+    000001FA 2008                   TST         R0,R0
+    000001FC 892A                   BT          L1110
+           run.c   102                    expanding = 0;
+    000001FE E300                   MOV         #0,R3
+    00000200 D213                   MOV.L       L1127+74,R2; _expanding
+    00000202 A02A                   BRA         L1111
+    00000204 2232                   MOV.L       R3,@R2
+    00000206              L1127:                            
+    00000206 07D0                   .DATA.W     H'07D0
+    00000208 057C                   .DATA.W     H'057C
+    0000020A 0000                   .DATA.W     0
+    0000020C <00000000>             .DATA.L     _tos
+    00000210 <00000000>             .DATA.L     L1072
+    00000214 <00000000>             .DATA.L     _stack
+    00000218 <00000000>             .DATA.L     _frame
+    0000021C <00000000>             .DATA.L     L1073
+    00000220 <00000000>             .DATA.L     _printstr
+    00000224 <00000000>             .DATA.L     L1063
+    00000228 <00000000>             .DATA.L     _push_symbol
+    0000022C <00000000>             .DATA.L     _pop
+    00000230 <00000000>             .DATA.L     _p1
+    00000234 <00000000>             .DATA.L     _push
+    00000238 <00000000>             .DATA.L     _p2
+    0000023C <00000000>             .DATA.L     _save
+    00000240 <00000000>             .DATA.L     _trigmode
+    00000244 <00000000>             .DATA.L     _symtab
+    00000248 <00000000>             .DATA.L     _get_binding
+    0000024C <00000000>             .DATA.L     _iszero
+    00000250 <00000000>             .DATA.L     _expanding
+    00000254              L1110:                            
+           run.c   103            else
+           run.c   104                    expanding = 1;
+    00000254 D12A                   MOV.L       L1128+12,R1; _expanding
+    00000256 E001                   MOV         #1,R0
+    00000258 2102                   MOV.L       R0,@R1
+    0000025A              L1111:                            
+           run.c   105    
+           run.c   106            p1 = pop();
+    0000025A 4A0B                   JSR         @R10
+    0000025C 0009                   NOP
+    0000025E 2C02                   MOV.L       R0,@R12
+           run.c   107            push(p1);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000260 4D0B                   JSR         @R13
+    00000262 6403                   MOV         R0,R4
+           run.c   108            eval();
+    00000264 D327                   MOV.L       L1128+16,R3; _eval
+    00000266 430B                   JSR         @R3
+    00000268 0009                   NOP
+           run.c   109            p2 = pop();
+    0000026A 4A0B                   JSR         @R10
+    0000026C 0009                   NOP
+           run.c   110    
+           run.c   111            // "for" and "setq" return "nil", there is no result to print
+           run.c   112    
+           run.c   113            if (p2 == symbol(NIL)) {
+    0000026E 6103                   MOV         R0,R1
+    00000270 2E02                   MOV.L       R0,@R14
+    00000272 933F                   MOV.W       L1128,R3   ; H'0570
+    00000274 62B2                   MOV.L       @R11,R2
+    00000276 323C                   ADD         R3,R2
+    00000278 3120                   CMP/EQ      R2,R1
+    0000027A 8B01                   BF          L1129
+    0000027C A08B                   BRA         L1084
+    0000027E 0009                   NOP
+    00000280              L1129:                            
+           run.c   114                    push(p2);
+           run.c   115                    restore();
+           run.c   116                    return;
+           run.c   117            }
+           run.c   118    
+           run.c   119            // update "last"
+           run.c   120    
+           run.c   121            set_binding(symbol(LAST), p2);
+    00000280 65E2                   MOV.L       @R14,R5
+    00000282 9338                   MOV.W       L1128+2,R3 ; H'0594
+    00000284 64B2                   MOV.L       @R11,R4
+    00000286 D220                   MOV.L       L1128+20,R2; _set_binding
+    00000288 420B                   JSR         @R2
+    0000028A 343C                   ADD         R3,R4
+           run.c   122    
+           run.c   123            if (!iszero(get_binding(symbol(BAKE)))) {
+    0000028C 9334                   MOV.W       L1128+4,R3 ; H'0588
+    0000028E 64B2                   MOV.L       @R11,R4
+    00000290 490B                   JSR         @R9
+    00000292 343C                   ADD         R3,R4
+    00000294 D21D                   MOV.L       L1128+24,R2; _iszero
+    00000296 420B                   JSR         @R2
+    00000298 6403                   MOV         R0,R4
+    0000029A 2008                   TST         R0,R0
+    0000029C 8B07                   BF          L1114
+           run.c   124                    push(p2);
+    0000029E 4D0B                   JSR         @R13
+    000002A0 64E2                   MOV.L       @R14,R4
+           run.c   125                    bake();
+    000002A2 D21B                   MOV.L       L1128+28,R2; _bake
+    000002A4 420B                   JSR         @R2
+    000002A6 0009                   NOP
+           run.c   126                    p2 = pop();
+    000002A8 4A0B                   JSR         @R10
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002AA 0009                   NOP
+    000002AC 2E02                   MOV.L       R0,@R14
+    000002AE              L1114:                            
+           run.c   127            }
+           run.c   128    
+           run.c   129            // If we evaluated the symbol "i" or "j" and the result was sqrt(-1)
+           run.c   130    
+           run.c   131            // then don't do anything.
+           run.c   132    
+           run.c   133            // Otherwise if "j" is an imaginary unit then subst.
+           run.c   134    
+           run.c   135            // Otherwise if "i" is an imaginary unit then subst.
+           run.c   136    
+           run.c   137            if ((p1 == symbol(SYMBOL_I) || p1 == symbol(SYMBOL_J))
+           run.c   138            && isimaginaryunit(p2))
+    000002AE 9324                   MOV.W       L1128+6,R3 ; H'0630
+    000002B0 62B2                   MOV.L       @R11,R2
+    000002B2 323C                   ADD         R3,R2
+    000002B4 61C2                   MOV.L       @R12,R1
+    000002B6 3120                   CMP/EQ      R2,R1
+    000002B8 8905                   BT          L1116
+    000002BA 921F                   MOV.W       L1128+8,R2 ; H'063C
+    000002BC 60B2                   MOV.L       @R11,R0
+    000002BE 302C                   ADD         R2,R0
+    000002C0 61C2                   MOV.L       @R12,R1
+    000002C2 3100                   CMP/EQ      R0,R1
+    000002C4 8B05                   BF          L1115
+    000002C6              L1116:                            
+    000002C6 D313                   MOV.L       L1128+32,R3; _p2
+    000002C8 D213                   MOV.L       L1128+36,R2; _isimaginaryunit
+    000002CA 420B                   JSR         @R2
+    000002CC 6432                   MOV.L       @R3,R4
+    000002CE 2008                   TST         R0,R0
+    000002D0 8B3D                   BF          L1117
+    000002D2              L1115:                            
+           run.c   139                    ;
+           run.c   140            else if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+    000002D2 9313                   MOV.W       L1128+8,R3 ; H'063C
+    000002D4 64B2                   MOV.L       @R11,R4
+    000002D6 490B                   JSR         @R9
+    000002D8 343C                   ADD         R3,R4
+    000002DA D20F                   MOV.L       L1128+36,R2; _isimaginaryunit
+    000002DC 420B                   JSR         @R2
+    000002DE 6403                   MOV         R0,R4
+    000002E0 2008                   TST         R0,R0
+    000002E2 891D                   BT          L1118
+           run.c   141                    push(p2);
+    000002E4 4D0B                   JSR         @R13
+    000002E6 64E2                   MOV.L       @R14,R4
+           run.c   142                    push(imaginaryunit);
+    000002E8 D20C                   MOV.L       L1128+40,R2; _imaginaryunit
+    000002EA 4D0B                   JSR         @R13
+    000002EC 6422                   MOV.L       @R2,R4
+           run.c   143                    push_symbol(SYMBOL_J);
+    000002EE 9406                   MOV.W       L1128+10,R4; H'0085
+    000002F0 A025                   BRA         L1124
+    000002F2 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002F4              L1128:                            
+    000002F4 0570                   .DATA.W     H'0570
+    000002F6 0594                   .DATA.W     H'0594
+    000002F8 0588                   .DATA.W     H'0588
+    000002FA 0630                   .DATA.W     H'0630
+    000002FC 063C                   .DATA.W     H'063C
+    000002FE 0085                   .DATA.W     H'0085
+    00000300 <00000000>             .DATA.L     _expanding
+    00000304 <00000000>             .DATA.L     _eval
+    00000308 <00000000>             .DATA.L     _set_binding
+    0000030C <00000000>             .DATA.L     _iszero
+    00000310 <00000000>             .DATA.L     _bake
+    00000314 <00000000>             .DATA.L     _p2
+    00000318 <00000000>             .DATA.L     _isimaginaryunit
+    0000031C <00000000>             .DATA.L     _imaginaryunit
+    00000320              L1118:                            
+           run.c   144                    subst();
+           run.c   145                    p2 = pop();
+           run.c   146            } else if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+    00000320 934F                   MOV.W       L1130,R3   ; H'0630
+    00000322 64B2                   MOV.L       @R11,R4
+    00000324 490B                   JSR         @R9
+    00000326 343C                   ADD         R3,R4
+    00000328 D227                   MOV.L       L1130+6,R2 ; _isimaginaryunit
+    0000032A 420B                   JSR         @R2
+    0000032C 6403                   MOV         R0,R4
+    0000032E 2008                   TST         R0,R0
+    00000330 890D                   BT          L1117
+           run.c   147                    push(p2);
+    00000332 4D0B                   JSR         @R13
+    00000334 64E2                   MOV.L       @R14,R4
+           run.c   148                    push(imaginaryunit);
+    00000336 D225                   MOV.L       L1130+10,R2; _imaginaryunit
+    00000338 4D0B                   JSR         @R13
+    0000033A 6422                   MOV.L       @R2,R4
+           run.c   149                    push_symbol(SYMBOL_I);
+    0000033C 9442                   MOV.W       L1130+2,R4 ; H'0084
+    0000033E              L1124:                            
+    0000033E 480B                   JSR         @R8
+    00000340 0009                   NOP
+           run.c   150                    subst();
+    00000342 D323                   MOV.L       L1130+14,R3; _subst
+    00000344 430B                   JSR         @R3
+    00000346 0009                   NOP
+           run.c   151                    p2 = pop();
+    00000348 4A0B                   JSR         @R10
+    0000034A 0009                   NOP
+    0000034C 2E02                   MOV.L       R0,@R14
+    0000034E              L1117:                            
+           run.c   152            }
+           run.c   153    
+           run.c   154    #ifndef LINUX
+           run.c   155    
+           run.c   156            // if we evaluated the symbol "a" and got "b" then print "a=b"
+           run.c   157    
+           run.c   158            // do not print "a=a"
+           run.c   159    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+           run.c   160            if (issymbol(p1) && !iskeyword(p1) && p1 != p2 && test_flag == 0) {
+    0000034E 60C2                   MOV.L       @R12,R0
+    00000350 8408                   MOV.B       @(8,R0),R0
+    00000352 600C                   EXTU.B      R0,R0
+    00000354 8805                   CMP/EQ      #5,R0
+    00000356 8F1E                   BF/S        L1084
+    00000358 2F02                   MOV.L       R0,@R15
+    0000035A 8805                   CMP/EQ      #5,R0
+    0000035C 8B05                   BF          L1122
+    0000035E D31D                   MOV.L       L1130+18,R3; _symnum
+    00000360 430B                   JSR         @R3
+    00000362 64C2                   MOV.L       @R12,R4
+    00000364 E274                   MOV         #116,R2
+    00000366 3023                   CMP/GE      R2,R0
+    00000368 8B15                   BF          L1084
+    0000036A              L1122:                            
+    0000036A D01B                   MOV.L       L1130+22,R0; _p2
+    0000036C D21B                   MOV.L       L1130+26,R2; _p1
+    0000036E 6102                   MOV.L       @R0,R1
+    00000370 6322                   MOV.L       @R2,R3
+    00000372 3310                   CMP/EQ      R1,R3
+    00000374 890F                   BT          L1084
+    00000376 D31A                   MOV.L       L1130+30,R3; _test_flag
+    00000378 6132                   MOV.L       @R3,R1
+    0000037A 2118                   TST         R1,R1
+    0000037C 8B0B                   BF          L1084
+           run.c   161                    push_symbol(SETQ);
+    0000037E 480B                   JSR         @R8
+    00000380 E45F                   MOV         #95,R4
+           run.c   162                    push(p1);
+    00000382 4D0B                   JSR         @R13
+    00000384 64C2                   MOV.L       @R12,R4
+           run.c   163                    push(p2);
+    00000386 4D0B                   JSR         @R13
+    00000388 64E2                   MOV.L       @R14,R4
+           run.c   164                    list(3);
+    0000038A D216                   MOV.L       L1130+34,R2; _list
+    0000038C 420B                   JSR         @R2
+    0000038E E403                   MOV         #3,R4
+           run.c   165                    p2 = pop();
+    00000390 4A0B                   JSR         @R10
+    00000392 0009                   NOP
+    00000394 2E02                   MOV.L       R0,@R14
+    00000396              L1084:
+           run.c   166            }
+           run.c   167    #endif
+           run.c   168            push(p2);
+    00000396 4D0B                   JSR         @R13
+    00000398 64E2                   MOV.L       @R14,R4
+           run.c   169    
+           run.c   170            restore();
+    0000039A 7F04                   ADD         #4,R15
+    0000039C D312                   MOV.L       L1130+38,R3; _restore
+    0000039E 4F26                   LDS.L       @R15+,PR
+    000003A0 68F6                   MOV.L       @R15+,R8
+    000003A2 69F6                   MOV.L       @R15+,R9
+    000003A4 6AF6                   MOV.L       @R15+,R10
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003A6 6BF6                   MOV.L       @R15+,R11
+    000003A8 6CF6                   MOV.L       @R15+,R12
+    000003AA 6DF6                   MOV.L       @R15+,R13
+    000003AC 432B                   JMP         @R3
+    000003AE 6EF6                   MOV.L       @R15+,R14
+           run.c   171    }
+           run.c   172    
+           run.c   173    void
+           run.c   174    check_esc_flag(void)
+    000003B0              _check_esc_flag:                 ; function: check_esc_flag
+                                                           ; frame size=0
+           run.c   175    {
+           run.c   176            if (esc_flag)
+    000003B0 D20E                   MOV.L       L1130+42,R2; _esc_flag
+    000003B2 6322                   MOV.L       @R2,R3
+    000003B4 2338                   TST         R3,R3
+    000003B6 8902                   BT          L1123
+           run.c   177                    stop("esc key");
+    000003B8 D40D                   MOV.L       L1130+46,R4; L1083
+    000003BA AE21                   BRA         _stop
+    000003BC 0009                   NOP
+    000003BE              L1123:                            
+           run.c   178    }
+    000003BE 000B                   RTS
+    000003C0 0009                   NOP
+    000003C2              L1130:                            
+    000003C2 0630                   .DATA.W     H'0630
+    000003C4 0084                   .DATA.W     H'0084
+    000003C6 0000                   .DATA.W     0
+    000003C8 <00000000>             .DATA.L     _isimaginaryunit
+    000003CC <00000000>             .DATA.L     _imaginaryunit
+    000003D0 <00000000>             .DATA.L     _subst
+    000003D4 <00000000>             .DATA.L     _symnum
+    000003D8 <00000000>             .DATA.L     _p2
+    000003DC <00000000>             .DATA.L     _p1
+    000003E0 <00000000>             .DATA.L     _test_flag
+    000003E4 <00000000>             .DATA.L     _list
+    000003E8 <00000000>             .DATA.L     _restore
+    000003EC <00000000>             .DATA.L     _esc_flag
+    000003F0 <00000000>             .DATA.L     L1083
+C   00000000              L1062:
+    00000000 53746F703A             .SDATA      "Stop: "
+             20           
+    00000006 00                     .DATA.B     H'00
+    00000007 00000001               .RES.B      1
+    00000008              L1063:
+    00000008 0A00                   .DATA.B     H'0A,H'00
+    0000000A 00000002               .RES.W      1
+    0000000C              L1072:
+    0000000C 737461636B             .SDATA      "stack error"
+             206572726F   
+             72           
+    00000017 00                     .DATA.B     H'00
+    00000018              L1073:
+    00000018 6672616D65             .SDATA      "frame error"
+             206572726F   
+             72           
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000023 00                     .DATA.B     H'00
+    00000024              L1083:
+    00000024 657363206B             .SDATA      "esc key"
+             6579         
+    0000002B 00                     .DATA.B     H'00
+B   00000000              _draw_stop_return:               ; static: draw_stop_return
+    00000000 00000050               .RES.L      20
+    00000050              _stop_return:                    ; static: stop_return
+    00000050 00000050               .RES.L      20
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      178
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000003F4 Byte(s)
+CONSTANT SECTION (C):                               0000002C Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               000000A0 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000004C0 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           34
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           8
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            74
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkD709.tmp 
+

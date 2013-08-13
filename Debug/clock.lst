@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:49  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\clock.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         clock.c     1    /* Convert complex z to clock form
+         clock.c     2    
+         clock.c     3            Input:          push    z
+         clock.c     4    
+         clock.c     5            Output:         Result on stack
+         clock.c     6    
+         clock.c     7            clock(z) = mag(z) * (-1) ^ (arg(z) / pi)
+         clock.c     8    
+         clock.c     9            For example, clock(exp(i pi/3)) gives the result (-1)^(1/3)
+         clock.c    10    */
+         clock.c    11    
+         clock.c    12    #include "stdafx.h"
+         clock.c    13    #include "defs.h"
+         clock.c    14    
+         clock.c    15    void
+         clock.c    16    eval_clock(void)
+P   00000000              _eval_clock:                     ; function: eval_clock
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+         clock.c    17    {
+         clock.c    18            push(cadr(p1));
+    00000004 DE2A                   MOV.L       L1066+4,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1061
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1063
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1061:                            
+    00000014 934A                   MOV.W       L1066,R3   ; H'0570
+    00000016 D227                   MOV.L       L1066+8,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1063:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1060
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1062
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1064
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1062:                            
+    00000030 933C                   MOV.W       L1066,R3   ; H'0570
+    00000032 D220                   MOV.L       L1066+8,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1064:                            
+    00000038 A004                   BRA         L1065
+    0000003A 6442                   MOV.L       @R4,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:49  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003C              L1060:                            
+    0000003C 9336                   MOV.W       L1066,R3   ; H'0570
+    0000003E D21D                   MOV.L       L1066+8,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1065:                            
+    00000044 D31C                   MOV.L       L1066+12,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+         clock.c    19            eval();
+    0000004A D21C                   MOV.L       L1066+16,R2; _eval
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+         clock.c    20            clockform();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+         clock.c    21    }
+         clock.c    22    
+         clock.c    23    void
+         clock.c    24    clockform(void)
+    00000054              _clockform:                      ; function: clockform
+                                                           ; frame size=12
+    00000054 2FE6                   MOV.L       R14,@-R15
+    00000056 2FD6                   MOV.L       R13,@-R15
+    00000058 4F22                   STS.L       PR,@-R15
+         clock.c    25    {
+         clock.c    26            save();
+    0000005A D319                   MOV.L       L1066+20,R3; _save
+    0000005C 430B                   JSR         @R3
+    0000005E 0009                   NOP
+         clock.c    27    #if 1
+         clock.c    28            p1 = pop();
+    00000060 DE13                   MOV.L       L1066+4,R14; _p1
+    00000062 D218                   MOV.L       L1066+24,R2; _pop
+    00000064 420B                   JSR         @R2
+    00000066 0009                   NOP
+    00000068 2E02                   MOV.L       R0,@R14
+         clock.c    29            push(p1);
+    0000006A DD13                   MOV.L       L1066+12,R13; _push
+    0000006C 4D0B                   JSR         @R13
+    0000006E 6403                   MOV         R0,R4
+         clock.c    30            mag();
+    00000070 D315                   MOV.L       L1066+28,R3; _mag
+    00000072 430B                   JSR         @R3
+    00000074 0009                   NOP
+         clock.c    31            push_integer(-1);
+    00000076 D215                   MOV.L       L1066+32,R2; _push_integer
+    00000078 420B                   JSR         @R2
+    0000007A E4FF                   MOV         #-1,R4
+         clock.c    32            push(p1);
+    0000007C 4D0B                   JSR         @R13
+    0000007E 64E2                   MOV.L       @R14,R4
+         clock.c    33            arg();
+    00000080 D313                   MOV.L       L1066+36,R3; _arg
+    00000082 430B                   JSR         @R3
+    00000084 0009                   NOP
+         clock.c    34            push(symbol(PI));
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:49  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000086 9312                   MOV.W       L1066+2,R3 ; H'05F4
+    00000088 D20A                   MOV.L       L1066+8,R2 ; _symtab
+    0000008A 6422                   MOV.L       @R2,R4
+    0000008C 4D0B                   JSR         @R13
+    0000008E 343C                   ADD         R3,R4
+         clock.c    35            divide();
+    00000090 D310                   MOV.L       L1066+40,R3; _divide
+    00000092 430B                   JSR         @R3
+    00000094 0009                   NOP
+         clock.c    36            power();
+    00000096 D210                   MOV.L       L1066+44,R2; _power
+    00000098 420B                   JSR         @R2
+    0000009A 0009                   NOP
+         clock.c    37            multiply();
+    0000009C D30F                   MOV.L       L1066+48,R3; _multiply
+    0000009E 430B                   JSR         @R3
+    000000A0 0009                   NOP
+         clock.c    38    #else
+         clock.c    39            p1 = pop();
+         clock.c    40            push(p1);
+         clock.c    41            mag();
+         clock.c    42            push(symbol(E));
+         clock.c    43            push(p1);
+         clock.c    44            arg();
+         clock.c    45            push(imaginaryunit);
+         clock.c    46            multiply();
+         clock.c    47            power();
+         clock.c    48            multiply();
+         clock.c    49    #endif
+         clock.c    50            restore();
+    000000A2 4F26                   LDS.L       @R15+,PR
+    000000A4 D20E                   MOV.L       L1066+52,R2; _restore
+    000000A6 6DF6                   MOV.L       @R15+,R13
+    000000A8 422B                   JMP         @R2
+    000000AA 6EF6                   MOV.L       @R15+,R14
+    000000AC              L1066:                            
+    000000AC 0570                   .DATA.W     H'0570
+    000000AE 05F4                   .DATA.W     H'05F4
+    000000B0 <00000000>             .DATA.L     _p1
+    000000B4 <00000000>             .DATA.L     _symtab
+    000000B8 <00000000>             .DATA.L     _push
+    000000BC <00000000>             .DATA.L     _eval
+    000000C0 <00000000>             .DATA.L     _save
+    000000C4 <00000000>             .DATA.L     _pop
+    000000C8 <00000000>             .DATA.L     _mag
+    000000CC <00000000>             .DATA.L     _push_integer
+    000000D0 <00000000>             .DATA.L     _arg
+    000000D4 <00000000>             .DATA.L     _divide
+    000000D8 <00000000>             .DATA.L     _power
+    000000DC <00000000>             .DATA.L     _multiply
+    000000E0 <00000000>             .DATA.L     _restore
+         clock.c    51    }
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:49  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       51
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000E4 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000E4 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           13
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            22
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk3DEE.tmp 
+

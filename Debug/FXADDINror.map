@@ -1,0 +1,3565 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.03.000)30-Jul-2013 13:37:36
+
+*** Options ***
+
+-subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkF589.tmp
+noprelink
+sdebug
+rom D=R
+nomessage
+list "E:\Anderain\fx-9860\fxTaumath\Debug\FXADDINror.map"
+show symbol
+nooptimize
+start P_TOP,P,C,D,C$VTBL,C$INIT/0300200,B_BR_Size,B,R/08100000
+fsymbol P
+nologo
+input "E:\Anderain\fx-9860\fxTaumath\Debug\zero.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\abs.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\adj.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\alloc.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\append.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\arccos.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\arccosh.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\arcsin.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\arcsinh.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\arctan.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\arctanh.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\arg.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\bake.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\bignum.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\binomial.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\ceiling.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\choose.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\circexp.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\clear.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\clock.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\coeff.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\cofactor.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\condense.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\conj.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\cons.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\contract.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\cos.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\cosh.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\data.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\decomp.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\define.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\defint.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\degree.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\denominator.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\derivative.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\det.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\dirac.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\display.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\distill.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\divisors.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\dpow.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\dsolve.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\eigen.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\erf.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\erfc.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\eval.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\expand.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\expcos.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\expsin.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\factor.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\factorial.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\factorpoly.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\factors.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\filter.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\find.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\float.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\floor.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\for.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\gamma.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\gcd.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\guess.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\hermite.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\hilbert.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\imag.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\index.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\init.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\inner.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\int64.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\integral.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\inv.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\is.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\isprime.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\itab.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\itest.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\laguerre.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\laplace.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\lcm.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\leading.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\legendre.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\list.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\log.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\madd.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mag.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\main.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mcmp.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mfactor.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mgcd.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\misc.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mmodpow.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mmul.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\mod.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mpow.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mprime.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mroot.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mscan.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\mstr.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\multiply.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\nroots.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\numerator.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\outer.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\partition.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\polar.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\pollard.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\power.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\prime.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\primetab.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\print.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\product.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\qadd.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\qdiv.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\qmul.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\qpow.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\qsub.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\quickfactor.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\quotient.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\rationalize.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\real.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\rect.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\rewrite.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\roots.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\run.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\scan.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\sgn.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\simfac.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\simplify.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\sin.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\sinh.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\stack.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\subst.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\sum.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\symbol.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\tan.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\tanh.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\Taumath.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\taylor.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\tensor.obj"       "E:\Anderain\fx-9860\fxTaumath\Debug\test.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\transform.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\transpose.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\userfunc.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\variables.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\vectorize.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\add.obj" "E:\Anderain\fx-9860\fxTaumath\Debug\dConsole.obj"
+input "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\lib\setup.obj"
+library "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\lib\fx9860G_library.lib"
+output "E:\Anderain\fx-9860\fxTaumath\Debug\FXADDINror.abs"
+-nomessage=1100
+end
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+
+P_TOP
+                                  00300200  0030020b         c   4
+P
+                                  0030020c  0032f7d7     2f5cc   4
+C
+                                  0032f7d8  0033ae17      b640   4
+D
+                                  0033ae18  0033b2eb       4d4   4
+B_BR_Size
+                                  08100000  08100003         4   4
+B
+                                  08100004  081009c3       9c0   4
+R
+                                  081009c4  08100e97       4d4   4
+
+*** Symbol List ***
+
+SECTION=
+FILE=                               START        END    SIZE
+  SYMBOL                            ADDR        SIZE    INFO      COUNTS  OPT
+
+SECTION=P_TOP
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\Taumath.obj
+                                  00300200  0030020b         c
+  _InitializeSystem
+                                  00300200         c   func ,g         * 
+
+SECTION=P
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\zero.obj
+                                  0030020c  00300313       108
+  _eval_zero
+                                  0030020c       108   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\abs.obj
+                                  00300314  003006df       3cc
+  _eval_abs
+                                  00300314        54   func ,g         * 
+  _absval
+                                  00300368       2e6   func ,g         * 
+  _absval_tensor
+                                  0030064e        92   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\adj.obj
+                                  003006e0  00300837       158
+  _eval_adj
+                                  003006e0        54   func ,g         * 
+  _adj
+                                  00300734       104   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\alloc.obj
+                                  00300838  00300c7b       444
+  _alloc
+                                  00300838        5c   func ,g         * 
+  _alloc_tensor
+                                  00300894        58   func ,g         * 
+  _gc
+                                  003008ec       216   func ,g         * 
+  _untag
+                                  00300b02        82   func ,g         * 
+  _alloc_mem
+                                  00300b84        5c   func ,g         * 
+  _print_memory_info
+                                  00300be0        9c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\append.obj
+                                  00300c7c  00300d63        e8
+  _append
+                                  00300c7c        e8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\arccos.obj
+                                  00300d64  00300fa7       244
+  _eval_arccos
+                                  00300d64        54   func ,g         * 
+  _arccos
+                                  00300db8       1f0   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\arccosh.obj
+                                  00300fa8  003011a3       1fc
+  _eval_arccosh
+                                  00300fa8        54   func ,g         * 
+  _arccosh
+                                  00300ffc       1a8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\arcsin.obj
+                                  003011a4  003013e3       240
+  _eval_arcsin
+                                  003011a4        54   func ,g         * 
+  _arcsin
+                                  003011f8       1ec   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\arcsinh.obj
+                                  003013e4  003015af       1cc
+  _eval_arcsinh
+                                  003013e4        54   func ,g         * 
+  _arcsinh
+                                  00301438       178   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\arctan.obj
+                                  003015b0  00301b8f       5e0
+  _eval_arctan
+                                  003015b0        54   func ,g         * 
+  _arctan
+                                  00301604       58c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\arctanh.obj
+                                  00301b90  00301db3       224
+  _eval_arctanh
+                                  00301b90        54   func ,g         * 
+  _arctanh
+                                  00301be4       1d0   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\arg.obj
+                                  00301db4  00302257       4a4
+  _eval_arg
+                                  00301db4        54   func ,g         * 
+  _arg
+                                  00301e08        42   func ,g         * 
+  _yyarg
+                                  00301e4a       40e   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\bake.obj
+                                  00302258  003027ef       598
+  _bake
+                                  00302258       1f8   func ,g         * 
+  _polyform
+                                  00302450       10c   func ,g         * 
+  _bake_poly
+                                  0030255c        9a   func ,g         * 
+  _bake_poly_term
+                                  003025f6       1fa   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\bignum.obj
+                                  003027f0  003038c7      10d8
+  _mnew
+                                  003027f0        5e   func ,g         * 
+  _mfree
+                                  0030284e        3c   func ,g         * 
+  _mint
+                                  0030288a        38   func ,g         * 
+  _mcopy
+                                  003028c2        42   func ,g         * 
+  _ge
+                                  00302904        4a   func ,g         * 
+  _add_numbers
+                                  0030294e        be   func ,g         * 
+  _subtract_numbers
+                                  00302a0c        be   func ,g         * 
+  _multiply_numbers
+                                  00302aca        f2   func ,g         * 
+  _divide_numbers
+                                  00302bbc        d4   func ,g         * 
+  _invert_number
+                                  00302c90        9c   func ,g         * 
+  _compare_rationals
+                                  00302d2c        44   func ,g         * 
+  _compare_numbers
+                                  00302d70       100   func ,g         * 
+  _negate_number
+                                  00302e70        b4   func ,g         * 
+  _bignum_truncate
+                                  00302f24        54   func ,g         * 
+  _mp_numerator
+                                  00302f78        5e   func ,g         * 
+  _mp_denominator
+                                  00302fd6        5e   func ,g         * 
+  _bignum_power_number
+                                  00303034        bc   func ,g         * 
+  _convert_bignum_to_double
+                                  003030f0        82   func ,g         * 
+  _convert_rational_to_double
+                                  00303172       1a2   func ,g         * 
+  _push_integer
+                                  00303314        40   func ,g         * 
+  _push_double
+                                  00303354        64   func ,g         * 
+  _push_rational
+                                  003033b8        44   func ,g         * 
+  _pop_integer
+                                  003033fc        9a   func ,g         * 
+  _print_double
+                                  00303496        46   func ,g         * 
+  _bignum_scan_integer
+                                  003034dc        68   func ,g         * 
+  _bignum_scan_float
+                                  00303544        1a   func ,g         * 
+  _print_number
+                                  0030355e        ea   func ,g         * 
+  _gcd_numbers
+                                  00303648        70   func ,g         * 
+  _pop_double
+                                  003036b8        62   func ,g         * 
+  _bignum_float
+                                  0030371a        24   func ,g         * 
+  _bignum_factorial
+                                  0030373e        40   func ,g         * 
+  ___factorial
+                                  0030377e        62   func ,l         * 
+  _mp_set_bit
+                                  003037e0        20   func ,g         * 
+  _mp_clr_bit
+                                  00303800        22   func ,g         * 
+  _mshiftright
+                                  00303822        a6   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\binomial.obj
+                                  003038c8  00303b23       25c
+  _eval_binomial
+                                  003038c8       100   func ,g         * 
+  _binomial
+                                  003039c8        12   func ,g         * 
+  _ybinomial
+                                  003039da        a6   func ,l         * 
+  _check_args
+                                  00303a80        a4   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\ceiling.obj
+                                  00303b24  00303cbb       198
+  _eval_ceiling
+                                  00303b24        54   func ,g         * 
+  _ceiling
+                                  00303b78        12   func ,g         * 
+  _yyceiling
+                                  00303b8a       132   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\choose.obj
+                                  00303cbc  00303f03       248
+  _eval_choose
+                                  00303cbc       100   func ,g         * 
+  _choose
+                                  00303dbc        a4   func ,g         * 
+  _choose_check_args
+                                  00303e60        a4   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\circexp.obj
+                                  00303f04  003043fb       4f8
+  _eval_circexp
+                                  00303f04        5c   func ,g         * 
+  _circexp
+                                  00303f60       49c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\clear.obj
+                                  003043fc  0030444f        54
+  _eval_clear
+                                  003043fc        2a   func ,g         * 
+  _clear
+                                  00304426        2a   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\clock.obj
+                                  00304450  00304533        e4
+  _eval_clock
+                                  00304450        54   func ,g         * 
+  _clockform
+                                  003044a4        90   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\coeff.obj
+                                  00304534  003048d3       3a0
+  _eval_coeff
+                                  00304534       2b8   func ,g         * 
+  _coeff
+                                  003047ec        e8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\cofactor.obj
+                                  003048d4  00304c7b       3a8
+  _eval_cofactor
+                                  003048d4       2e8   func ,g         * 
+  _cofactor
+                                  00304bbc        c0   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\condense.obj
+                                  00304c7c  00304ec7       24c
+  _eval_condense
+                                  00304c7c        54   func ,g         * 
+  _Condense
+                                  00304cd0        26   func ,g         * 
+  _yycondense
+                                  00304cf6       1d2   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\conj.obj
+                                  00304ec8  00304f9f        d8
+  _eval_conj
+                                  00304ec8        84   func ,g         * 
+  _conjugate
+                                  00304f4c        54   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\cons.obj
+                                  00304fa0  00304fd3        34
+  _cons
+                                  00304fa0        34   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\contract.obj
+                                  00304fd4  00305563       590
+  _eval_contract
+                                  00304fd4       2a4   func ,g         * 
+  _contract
+                                  00305278        12   func ,g         * 
+  _yycontract
+                                  0030528a       2da   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\cos.obj
+                                  00305564  00305a43       4e0
+  _eval_cos
+                                  00305564        54   func ,g         * 
+  _cosine
+                                  003055b8        48   func ,g         * 
+  _cosine_of_angle_sum
+                                  00305600       120   func ,g         * 
+  _cosine_of_angle
+                                  00305720       324   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\cosh.obj
+                                  00305a44  00305bfb       1b8
+  _eval_cosh
+                                  00305a44        54   func ,g         * 
+  _ycosh
+                                  00305a98        12   func ,g         * 
+  _yycosh
+                                  00305aaa       152   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\decomp.obj
+                                  00305bfc  0030614b       550
+  _eval_decomp
+                                  00305bfc       13c   func ,g         * 
+  _decomp
+                                  00305d38       11c   func ,g         * 
+  _decomp_sum
+                                  00305e54       174   func ,g         * 
+  _decomp_product
+                                  00305fc8       184   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\define.obj
+                                  0030614c  003063ef       2a4
+  _define_user_function
+                                  0030614c       2a4   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\defint.obj
+                                  003063f0  003065f7       208
+  _eval_defint
+                                  003063f0       208   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\degree.obj
+                                  003065f8  00306aaf       4b8
+  _eval_degree
+                                  003065f8       126   func ,g         * 
+  _degree
+                                  0030671e        36   func ,g         * 
+  _yydegree
+                                  00306754       35c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\denominator.obj
+                                  00306ab0  00306d0b       25c
+  _eval_denominator
+                                  00306ab0        54   func ,g         * 
+  _denominator
+                                  00306b04       208   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\derivative.obj
+                                  00306d0c  00308f9f      2294
+  _eval_derivative
+                                  00306d0c       2c8   func ,g         * 
+  _derivative
+                                  00306fd4        a8   func ,g         * 
+  _d_scalar_scalar
+                                  0030707c        60   func ,g         * 
+  _d_scalar_scalar_1
+                                  003070dc       39a   func ,g         * 
+  _dsum
+                                  00307476        a8   func ,g         * 
+  _dproduct
+                                  0030751e        d6   func ,g         * 
+  _dpower
+                                  003075f4       25e   func ,g         * 
+  _dlog
+                                  00307852        b8   func ,g         * 
+  _dd
+                                  0030790a       55a   func ,g         * 
+  _dfunction
+                                  00307e64        7e   func ,g         * 
+  _dsin
+                                  00307ee2        ca   func ,g         * 
+  _dcos
+                                  00307fac        b0   func ,g         * 
+  _dtan
+                                  0030805c        de   func ,g         * 
+  _darcsin
+                                  0030813a        f0   func ,g         * 
+  _darccos
+                                  0030822a        fa   func ,g         * 
+  _darctan
+                                  00308324        f8   func ,g         * 
+  _dsinh
+                                  0030841c        d8   func ,g         * 
+  _dcosh
+                                  003084f4        c8   func ,g         * 
+  _dtanh
+                                  003085bc        b6   func ,g         * 
+  _darcsinh
+                                  00308672        f4   func ,g         * 
+  _darccosh
+                                  00308766        f4   func ,g         * 
+  _darctanh
+                                  0030885a        ec   func ,g         * 
+  _dabs
+                                  00308946        d6   func ,g         * 
+  _dsgn
+                                  00308a1c        d4   func ,g         * 
+  _dhermite
+                                  00308af0       21c   func ,g         * 
+  _derf
+                                  00308d0c       106   func ,g         * 
+  _derfc
+                                  00308e12       118   func ,g         * 
+  _derivative_of_integral
+                                  00308f2a        76   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\det.obj
+                                  00308fa0  0030951b       57c
+  _check_arg
+                                  00308fa0        30   func ,l         * 
+  _det
+                                  00308fd0        a4   func ,g         * 
+  _determinant
+                                  00309074       19c   func ,g         * 
+  _P4$1082
+                                  0030912e         0   none ,l         * 
+  _detg
+                                  00309210        3a   func ,g         * 
+  _yydetg
+                                  0030924a        5e   func ,g         * 
+  _lu_decomp
+                                  003092a8       274   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\dirac.obj
+                                  0030951c  0030977b       260
+  _eval_dirac
+                                  0030951c        54   func ,g         * 
+  _dirac
+                                  00309570        12   func ,g         * 
+  _ydirac
+                                  00309582       1fa   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\display.obj
+                                  0030977c  0030979f        24
+  _display
+                                  0030977c        24   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\distill.obj
+                                  003097a0  00309baf       410
+  _distill
+                                  003097a0        12   func ,g         * 
+  __distill
+                                  003097b2       110   func ,l         * 
+  _distill_sum
+                                  003098c2       174   func ,g         * 
+  _distill_product
+                                  00309a36       17a   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\divisors.obj
+                                  00309bb0  0030a427       878
+  _divisors
+                                  00309bb0        8a   func ,g         * 
+  _divisors_onstack
+                                  00309c3a       3f2   func ,g         * 
+  _gen
+                                  0030a02c        ca   func ,l         * 
+  ___factor_add
+                                  0030a0f6       312   func ,l         * 
+  ___cmp
+                                  0030a408        20   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\dpow.obj
+                                  0030a428  0030a63f       218
+  _dpow
+                                  0030a428       218   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\dsolve.obj
+                                  0030a640  0030a84f       210
+  _dsolve
+                                  0030a640        d8   func ,g         * 
+  _distilly
+                                  0030a718       138   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\eigen.obj
+                                  0030a850  0030b2bb       a6c
+  _eval_eigen
+                                  0030a850        52   func ,g         * 
+  _eval_eigenval
+                                  0030a8a2        2e   func ,g         * 
+  _eval_eigenvec
+                                  0030a8d0        2e   func ,g         * 
+  _check_arg
+                                  0030a8fe       1d0   func ,l         * 
+  _eigen
+                                  0030aace       2d0   func ,l         * 
+  _step
+                                  0030ad9e        96   func ,l         * 
+  _step2
+                                  0030ae34       488   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\erf.obj
+                                  0030b2bc  0030b415       15a
+  _eval_erf
+                                  0030b2bc        54   func ,g         * 
+  _yerf
+                                  0030b310        12   func ,g         * 
+  _yyerf
+                                  0030b322        f4   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\erfc.obj
+                                  0030b418  0030b7f7       3e0
+  _eval_erfc
+                                  0030b418        54   func ,g         * 
+  _yerfc
+                                  0030b46c        12   func ,g         * 
+  _yyerfc
+                                  0030b47e        8a   func ,l         * 
+  _erfc
+                                  0030b508       2f0   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\eval.obj
+                                  0030b7f8  0030da2f      2238
+  _eval
+                                  0030b7f8        70   func ,g         * 
+  _eval_sym
+                                  0030b868        a0   func ,g         * 
+  _eval_cons
+                                  0030b908       5e8   func ,g         * 
+  _eval_binding
+                                  0030bef0        e8   func ,g         * 
+  _eval_check
+                                  0030bfd8        7a   func ,g         * 
+  _eval_det
+                                  0030c052        7c   func ,g         * 
+  _eval_dim
+                                  0030c0ce       1cc   func ,g         * 
+  _eval_divisors
+                                  0030c29a        56   func ,g         * 
+  _eval_do
+                                  0030c2f0        aa   func ,g         * 
+  _eval_dsolve
+                                  0030c39a       23c   func ,g         * 
+  _eval_eval
+                                  0030c5d6       170   func ,g         * 
+  _eval_exp
+                                  0030c746        56   func ,g         * 
+  _eval_factorial
+                                  0030c79c        6c   func ,g         * 
+  _eval_factorpoly
+                                  0030c808       106   func ,g         * 
+  _eval_hermite
+                                  0030c90e       106   func ,g         * 
+  _eval_hilbert
+                                  0030ca14        58   func ,g         * 
+  _eval_index
+                                  0030ca6c        a0   func ,g         * 
+  _eval_inv
+                                  0030cb0c        58   func ,g         * 
+  _eval_invg
+                                  0030cb64        78   func ,g         * 
+  _eval_isinteger
+                                  0030cbdc        ee   func ,g         * 
+  _eval_multiply
+                                  0030ccca       116   func ,g         * 
+  _eval_number
+                                  0030cde0        98   func ,g         * 
+  _eval_operator
+                                  0030ce78        86   func ,g         * 
+  _eval_print
+                                  0030cefe        96   func ,g         * 
+  _eval_quote
+                                  0030cf94        48   func ,g         * 
+  _eval_rank
+                                  0030cfdc        98   func ,g         * 
+  _setq_indexed
+                                  0030d074       32e   func ,g         * 
+  _eval_setq
+                                  0030d3a2       248   func ,g         * 
+  _eval_sqrt
+                                  0030d5ea        60   func ,g         * 
+  _eval_stop
+                                  0030d64a         8   func ,g         * 
+  _eval_subst
+                                  0030d652       26c   func ,g         * 
+  _eval_unit
+                                  0030d8be        d6   func ,g         * 
+  _eval_noexpand
+                                  0030d994        20   func ,g         * 
+  _eval_predicate
+                                  0030d9b4        7c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\expand.obj
+                                  0030da30  0030e887       e58
+  _eval_expand
+                                  0030da30       12a   func ,g         * 
+  _expand
+                                  0030db5a       22e   func ,g         * 
+  _expand_tensor
+                                  0030dd88        70   func ,g         * 
+  _remove_negative_exponents
+                                  0030ddf8       1fe   func ,g         * 
+  _expand_get_C
+                                  0030dff6       1be   func ,g         * 
+  _expand_get_CF
+                                  0030e1b4       1cc   func ,g         * 
+  _trivial_divide
+                                  0030e380       140   func ,g         * 
+  _expand_get_B
+                                  0030e4c0        9a   func ,g         * 
+  _expand_get_A
+                                  0030e55a       14e   func ,g         * 
+  _expand_get_AF
+                                  0030e6a8       1e0   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\expcos.obj
+                                  0030e888  0030e987       100
+  _eval_expcos
+                                  0030e888        54   func ,g         * 
+  _expcos
+                                  0030e8dc        ac   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\expsin.obj
+                                  0030e988  0030ea9f       118
+  _eval_expsin
+                                  0030e988        54   func ,g         * 
+  _expsin
+                                  0030e9dc        c4   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\factor.obj
+                                  0030eaa0  0030efb7       518
+  _eval_factor
+                                  0030eaa0       218   func ,g         * 
+  _factor_again
+                                  0030ecb8        fc   func ,g         * 
+  _factor_term
+                                  0030edb4        d0   func ,g         * 
+  _factor
+                                  0030ee84        52   func ,g         * 
+  _factor_small_number
+                                  0030eed6        e2   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\factorial.obj
+                                  0030efb8  0030f6d3       71c
+  _factorial
+                                  0030efb8        50   func ,g         * 
+  _simplifyfactorials
+                                  0030f008       120   func ,g         * 
+  _sfac_product
+                                  0030f128       140   func ,g         * 
+  _sfac_product_f
+                                  0030f268       46c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\factorpoly.obj
+                                  0030f6d4  0030fde7       714
+  _factorpoly
+                                  0030f6d4        64   func ,g         * 
+  _yyfactorpoly
+                                  0030f738       260   func ,g         * 
+  _rationalize_coefficients
+                                  0030f998        a4   func ,l         * 
+  _get_factor
+                                  0030fa3c       266   func ,l         * 
+  _yydivpoly
+                                  0030fca2        98   func ,l         * 
+  _evalpoly
+                                  0030fd3a        ae   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\factors.obj
+                                  0030fde8  0030fee7       100
+  _factors
+                                  0030fde8        7a   func ,g         * 
+  _push_term_factors
+                                  0030fe62        86   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\filter.obj
+                                  0030fee8  0031018b       2a4
+  _eval_filter
+                                  0030fee8        aa   func ,g         * 
+  _filter
+                                  0030ff92        22   func ,g         * 
+  _filter_main
+                                  0030ffb4        74   func ,g         * 
+  _filter_sum
+                                  00310028        84   func ,g         * 
+  _filter_tensor
+                                  003100ac        e0   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\find.obj
+                                  0031018c  0031021f        94
+  _find
+                                  0031018c        94   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\float.obj
+                                  00310220  003103ef       1d0
+  _eval_float
+                                  00310220        5c   func ,g         * 
+  _yyfloat
+                                  0031027c       174   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\floor.obj
+                                  003103f0  00310587       198
+  _eval_floor
+                                  003103f0        54   func ,g         * 
+  _yfloor
+                                  00310444        12   func ,g         * 
+  _yyfloor
+                                  00310456       132   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\for.obj
+                                  00310588  00310a4f       4c8
+  _eval_for
+                                  00310588       4c8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\gamma.obj
+                                  00310a50  00310ffb       5ac
+  _eval_gamma
+                                  00310a50        54   func ,g         * 
+  _gamma
+                                  00310aa4        12   func ,g         * 
+  _gammaf
+                                  00310ab6       1de   func ,l         * 
+  _gamma_of_sum
+                                  00310c94       368   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\gcd.obj
+                                  00310ffc  00311c87       c8c
+  _eval_gcd
+                                  00310ffc        aa   func ,g         * 
+  _gcd
+                                  003110a6        46   func ,g         * 
+  _gcd_main
+                                  003110ec       6c0   func ,g         * 
+  _gcd_expr_expr
+                                  003117ac       204   func ,g         * 
+  _gcd_expr
+                                  003119b0        a0   func ,g         * 
+  _gcd_term_term
+                                  00311a50       100   func ,g         * 
+  _gcd_term_factor
+                                  00311b50        86   func ,g         * 
+  _gcd_factor_term
+                                  00311bd6        b2   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\guess.obj
+                                  00311c88  00311d43        bc
+  _guess
+                                  00311c88        bc   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\hermite.obj
+                                  00311d44  00311eb3       170
+  _hermite
+                                  00311d44        12   func ,g         * 
+  _yyhermite
+                                  00311d56        92   func ,g         * 
+  _yyhermite2
+                                  00311de8        cc   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\hilbert.obj
+                                  00311eb4  00311f9b        e8
+  _hilbert
+                                  00311eb4        e8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\imag.obj
+                                  00311f9c  0031207b        e0
+  _eval_imag
+                                  00311f9c        54   func ,g         * 
+  _imag
+                                  00311ff0        8c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\index.obj
+                                  0031207c  003124ef       474
+  _index_function
+                                  0031207c       1f4   func ,g         * 
+  _set_component
+                                  00312270       280   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\init.obj
+                                  003124f0  00312cbb       7cc
+  _init
+                                  003124f0       780   func ,g         * 
+  _defn
+                                  00312c70        4c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\inner.obj
+                                  00312cbc  00313043       388
+  _eval_inner
+                                  00312cbc        aa   func ,g         * 
+  _inner
+                                  00312d66        9e   func ,g         * 
+  _inner_f
+                                  00312e04       240   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\int64.obj
+                                  00313044  0031349b       458
+  _u64hilo
+                                  00313044        1c   func ,g         * 
+  _u64lo
+                                  00313060        1e   func ,g         * 
+  _u64lt
+                                  0031307e        24   func ,g         * 
+  _u64and
+                                  003130a2        30   func ,g         * 
+  _u64or
+                                  003130d2        30   func ,g         * 
+  _u64xor
+                                  00313102        30   func ,g         * 
+  _u64plus
+                                  00313132        3c   func ,g         * 
+  _u64sub
+                                  0031316e        76   func ,g         * 
+  _u64shl
+                                  003131e4        44   func ,g         * 
+  _u64shr
+                                  00313228        48   func ,g         * 
+  _u32mult
+                                  00313270        54   func ,g         * 
+  _u64mul
+                                  003132c4        56   func ,g         * 
+  _u64div
+                                  0031331a       182   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\integral.obj
+                                  0031349c  003139c7       52c
+  _eval_integral
+                                  0031349c       2c8   func ,g         * 
+  _integral
+                                  00313764        c4   func ,g         * 
+  _integral_of_sum
+                                  00313828        ea   func ,g         * 
+  _integral_of_product
+                                  00313912        2a   func ,g         * 
+  _integral_of_form
+                                  0031393c        8c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\inv.obj
+                                  003139c8  00313e67       4a0
+  _check_arg
+                                  003139c8        30   func ,l         * 
+  _inv
+                                  003139f8        b0   func ,g         * 
+  _invg
+                                  00313aa8        3a   func ,g         * 
+  _yyinvg
+                                  00313ae2        da   func ,g         * 
+  _decomp_int
+                                  00313bbc       2ac   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\is.obj
+                                  00313e68  00315353      14ec
+  _iszero
+                                  00313e68        7c   func ,g         * 
+  _isnegativenumber
+                                  00313ee4        44   func ,g         * 
+  _isplusone
+                                  00313f28        7c   func ,g         * 
+  _isminusone
+                                  00313fa4        7c   func ,g         * 
+  _isinteger
+                                  00314020        44   func ,g         * 
+  _isnonnegativeinteger
+                                  00314064        3c   func ,g         * 
+  _isposint
+                                  003140a0        2a   func ,g         * 
+  _ispoly
+                                  003140ca        24   func ,g         * 
+  _ispoly_expr
+                                  003140ee        8e   func ,g         * 
+  _ispoly_term
+                                  0031417c        82   func ,g         * 
+  _ispoly_factor
+                                  003141fe       132   func ,g         * 
+  _isnegativeterm
+                                  00314330        72   func ,g         * 
+  _isimaginarynumber
+                                  003143a2       17a   func ,g         * 
+  _iscomplexnumber
+                                  0031451c       168   func ,g         * 
+  _iseveninteger
+                                  00314684        28   func ,g         * 
+  _isnegative
+                                  003146ac        72   func ,g         * 
+  _issymbolic
+                                  0031471e        58   func ,g         * 
+  _isintegerfactor
+                                  00314776       106   func ,g         * 
+  _isoneover
+                                  0031487c        b4   func ,g         * 
+  _isfraction
+                                  00314930        32   func ,g         * 
+  _equaln
+                                  00314962        82   func ,g         * 
+  _equalq
+                                  003149e4        94   func ,g         * 
+  _isoneoversqrttwo
+                                  00314a78       112   func ,g         * 
+  _isminusoneoversqrttwo
+                                  00314b8a       106   func ,g         * 
+  _isfloating
+                                  00314c90        50   func ,g         * 
+  _isimaginaryunit
+                                  00314ce0        1c   func ,g         * 
+  _isquarterturn
+                                  00314cfc       45e   func ,g         * 
+  _isnpi
+                                  0031515a       1fa   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\isprime.obj
+                                  00315354  003153f3        a0
+  _eval_isprime
+                                  00315354        a0   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\laguerre.obj
+                                  003153f4  0031581f       42c
+  _eval_laguerre
+                                  003153f4       278   func ,g         * 
+  _laguerre
+                                  0031566c        dc   func ,g         * 
+  _laguerre2
+                                  00315748        d8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\laplace.obj
+                                  00315820  00315b73       354
+  _eval_laplace
+                                  00315820        60   func ,g         * 
+  _laplace
+                                  00315880       136   func ,g         * 
+  _laplace_main
+                                  003159b6       1be   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\lcm.obj
+                                  00315b74  00315cd3       160
+  _eval_lcm
+                                  00315b74        aa   func ,g         * 
+  _lcm
+                                  00315c1e        46   func ,g         * 
+  _yylcm
+                                  00315c64        70   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\leading.obj
+                                  00315cd4  00315e9f       1cc
+  _eval_leading
+                                  00315cd4       126   func ,g         * 
+  _leading
+                                  00315dfa        a6   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\legendre.obj
+                                  00315ea0  00316487       5e8
+  _eval_legendre
+                                  00315ea0       266   func ,g         * 
+  _legendre
+                                  00316106        2e   func ,g         * 
+  ___legendre
+                                  00316134        f8   func ,l         * 
+  ___legendre2
+                                  0031622c        b0   func ,l         * 
+  ___legendre3
+                                  003162dc       1ac   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\list.obj
+                                  00316488  003164c7        40
+  _list
+                                  00316488        40   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\log.obj
+                                  003164c8  0031683f       378
+  _eval_log
+                                  003164c8        54   func ,g         * 
+  _logarithm
+                                  0031651c        12   func ,g         * 
+  _yylog
+                                  0031652e       312   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\madd.obj
+                                  00316840  00316acd       28e
+  _madd
+                                  00316840        14   func ,g         * 
+  _msub
+                                  00316854        14   func ,g         * 
+  _addf
+                                  00316868        f8   func ,l         * 
+  _subf
+                                  00316960       118   func ,l         * 
+  _ucmp
+                                  00316a78        56   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mag.obj
+                                  00316ad0  00316e77       3a8
+  _eval_mag
+                                  00316ad0        54   func ,g         * 
+  _mag
+                                  00316b24        42   func ,g         * 
+  _yymag
+                                  00316b66       312   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\main.obj
+                                  00316e78  00316ec7        50
+  _clear_term
+                                  00316e78         4   func ,g         * 
+  _eval_display
+                                  00316e7c         6   func ,g         * 
+  _printstr
+                                  00316e82        18   func ,g         * 
+  _printchar
+                                  00316e9a         8   func ,g         * 
+  _printchar_nowrap
+                                  00316ea2         4   func ,g         * 
+  _eval_draw
+                                  00316ea6         c   func ,g         * 
+  _eval_sample
+                                  00316eb2        16   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mcmp.obj
+                                  00316ec8  00316f8f        c8
+  _mcmp
+                                  00316ec8        94   func ,g         * 
+  _mcmpint
+                                  00316f5c        34   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mgcd.obj
+                                  00316f90  00317113       184
+  _mgcd
+                                  00316f90       184   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\misc.obj
+                                  00317114  0031769f       58c
+  _new_string
+                                  00317114        48   func ,g         * 
+  _out_of_memory
+                                  0031715c         8   func ,g         * 
+  _push_zero_matrix
+                                  00317164        5a   func ,g         * 
+  _push_identity_matrix
+                                  003171be        44   func ,g         * 
+  _push_cars
+                                  00317202        7c   func ,g         * 
+  _peek
+                                  0031727e        28   func ,g         * 
+  _peek2
+                                  003172a6        28   func ,g         * 
+  _equal
+                                  003172ce        10   func ,g         * 
+  _lessp
+                                  003172de        18   func ,g         * 
+  _sign
+                                  003172f6        10   func ,g         * 
+  _cmp_expr
+                                  00317306       1ea   func ,g         * 
+  _length
+                                  003174f0        1e   func ,g         * 
+  _unique
+                                  0031750e        62   func ,g         * 
+  _unique_f
+                                  00317570        72   func ,l         * 
+  _ssqrt
+                                  003175e2        10   func ,g         * 
+  _yyexpand
+                                  003175f2        20   func ,g         * 
+  _exponential
+                                  00317612        14   func ,g         * 
+  _square
+                                  00317626         e   func ,g         * 
+  ___cmp
+                                  00317634        10   func ,l         * 
+  _sort_stack
+                                  00317644        5c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mmodpow.obj
+                                  003176a0  0031775b        bc
+  _mmodpow
+                                  003176a0        bc   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mmul.obj
+                                  0031775c  0031821f       ac4
+  _mmul
+                                  0031775c       160   func ,g         * 
+  _mdiv
+                                  003178bc       248   func ,g         * 
+  _addf
+                                  00317b04        88   func ,l         * 
+  _subf
+                                  00317b8c        b0   func ,l         * 
+  _mulf
+                                  00317c3c        98   func ,l         * 
+  _mmod
+                                  00317cd4       274   func ,g         * 
+  _mdivrem
+                                  00317f48       2d8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mod.obj
+                                  00318220  003184b3       294
+  _eval_mod
+                                  00318220       100   func ,g         * 
+  _mod
+                                  00318320       194   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mpow.obj
+                                  003184b4  0031852b        78
+  _mpow
+                                  003184b4        78   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mprime.obj
+                                  0031852c  00318703       1d8
+  _mprime
+                                  0031852c        7c   func ,g         * 
+  _mprimef
+                                  003185a8       15c   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mroot.obj
+                                  00318704  0031882b       128
+  _mroot
+                                  00318704       128   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mscan.obj
+                                  0031882c  0031890f        e4
+  _mscan
+                                  0031882c        7c   func ,g         * 
+  _addf
+                                  003188a8        2c   func ,l         * 
+  _mulf
+                                  003188d4        3c   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mstr.obj
+                                  00318910  00318ae3       1d4
+  _mstr
+                                  00318910       108   func ,g         * 
+  _divby1billion
+                                  00318a18        cc   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\multiply.obj
+                                  00318ae4  0031a1a7      16c4
+  _multiply
+                                  00318ae4        68   func ,g         * 
+  _yymultiply
+                                  00318b4c       8a4   func ,g         * 
+  _parse_p1
+                                  003193f0       156   func ,l         * 
+  _parse_p2
+                                  00319546       136   func ,l         * 
+  _combine_factors
+                                  0031967c       2a0   func ,g         * 
+  _multiply_noexpand
+                                  0031991c        1e   func ,g         * 
+  _multiply_all
+                                  0031993a        7e   func ,g         * 
+  _multiply_all_noexpand
+                                  003199b8        3c   func ,g         * 
+  _divide
+                                  003199f4        50   func ,g         * 
+  _inverse
+                                  00319a44        32   func ,g         * 
+  _reciprocate
+                                  00319a76        32   func ,g         * 
+  _negate
+                                  00319aa8        30   func ,g         * 
+  _negate_expand
+                                  00319ad8        1e   func ,g         * 
+  _negate_noexpand
+                                  00319af6        1e   func ,g         * 
+  ___normalize_radical_factors
+                                  00319b14       488   func ,l         * 
+  ___is_radical_number
+                                  00319f9c       20c   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\nroots.obj
+                                  0031a1a8  0031b07b       ed4
+  _eval_nroots
+                                  0031a1a8       390   func ,g         * 
+  _monic
+                                  0031a538       13a   func ,g         * 
+  _findroot
+                                  0031a672       602   func ,g         * 
+  _compute_fa
+                                  0031ac74       25c   func ,g         * 
+  _divpoly_int
+                                  0031aed0       1ac   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\numerator.obj
+                                  0031b07c  0031b2cb       250
+  _eval_numerator
+                                  0031b07c        54   func ,g         * 
+  _numerator
+                                  0031b0d0       1fc   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\outer.obj
+                                  0031b2cc  0031b57b       2b0
+  _eval_outer
+                                  0031b2cc        aa   func ,g         * 
+  _outer
+                                  0031b376        9e   func ,g         * 
+  _yyouter
+                                  0031b414       168   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\partition.obj
+                                  0031b57c  0031b6b7       13c
+  _partition
+                                  0031b57c       13c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\polar.obj
+                                  0031b6b8  0031b78b        d4
+  _eval_polar
+                                  0031b6b8        54   func ,g         * 
+  _polar
+                                  0031b70c        80   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\pollard.obj
+                                  0031b78c  0031bbbf       434
+  _factor_number
+                                  0031b78c        84   func ,g         * 
+  _factor_a
+                                  0031b810        a0   func ,g         * 
+  _try_kth_prime
+                                  0031b8b0        bc   func ,g         * 
+  _factor_b
+                                  0031b96c       1ac   func ,g         * 
+  _push_factor
+                                  0031bb18        a8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\power.obj
+                                  0031bbc0  0031c727       b68
+  _eval_power
+                                  0031bbc0       100   func ,g         * 
+  _power
+                                  0031bcc0        12   func ,g         * 
+  _yypower
+                                  0031bcd2       644   func ,g         * 
+  _power_sum
+                                  0031c316       186   func ,g         * 
+  _multinomial_sum
+                                  0031c49c        e0   func ,g         * 
+  _simplify_polar
+                                  0031c57c       1ac   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\prime.obj
+                                  0031c728  0031c7d7        b0
+  _eval_prime
+                                  0031c728        54   func ,g         * 
+  _prime
+                                  0031c77c        5c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\print.obj
+                                  0031c7d8  0031e54f      1d78
+  _print
+                                  0031c7d8         4   func ,g         * 
+  _printline
+                                  0031c7dc         e   func ,g         * 
+  _print_subexpr
+                                  0031c7ea        18   func ,g         * 
+  _print_expr
+                                  0031c802       15c   func ,g         * 
+  _sign_of_term
+                                  0031c95e       11a   func ,g         * 
+  _print_a_over_b
+                                  0031ca78       2d8   func ,g         * 
+  _print_term
+                                  0031cd50       11e   func ,g         * 
+  _print_denom
+                                  0031ce6e       2da   func ,g         * 
+  _print_factor
+                                  0031d148       c26   func ,g         * 
+  _print_index_function
+                                  0031dd6e       1ce   func ,g         * 
+  _print_factorial_function
+                                  0031df3c        ba   func ,g         * 
+  _print_tensor
+                                  0031dff6        16   func ,g         * 
+  _print_tensor_inner
+                                  0031e00c        8e   func ,g         * 
+  _print_str
+                                  0031e09a        3a   func ,g         * 
+  _print_char
+                                  0031e0d4        10   func ,g         * 
+  _print_function_definition
+                                  0031e0e4       13e   func ,g         * 
+  _print_arg_list
+                                  0031e222        a6   func ,g         * 
+  _print_lisp
+                                  0031e2c8         c   func ,g         * 
+  _print1
+                                  0031e2d4        e8   func ,g         * 
+  _print_multiply_sign
+                                  0031e3bc        14   func ,g         * 
+  _is_denominator
+                                  0031e3d0       114   func ,g         * 
+  _any_denominators
+                                  0031e4e4        6c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\product.obj
+                                  0031e550  0031e9d7       488
+  _eval_product
+                                  0031e550       488   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\qadd.obj
+                                  0031e9d8  0031eafb       124
+  _qadd
+                                  0031e9d8       124   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\qdiv.obj
+                                  0031eafc  0031ec0b       110
+  _qdiv
+                                  0031eafc       110   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\qmul.obj
+                                  0031ec0c  0031ed0f       104
+  _qmul
+                                  0031ec0c       104   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\qpow.obj
+                                  0031ed10  0031f147       438
+  _qpow
+                                  0031ed10        12   func ,g         * 
+  _qpowf
+                                  0031ed22       2e6   func ,l         * 
+  _normalize_angle
+                                  0031f008        be   func ,l         * 
+  _is_small_integer
+                                  0031f0c6        82   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\qsub.obj
+                                  0031f148  0031f26b       124
+  _qsub
+                                  0031f148       124   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\quickfactor.obj
+                                  0031f26c  0031f40f       1a4
+  _quickfactor
+                                  0031f26c        9c   func ,g         * 
+  _quickpower
+                                  0031f308       108   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\quotient.obj
+                                  0031f410  0031f82f       420
+  _eval_quotient
+                                  0031f410       268   func ,g         * 
+  _divpoly
+                                  0031f678       1b8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\rationalize.obj
+                                  0031f830  0031fd27       4f8
+  _eval_rationalize
+                                  0031f830        54   func ,g         * 
+  _rationalize
+                                  0031f884        26   func ,g         * 
+  _yyrationalize
+                                  0031f8aa       126   func ,g         * 
+  _multiply_denominators
+                                  0031f9d0        94   func ,l         * 
+  _multiply_denominators_term
+                                  0031fa64        6a   func ,l         * 
+  _multiply_denominators_factor
+                                  0031face       14a   func ,l         * 
+  ___rationalize_tensor
+                                  0031fc18        9c   func ,l         * 
+  ___lcm
+                                  0031fcb4        74   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\real.obj
+                                  0031fd28  0031fdf3        cc
+  _eval_real
+                                  0031fd28        54   func ,g         * 
+  _real
+                                  0031fd7c        78   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\rect.obj
+                                  0031fdf4  0031ff87       194
+  _eval_rect
+                                  0031fdf4        54   func ,g         * 
+  _rect
+                                  0031fe48       140   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\rewrite.obj
+                                  0031ff88  0032011b       194
+  _rewrite
+                                  0031ff88       110   func ,g         * 
+  _rewrite_tensor
+                                  00320098        84   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\roots.obj
+                                  0032011c  00320913       7f8
+  _eval_roots
+                                  0032011c       2f0   func ,g         * 
+  _roots
+                                  0032040c        94   func ,g         * 
+  _roots2
+                                  003204a0       10e   func ,l         * 
+  _roots3
+                                  003205ae       1d6   func ,l         * 
+  _mini_solve
+                                  00320784       190   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\run.obj
+                                  00320914  00320d07       3f4
+  _stop
+                                  00320914        5c   func ,g         * 
+  _run
+                                  00320970       124   func ,g         * 
+  _check_stack
+                                  00320a94        2c   func ,g         * 
+  _echo_input
+                                  00320ac0        10   func ,g         * 
+  _top_level_eval
+                                  00320ad0       1f4   func ,g         * 
+  _check_esc_flag
+                                  00320cc4        44   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\scan.obj
+                                  00320d08  00321863       b5c
+  _scan
+                                  00320d08        58   func ,g         * 
+  _scan_meta
+                                  00320d60        58   func ,g         * 
+  _scan_stmt
+                                  00320db8        60   func ,g         * 
+  _scan_relation
+                                  00320e18        6c   func ,g         * 
+  _scan_expression
+                                  00320e84        d6   func ,g         * 
+  _is_factor
+                                  00320f5a        7e   func ,g         * 
+  _scan_term
+                                  00320fd8       160   func ,g         * 
+  _scan_power
+                                  00321138        30   func ,g         * 
+  _scan_factor
+                                  00321168       154   func ,g         * 
+  _scan_symbol
+                                  003212bc        7e   func ,g         * 
+  _scan_string
+                                  0032133a         e   func ,g         * 
+  _scan_function_call
+                                  00321348        88   func ,g         * 
+  _scan_subexpr
+                                  003213d0        4e   func ,g         * 
+  _error
+                                  0032141e        88   func ,g         * 
+  _build_tensor
+                                  003214a6        b6   func ,g         * 
+  _get_next_token
+                                  0032155c        30   func ,g         * 
+  _get_token
+                                  0032158c       26c   func ,g         * 
+  _update_token_buf
+                                  003217f8        6c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\sgn.obj
+                                  00321864  00321a3b       1d8
+  _eval_sgn
+                                  00321864        54   func ,g         * 
+  _sgn
+                                  003218b8        12   func ,g         * 
+  _yysgn
+                                  003218ca       172   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\simfac.obj
+                                  00321a3c  00322fc7      158c
+  _eval_simfac
+                                  00321a3c        54   func ,g         * 
+  _simfac
+                                  00321a90        e8   func ,g         * 
+  _simfac_term
+                                  00321b78        ee   func ,l         * 
+  _yysimfac
+                                  00321c66      1362   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\simplify.obj
+                                  00322fc8  00323603       63c
+  _eval_simplify
+                                  00322fc8        54   func ,g         * 
+  _simplify
+                                  0032301c        12   func ,g         * 
+  _simplify_main
+                                  0032302e        e6   func ,g         * 
+  _simplify_tensor
+                                  00323114        b2   func ,l         * 
+  _count
+                                  003231c6        74   func ,l         * 
+  _f1
+                                  0032323a        5a   func ,l         * 
+  _f2
+                                  00323294        78   func ,l         * 
+  _f3
+                                  0032330c        50   func ,l         * 
+  _f4
+                                  0032335c        5a   func ,l         * 
+  _simplify_trig
+                                  003233b6        4a   func ,g         * 
+  _f5
+                                  00323400        ca   func ,l         * 
+  _f9
+                                  003234ca        ea   func ,l         * 
+  _nterms
+                                  003235b4        50   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\sin.obj
+                                  00323604  00323b2f       52c
+  _eval_sin
+                                  00323604        54   func ,g         * 
+  _sine
+                                  00323658        48   func ,g         * 
+  _sine_of_angle_sum
+                                  003236a0       114   func ,g         * 
+  _sine_of_angle
+                                  003237b4       37c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\sinh.obj
+                                  00323b30  00323ce7       1b8
+  _eval_sinh
+                                  00323b30        54   func ,g         * 
+  _ysinh
+                                  00323b84        12   func ,g         * 
+  _yysinh
+                                  00323b96       152   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\stack.obj
+                                  00323ce8  00323f51       26a
+  _push
+                                  00323ce8        3e   func ,g         * 
+  _pop
+                                  00323d26        28   func ,g         * 
+  _push_frame
+                                  00323d4e        52   func ,g         * 
+  _pop_frame
+                                  00323da0        4c   func ,g         * 
+  _save
+                                  00323dec        7c   func ,g         * 
+  _restore
+                                  00323e68        78   func ,g         * 
+  _swap
+                                  00323ee0        5c   func ,g         * 
+  _dupl
+                                  00323f3c        16   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\subst.obj
+                                  00323f54  003240ff       1ac
+  _subst
+                                  00323f54       1ac   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\sum.obj
+                                  00324100  00324587       488
+  _eval_sum
+                                  00324100       488   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\symbol.obj
+                                  00324588  00324847       2c0
+  _std_symbol
+                                  00324588        12   func ,g         * 
+  _usr_symbol
+                                  0032459a        96   func ,g         * 
+  _get_printname
+                                  00324630        24   func ,g         * 
+  _set_binding
+                                  00324654        88   func ,g         * 
+  _get_binding
+                                  003246dc        36   func ,g         * 
+  _set_binding_and_arglist
+                                  00324712        54   func ,g         * 
+  _get_arglist
+                                  00324766        36   func ,g         * 
+  _symnum
+                                  0032479c        2e   func ,g         * 
+  _push_symbol
+                                  003247ca        32   func ,g         * 
+  _clear_symbols
+                                  003247fc        4c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\tan.obj
+                                  00324848  00324b4f       308
+  _eval_tan
+                                  00324848        54   func ,g         * 
+  _tangent
+                                  0032489c        12   func ,g         * 
+  _yytangent
+                                  003248ae       2a2   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\tanh.obj
+                                  00324b50  00324ce3       194
+  _eval_tanh
+                                  00324b50       194   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\Taumath.obj
+                                  00324ce4  00324e47       164
+  _initialize_tuamath
+                                  00324ce4        58   func ,g         * 
+  _AddIn_main
+                                  00324d3c       10c   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\taylor.obj
+                                  00324e48  0032515f       318
+  _eval_taylor
+                                  00324e48       184   func ,g         * 
+  _taylor
+                                  00324fcc       194   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\tensor.obj
+                                  00325160  00325c8f       b30
+  _eval_tensor
+                                  00325160        a8   func ,g         * 
+  _tensor_plus_tensor
+                                  00325208       136   func ,g         * 
+  _tensor_times_scalar
+                                  0032533e        c4   func ,g         * 
+  _scalar_times_tensor
+                                  00325402        c4   func ,g         * 
+  _is_square_matrix
+                                  003254c6        4e   func ,g         * 
+  _d_tensor_tensor
+                                  00325514       13c   func ,g         * 
+  _dont_evaluate$1101
+                                  00325612         0   none ,l         * 
+  _d_scalar_tensor
+                                  00325650        8a   func ,g         * 
+  _d_tensor_scalar
+                                  003256da        b4   func ,g         * 
+  _compare_tensors
+                                  0032578e        e8   func ,g         * 
+  _power_tensor
+                                  00325876       12a   func ,g         * 
+  _copy_tensor
+                                  003259a0        f0   func ,g         * 
+  _promote_tensor
+                                  00325a90       176   func ,l         * 
+  _compatible
+                                  00325c06        8a   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\test.obj
+                                  00325c90  0032633f       6b0
+  _eval_test
+                                  00325c90       166   func ,g         * 
+  _eval_testeq
+                                  00325df6       128   func ,g         * 
+  _eval_testge
+                                  00325f1e        10   func ,g         * 
+  _eval_testgt
+                                  00325f2e        10   func ,g         * 
+  _eval_testle
+                                  00325f3e        36   func ,g         * 
+  _eval_testlt
+                                  00325f74        18   func ,g         * 
+  _eval_not
+                                  00325f8c        70   func ,g         * 
+  _eval_and
+                                  00325ffc        c6   func ,g         * 
+  _eval_or
+                                  003260c2        c6   func ,g         * 
+  _cmp_args
+                                  00326188       1b8   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\transform.obj
+                                  00326340  00326783       444
+  _transform
+                                  00326340       2ce   func ,g         * 
+  _f_equals_a
+                                  0032660e       176   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\transpose.obj
+                                  00326784  00326cb7       534
+  _eval_transpose
+                                  00326784       2a4   func ,g         * 
+  _transpose
+                                  00326a28        12   func ,g         * 
+  _ytranspose
+                                  00326a3a       27e   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\userfunc.obj
+                                  00326cb8  003271bb       504
+  _eval_user_function
+                                  00326cb8       252   func ,g         * 
+  _rewrite_args
+                                  00326f0a       218   func ,g         * 
+  _rewrite_args_tensor
+                                  00327122        9a   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\variables.obj
+                                  003271bc  00327343       188
+  _variables
+                                  003271bc        9e   func ,g         * 
+  _scan_U
+                                  0032725a        be   func ,l         * 
+  ___cmp
+                                  00327318        2c   func ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\vectorize.obj
+                                  00327344  003273c3        80
+  _vectorize
+                                  00327344        80   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\add.obj
+                                  003273c4  00327def       a2c
+  _eval_add
+                                  003273c4        b8   func ,g         * 
+  _add_terms
+                                  0032747c       104   func ,g         * 
+  _cmp_terms
+                                  00327580       26e   func ,g         * 
+  _combine_terms
+                                  003277ee       496   func ,g         * 
+  _push_terms
+                                  00327c84        94   func ,g         * 
+  _add
+                                  00327d18        3e   func ,g         * 
+  _add_all
+                                  00327d56        6a   func ,g         * 
+  _subtract
+                                  00327dc0        30   func ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\dConsole.obj
+                                  00327df0  003283e7       5f8
+  _dAreaClear
+                                  00327df0        5c   func ,g         * 
+  _WaitKey
+                                  00327e4c        14   func ,g         * 
+  _dGetKeyChar
+                                  00327e60        6c   func ,g         * 
+  _dConsoleCls
+                                  00327ecc        40   func ,g         * 
+  _dGetLineBox
+                                  00327f0c       136   func ,g         * 
+  _dGetLine
+                                  00328042       156   func ,g         * 
+  _dConsoleRedraw
+                                  00328198        64   func ,g         * 
+  _dConsolePutChar
+                                  003281fc        c2   func ,g         * 
+  _dConsolePut
+                                  003282be        ba   func ,g         * 
+  _dPuts
+                                  00328378        24   func ,g         * 
+  _dPrintf
+                                  0032839c        4c   func ,g         * 
+FILE=C:\Program Files\CASIO\fx-9860G SDK\OS\FX\lib\setup.obj
+                                  003283e8  00328503       11c
+  ___LINK_PROTECT
+                                  003283e8         4   func ,g         * 
+  _SetQuitHandler
+                                  003283ec         6   func ,g         * 
+  _OnAppCloseDefault
+                                  003283f2        54   func ,g         * 
+  __INITSCT_ADDIN
+                                  00328446        48   func ,g         * 
+  _INIT_ADDIN_APPLICATION
+                                  0032848e        76   func ,g         * 
+FILE=longjmp
+                                  00328504  0032854f        4c
+  _longjmp
+                                  00328504         0   none ,g         * 
+  TERM
+                                  00328546         0   none ,l         * 
+  A_work
+                                  0032854c         0   none ,l         * 
+FILE=setjmp
+                                  00328550  00328589        3a
+  _setjmp
+                                  00328550         0   none ,g         * 
+FILE=_fabs
+                                  0032858c  003285e3        58
+  _fabs
+                                  0032858c         0   none ,g         * 
+  set_nan
+                                  003285b2         0   none ,l         * 
+  return_val
+                                  003285bc         0   none ,l         * 
+  ERRNO
+                                  003285cc         0   none ,l         * 
+  ABSMASK
+                                  003285d0         0   none ,l         * 
+  EXPMASK
+                                  003285d4         0   none ,l         * 
+  MANMASK
+                                  003285d8         0   none ,l         * 
+  EDOM
+                                  003285dc         0   none ,l         * 
+  ERANGE
+                                  003285e0         0   none ,l         * 
+FILE=r_addd
+                                  003285e4  00328973       390
+  __subd
+                                  003285e4         0   none ,g         * 
+  __subdr
+                                  003285fc         0   none ,g         * 
+  exception1
+                                  00328614         0   none ,l         * 
+  return_NaN
+                                  00328628         0   none ,l         * 
+  return_inf
+                                  00328630         0   none ,l         * 
+  exception2
+                                  00328634         0   none ,l         * 
+  p2_denorm_check
+                                  00328648         0   none ,l         * 
+  p1_denorm
+                                  00328654         0   none ,l         * 
+  return_p2
+                                  00328660         0   none ,l         * 
+  return_p1
+                                  00328668         0   none ,l         * 
+  p1_normalize
+                                  00328676         0   none ,l         * 
+  p1_norm_loop
+                                  00328680         0   none ,l         * 
+  end_p1_norm
+                                  0032868a         0   none ,l         * 
+  p2_normalize
+                                  0032868a         0   none ,l         * 
+  p2_norm_loop
+                                  00328694         0   none ,l         * 
+  end_p2_norm
+                                  0032869e         0   none ,l         * 
+  swap_end
+                                  003286a6         0   none ,l         * 
+  return_zero
+                                  003286aa         0   none ,l         * 
+  __addd
+                                  003286b4         0   none ,g         * 
+  sub_in
+                                  003286c6         0   none ,l         * 
+  rotation
+                                  003286e6         0   none ,l         * 
+  exception_return
+                                  00328712         0   none ,l         * 
+  sftr1
+                                  00328754         0   none ,l         * 
+  e_sftr31
+                                  00328758         0   none ,l         * 
+  e_sftr55
+                                  0032877e         0   none ,l         * 
+  sftr_loop
+                                  00328784         0   none ,l         * 
+  end_sftr
+                                  0032878c         0   none ,l         * 
+  mantissa_sub
+                                  003287b0         0   none ,l         * 
+  man_sub1
+                                  003287b8         0   none ,l         * 
+  normalize
+                                  003287c6         0   none ,l         * 
+  norm32_end
+                                  003287d0         0   none ,l         * 
+  norm16_end
+                                  003287e0         0   none ,l         * 
+  over_norm
+                                  003287e6         0   none ,l         * 
+  overnorm_end
+                                  00328812         0   none ,l         * 
+  norm_loop
+                                  00328818         0   none ,l         * 
+  end_calc
+                                  00328840         0   none ,l         * 
+  end_norm
+                                  00328840         0   none ,l         * 
+  denormalize_loop
+                                  00328848         0   none ,l         * 
+  round
+                                  00328850         0   none ,l         * 
+  end_denormal
+                                  00328850         0   none ,l         * 
+  round_carry
+                                  00328868         0   none ,l         * 
+  end_round
+                                  0032886e         0   none ,l         * 
+  return_value
+                                  0032886e         0   none ,l         * 
+  return
+                                  0032888c         0   none ,l         * 
+  plus_zero
+                                  003288ac         0   none ,l         * 
+  swap
+                                  003288b6         0   none ,l         * 
+  EXP_INF
+                                  003288d0         0   none ,l         * 
+  MMASK
+                                  003288d4         0   none ,l         * 
+  MSB
+                                  003288d8         0   none ,l         * 
+  LOWMASK
+                                  003288dc         0   none ,l         * 
+  CARRY_CHECK
+                                  003288e0         0   none ,l         * 
+  NORMAL
+                                  003288e4         0   none ,l         * 
+  SIGN
+                                  003288e8         0   none ,l         * 
+  HALF
+                                  003288ec         0   none ,l         * 
+  sftrtbl
+                                  003288f0         0   none ,l         * 
+FILE=r_divd
+                                  00328974  00328b77       204
+  exception1
+                                  00328974         0   none ,l         * 
+  exception2
+                                  00328984         0   none ,l         * 
+  exception3
+                                  00328990         0   none ,l         * 
+  normalize1
+                                  003289a8         0   none ,l         * 
+  p1_norm_loop
+                                  003289b2         0   none ,l         * 
+  end_p1_norm
+                                  003289bc         0   none ,l         * 
+  exception4
+                                  003289c0         0   none ,l         * 
+  ex4
+                                  003289cc         0   none ,l         * 
+  p2_norm_loop
+                                  003289d6         0   none ,l         * 
+  end_p2_norm
+                                  003289e0         0   none ,l         * 
+  return_zero
+                                  003289e4         0   none ,l         * 
+  return_inf
+                                  003289ee         0   none ,l         * 
+  return_NaN
+                                  003289f6         0   none ,l         * 
+  __divdr
+                                  00328a00         0   none ,g         * 
+  __divd
+                                  00328a14         0   none ,g         * 
+  divdr_in
+                                  00328a24         0   none ,l         * 
+  exception_return3
+                                  00328a66         0   none ,l         * 
+  exception_return4
+                                  00328a6a         0   none ,l         * 
+  div_loop
+                                  00328a84         0   none ,l         * 
+  man_sub
+                                  00328a9a         0   none ,l         * 
+  over_sub
+                                  00328aa8         0   none ,l         * 
+  end_man_cal
+                                  00328ab0         0   none ,l         * 
+  end_sticky_cal
+                                  00328ab8         0   none ,l         * 
+  end_norm
+                                  00328ac4         0   none ,l         * 
+  denormalize_loop
+                                  00328ad0         0   none ,l         * 
+  round_denormal
+                                  00328adc         0   none ,l         * 
+  end_round_d
+                                  00328af4         0   none ,l         * 
+  end_denormal
+                                  00328af8         0   none ,l         * 
+  round_carry
+                                  00328b0e         0   none ,l         * 
+  end_round
+                                  00328b14         0   none ,l         * 
+  return_value
+                                  00328b14         0   none ,l         * 
+  return
+                                  00328b32         0   none ,l         * 
+  EXP_INF
+                                  00328b5c         0   none ,l         * 
+  MMASK
+                                  00328b60         0   none ,l         * 
+  MSB
+                                  00328b64         0   none ,l         * 
+  DENOM_CHECK
+                                  00328b68         0   none ,l         * 
+  BIAS
+                                  00328b6c         0   none ,l         * 
+  COUNT
+                                  00328b70         0   none ,l         * 
+  CARRY_CHECK
+                                  00328b74         0   none ,l         * 
+FILE=r_dtoi
+                                  00328b78  00328c03        8c
+  __dtou
+                                  00328b78         0   none ,g         * 
+  __dtoi
+                                  00328b78         0   none ,g         * 
+  loop_sftl
+                                  00328bb8         0   none ,l         * 
+  shift_low
+                                  00328bc2         0   none ,l         * 
+  shift_low1
+                                  00328bca         0   none ,l         * 
+  shift_r
+                                  00328bd4         0   none ,l         * 
+  shift_r1
+                                  00328bd6         0   none ,l         * 
+  end_shift
+                                  00328bdc         0   none ,l         * 
+  return
+                                  00328be2         0   none ,l         * 
+  end_nagate
+                                  00328be2         0   none ,l         * 
+  return_zero
+                                  00328bf0         0   none ,l         * 
+  EXP_INF
+                                  00328bf4         0   none ,l         * 
+  MMASK
+                                  00328bf8         0   none ,l         * 
+  MSB
+                                  00328bfc         0   none ,l         * 
+  BIAS
+                                  00328c00         0   none ,l         * 
+FILE=r_eqd
+                                  00328c04  00328c97        94
+  __eqd
+                                  00328c04         0   none ,g         * 
+  exception_return1
+                                  00328c36         0   none ,l         * 
+  exception_return2
+                                  00328c3a         0   none ,l         * 
+  exception_return3
+                                  00328c3e         0   none ,l         * 
+  false
+                                  00328c4a         0   none ,l         * 
+  return
+                                  00328c4c         0   none ,l         * 
+  exception1
+                                  00328c60         0   none ,l         * 
+  exception2
+                                  00328c6c         0   none ,l         * 
+  exception3
+                                  00328c78         0   none ,l         * 
+  EXP_INF
+                                  00328c90         0   none ,l         * 
+  MMASK
+                                  00328c94         0   none ,l         * 
+FILE=r_ged
+                                  00328c98  00328d3f        a8
+  __ged
+                                  00328c98         0   none ,g         * 
+  exception_return1
+                                  00328cca         0   none ,l         * 
+  exception_return2
+                                  00328cce         0   none ,l         * 
+  exception_return3
+                                  00328cd2         0   none ,l         * 
+  minus
+                                  00328ce2         0   none ,l         * 
+  sign_def
+                                  00328cec         0   none ,l         * 
+  return
+                                  00328cf0         0   none ,l         * 
+  exception1
+                                  00328d04         0   none ,l         * 
+  exception2
+                                  00328d10         0   none ,l         * 
+  exception3
+                                  00328d1c         0   none ,l         * 
+  false
+                                  00328d34         0   none ,l         * 
+  EXP_INF
+                                  00328d38         0   none ,l         * 
+  MMASK
+                                  00328d3c         0   none ,l         * 
+FILE=r_gtd
+                                  00328d40  00328de7        a8
+  __gtd
+                                  00328d40         0   none ,g         * 
+  exception_return1
+                                  00328d72         0   none ,l         * 
+  exception_return2
+                                  00328d76         0   none ,l         * 
+  exception_return3
+                                  00328d7a         0   none ,l         * 
+  minus
+                                  00328d8c         0   none ,l         * 
+  sign_def
+                                  00328d94         0   none ,l         * 
+  return
+                                  00328d98         0   none ,l         * 
+  exception1
+                                  00328dac         0   none ,l         * 
+  exception2
+                                  00328db8         0   none ,l         * 
+  exception3
+                                  00328dc4         0   none ,l         * 
+  false
+                                  00328ddc         0   none ,l         * 
+  EXP_INF
+                                  00328de0         0   none ,l         * 
+  MMASK
+                                  00328de4         0   none ,l         * 
+FILE=r_itod
+                                  00328de8  00328e3b        54
+  __itod
+                                  00328de8         0   none ,g         * 
+  end_negate
+                                  00328dfc         0   none ,l         * 
+  sftl_loop
+                                  00328dfe         0   none ,l         * 
+  return
+                                  00328e20         0   none ,l         * 
+  return_zero
+                                  00328e30         0   none ,l         * 
+  EXP_32
+                                  00328e38         0   none ,l         * 
+FILE=r_ltd
+                                  00328e3c  00328ee3        a8
+  __ltd
+                                  00328e3c         0   none ,g         * 
+  exception_return1
+                                  00328e6e         0   none ,l         * 
+  exception_return2
+                                  00328e72         0   none ,l         * 
+  exception_return3
+                                  00328e76         0   none ,l         * 
+  minus
+                                  00328e88         0   none ,l         * 
+  sign_def
+                                  00328e90         0   none ,l         * 
+  return
+                                  00328e94         0   none ,l         * 
+  exception1
+                                  00328ea8         0   none ,l         * 
+  exception2
+                                  00328eb4         0   none ,l         * 
+  exception3
+                                  00328ec0         0   none ,l         * 
+  false
+                                  00328ed8         0   none ,l         * 
+  EXP_INF
+                                  00328edc         0   none ,l         * 
+  MMASK
+                                  00328ee0         0   none ,l         * 
+FILE=r_muld
+                                  00328ee4  003290f7       214
+  exception1
+                                  00328ee4         0   none ,l         * 
+  parm2_NaN_check
+                                  00328f00         0   none ,l         * 
+  exception2
+                                  00328f0c         0   none ,l         * 
+  exception3
+                                  00328f24         0   none ,l         * 
+  ex3
+                                  00328f30         0   none ,l         * 
+  p1_norm_loop
+                                  00328f3a         0   none ,l         * 
+  end_p1_norm
+                                  00328f44         0   none ,l         * 
+  exception4
+                                  00328f48         0   none ,l         * 
+  ex4
+                                  00328f54         0   none ,l         * 
+  p2_norm_loop
+                                  00328f5e         0   none ,l         * 
+  end_p2_norm
+                                  00328f68         0   none ,l         * 
+  return_zero
+                                  00328f6c         0   none ,l         * 
+  return_inf
+                                  00328f76         0   none ,l         * 
+  return_NaN
+                                  00328f7e         0   none ,l         * 
+  __muld
+                                  00328f88         0   none ,g         * 
+  exception_return3
+                                  00328fde         0   none ,l         * 
+  exception_return4
+                                  00328fe2         0   none ,l         * 
+  mul_man1
+                                  00329024         0   none ,l         * 
+  end_normalize
+                                  00329048         0   none ,l         * 
+  end_sticky
+                                  0032904e         0   none ,l         * 
+  denormalize_loop
+                                  00329056         0   none ,l         * 
+  round_denormal
+                                  00329062         0   none ,l         * 
+  end_round_d
+                                  00329078         0   none ,l         * 
+  end_denormal
+                                  0032907c         0   none ,l         * 
+  round_carry
+                                  0032908e         0   none ,l         * 
+  end_round
+                                  00329094         0   none ,l         * 
+  return_value
+                                  00329094         0   none ,l         * 
+  return
+                                  003290b2         0   none ,l         * 
+  EXP_INF
+                                  003290e0         0   none ,l         * 
+  MMASK
+                                  003290e4         0   none ,l         * 
+  MSB
+                                  003290e8         0   none ,l         * 
+  CARRY_CHECK
+                                  003290ec         0   none ,l         * 
+  BIAS
+                                  003290f0         0   none ,l         * 
+  DEN_CARRY
+                                  003290f4         0   none ,l         * 
+FILE=r_ned
+                                  003290f8  0032918b        94
+  __ned
+                                  003290f8         0   none ,g         * 
+  exception_return1
+                                  0032912a         0   none ,l         * 
+  exception_return2
+                                  0032912e         0   none ,l         * 
+  exception_return3
+                                  00329132         0   none ,l         * 
+  true
+                                  0032913e         0   none ,l         * 
+  return
+                                  00329140         0   none ,l         * 
+  exception1
+                                  00329154         0   none ,l         * 
+  exception2
+                                  00329160         0   none ,l         * 
+  exception3
+                                  0032916c         0   none ,l         * 
+  EXP_INF
+                                  00329184         0   none ,l         * 
+  MMASK
+                                  00329188         0   none ,l         * 
+FILE=r_negd
+                                  0032918c  003291ab        20
+  __negd
+                                  0032918c         0   none ,g         * 
+FILE=r_utod
+                                  003291ac  003291eb        40
+  __utod
+                                  003291ac         0   none ,g         * 
+  sftl_loop
+                                  003291b6         0   none ,l         * 
+  return
+                                  003291d2         0   none ,l         * 
+  return_zero
+                                  003291e0         0   none ,l         * 
+  EXP_32
+                                  003291e8         0   none ,l         * 
+FILE=__divls
+                                  003291ec  0032929f        b4
+  __divls
+                                  003291ec         0   none ,g         * 
+  divls_zero
+                                  0032928a         0   none ,l         * 
+  A_errno
+                                  00329298         0   none ,l         * 
+  n_zerono
+                                  0032929c         0   none ,l         * 
+FILE=__divlu
+                                  003292a0  00329347        a8
+  __divlu
+                                  003292a0         0   none ,g         * 
+  divlu_zero
+                                  00329332         0   none ,l         * 
+  A_errno
+                                  00329340         0   none ,l         * 
+  n_zerono
+                                  00329344         0   none ,l         * 
+FILE=__modls
+                                  00329348  0032940f        c8
+  __modls
+                                  00329348         0   none ,g         * 
+  modls_L
+                                  003293ee         0   none ,l         * 
+  modls_zero
+                                  003293fa         0   none ,l         * 
+  A_errno
+                                  00329408         0   none ,l         * 
+  n_zerono
+                                  0032940c         0   none ,l         * 
+FILE=__q_fmvn
+                                  00329410  003294b3        a4
+  __quick_evn_mvn
+                                  00329410         0   none ,g         * 
+  __quick_odd_mvn
+                                  0032941c         0   none ,g         * 
+  A_FMVN_TBL
+                                  00329428         0   none ,l         * 
+  FMVN_64
+                                  0032942e         0   none ,l         * 
+  FMVN_60
+                                  00329432         0   none ,l         * 
+  FMVN_56
+                                  00329436         0   none ,l         * 
+  FMVN_52
+                                  0032943a         0   none ,l         * 
+  FMVN_48
+                                  0032943e         0   none ,l         * 
+  FMVN_44
+                                  00329442         0   none ,l         * 
+  FMVN_40
+                                  00329446         0   none ,l         * 
+  FMVN_36
+                                  0032944a         0   none ,l         * 
+  FMVN_32
+                                  0032944e         0   none ,l         * 
+  FMVN_28
+                                  00329452         0   none ,l         * 
+  FMVN_24
+                                  00329456         0   none ,l         * 
+  FMVN_20
+                                  0032945a         0   none ,l         * 
+  FMVN_16
+                                  0032945e         0   none ,l         * 
+  FMVN_12
+                                  00329462         0   none ,l         * 
+  FMVN_8
+                                  00329466         0   none ,l         * 
+  FMVN_4
+                                  0032946a         0   none ,l         * 
+  FMVN_0
+                                  0032946c         0   none ,l         * 
+  FMVN_TBL
+                                  00329470         0   none ,l         * 
+FILE=__s_scpy
+                                  003294b4  00329503        50
+  __slow_strcpy
+                                  003294b4         0   none ,g         * 
+  SCPY_B
+                                  003294cc         0   none ,l         * 
+  SCPY_END
+                                  003294f0         0   none ,l         * 
+  _quick_strcpy2
+                                  003294f8         0   none ,l         * 
+  A_qcpy
+                                  00329500         0   none ,l         * 
+FILE=__strcmp
+                                  00329504  003295af        ac
+  __slow_strcmp1
+                                  00329504         0   none ,g         * 
+  __quick_strcmp1
+                                  0032950c         0   none ,g         * 
+  QCMP_L
+                                  00329510         0   none ,l         * 
+  QCMP_NULL2
+                                  00329544         0   none ,l         * 
+  QCMP_NULL
+                                  00329546         0   none ,l         * 
+  QCMP_END
+                                  00329572         0   none ,l         * 
+  QCMP_END2
+                                  00329576         0   none ,l         * 
+  SCMP_L
+                                  0032957c         0   none ,l         * 
+  SCMP_END
+                                  003295ac         0   none ,l         * 
+FILE=abs
+                                  003295b0  003295bd         e
+  _abs
+                                  003295b0         e   func ,g         * 
+FILE=acos
+                                  003295c0  0032964f        90
+  _acos
+                                  003295c0        90   func ,g         * 
+FILE=asin
+                                  00329650  003296df        90
+  _asin
+                                  00329650        90   func ,g         * 
+FILE=atan
+                                  003296e0  0032976f        90
+  _atan
+                                  003296e0        90   func ,g         * 
+FILE=atof
+                                  00329770  00329787        18
+  _atof
+                                  00329770        18   func ,g         * 
+FILE=ceil
+                                  00329788  00329817        90
+  _ceil
+                                  00329788        90   func ,g         * 
+FILE=cos
+                                  00329818  003298a7        90
+  _cos
+                                  00329818        90   func ,g         * 
+FILE=cosh
+                                  003298a8  00329937        90
+  _cosh
+                                  003298a8        90   func ,g         * 
+FILE=exp
+                                  00329938  003299c7        90
+  _exp
+                                  00329938        90   func ,g         * 
+FILE=floor
+                                  003299c8  00329a57        90
+  _floor
+                                  003299c8        90   func ,g         * 
+FILE=fmod
+                                  00329a58  00329b07        b0
+  _fmod
+                                  00329a58        b0   func ,g         * 
+FILE=log
+                                  00329b08  00329b97        90
+  _log
+                                  00329b08        90   func ,g         * 
+FILE=pow
+                                  00329b98  00329c3b        a4
+  _pow
+                                  00329b98        a4   func ,g         * 
+FILE=qsort
+                                  00329c3c  00329d87       14c
+  _qsort
+                                  00329c3c        18   func ,g         * 
+  __qsort
+                                  00329c54       134   func ,g         * 
+  _loop$250
+                                  00329c6e         0   none ,l         * 
+FILE=rand
+                                  00329d88  00329db3        2c
+  _rand
+                                  00329d88        2c   func ,g         * 
+FILE=sin
+                                  00329db4  00329e43        90
+  _sin
+                                  00329db4        90   func ,g         * 
+FILE=sinh
+                                  00329e44  00329ed3        90
+  _sinh
+                                  00329e44        90   func ,g         * 
+FILE=sprintf
+                                  00329ed4  00329f0f        3c
+  _sprintf
+                                  00329ed4        3c   func ,g         * 
+FILE=sqrt
+                                  00329f10  00329f9f        90
+  _sqrt
+                                  00329f10        90   func ,g         * 
+FILE=strlen
+                                  00329fa0  00329faf        10
+  _strlen
+                                  00329fa0        10   func ,g         * 
+FILE=strncpy
+                                  00329fb0  00329fdd        2e
+  _strncpy
+                                  00329fb0        2e   func ,g         * 
+FILE=tan
+                                  00329fe0  0032a06f        90
+  _tan
+                                  00329fe0        90   func ,g         * 
+FILE=tanh
+                                  0032a070  0032a0ff        90
+  _tanh
+                                  0032a070        90   func ,g         * 
+FILE=vsprintf
+                                  0032a100  0032a127        28
+  _vsprintf
+                                  0032a100        28   func ,g         * 
+FILE=_Bdel_cychdr
+                                  0032a128  0032a137        10
+  _Bdel_cychdr
+                                  0032a128         0   none ,g         * 
+FILE=_Bdisp_AllClr_DDVRAM
+                                  0032a138  0032a147        10
+  _Bdisp_AllClr_DDVRAM
+                                  0032a138         0   none ,g         * 
+FILE=_Bdisp_AllClr_VRAM
+                                  0032a148  0032a157        10
+  _Bdisp_AllClr_VRAM
+                                  0032a148         0   none ,g         * 
+FILE=_Bdisp_AreaClr_VRAM
+                                  0032a158  0032a167        10
+  _Bdisp_AreaClr_VRAM
+                                  0032a158         0   none ,g         * 
+FILE=_Bdisp_PutLineVRAM
+                                  0032a168  0032a177        10
+  _Bdisp_DrawLineVRAM
+                                  0032a168         0   none ,g         * 
+FILE=_BfileFLS_CloseFile
+                                  0032a178  0032a187        10
+  _BfileFLS_CloseFile
+                                  0032a178         0   none ,g         * 
+FILE=_Bkey_Set_RepeatTime_Default
+                                  0032a188  0032a197        10
+  _Bkey_Set_RepeatTime_Default
+                                  0032a188         0   none ,g         * 
+FILE=_CallbackAtQuitMainFunction
+                                  0032a198  0032a1a7        10
+  _CallbackAtQuitMainFunction
+                                  0032a198         0   none ,g         * 
+FILE=_calloc
+                                  0032a1a8  0032a1b7        10
+  _calloc
+                                  0032a1a8         0   none ,g         * 
+FILE=_flsFindClose
+                                  0032a1b8  0032a1c7        10
+  _flsFindClose
+                                  0032a1b8         0   none ,g         * 
+FILE=_free
+                                  0032a1c8  0032a1d7        10
+  _free
+                                  0032a1c8         0   none ,g         * 
+FILE=_getkey
+                                  0032a1d8  0032a1e7        10
+  _GetKey
+                                  0032a1d8         0   none ,g         * 
+FILE=_GLibAddinAplExecutionCheck
+                                  0032a1e8  0032a1f7        10
+  _GLibAddinAplExecutionCheck
+                                  0032a1e8         0   none ,g         * 
+FILE=_Hmem_SetMMU
+                                  0032a1f8  0032a207        10
+  _Hmem_SetMMU
+                                  0032a1f8         0   none ,g         * 
+FILE=_malloc
+                                  0032a208  0032a217        10
+  _malloc
+                                  0032a208         0   none ,g         * 
+FILE=_Print
+                                  0032a218  0032a227        10
+  _Print
+                                  0032a218         0   none ,g         * 
+FILE=_PrintXY
+                                  0032a228  0032a237        10
+  _PrintXY
+                                  0032a228         0   none ,g         * 
+FILE=dispbios
+                                  0032a238  0032a3ad       176
+  _PrintMini
+                                  0032a238        1c   func ,g         * 
+  _locate
+                                  0032a254        28   func ,g         * 
+  _Bdisp_ReadArea_DD
+                                  0032a27c       132   func ,g         * 
+FILE=__dtoid
+                                  0032a3b0  0032a477        c8
+  __dtoid
+                                  0032a3b0         0   none ,g         * 
+  exception_return
+                                  0032a3ce         0   none ,l         * 
+  return_value
+                                  0032a402         0   none ,l         * 
+  exception1
+                                  0032a414         0   none ,l         * 
+  exception2
+                                  0032a420         0   none ,l         * 
+  normalize
+                                  0032a428         0   none ,l         * 
+  norm_loop
+                                  0032a432         0   none ,l         * 
+  end_norm
+                                  0032a43c         0   none ,l         * 
+  return_zero
+                                  0032a440         0   none ,l         * 
+  return_inf
+                                  0032a448         0   none ,l         * 
+  return_NaN
+                                  0032a450         0   none ,l         * 
+  IEEE_INF
+                                  0032a45c         0   none ,l         * 
+  IN_INF
+                                  0032a460         0   none ,l         * 
+  IN_ZERO
+                                  0032a464         0   none ,l         * 
+  MMASK
+                                  0032a468         0   none ,l         * 
+  MSB
+                                  0032a46c         0   none ,l         * 
+  NORMAL
+                                  0032a470         0   none ,l         * 
+  BIAS
+                                  0032a474         0   none ,l         * 
+FILE=__idtod
+                                  0032a478  0032a57f       108
+  __idtod
+                                  0032a478         0   none ,g         * 
+  denormalize_loop
+                                  0032a4a2         0   none ,l         * 
+  round_denormal
+                                  0032a4b2         0   none ,l         * 
+  end_round_d
+                                  0032a4cc         0   none ,l         * 
+  end_denormal
+                                  0032a4d0         0   none ,l         * 
+  end_round
+                                  0032a4ec         0   none ,l         * 
+  return_value
+                                  0032a4ec         0   none ,l         * 
+  exception1
+                                  0032a532         0   none ,l         * 
+  return_zero
+                                  0032a53e         0   none ,l         * 
+  return_inf
+                                  0032a546         0   none ,l         * 
+  return_NaN
+                                  0032a54e         0   none ,l         * 
+  IEEE_INF
+                                  0032a560         0   none ,l         * 
+  IN_INF
+                                  0032a564         0   none ,l         * 
+  IN_ZERO
+                                  0032a568         0   none ,l         * 
+  MAN_1
+                                  0032a56c         0   none ,l         * 
+  BIAS
+                                  0032a570         0   none ,l         * 
+  Gbit
+                                  0032a574         0   none ,l         * 
+  LRS
+                                  0032a578         0   none ,l         * 
+  MMASK
+                                  0032a57c         0   none ,l         * 
+FILE=__i_fmdd
+                                  0032a580  0032a647        c8
+  __in_fmodd
+                                  0032a580         0   none ,g         * 
+  div_loop
+                                  0032a5b2         0   none ,l         * 
+  clr_over_sub
+                                  0032a5d0         0   none ,l         * 
+  loop1
+                                  0032a5d8         0   none ,l         * 
+  normalize_loop
+                                  0032a5e6         0   none ,l         * 
+  end_loop
+                                  0032a5e6         0   none ,l         * 
+  end_normalize
+                                  0032a5f6         0   none ,l         * 
+  return_value
+                                  0032a5f6         0   none ,l         * 
+  exception1
+                                  0032a612         0   none ,l         * 
+  return_prm1
+                                  0032a61a         0   none ,l         * 
+  qshift_ret_z
+                                  0032a61e         0   none ,l         * 
+  sft_loop
+                                  0032a620         0   none ,l         * 
+  return_zero
+                                  0032a62a         0   none ,l         * 
+  return_NaN
+                                  0032a632         0   none ,l         * 
+  INF
+                                  0032a640         0   none ,l         * 
+  ZERO
+                                  0032a644         0   none ,l         * 
+FILE=__i_sqrd
+                                  0032a648  0032a7a7       160
+  exception1
+                                  0032a648         0   none ,l         * 
+  return_zero
+                                  0032a654         0   none ,l         * 
+  return_inf
+                                  0032a664         0   none ,l         * 
+  return_NaN
+                                  0032a66c         0   none ,l         * 
+  __in_sqrtd
+                                  0032a674         0   none ,g         * 
+  end_calc_exp
+                                  0032a6b4         0   none ,l         * 
+  mantissa_loop
+                                  0032a6be         0   none ,l         * 
+  LSB_1
+                                  0032a6ce         0   none ,l         * 
+  LSB_0
+                                  0032a6dc         0   none ,l         * 
+  check_loop
+                                  0032a6e2         0   none ,l         * 
+  LSB_1_1
+                                  0032a70e         0   none ,l         * 
+  LSB_0_1
+                                  0032a71c         0   none ,l         * 
+  loop1
+                                  0032a722         0   none ,l         * 
+  LSB_1_2
+                                  0032a752         0   none ,l         * 
+  LSB_0_2
+                                  0032a75e         0   none ,l         * 
+  loop2
+                                  0032a762         0   none ,l         * 
+  setsticky
+                                  0032a786         0   none ,l         * 
+  end_calc_mantissa
+                                  0032a788         0   none ,l         * 
+  return_value
+                                  0032a788         0   none ,l         * 
+  return_value1
+                                  0032a78a         0   none ,l         * 
+  INF
+                                  0032a7a0         0   none ,l         * 
+  ZERO
+                                  0032a7a4         0   none ,l         * 
+FILE=__q_scpy
+                                  0032a7a8  0032a80f        68
+  __quick_strcpy
+                                  0032a7a8         0   none ,g         * 
+  _quick_strcpy1
+                                  0032a7ac         0   none ,g         * 
+  FCPY_L
+                                  0032a7b6         0   none ,l         * 
+  FCPY_NULL1
+                                  0032a7da         0   none ,l         * 
+  FCPY_NULL2
+                                  0032a7de         0   none ,l         * 
+  FCPY_NULL3
+                                  0032a7e2         0   none ,l         * 
+  FCPY_NULL
+                                  0032a7e4         0   none ,l         * 
+  FCPY_B
+                                  0032a7ea         0   none ,l         * 
+  FCPY_END
+                                  0032a804         0   none ,l         * 
+FILE=_fmtout
+                                  0032a810  0032b8fb      10ec
+  __fmtout
+                                  0032a810       768   func ,g         * 
+  __ltostr
+                                  0032af78       20a   func ,l         * 
+  __xtostr
+                                  0032b182       68e   func ,l         * 
+  __round
+                                  0032b810        60   func ,l         * 
+  __putstr
+                                  0032b870        58   func ,l         * 
+  __putnull
+                                  0032b8c8        10   func ,l         * 
+  __puterr
+                                  0032b8d8        24   func ,l         * 
+FILE=_i_acosd
+                                  0032b8fc  0032b947        4c
+  __in_acosd
+                                  0032b8fc        4c   func ,g         * 
+FILE=_i_asind
+                                  0032b948  0032bbbf       278
+  __in_asind
+                                  0032b948       278   func ,g         * 
+FILE=_i_atand
+                                  0032bbc0  0032c0b7       4f8
+  __in_atand
+                                  0032bbc0       4f8   func ,g         * 
+FILE=_i_ceild
+                                  0032c0b8  0032c153        9c
+  __in_ceild
+                                  0032c0b8        9c   func ,g         * 
+FILE=_i_coshd
+                                  0032c154  0032c1f3        a0
+  __in_coshd
+                                  0032c154        a0   func ,g         * 
+FILE=_i_flord
+                                  0032c1f4  0032c28f        9c
+  __in_floord
+                                  0032c1f4        9c   func ,g         * 
+FILE=_i_sinhd
+                                  0032c290  0032c3cb       13c
+  __in_sinhd
+                                  0032c290       13c   func ,g         * 
+FILE=_i_tanhd
+                                  0032c3cc  0032c58b       1c0
+  __in_tanhd
+                                  0032c3cc       1c0   func ,g         * 
+FILE=_in_cosd
+                                  0032c58c  0032c6eb       160
+  __in_cosd
+                                  0032c58c       160   func ,g         * 
+FILE=_in_expd
+                                  0032c6ec  0032c91b       230
+  __in_expd
+                                  0032c6ec       230   func ,g         * 
+FILE=_in_logd
+                                  0032c91c  0032cb6b       250
+  __in_logd
+                                  0032c91c       250   func ,g         * 
+FILE=_in_powd
+                                  0032cb6c  0032cd6f       204
+  __in_powd
+                                  0032cb6c       204   func ,g         * 
+FILE=_in_sind
+                                  0032cd70  0032cee7       178
+  __in_sind
+                                  0032cd70       178   func ,g         * 
+FILE=_in_tand
+                                  0032cee8  0032d297       3b0
+  __in_tand
+                                  0032cee8       3b0   func ,g         * 
+FILE=strtod
+                                  0032d298  0032d7f3       55c
+  _strtod
+                                  0032d298       55c   func ,g         * 
+FILE=_DD_GET
+                                  0032d7f4  0032d803        10
+  _DD_GET
+                                  0032d7f4         0   none ,g         * 
+FILE=_locate
+                                  0032d804  0032d813        10
+  _locate_OS
+                                  0032d804         0   none ,g         * 
+FILE=_PrintMiniSd
+                                  0032d814  0032d823        10
+  _PrintMiniSd
+                                  0032d814         0   none ,g         * 
+FILE=__i_addd
+                                  0032d824  0032d973       150
+  __in_subd
+                                  0032d824         0   none ,g         * 
+  __in_addd
+                                  0032d830         0   none ,g         * 
+  swap_read
+                                  0032d84c         0   none ,l         * 
+  swap_end
+                                  0032d85c         0   none ,l         * 
+  sftr1
+                                  0032d886         0   none ,l         * 
+  e_sftr16
+                                  0032d88a         0   none ,l         * 
+  e_sftr15
+                                  0032d89e         0   none ,l         * 
+  e_sftr63
+                                  0032d8ae         0   none ,l         * 
+  end_sftr
+                                  0032d8b2         0   none ,l         * 
+  mantissa_sub
+                                  0032d8d2         0   none ,l         * 
+  man_sub1
+                                  0032d8da         0   none ,l         * 
+  normalize
+                                  0032d8e8         0   none ,l         * 
+  norm32_end
+                                  0032d8f2         0   none ,l         * 
+  norm16_end
+                                  0032d902         0   none ,l         * 
+  norm_loop
+                                  0032d902         0   none ,l         * 
+  end_norm
+                                  0032d90e         0   none ,l         * 
+  end_calc
+                                  0032d914         0   none ,l         * 
+  return_value
+                                  0032d914         0   none ,l         * 
+  exception1
+                                  0032d92a         0   none ,l         * 
+  exception2
+                                  0032d946         0   none ,l         * 
+  return_NaN
+                                  0032d94e         0   none ,l         * 
+  plus_zero
+                                  0032d958         0   none ,l         * 
+  return_zero
+                                  0032d95a         0   none ,l         * 
+  INF
+                                  0032d964         0   none ,l         * 
+  ZERO
+                                  0032d968         0   none ,l         * 
+  HALF
+                                  0032d96c         0   none ,l         * 
+  LOWMASK
+                                  0032d970         0   none ,l         * 
+FILE=__i_divd
+                                  0032d974  0032da57        e4
+  __in_divd
+                                  0032d974         0   none ,g         * 
+  div_loop
+                                  0032d9ae         0   none ,l         * 
+  mantissa_add
+                                  0032d9cc         0   none ,l         * 
+  end_man_cal
+                                  0032d9e4         0   none ,l         * 
+  end_normalize
+                                  0032d9ee         0   none ,l         * 
+  return_value
+                                  0032d9fa         0   none ,l         * 
+  exception1
+                                  0032da12         0   none ,l         * 
+  exception2
+                                  0032da22         0   none ,l         * 
+  exception3
+                                  0032da2e         0   none ,l         * 
+  return_zero
+                                  0032da36         0   none ,l         * 
+  return_inf
+                                  0032da3e         0   none ,l         * 
+  return_NaN
+                                  0032da46         0   none ,l         * 
+  INF
+                                  0032da50         0   none ,l         * 
+  ZERO
+                                  0032da54         0   none ,l         * 
+FILE=__in_eqd
+                                  0032da58  0032dabf        68
+  __in_eqd
+                                  0032da58         0   none ,g         * 
+  exception_return1
+                                  0032da70         0   none ,l         * 
+  exception_return2
+                                  0032da74         0   none ,l         * 
+  false
+                                  0032da8e         0   none ,l         * 
+  return
+                                  0032da90         0   none ,l         * 
+  exception1
+                                  0032da96         0   none ,l         * 
+  exception2
+                                  0032daa2         0   none ,l         * 
+  exception3
+                                  0032daae         0   none ,l         * 
+  INF
+                                  0032dab8         0   none ,l         * 
+  ZERO
+                                  0032dabc         0   none ,l         * 
+FILE=__in_gtd
+                                  0032dac0  0032db43        84
+  __in_gtd
+                                  0032dac0         0   none ,g         * 
+  exception_return1
+                                  0032dad8         0   none ,l         * 
+  exception_return2
+                                  0032dadc         0   none ,l         * 
+  exception_return3
+                                  0032dae2         0   none ,l         * 
+  minus
+                                  0032dafa         0   none ,l         * 
+  sign_def
+                                  0032db0a         0   none ,l         * 
+  true
+                                  0032db10         0   none ,l         * 
+  false
+                                  0032db14         0   none ,l         * 
+  return
+                                  0032db16         0   none ,l         * 
+  exception1
+                                  0032db1c         0   none ,l         * 
+  exception2
+                                  0032db28         0   none ,l         * 
+  exception3
+                                  0032db34         0   none ,l         * 
+  INF
+                                  0032db3c         0   none ,l         * 
+  ZERO
+                                  0032db40         0   none ,l         * 
+FILE=__i_lded
+                                  0032db44  0032dba3        60
+  __in_ldexpd
+                                  0032db44         0   none ,g         * 
+  ret_z_or_inf
+                                  0032db62         0   none ,l         * 
+  return_zero
+                                  0032db66         0   none ,l         * 
+  return_inf
+                                  0032db70         0   none ,l         * 
+  return_NaN
+                                  0032db7a         0   none ,l         * 
+  overflow_inf
+                                  0032db82         0   none ,l         * 
+  return_val
+                                  0032db88         0   none ,l         * 
+  INF
+                                  0032db9c         0   none ,l         * 
+  ZERO
+                                  0032dba0         0   none ,l         * 
+FILE=__i_muld
+                                  0032dba4  0032dcc3       120
+  exception1
+                                  0032dba4         0   none ,l         * 
+  p2zero_check
+                                  0032dbbc         0   none ,l         * 
+  exception2
+                                  0032dbc6         0   none ,l         * 
+  p1zero_check
+                                  0032dbde         0   none ,l         * 
+  return_zero
+                                  0032dbe8         0   none ,l         * 
+  return_inf
+                                  0032dbf0         0   none ,l         * 
+  return_NaN
+                                  0032dbf8         0   none ,l         * 
+  __in_muld
+                                  0032dc02         0   none ,g         * 
+  denormal
+                                  0032dc70         0   none ,l         * 
+  end_normalize
+                                  0032dc78         0   none ,l         * 
+  end_sticky
+                                  0032dc8c         0   none ,l         * 
+  return_value
+                                  0032dc8c         0   none ,l         * 
+  return_zero_
+                                  0032dcaa         0   none ,l         * 
+  return_inf_
+                                  0032dcb2         0   none ,l         * 
+  INF
+                                  0032dcbc         0   none ,l         * 
+  ZERO
+                                  0032dcc0         0   none ,l         * 
+FILE=__i_trnd
+                                  0032dcc4  0032dd43        80
+  __in_truncd
+                                  0032dcc4         0   none ,g         * 
+  norm_else1
+                                  0032dcf2         0   none ,l         * 
+  norm_else2
+                                  0032dd02         0   none ,l         * 
+  return_zero
+                                  0032dd08         0   none ,l         * 
+  return_inf
+                                  0032dd12         0   none ,l         * 
+  return_NaN
+                                  0032dd1c         0   none ,l         * 
+  return_val
+                                  0032dd24         0   none ,l         * 
+  INF
+                                  0032dd38         0   none ,l         * 
+  ZERO
+                                  0032dd3c         0   none ,l         * 
+  MSB
+                                  0032dd40         0   none ,l         * 
+FILE=__istypd
+                                  0032dd44  0032dd7f        3c
+  __istyped
+                                  0032dd44         0   none ,g         * 
+  exception1
+                                  0032dd60         0   none ,l         * 
+  set_NaN
+                                  0032dd70         0   none ,l         * 
+  exception2
+                                  0032dd74         0   none ,l         * 
+  INF
+                                  0032dd78         0   none ,l         * 
+  ZERO
+                                  0032dd7c         0   none ,l         * 
+FILE=__itoid
+                                  0032dd80  0032ddc3        44
+  __itoid
+                                  0032dd80         0   none ,g         * 
+  shift
+                                  0032dd90         0   none ,l         * 
+  loop
+                                  0032dd94         0   none ,l         * 
+  return_val
+                                  0032dd9e         0   none ,l         * 
+  return_zero
+                                  0032ddb4         0   none ,l         * 
+  MINUS
+                                  0032ddbc         0   none ,l         * 
+  ZERO
+                                  0032ddc0         0   none ,l         * 
+FILE=__polind
+                                  0032ddc4  0032de3b        78
+  __polinod
+                                  0032ddc4         0   none ,g         * 
+  start
+                                  0032ddf6         0   none ,l         * 
+  A_in_addd
+                                  0032de34         0   none ,l         * 
+  A_in_muld
+                                  0032de38         0   none ,l         * 
+FILE=__modlu
+                                  0032de3c  0032def3        b8
+  __modlu
+                                  0032de3c         0   none ,g         * 
+  modlu_L
+                                  0032ded4         0   none ,l         * 
+  modlu_zero
+                                  0032dedc         0   none ,l         * 
+  A_errno
+                                  0032deec         0   none ,l         * 
+  n_zerono
+                                  0032def0         0   none ,l         * 
+FILE=_a_atand
+                                  0032def4  0032df5f        6c
+  __app_atand
+                                  0032def4        6c   func ,g         * 
+FILE=_a_cosd
+                                  0032df60  0032dfaf        50
+  __app_cosd
+                                  0032df60        50   func ,g         * 
+FILE=_a_sind
+                                  0032dfb0  0032e01b        6c
+  __app_sind
+                                  0032dfb0        6c   func ,g         * 
+FILE=_its
+                                  0032e01c  0032e14b       130
+  __its
+                                  0032e01c       130   func ,g         * 
+FILE=_strchek
+                                  0032e14c  0032e173        28
+  __strchek
+                                  0032e14c        28   func ,g         * 
+FILE=_stx
+                                  0032e174  0032e22b        b8
+  __stx
+                                  0032e174        b8   func ,g         * 
+FILE=_xti
+                                  0032e22c  0032e4bb       290
+  __xti
+                                  0032e22c       290   func ,g         * 
+  _la$264
+                                  0032e404         0   none ,l         * 
+FILE=memcpy
+                                  0032e4bc  0032e579        be
+  _memcpy
+                                  0032e4bc        be   func ,g         * 
+FILE=_allzero
+                                  0032e57c  0032e599        1e
+  __allzero
+                                  0032e57c        1e   func ,g         * 
+FILE=_calcint
+                                  0032e59c  0032e647        ac
+  __calcint
+                                  0032e59c        ac   func ,g         * 
+FILE=_calcnpw
+                                  0032e648  0032e747       100
+  __calcnpw
+                                  0032e648       100   func ,g         * 
+FILE=_calcxpo
+                                  0032e748  0032ea6b       324
+  __calcxpow
+                                  0032e748       324   func ,g         * 
+FILE=_log10
+                                  0032ea6c  0032ed33       2c8
+  __log10
+                                  0032ea6c        62   func ,g         * 
+  _frexp
+                                  0032eace       12e   func ,l         * 
+  _modf
+                                  0032ebfc       138   func ,l         * 
+FILE=_lsfts
+                                  0032ed34  0032ed7f        4c
+  __lsfts
+                                  0032ed34        4c   func ,g         * 
+FILE=_pow5
+                                  0032ed80  0032eda3        24
+  __pow5
+                                  0032ed80        24   func ,g         * 
+FILE=_rsfts
+                                  0032eda4  0032edf9        56
+  __rsfts
+                                  0032eda4        56   func ,g         * 
+FILE=_sub
+                                  0032edfc  0032ee8f        94
+  __sub
+                                  0032edfc        94   func ,g         * 
+FILE=_umemcmp
+                                  0032ee90  0032eec3        34
+  __umemcmp
+                                  0032ee90        34   func ,g         * 
+FILE=_unpack
+                                  0032eec4  0032ef5f        9c
+  __unpack
+                                  0032eec4        9c   func ,g         * 
+FILE=memcmp
+                                  0032ef60  0032ef93        34
+  _memcmp
+                                  0032ef60        34   func ,g         * 
+FILE=memset
+                                  0032ef94  0032efab        18
+  _memset
+                                  0032ef94        18   func ,g         * 
+FILE=__divws
+                                  0032efac  0032effb        50
+  __divws
+                                  0032efac         0   none ,g         * 
+  divws_zero
+                                  0032efea         0   none ,l         * 
+  A_errno
+                                  0032eff4         0   none ,l         * 
+  n_zerono
+                                  0032eff8         0   none ,l         * 
+FILE=_add
+                                  0032effc  0032f057        5c
+  __add
+                                  0032effc        5c   func ,g         * 
+FILE=_div64
+                                  0032f058  0032f1eb       194
+  __div64
+                                  0032f058       194   func ,g         * 
+FILE=_duchek
+                                  0032f1ec  0032f21b        30
+  __duchek
+                                  0032f1ec        30   func ,g         * 
+FILE=_lsft
+                                  0032f21c  0032f261        46
+  __lsft
+                                  0032f21c        46   func ,g         * 
+FILE=_mult64
+                                  0032f264  0032f2d3        70
+  __mult64
+                                  0032f264        70   func ,g         * 
+FILE=_packx
+                                  0032f2d4  0032f353        80
+  __packx
+                                  0032f2d4        80   func ,g         * 
+FILE=_power
+                                  0032f354  0032f4a7       154
+  __power
+                                  0032f354       154   func ,g         * 
+FILE=_rnd
+                                  0032f4a8  0032f593        ec
+  __rnd
+                                  0032f4a8        ec   func ,g         * 
+FILE=_rsft
+                                  0032f594  0032f5dd        4a
+  __rsft
+                                  0032f594        4a   func ,g         * 
+FILE=_setsbit
+                                  0032f5e0  0032f663        84
+  __setsbit
+                                  0032f5e0        84   func ,g         * 
+FILE=_mult
+                                  0032f664  0032f73f        dc
+  __mult
+                                  0032f664        dc   func ,g         * 
+FILE=_pow10
+                                  0032f740  0032f7d7        98
+  __pow10
+                                  0032f740        98   func ,g         * 
+
+SECTION=C
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\bignum.obj
+                                  0032f950  0032fa17        c8
+  _mask
+                                  0032f998        80   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mmul.obj
+                                  00330398  003303ae        17
+  _POW_2_32
+                                  00330398         8   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\primetab.obj
+                                  0033053c  0033a17b      9c40
+  _primetab
+                                  0033053c      9c40   data ,g         * 
+FILE=_ctype
+                                  0033a554  0033a653       100
+  __ctype
+                                  0033a554       100   data ,g         * 
+FILE=addin_sct
+                                  0033a654  0033a667        14
+  _B_BGN
+                                  0033a654         0   none ,g         * 
+  _B_END
+                                  0033a658         0   none ,g         * 
+  _R_BGN
+                                  0033a65c         0   none ,g         * 
+  _R_END
+                                  0033a660         0   none ,g         * 
+  _D_ROM
+                                  0033a664         0   none ,g         * 
+FILE=_i_atand
+                                  0033a668  0033a6af        48
+  _ATQ1$301
+                                  0033a668         c   data ,l         * 
+  _ATQ2$302
+                                  0033a674         c   data ,l         * 
+  _ATQ3$303
+                                  0033a680         c   data ,l         * 
+  _THQUO$304
+                                  0033a68c         c   data ,l         * 
+  _NTHQUO$305
+                                  0033a698         c   data ,l         * 
+  _EIGHT$306
+                                  0033a6a4         c   data ,l         * 
+FILE=_i_sinhd
+                                  0033a6b0  0033a727        78
+  _DIVP$299
+                                  0033a6b0         c   data ,l         * 
+  _sinh_coef$300
+                                  0033a6bc        6c   data ,l         * 
+FILE=_i_tanhd
+                                  0033a728  0033a79f        78
+  _DIVP$299
+                                  0033a728         c   data ,l         * 
+  _tanh_coef$300
+                                  0033a734        6c   data ,l         * 
+FILE=_in_expd
+                                  0033a7a0  0033a853        b4
+  _exp_hcoef$297
+                                  0033a7a0        54   data ,l         * 
+  _exp_lcoef$298
+                                  0033a7f4        54   data ,l         * 
+  _LOG2E$299
+                                  0033a848         c   data ,l         * 
+FILE=_in_logd
+                                  0033a854  0033a8d7        84
+  _RT2$297
+                                  0033a854         c   data ,l         * 
+  _NRT2$298
+                                  0033a860         c   data ,l         * 
+  _log_coef$299
+                                  0033a86c        6c   data ,l         * 
+FILE=_in_tand
+                                  0033a8d8  0033a943        6c
+  _tan_hcoef$297
+                                  0033a8d8        30   data ,l         * 
+  _tan_lcoef$298
+                                  0033a908        3c   data ,l         * 
+FILE=__i_trnd
+                                  0033a944  0033a9c3        80
+  MBIT
+                                  0033a944         0   none ,l         * 
+FILE=constd
+                                  0033a9c4  0033aaef       12c
+  __IFNAND
+                                  0033a9c4         c   data ,g         * 
+  __IFZEROD
+                                  0033a9d0         c   data ,g         * 
+  __IFINFD
+                                  0033a9dc         c   data ,g         * 
+  __IFONED
+                                  0033a9e8         c   data ,g         * 
+  __HALFD
+                                  0033a9f4         c   data ,g         * 
+  __QUOTD
+                                  0033aa00         c   data ,g         * 
+  __TWOD
+                                  0033aa0c         c   data ,g         * 
+  __FOURD
+                                  0033aa18         c   data ,g         * 
+  __PAID
+                                  0033aa24         c   data ,g         * 
+  __2PAID
+                                  0033aa30         c   data ,g         * 
+  __HLFPAID
+                                  0033aa3c         c   data ,g         * 
+  __QUOPAID
+                                  0033aa48         c   data ,g         * 
+  __LOGE2D
+                                  0033aa54         c   data ,g         * 
+  __NIFZEROD
+                                  0033aa60         c   data ,g         * 
+  __NIFINFD
+                                  0033aa6c         c   data ,g         * 
+  __NIFONED
+                                  0033aa78         c   data ,g         * 
+  __NHALFD
+                                  0033aa84         c   data ,g         * 
+  __NQUOTD
+                                  0033aa90         c   data ,g         * 
+  __NTWOD
+                                  0033aa9c         c   data ,g         * 
+  __NFOURD
+                                  0033aaa8         c   data ,g         * 
+  __NPAID
+                                  0033aab4         c   data ,g         * 
+  __N2PAID
+                                  0033aac0         c   data ,g         * 
+  __NHLFPAID
+                                  0033aacc         c   data ,g         * 
+  __NQUOPAID
+                                  0033aad8         c   data ,g         * 
+  __NLOGE2D
+                                  0033aae4         c   data ,g         * 
+FILE=_a_atand
+                                  0033aaf0  0033ab4f        60
+  _atan_coef$297
+                                  0033aaf0        60   data ,l         * 
+FILE=_a_cosd
+                                  0033ab50  0033abaf        60
+  _cos_coef$297
+                                  0033ab50        60   data ,l         * 
+FILE=_a_sind
+                                  0033abb0  0033ac0f        60
+  _sin_coef$297
+                                  0033abb0        60   data ,l         * 
+FILE=_its
+                                  0033ac10  0033ac97        88
+  _table$246
+                                  0033ac10        88   data ,l         * 
+FILE=_pow5
+                                  0033ac98  0033ad77        e0
+  _w$238
+                                  0033ac98        e0   data ,l         * 
+FILE=_power
+                                  0033ad78  0033ae17        a0
+  _conmnts$251
+                                  0033ad78        80   data ,l         * 
+  _conexp$252
+                                  0033adf8        20   data ,l         * 
+
+SECTION=B_BR_Size
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\Taumath.obj
+                                  08100000  08100003         4
+  _BR_Size
+                                  08100000         4   data ,g         * 
+
+SECTION=B
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\alloc.obj
+                                  08100004  08100013        10
+  _mem
+                                  08100004         4   data ,g         * 
+  _mcount
+                                  08100008         4   data ,g         * 
+  _free_list
+                                  0810000c         4   data ,g         * 
+  _free_count
+                                  08100010         4   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\bignum.obj
+                                  08100014  081000d3        c0
+  _mtotal
+                                  08100014         4   data ,g         * 
+  _mfreecount
+                                  08100018         4   data ,g         * 
+  _free_stack
+                                  0810001c         4   data ,g         * 
+  _buf$1156
+                                  08100020        50   data ,l         * 
+  _buf$1167
+                                  08100070        64   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\data.obj
+                                  081000d4  0810012f        5c
+  _expanding
+                                  081000d4         4   data ,g         * 
+  _verbosing
+                                  081000d8         4   data ,g         * 
+  _esc_flag
+                                  081000dc         4   data ,g         * 
+  _draw_flag
+                                  081000e0         4   data ,g         * 
+  _trigmode
+                                  081000e4         4   data ,g         * 
+  _logbuf
+                                  081000e8         4   data ,g         * 
+  _binding
+                                  081000ec         4   data ,g         * 
+  _arglist
+                                  081000f0         4   data ,g         * 
+  _symtab
+                                  081000f4         4   data ,g         * 
+  _p0
+                                  081000f8         4   data ,g         * 
+  _p1
+                                  081000fc         4   data ,g         * 
+  _p2
+                                  08100100         4   data ,g         * 
+  _p3
+                                  08100104         4   data ,g         * 
+  _p4
+                                  08100108         4   data ,g         * 
+  _p5
+                                  0810010c         4   data ,g         * 
+  _p6
+                                  08100110         4   data ,g         * 
+  _p7
+                                  08100114         4   data ,g         * 
+  _p8
+                                  08100118         4   data ,g         * 
+  _p9
+                                  0810011c         4   data ,g         * 
+  _zero
+                                  08100120         4   data ,g         * 
+  _one
+                                  08100124         4   data ,g         * 
+  _imaginaryunit
+                                  08100128         4   data ,g         * 
+  _test_flag
+                                  0810012c         4   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\eigen.obj
+                                  08100130  0810013b         c
+  _n
+                                  08100130         4   data ,l         * 
+  _yydd
+                                  08100134         4   data ,l         * 
+  _yyqq
+                                  08100138         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\factorpoly.obj
+                                  0810013c  08100143         8
+  _expo
+                                  0810013c         4   data ,l         * 
+  _polycoeff
+                                  08100140         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\init.obj
+                                  08100144  08100147         4
+  _flag$1060
+                                  08100144         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\main.obj
+                                  08100148  0810014b         4
+  _out_count
+                                  08100148         4   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\mstr.obj
+                                  0810014c  08100153         8
+  _str
+                                  0810014c         4   data ,l         * 
+  _len
+                                  08100150         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\nroots.obj
+                                  08100154  08100823       6d0
+  _a
+                                  08100154        10   data ,l         * 
+  _b
+                                  08100164        10   data ,l         * 
+  _x
+                                  08100174        10   data ,l         * 
+  _y
+                                  08100184        10   data ,l         * 
+  _fa
+                                  08100194        10   data ,l         * 
+  _fb
+                                  081001a4        10   data ,l         * 
+  _dx
+                                  081001b4        10   data ,l         * 
+  _df
+                                  081001c4        10   data ,l         * 
+  _c
+                                  081001d4       650   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\pollard.obj
+                                  08100824  08100827         4
+  _n
+                                  08100824         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\print.obj
+                                  08100828  0810083b        14
+  _out_index
+                                  08100828         4   data ,g         * 
+  _out_length
+                                  0810082c         4   data ,g         * 
+  _out_str
+                                  08100830         4   data ,g         * 
+  _char_count
+                                  08100834         4   data ,l         * 
+  _last_char
+                                  08100838         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\run.obj
+                                  0810083c  081008db        a0
+  _draw_stop_return
+                                  0810083c        50   data ,g         * 
+  _stop_return
+                                  0810088c        50   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\scan.obj
+                                  081008dc  081008f7        1c
+  _token
+                                  081008dc         4   data ,l         * 
+  _newline_flag
+                                  081008e0         4   data ,l         * 
+  _meta_mode
+                                  081008e4         4   data ,l         * 
+  _input_str
+                                  081008e8         4   data ,l         * 
+  _scan_str
+                                  081008ec         4   data ,l         * 
+  _token_str
+                                  081008f0         4   data ,l         * 
+  _token_buf
+                                  081008f4         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\stack.obj
+                                  081008f8  08100903         c
+  _tos
+                                  081008f8         4   data ,g         * 
+  _stack
+                                  081008fc         4   data ,g         * 
+  _frame
+                                  08100900         4   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\variables.obj
+                                  08100904  08100907         4
+  _h
+                                  08100904         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\add.obj
+                                  08100908  0810090b         4
+  _flag
+                                  08100908         4   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\dConsole.obj
+                                  0810090c  081009bb        b0
+  _line_buf
+                                  0810090c        b0   data ,g         * 
+FILE=longjmp
+                                  081009bc  081009bf         4
+  work
+                                  081009bc         0   none ,l         * 
+FILE=_errno
+                                  081009c0  081009c3         4
+  __errno
+                                  081009c0         4   data ,g         * 
+
+SECTION=R
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\data.obj
+                                  081009c4  081009c7         4
+  _endian
+                                  081009c4         4   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\init.obj
+                                  081009c8  081009f3        2c
+  _defn_str
+                                  081009c8        2c   data ,l         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\itab.obj
+                                  081009f4  081009f7         4
+  _itab
+                                  081009f4         4   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\multiply.obj
+                                  081009f8  08100e7b       484
+  _gp
+                                  081009f8       484   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\print.obj
+                                  08100e7c  08100e7f         4
+  _power_str
+                                  08100e7c         4   data ,g         * 
+FILE=E:\Anderain\fx-9860\fxTaumath\Debug\dConsole.obj
+                                  08100e80  08100e8f        10
+  _line_index
+                                  08100e80         4   data ,g         * 
+  _line_x
+                                  08100e84         4   data ,g         * 
+  _line_start
+                                  08100e88         4   data ,g         * 
+  _line_count
+                                  08100e8c         4   data ,g         * 
+FILE=C:\Program Files\CASIO\fx-9860G SDK\OS\FX\lib\setup.obj
+                                  08100e90  08100e93         4
+  _gb_OnAppClose
+                                  08100e90         4   data ,g         * 
+FILE=_rnext
+                                  08100e94  08100e97         4
+  __rnext
+                                  08100e94         4   data ,g         * 
+
+Absolute value symbols
+FILE=__divls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__divlu
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__modls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=_Bdel_cychdr
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_AllClr_DDVRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_AllClr_VRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_AreaClr_VRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_PutLineVRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_BfileFLS_CloseFile
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bkey_Set_RepeatTime_Default
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_CallbackAtQuitMainFunction
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_calloc
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_flsFindClose
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_free
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_getkey
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_GLibAddinAplExecutionCheck
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Hmem_SetMMU
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_malloc
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Print
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_PrintXY
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_DD_GET
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_locate
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_PrintMiniSd
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=__modlu
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__divws
+  zerodiv
+                                  0000044e         0   none ,l         * 
+
+*** Delete Symbols ***
+
+SYMBOL                                SIZE    INFO
+
+*** Variable Accessible with Abs8 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Variable Accessible with Abs16 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Function Call ***
+
+SYMBOL                              COUNTS  OPTIMIZE

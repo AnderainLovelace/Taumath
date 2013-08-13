@@ -1,0 +1,335 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:21  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\partition.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      partition.     1    /* Partition a term
+      partition.     2    
+      partition.     3            Input stack:
+      partition.     4    
+      partition.     5                    term (factor or product of factors)
+      partition.     6    
+      partition.     7                    free variable
+      partition.     8    
+      partition.     9            Output stack:
+      partition.    10    
+      partition.    11                    constant expression
+      partition.    12    
+      partition.    13                    variable expression
+      partition.    14    */
+      partition.    15    
+      partition.    16    #include "stdafx.h"
+      partition.    17    #include "defs.h"
+      partition.    18    
+      partition.    19    void
+      partition.    20    partition(void)
+P   00000000              _partition:                      ; function: partition
+                                                           ; frame size=32
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+      partition.    21    {
+      partition.    22            save();
+    00000010 D33E                   MOV.L       L1076+4,R3 ; _save
+    00000012 430B                   JSR         @R3
+    00000014 0009                   NOP
+      partition.    23    
+      partition.    24            p2 = pop();
+    00000016 D83E                   MOV.L       L1076+8,R8 ; _p2
+    00000018 DC3E                   MOV.L       L1076+12,R12; _pop
+    0000001A 4C0B                   JSR         @R12
+    0000001C 0009                   NOP
+      partition.    25            p1 = pop();
+    0000001E DE3E                   MOV.L       L1076+16,R14; _p1
+    00000020 4C0B                   JSR         @R12
+    00000022 2802                   MOV.L       R0,@R8
+    00000024 2E02                   MOV.L       R0,@R14
+      partition.    26    
+      partition.    27            push_integer(1);
+    00000026 D23D                   MOV.L       L1076+20,R2; _push_integer
+    00000028 420B                   JSR         @R2
+    0000002A E401                   MOV         #1,R4
+      partition.    28    
+      partition.    29            p3 = pop();
+    0000002C DB3C                   MOV.L       L1076+24,R11; _p3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:21  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000002E 4C0B                   JSR         @R12
+    00000030 0009                   NOP
+      partition.    30            p4 = p3;
+    00000032 6303                   MOV         R0,R3
+    00000034 2B02                   MOV.L       R0,@R11
+    00000036 DA3B                   MOV.L       L1076+28,R10; _p4
+    00000038 2A02                   MOV.L       R0,@R10
+      partition.    31    
+      partition.    32            p1 = cdr(p1);
+    0000003A 61E2                   MOV.L       @R14,R1
+    0000003C 8418                   MOV.B       @(8,R1),R0
+    0000003E 2008                   TST         R0,R0
+    00000040 8B02                   BF          L1062
+    00000042 62E2                   MOV.L       @R14,R2
+    00000044 A004                   BRA         L1063
+    00000046 5221                   MOV.L       @(4,R2),R2
+    00000048              L1062:                            
+    00000048 935E                   MOV.W       L1076,R3   ; H'0570
+    0000004A D137                   MOV.L       L1076+32,R1; _symtab
+    0000004C 6212                   MOV.L       @R1,R2
+    0000004E 323C                   ADD         R3,R2
+    00000050              L1063:                            
+    00000050 D936                   MOV.L       L1076+36,R9; _multiply
+    00000052 DD37                   MOV.L       L1076+40,R13; _push
+      partition.    33    
+      partition.    34            while (iscons(p1)) {
+    00000054 A046                   BRA         L1064
+    00000056 2E22                   MOV.L       R2,@R14
+    00000058              L1065:                            
+      partition.    35                    if (find(car(p1), p2)) {
+    00000058 64E2                   MOV.L       @R14,R4
+    0000005A 8448                   MOV.B       @(8,R4),R0
+    0000005C 2008                   TST         R0,R0
+    0000005E 8F03                   BF/S        L1067
+    00000060 6582                   MOV.L       @R8,R5
+    00000062 64E2                   MOV.L       @R14,R4
+    00000064 A004                   BRA         L1068
+    00000066 6442                   MOV.L       @R4,R4
+    00000068              L1067:                            
+    00000068 934E                   MOV.W       L1076,R3   ; H'0570
+    0000006A D22F                   MOV.L       L1076+32,R2; _symtab
+    0000006C 6422                   MOV.L       @R2,R4
+    0000006E 343C                   ADD         R3,R4
+    00000070              L1068:                            
+    00000070 D330                   MOV.L       L1076+44,R3; _find
+    00000072 430B                   JSR         @R3
+    00000074 0009                   NOP
+    00000076 2008                   TST         R0,R0
+    00000078 8914                   BT          L1066
+      partition.    36                            push(p4);
+    0000007A 4D0B                   JSR         @R13
+    0000007C 64A2                   MOV.L       @R10,R4
+      partition.    37                            push(car(p1));
+    0000007E 64E2                   MOV.L       @R14,R4
+    00000080 8448                   MOV.B       @(8,R4),R0
+    00000082 2008                   TST         R0,R0
+    00000084 8B02                   BF          L1069
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:21  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000086 64E2                   MOV.L       @R14,R4
+    00000088 A004                   BRA         L1070
+    0000008A 6442                   MOV.L       @R4,R4
+    0000008C              L1069:                            
+    0000008C 933C                   MOV.W       L1076,R3   ; H'0570
+    0000008E D226                   MOV.L       L1076+32,R2; _symtab
+    00000090 6422                   MOV.L       @R2,R4
+    00000092 343C                   ADD         R3,R4
+    00000094              L1070:                            
+    00000094 4D0B                   JSR         @R13
+    00000096 0009                   NOP
+      partition.    38                            multiply();
+    00000098 490B                   JSR         @R9
+    0000009A 0009                   NOP
+      partition.    39                            p4 = pop();
+    0000009C 4C0B                   JSR         @R12
+    0000009E 0009                   NOP
+    000000A0 A014                   BRA         L1071
+    000000A2 2A02                   MOV.L       R0,@R10
+    000000A4              L1066:                            
+      partition.    40                    } else {
+      partition.    41                            push(p3);
+    000000A4 4D0B                   JSR         @R13
+    000000A6 64B2                   MOV.L       @R11,R4
+      partition.    42                            push(car(p1));
+    000000A8 64E2                   MOV.L       @R14,R4
+    000000AA 8448                   MOV.B       @(8,R4),R0
+    000000AC 2008                   TST         R0,R0
+    000000AE 8B02                   BF          L1072
+    000000B0 64E2                   MOV.L       @R14,R4
+    000000B2 A004                   BRA         L1073
+    000000B4 6442                   MOV.L       @R4,R4
+    000000B6              L1072:                            
+    000000B6 9327                   MOV.W       L1076,R3   ; H'0570
+    000000B8 D21B                   MOV.L       L1076+32,R2; _symtab
+    000000BA 6422                   MOV.L       @R2,R4
+    000000BC 343C                   ADD         R3,R4
+    000000BE              L1073:                            
+    000000BE 4D0B                   JSR         @R13
+    000000C0 0009                   NOP
+      partition.    43                            multiply();
+    000000C2 490B                   JSR         @R9
+    000000C4 0009                   NOP
+      partition.    44                            p3 = pop();
+    000000C6 4C0B                   JSR         @R12
+    000000C8 0009                   NOP
+    000000CA 2B02                   MOV.L       R0,@R11
+    000000CC              L1071:                            
+      partition.    45                    }
+      partition.    46                    p1 = cdr(p1);
+    000000CC 62E2                   MOV.L       @R14,R2
+    000000CE 8428                   MOV.B       @(8,R2),R0
+    000000D0 2008                   TST         R0,R0
+    000000D2 8B02                   BF          L1074
+    000000D4 62E2                   MOV.L       @R14,R2
+    000000D6 A004                   BRA         L1075
+    000000D8 5321                   MOV.L       @(4,R2),R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:21  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000DA              L1074:                            
+    000000DA 9215                   MOV.W       L1076,R2   ; H'0570
+    000000DC D112                   MOV.L       L1076+32,R1; _symtab
+    000000DE 6312                   MOV.L       @R1,R3
+    000000E0 332C                   ADD         R2,R3
+    000000E2              L1075:                            
+    000000E2 2E32                   MOV.L       R3,@R14
+    000000E4              L1064:                            
+    000000E4 62E2                   MOV.L       @R14,R2
+    000000E6 8428                   MOV.B       @(8,R2),R0
+    000000E8 2008                   TST         R0,R0
+    000000EA 89B5                   BT          L1065
+      partition.    47            }
+      partition.    48    
+      partition.    49            push(p3);
+    000000EC 4D0B                   JSR         @R13
+    000000EE 64B2                   MOV.L       @R11,R4
+      partition.    50            push(p4);
+    000000F0 4D0B                   JSR         @R13
+    000000F2 64A2                   MOV.L       @R10,R4
+      partition.    51    
+      partition.    52            restore();
+    000000F4 4F26                   LDS.L       @R15+,PR
+    000000F6 68F6                   MOV.L       @R15+,R8
+    000000F8 D20F                   MOV.L       L1076+48,R2; _restore
+    000000FA 69F6                   MOV.L       @R15+,R9
+    000000FC 6AF6                   MOV.L       @R15+,R10
+    000000FE 6BF6                   MOV.L       @R15+,R11
+    00000100 6CF6                   MOV.L       @R15+,R12
+    00000102 6DF6                   MOV.L       @R15+,R13
+    00000104 422B                   JMP         @R2
+    00000106 6EF6                   MOV.L       @R15+,R14
+    00000108              L1076:                            
+    00000108 0570                   .DATA.W     H'0570
+    0000010A 0000                   .DATA.W     0
+    0000010C <00000000>             .DATA.L     _save
+    00000110 <00000000>             .DATA.L     _p2
+    00000114 <00000000>             .DATA.L     _pop
+    00000118 <00000000>             .DATA.L     _p1
+    0000011C <00000000>             .DATA.L     _push_integer
+    00000120 <00000000>             .DATA.L     _p3
+    00000124 <00000000>             .DATA.L     _p4
+    00000128 <00000000>             .DATA.L     _symtab
+    0000012C <00000000>             .DATA.L     _multiply
+    00000130 <00000000>             .DATA.L     _push
+    00000134 <00000000>             .DATA.L     _find
+    00000138 <00000000>             .DATA.L     _restore
+      partition.    53    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:21  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       53
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000013C Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 0000013C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           12
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            28
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkBC63.tmp 
+

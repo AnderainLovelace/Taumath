@@ -1,0 +1,2909 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\expand.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c     1    // Partial fraction expansion
+        expand.c     2    //
+        expand.c     3    // Example
+        expand.c     4    //
+        expand.c     5    //      expand(1/(x^3+x^2),x)
+        expand.c     6    //
+        expand.c     7    //        1      1       1
+        expand.c     8    //      ---- - --- + -------
+        expand.c     9    //        2     x     x + 1
+        expand.c    10    //       x
+        expand.c    11    
+        expand.c    12    #include "stdafx.h"
+        expand.c    13    #include "defs.h"
+        expand.c    14    
+        expand.c    15    void
+        expand.c    16    eval_expand(void)
+P   00000000              _eval_expand:                    ; function: eval_expand
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 4F22                   STS.L       PR,@-R15
+        expand.c    17    {
+        expand.c    18            // 1st arg
+        expand.c    19    
+        expand.c    20            push(cadr(p1));
+    00000006 DD35                   MOV.L       L1320+4,R13; _push
+    00000008 DE35                   MOV.L       L1320+8,R14; _p1
+    0000000A 64E2                   MOV.L       @R14,R4
+    0000000C 8448                   MOV.B       @(8,R4),R0
+    0000000E 2008                   TST         R0,R0
+    00000010 8B02                   BF          L1135
+    00000012 64E2                   MOV.L       @R14,R4
+    00000014 A004                   BRA         L1137
+    00000016 5441                   MOV.L       @(4,R4),R4
+    00000018              L1135:                            
+    00000018 935E                   MOV.W       L1320,R3   ; H'0570
+    0000001A D232                   MOV.L       L1320+12,R2; _symtab
+    0000001C 6422                   MOV.L       @R2,R4
+    0000001E 343C                   ADD         R3,R4
+    00000020              L1137:                            
+    00000020 8448                   MOV.B       @(8,R4),R0
+    00000022 2008                   TST         R0,R0
+    00000024 8B0C                   BF          L1134
+    00000026 64E2                   MOV.L       @R14,R4
+    00000028 8448                   MOV.B       @(8,R4),R0
+    0000002A 2008                   TST         R0,R0
+    0000002C 8B02                   BF          L1136
+    0000002E 64E2                   MOV.L       @R14,R4
+    00000030 A004                   BRA         L1138
+    00000032 5441                   MOV.L       @(4,R4),R4
+    00000034              L1136:                            
+    00000034 9350                   MOV.W       L1320,R3   ; H'0570
+    00000036 D22B                   MOV.L       L1320+12,R2; _symtab
+    00000038 6422                   MOV.L       @R2,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003A 343C                   ADD         R3,R4
+    0000003C              L1138:                            
+    0000003C A004                   BRA         L1139
+    0000003E 6442                   MOV.L       @R4,R4
+    00000040              L1134:                            
+    00000040 934A                   MOV.W       L1320,R3   ; H'0570
+    00000042 D228                   MOV.L       L1320+12,R2; _symtab
+    00000044 6422                   MOV.L       @R2,R4
+    00000046 343C                   ADD         R3,R4
+    00000048              L1139:                            
+    00000048 4D0B                   JSR         @R13
+    0000004A 0009                   NOP
+        expand.c    21            eval();
+    0000004C D326                   MOV.L       L1320+16,R3; _eval
+    0000004E 430B                   JSR         @R3
+    00000050 0009                   NOP
+        expand.c    22    
+        expand.c    23            // 2nd arg
+        expand.c    24    
+        expand.c    25            push(caddr(p1));
+    00000052 64E2                   MOV.L       @R14,R4
+    00000054 8448                   MOV.B       @(8,R4),R0
+    00000056 2008                   TST         R0,R0
+    00000058 8B02                   BF          L1142
+    0000005A 64E2                   MOV.L       @R14,R4
+    0000005C A004                   BRA         L1147
+    0000005E 5441                   MOV.L       @(4,R4),R4
+    00000060              L1142:                            
+    00000060 933A                   MOV.W       L1320,R3   ; H'0570
+    00000062 D220                   MOV.L       L1320+12,R2; _symtab
+    00000064 6422                   MOV.L       @R2,R4
+    00000066 343C                   ADD         R3,R4
+    00000068              L1147:                            
+    00000068 8448                   MOV.B       @(8,R4),R0
+    0000006A 2008                   TST         R0,R0
+    0000006C 8B0C                   BF          L1141
+    0000006E 64E2                   MOV.L       @R14,R4
+    00000070 8448                   MOV.B       @(8,R4),R0
+    00000072 2008                   TST         R0,R0
+    00000074 8B02                   BF          L1143
+    00000076 64E2                   MOV.L       @R14,R4
+    00000078 A004                   BRA         L1148
+    0000007A 5441                   MOV.L       @(4,R4),R4
+    0000007C              L1143:                            
+    0000007C 932C                   MOV.W       L1320,R3   ; H'0570
+    0000007E D219                   MOV.L       L1320+12,R2; _symtab
+    00000080 6422                   MOV.L       @R2,R4
+    00000082 343C                   ADD         R3,R4
+    00000084              L1148:                            
+    00000084 A004                   BRA         L1149
+    00000086 5441                   MOV.L       @(4,R4),R4
+    00000088              L1141:                            
+    00000088 9326                   MOV.W       L1320,R3   ; H'0570
+    0000008A D216                   MOV.L       L1320+12,R2; _symtab
+    0000008C 6422                   MOV.L       @R2,R4
+    0000008E 343C                   ADD         R3,R4
+    00000090              L1149:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000090 8448                   MOV.B       @(8,R4),R0
+    00000092 2008                   TST         R0,R0
+    00000094 8B2A                   BF          L1140
+    00000096 64E2                   MOV.L       @R14,R4
+    00000098 8448                   MOV.B       @(8,R4),R0
+    0000009A 2008                   TST         R0,R0
+    0000009C 8B02                   BF          L1145
+    0000009E 64E2                   MOV.L       @R14,R4
+    000000A0 A004                   BRA         L1150
+    000000A2 5441                   MOV.L       @(4,R4),R4
+    000000A4              L1145:                            
+    000000A4 9318                   MOV.W       L1320,R3   ; H'0570
+    000000A6 D20F                   MOV.L       L1320+12,R2; _symtab
+    000000A8 6422                   MOV.L       @R2,R4
+    000000AA 343C                   ADD         R3,R4
+    000000AC              L1150:                            
+    000000AC 8448                   MOV.B       @(8,R4),R0
+    000000AE 2008                   TST         R0,R0
+    000000B0 8B0C                   BF          L1144
+    000000B2 64E2                   MOV.L       @R14,R4
+    000000B4 8448                   MOV.B       @(8,R4),R0
+    000000B6 2008                   TST         R0,R0
+    000000B8 8B02                   BF          L1146
+    000000BA 64E2                   MOV.L       @R14,R4
+    000000BC A004                   BRA         L1151
+    000000BE 5441                   MOV.L       @(4,R4),R4
+    000000C0              L1146:                            
+    000000C0 930A                   MOV.W       L1320,R3   ; H'0570
+    000000C2 D208                   MOV.L       L1320+12,R2; _symtab
+    000000C4 6422                   MOV.L       @R2,R4
+    000000C6 343C                   ADD         R3,R4
+    000000C8              L1151:                            
+    000000C8 A004                   BRA         L1152
+    000000CA 5441                   MOV.L       @(4,R4),R4
+    000000CC              L1144:                            
+    000000CC 9304                   MOV.W       L1320,R3   ; H'0570
+    000000CE D205                   MOV.L       L1320+12,R2; _symtab
+    000000D0 6422                   MOV.L       @R2,R4
+    000000D2 343C                   ADD         R3,R4
+    000000D4              L1152:                            
+    000000D4 A00E                   BRA         L1153
+    000000D6 6442                   MOV.L       @R4,R4
+    000000D8              L1320:                            
+    000000D8 0570                   .DATA.W     H'0570
+    000000DA 0000                   .DATA.W     0
+    000000DC <00000000>             .DATA.L     _push
+    000000E0 <00000000>             .DATA.L     _p1
+    000000E4 <00000000>             .DATA.L     _symtab
+    000000E8 <00000000>             .DATA.L     _eval
+    000000EC              L1140:                            
+    000000EC 9374                   MOV.W       L1321,R3   ; H'0570
+    000000EE D23B                   MOV.L       L1321+4,R2 ; _symtab
+    000000F0 6422                   MOV.L       @R2,R4
+    000000F2 343C                   ADD         R3,R4
+    000000F4              L1153:                            
+    000000F4 4D0B                   JSR         @R13
+    000000F6 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c    26            eval();
+    000000F8 D339                   MOV.L       L1321+8,R3 ; _eval
+    000000FA 430B                   JSR         @R3
+    000000FC 0009                   NOP
+        expand.c    27    
+        expand.c    28            p2 = pop();
+    000000FE D239                   MOV.L       L1321+12,R2; _pop
+    00000100 420B                   JSR         @R2
+    00000102 0009                   NOP
+    00000104 D338                   MOV.L       L1321+16,R3; _p2
+    00000106 6403                   MOV         R0,R4
+    00000108 9266                   MOV.W       L1321,R2   ; H'0570
+    0000010A 2302                   MOV.L       R0,@R3
+    0000010C D333                   MOV.L       L1321+4,R3 ; _symtab
+    0000010E 6132                   MOV.L       @R3,R1
+    00000110 312C                   ADD         R2,R1
+    00000112 3410                   CMP/EQ      R1,R4
+    00000114 8B04                   BF          L1154
+        expand.c    29            if (p2 == symbol(NIL))
+        expand.c    30                    guess();
+    00000116 D335                   MOV.L       L1321+20,R3; _guess
+    00000118 430B                   JSR         @R3
+    0000011A 0009                   NOP
+    0000011C A002                   BRA         L1155
+    0000011E 0009                   NOP
+    00000120              L1154:                            
+        expand.c    31            else
+        expand.c    32                    push(p2);
+    00000120 4D0B                   JSR         @R13
+    00000122 0009                   NOP
+    00000124              L1155:                            
+        expand.c    33    
+        expand.c    34            expand();
+    00000124 4F26                   LDS.L       @R15+,PR
+    00000126 6DF6                   MOV.L       @R15+,R13
+    00000128 6EF6                   MOV.L       @R15+,R14
+        expand.c    35    }
+        expand.c    36    
+        expand.c    37    #define A p2
+        expand.c    38    #define B p3
+        expand.c    39    #define C p4
+        expand.c    40    #define F p5
+        expand.c    41    #define P p6
+        expand.c    42    #define Q p7
+        expand.c    43    #define T p8
+        expand.c    44    #define X p9
+        expand.c    45    
+        expand.c    46    void
+        expand.c    47    expand(void)
+    0000012A              _expand:                         ; function: expand
+                                                           ; frame size=32
+    0000012A 2FE6                   MOV.L       R14,@-R15
+    0000012C 2FD6                   MOV.L       R13,@-R15
+    0000012E 2FC6                   MOV.L       R12,@-R15
+    00000130 2FB6                   MOV.L       R11,@-R15
+    00000132 2FA6                   MOV.L       R10,@-R15
+    00000134 2F96                   MOV.L       R9,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000136 2F86                   MOV.L       R8,@-R15
+    00000138 4F22                   STS.L       PR,@-R15
+        expand.c    48    {
+        expand.c    49            save();
+    0000013A D32D                   MOV.L       L1321+24,R3; _save
+    0000013C 430B                   JSR         @R3
+    0000013E 0009                   NOP
+        expand.c    50    
+        expand.c    51            X = pop();
+    00000140 DA2C                   MOV.L       L1321+28,R10; _p9
+    00000142 DB28                   MOV.L       L1321+12,R11; _pop
+    00000144 4B0B                   JSR         @R11
+    00000146 0009                   NOP
+        expand.c    52            F = pop();
+    00000148 DC2B                   MOV.L       L1321+32,R12; _p5
+    0000014A 4B0B                   JSR         @R11
+    0000014C 2A02                   MOV.L       R0,@R10
+    0000014E 6403                   MOV         R0,R4
+    00000150 2C02                   MOV.L       R0,@R12
+    00000152 8448                   MOV.B       @(8,R4),R0
+    00000154 600C                   EXTU.B      R0,R0
+    00000156 8804                   CMP/EQ      #4,R0
+    00000158 8B03                   BF          L1156
+        expand.c    53    
+        expand.c    54            if (istensor(F)) {
+        expand.c    55                    expand_tensor();
+    0000015A B0FD                   BSR         _expand_tensor
+    0000015C 0009                   NOP
+    0000015E A0CF                   BRA         L1124
+    00000160 0009                   NOP
+    00000162              L1156:                            
+        expand.c    56                    restore();
+        expand.c    57                    return;
+        expand.c    58            }
+        expand.c    59    
+        expand.c    60            // if sum of terms then sum over the expansion of each term
+        expand.c    61    
+        expand.c    62            if (car(F) == symbol(ADD)) {
+    00000162 D826                   MOV.L       L1321+36,R8; _add
+    00000164 DE26                   MOV.L       L1321+40,R14; _push
+    00000166 8448                   MOV.B       @(8,R4),R0
+    00000168 2008                   TST         R0,R0
+    0000016A 8B01                   BF          L1159
+    0000016C A004                   BRA         L1160
+    0000016E 6242                   MOV.L       @R4,R2
+    00000170              L1159:                            
+    00000170 9332                   MOV.W       L1321,R3   ; H'0570
+    00000172 D11A                   MOV.L       L1321+4,R1 ; _symtab
+    00000174 6212                   MOV.L       @R1,R2
+    00000176 323C                   ADD         R3,R2
+    00000178              L1160:                            
+    00000178 D018                   MOV.L       L1321+4,R0 ; _symtab
+    0000017A 6302                   MOV.L       @R0,R3
+    0000017C 730C                   ADD         #12,R3
+    0000017E 3230                   CMP/EQ      R3,R2
+    00000180 8B4F                   BF          L1158
+        expand.c    63                    push_integer(0);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000182 D220                   MOV.L       L1321+44,R2; _push_integer
+    00000184 420B                   JSR         @R2
+    00000186 E400                   MOV         #0,R4
+        expand.c    64                    p1 = cdr(F);
+    00000188 DD1F                   MOV.L       L1321+48,R13; _p1
+    0000018A 62C2                   MOV.L       @R12,R2
+    0000018C 8428                   MOV.B       @(8,R2),R0
+    0000018E 2008                   TST         R0,R0
+    00000190 8B02                   BF          L1161
+    00000192 62C2                   MOV.L       @R12,R2
+    00000194 A004                   BRA         L1162
+    00000196 5321                   MOV.L       @(4,R2),R3
+    00000198              L1161:                            
+    00000198 921E                   MOV.W       L1321,R2   ; H'0570
+    0000019A D110                   MOV.L       L1321+4,R1 ; _symtab
+    0000019C 6312                   MOV.L       @R1,R3
+    0000019E 332C                   ADD         R2,R3
+    000001A0              L1162:                            
+        expand.c    65                    while (iscons(p1)) {
+    000001A0 A039                   BRA         L1163
+    000001A2 2D32                   MOV.L       R3,@R13
+    000001A4              L1164:                            
+        expand.c    66                            push(car(p1));
+    000001A4 64D2                   MOV.L       @R13,R4
+    000001A6 8448                   MOV.B       @(8,R4),R0
+    000001A8 2008                   TST         R0,R0
+    000001AA 8B02                   BF          L1165
+    000001AC 64D2                   MOV.L       @R13,R4
+    000001AE A004                   BRA         L1166
+    000001B0 6442                   MOV.L       @R4,R4
+    000001B2              L1165:                            
+    000001B2 9311                   MOV.W       L1321,R3   ; H'0570
+    000001B4 D209                   MOV.L       L1321+4,R2 ; _symtab
+    000001B6 6422                   MOV.L       @R2,R4
+    000001B8 343C                   ADD         R3,R4
+    000001BA              L1166:                            
+    000001BA 4E0B                   JSR         @R14
+    000001BC 0009                   NOP
+        expand.c    67                            push(X);
+    000001BE 4E0B                   JSR         @R14
+    000001C0 64A2                   MOV.L       @R10,R4
+        expand.c    68                            expand();
+    000001C2 BFB2                   BSR         _expand
+    000001C4 0009                   NOP
+        expand.c    69                            add();
+    000001C6 480B                   JSR         @R8
+    000001C8 0009                   NOP
+        expand.c    70                            p1 = cdr(p1);
+    000001CA 63D2                   MOV.L       @R13,R3
+    000001CC 8438                   MOV.B       @(8,R3),R0
+    000001CE 2008                   TST         R0,R0
+    000001D0 8B1C                   BF          L1167
+    000001D2 62D2                   MOV.L       @R13,R2
+    000001D4 A01E                   BRA         L1168
+    000001D6 5221                   MOV.L       @(4,R2),R2
+    000001D8              L1321:                            
+    000001D8 0570                   .DATA.W     H'0570
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001DA 0000                   .DATA.W     0
+    000001DC <00000000>             .DATA.L     _symtab
+    000001E0 <00000000>             .DATA.L     _eval
+    000001E4 <00000000>             .DATA.L     _pop
+    000001E8 <00000000>             .DATA.L     _p2
+    000001EC <00000000>             .DATA.L     _guess
+    000001F0 <00000000>             .DATA.L     _save
+    000001F4 <00000000>             .DATA.L     _p9
+    000001F8 <00000000>             .DATA.L     _p5
+    000001FC <00000000>             .DATA.L     _add
+    00000200 <00000000>             .DATA.L     _push
+    00000204 <00000000>             .DATA.L     _push_integer
+    00000208 <00000000>             .DATA.L     _p1
+    0000020C              L1167:                            
+    0000020C 9382                   MOV.W       L1322,R3   ; H'0570
+    0000020E D142                   MOV.L       L1322+4,R1 ; _symtab
+    00000210 6212                   MOV.L       @R1,R2
+    00000212 323C                   ADD         R3,R2
+    00000214              L1168:                            
+    00000214 2D22                   MOV.L       R2,@R13
+    00000216              L1163:                            
+    00000216 63D2                   MOV.L       @R13,R3
+    00000218 8438                   MOV.B       @(8,R3),R0
+    0000021A 2008                   TST         R0,R0
+    0000021C 89C2                   BT          L1164
+    0000021E A06F                   BRA         L1124
+    00000220 0009                   NOP
+    00000222              L1158:                            
+        expand.c    71                    }
+        expand.c    72                    restore();
+        expand.c    73                    return;
+        expand.c    74            }
+        expand.c    75    
+        expand.c    76            // B = numerator
+        expand.c    77    
+        expand.c    78            push(F);
+    00000222 4E0B                   JSR         @R14
+    00000224 0009                   NOP
+        expand.c    79            numerator();
+    00000226 D23D                   MOV.L       L1322+8,R2 ; _numerator
+    00000228 420B                   JSR         @R2
+    0000022A 0009                   NOP
+        expand.c    80            B = pop();
+    0000022C DD3C                   MOV.L       L1322+12,R13; _p3
+    0000022E 4B0B                   JSR         @R11
+    00000230 0009                   NOP
+    00000232 2D02                   MOV.L       R0,@R13
+        expand.c    81    
+        expand.c    82            // A = denominator
+        expand.c    83    
+        expand.c    84            push(F);
+    00000234 4E0B                   JSR         @R14
+    00000236 64C2                   MOV.L       @R12,R4
+        expand.c    85            denominator();
+    00000238 D33A                   MOV.L       L1322+16,R3; _denominator
+    0000023A 430B                   JSR         @R3
+    0000023C 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c    86            A = pop();
+    0000023E DC3A                   MOV.L       L1322+20,R12; _p2
+    00000240 4B0B                   JSR         @R11
+    00000242 0009                   NOP
+        expand.c    87    
+        expand.c    88            remove_negative_exponents();
+    00000244 B0C0                   BSR         _remove_negative_exponents
+    00000246 2C02                   MOV.L       R0,@R12
+        expand.c    89    
+        expand.c    90            // Q = quotient
+        expand.c    91    
+        expand.c    92            push(B);
+    00000248 4E0B                   JSR         @R14
+    0000024A 64D2                   MOV.L       @R13,R4
+        expand.c    93            push(A);
+    0000024C 4E0B                   JSR         @R14
+    0000024E 64C2                   MOV.L       @R12,R4
+        expand.c    94            push(X);
+    00000250 4E0B                   JSR         @R14
+    00000252 64A2                   MOV.L       @R10,R4
+        expand.c    95            divpoly();
+    00000254 D335                   MOV.L       L1322+24,R3; _divpoly
+    00000256 430B                   JSR         @R3
+    00000258 0009                   NOP
+        expand.c    96            Q = pop();
+    0000025A D935                   MOV.L       L1322+28,R9; _p7
+    0000025C 4B0B                   JSR         @R11
+    0000025E 0009                   NOP
+    00000260 2902                   MOV.L       R0,@R9
+        expand.c    97    
+        expand.c    98            // remainder B = B - A * Q
+        expand.c    99    
+        expand.c   100            push(B);
+    00000262 4E0B                   JSR         @R14
+    00000264 64D2                   MOV.L       @R13,R4
+        expand.c   101            push(A);
+    00000266 4E0B                   JSR         @R14
+    00000268 64C2                   MOV.L       @R12,R4
+        expand.c   102            push(Q);
+    0000026A 4E0B                   JSR         @R14
+    0000026C 6492                   MOV.L       @R9,R4
+        expand.c   103            multiply();
+    0000026E D231                   MOV.L       L1322+32,R2; _multiply
+    00000270 420B                   JSR         @R2
+    00000272 0009                   NOP
+        expand.c   104            subtract();
+    00000274 D330                   MOV.L       L1322+36,R3; _subtract
+    00000276 430B                   JSR         @R3
+    00000278 0009                   NOP
+        expand.c   105            B = pop();
+    0000027A 4B0B                   JSR         @R11
+    0000027C 0009                   NOP
+    0000027E 2D02                   MOV.L       R0,@R13
+        expand.c   106    
+        expand.c   107            // if the remainder is zero then we're done
+        expand.c   108    
+        expand.c   109            if (iszero(B)) {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000280 D22E                   MOV.L       L1322+40,R2; _iszero
+    00000282 420B                   JSR         @R2
+    00000284 6403                   MOV         R0,R4
+    00000286 2008                   TST         R0,R0
+    00000288 8903                   BT          L1169
+        expand.c   110                    push(Q);
+    0000028A 4E0B                   JSR         @R14
+    0000028C 6492                   MOV.L       @R9,R4
+    0000028E A037                   BRA         L1124
+    00000290 0009                   NOP
+    00000292              L1169:                            
+        expand.c   111                    restore();
+        expand.c   112                    return;
+        expand.c   113            }
+        expand.c   114    
+        expand.c   115            // A = factor(A)
+        expand.c   116    
+        expand.c   117            push(A);
+    00000292 4E0B                   JSR         @R14
+    00000294 64C2                   MOV.L       @R12,R4
+        expand.c   118            push(X);
+    00000296 4E0B                   JSR         @R14
+    00000298 64A2                   MOV.L       @R10,R4
+        expand.c   119            factorpoly();
+    0000029A D329                   MOV.L       L1322+44,R3; _factorpoly
+    0000029C 430B                   JSR         @R3
+    0000029E 0009                   NOP
+        expand.c   120            A = pop();
+    000002A0 4B0B                   JSR         @R11
+    000002A2 0009                   NOP
+        expand.c   121    
+        expand.c   122            expand_get_C();
+    000002A4 B18F                   BSR         _expand_get_C
+    000002A6 2C02                   MOV.L       R0,@R12
+        expand.c   123            expand_get_B();
+    000002A8 B3F2                   BSR         _expand_get_B
+    000002AA 0009                   NOP
+        expand.c   124            expand_get_A();
+    000002AC B43D                   BSR         _expand_get_A
+    000002AE 0009                   NOP
+    000002B0 D324                   MOV.L       L1322+48,R3; _p4
+    000002B2 6432                   MOV.L       @R3,R4
+    000002B4 8448                   MOV.B       @(8,R4),R0
+    000002B6 600C                   EXTU.B      R0,R0
+    000002B8 8804                   CMP/EQ      #4,R0
+    000002BA 8B10                   BF          L1170
+        expand.c   125    
+        expand.c   126            if (istensor(C)) {
+        expand.c   127                    push(C);
+    000002BC 4E0B                   JSR         @R14
+    000002BE 0009                   NOP
+        expand.c   128                    inv();
+    000002C0 D321                   MOV.L       L1322+52,R3; _inv
+    000002C2 430B                   JSR         @R3
+    000002C4 0009                   NOP
+        expand.c   129                    push(B);
+    000002C6 4E0B                   JSR         @R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002C8 64D2                   MOV.L       @R13,R4
+        expand.c   130                    inner();
+    000002CA D220                   MOV.L       L1322+56,R2; _inner
+    000002CC 420B                   JSR         @R2
+    000002CE 0009                   NOP
+        expand.c   131                    push(A);
+    000002D0 4E0B                   JSR         @R14
+    000002D2 64C2                   MOV.L       @R12,R4
+        expand.c   132                    inner();
+    000002D4 D31D                   MOV.L       L1322+56,R3; _inner
+    000002D6 430B                   JSR         @R3
+    000002D8 0009                   NOP
+    000002DA A00D                   BRA         L1171
+    000002DC 0009                   NOP
+    000002DE              L1170:                            
+        expand.c   133            } else {
+        expand.c   134                    push(B);
+    000002DE 4E0B                   JSR         @R14
+    000002E0 64D2                   MOV.L       @R13,R4
+        expand.c   135                    push(C);
+    000002E2 D318                   MOV.L       L1322+48,R3; _p4
+    000002E4 4E0B                   JSR         @R14
+    000002E6 6432                   MOV.L       @R3,R4
+        expand.c   136                    divide();
+    000002E8 D219                   MOV.L       L1322+60,R2; _divide
+    000002EA 420B                   JSR         @R2
+    000002EC 0009                   NOP
+        expand.c   137                    push(A);
+    000002EE 4E0B                   JSR         @R14
+    000002F0 64C2                   MOV.L       @R12,R4
+        expand.c   138                    multiply();
+    000002F2 D310                   MOV.L       L1322+32,R3; _multiply
+    000002F4 430B                   JSR         @R3
+    000002F6 0009                   NOP
+    000002F8              L1171:                            
+        expand.c   139            }
+        expand.c   140    
+        expand.c   141            push(Q);
+    000002F8 4E0B                   JSR         @R14
+    000002FA 6492                   MOV.L       @R9,R4
+        expand.c   142            add();
+    000002FC 480B                   JSR         @R8
+    000002FE 0009                   NOP
+    00000300              L1124:
+        expand.c   143    
+        expand.c   144            restore();
+    00000300 4F26                   LDS.L       @R15+,PR
+    00000302 68F6                   MOV.L       @R15+,R8
+    00000304 D213                   MOV.L       L1322+64,R2; _restore
+    00000306 69F6                   MOV.L       @R15+,R9
+    00000308 6AF6                   MOV.L       @R15+,R10
+    0000030A 6BF6                   MOV.L       @R15+,R11
+    0000030C 6CF6                   MOV.L       @R15+,R12
+    0000030E 6DF6                   MOV.L       @R15+,R13
+    00000310 422B                   JMP         @R2
+    00000312 6EF6                   MOV.L       @R15+,R14
+    00000314              L1322:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000314 0570                   .DATA.W     H'0570
+    00000316 0000                   .DATA.W     0
+    00000318 <00000000>             .DATA.L     _symtab
+    0000031C <00000000>             .DATA.L     _numerator
+    00000320 <00000000>             .DATA.L     _p3
+    00000324 <00000000>             .DATA.L     _denominator
+    00000328 <00000000>             .DATA.L     _p2
+    0000032C <00000000>             .DATA.L     _divpoly
+    00000330 <00000000>             .DATA.L     _p7
+    00000334 <00000000>             .DATA.L     _multiply
+    00000338 <00000000>             .DATA.L     _subtract
+    0000033C <00000000>             .DATA.L     _iszero
+    00000340 <00000000>             .DATA.L     _factorpoly
+    00000344 <00000000>             .DATA.L     _p4
+    00000348 <00000000>             .DATA.L     _inv
+    0000034C <00000000>             .DATA.L     _inner
+    00000350 <00000000>             .DATA.L     _divide
+    00000354 <00000000>             .DATA.L     _restore
+        expand.c   145    }
+        expand.c   146    
+        expand.c   147    void
+        expand.c   148    expand_tensor(void)
+    00000358              _expand_tensor:                  ; function: expand_tensor
+                                                           ; frame size=28
+    00000358 2FE6                   MOV.L       R14,@-R15
+    0000035A 2FD6                   MOV.L       R13,@-R15
+    0000035C 2FC6                   MOV.L       R12,@-R15
+    0000035E 2FB6                   MOV.L       R11,@-R15
+    00000360 2FA6                   MOV.L       R10,@-R15
+    00000362 2F96                   MOV.L       R9,@-R15
+    00000364 4F22                   STS.L       PR,@-R15
+        expand.c   149    {
+        expand.c   150            int i;
+        expand.c   151            push(F);
+    00000366 DD3F                   MOV.L       L1323+4,R13; _push
+    00000368 DE3F                   MOV.L       L1323+8,R14; _p5
+    0000036A 4D0B                   JSR         @R13
+    0000036C 64E2                   MOV.L       @R14,R4
+        expand.c   152            copy_tensor();
+    0000036E D33F                   MOV.L       L1323+12,R3; _copy_tensor
+    00000370 430B                   JSR         @R3
+    00000372 0009                   NOP
+        expand.c   153            F = pop();
+    00000374 DA3E                   MOV.L       L1323+16,R10; _pop
+    00000376 4A0B                   JSR         @R10
+    00000378 0009                   NOP
+    0000037A 2E02                   MOV.L       R0,@R14
+        expand.c   154            for (i = 0; i < F->u.tensor->nelem; i++) {
+    0000037C D93D                   MOV.L       L1323+20,R9; _p9
+    0000037E A013                   BRA         L1172
+    00000380 EC00                   MOV         #0,R12
+    00000382              L1173:                            
+        expand.c   155                    push(F->u.tensor->elem[i]);
+    00000382 6BC3                   MOV         R12,R11
+    00000384 60E2                   MOV.L       @R14,R0
+    00000386 4B08                   SHLL2       R11
+    00000388 6402                   MOV.L       @R0,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000038A 7468                   ADD         #104,R4
+    0000038C 34BC                   ADD         R11,R4
+    0000038E 4D0B                   JSR         @R13
+    00000390 6442                   MOV.L       @R4,R4
+        expand.c   156                    push(X);
+    00000392 4D0B                   JSR         @R13
+    00000394 6492                   MOV.L       @R9,R4
+        expand.c   157                    expand();
+    00000396 BEC8                   BSR         _expand
+    00000398 0009                   NOP
+        expand.c   158                    F->u.tensor->elem[i] = pop();
+    0000039A 62E2                   MOV.L       @R14,R2
+    0000039C 6122                   MOV.L       @R2,R1
+    0000039E 7168                   ADD         #104,R1
+    000003A0 4A0B                   JSR         @R10
+    000003A2 3B1C                   ADD         R1,R11
+    000003A4 2B02                   MOV.L       R0,@R11
+    000003A6 7C01                   ADD         #1,R12
+    000003A8              L1172:                            
+    000003A8 63E2                   MOV.L       @R14,R3
+    000003AA E064                   MOV         #100,R0
+    000003AC 6232                   MOV.L       @R3,R2
+    000003AE 012E                   MOV.L       @(R0,R2),R1
+    000003B0 3C13                   CMP/GE      R1,R12
+    000003B2 8BE6                   BF          L1173
+        expand.c   159            }
+        expand.c   160            push(F);
+    000003B4 4D0B                   JSR         @R13
+    000003B6 64E2                   MOV.L       @R14,R4
+        expand.c   161    }
+    000003B8 4F26                   LDS.L       @R15+,PR
+    000003BA 69F6                   MOV.L       @R15+,R9
+    000003BC 6AF6                   MOV.L       @R15+,R10
+    000003BE 6BF6                   MOV.L       @R15+,R11
+    000003C0 6CF6                   MOV.L       @R15+,R12
+    000003C2 6DF6                   MOV.L       @R15+,R13
+    000003C4 000B                   RTS
+    000003C6 6EF6                   MOV.L       @R15+,R14
+        expand.c   162    
+        expand.c   163    void
+        expand.c   164    remove_negative_exponents(void)
+    000003C8              _remove_negative_exponents:      ; function: remove_negative_exponents
+                                                           ; frame size=40
+    000003C8 2FE6                   MOV.L       R14,@-R15
+    000003CA 2FD6                   MOV.L       R13,@-R15
+    000003CC 2FC6                   MOV.L       R12,@-R15
+    000003CE 2FB6                   MOV.L       R11,@-R15
+    000003D0 2FA6                   MOV.L       R10,@-R15
+    000003D2 2F96                   MOV.L       R9,@-R15
+    000003D4 2F86                   MOV.L       R8,@-R15
+    000003D6 4F22                   STS.L       PR,@-R15
+        expand.c   165    {
+        expand.c   166            int h, i, j, k, n;
+        expand.c   167    
+        expand.c   168            h = tos;
+    000003D8 D227                   MOV.L       L1323+24,R2; _tos
+    000003DA 7FF8                   ADD         #-8,R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   169            factors(A);
+    000003DC D127                   MOV.L       L1323+28,R1; _p2
+    000003DE 6322                   MOV.L       @R2,R3
+    000003E0 2F32                   MOV.L       R3,@R15
+    000003E2 D327                   MOV.L       L1323+32,R3; _factors
+    000003E4 430B                   JSR         @R3
+    000003E6 6412                   MOV.L       @R1,R4
+        expand.c   170            factors(B);
+    000003E8 D226                   MOV.L       L1323+36,R2; _p3
+    000003EA D325                   MOV.L       L1323+32,R3; _factors
+    000003EC 430B                   JSR         @R3
+    000003EE 6422                   MOV.L       @R2,R4
+        expand.c   171            n = tos - h;
+    000003F0 63F2                   MOV.L       @R15,R3
+        expand.c   172    
+        expand.c   173            // find the smallest exponent
+        expand.c   174    
+        expand.c   175            j = 0;
+    000003F2 E400                   MOV         #0,R4
+    000003F4 D91F                   MOV.L       L1323+20,R9; _p9
+    000003F6 6B33                   MOV         R3,R11
+    000003F8 D21F                   MOV.L       L1323+24,R2; _tos
+    000003FA 6C43                   MOV         R4,R12
+    000003FC DA22                   MOV.L       L1323+40,R10; _symtab
+        expand.c   176            for (i = 0; i < n; i++) {
+    000003FE 6843                   MOV         R4,R8
+    00000400 DD18                   MOV.L       L1323+4,R13; _push
+    00000402 6122                   MOV.L       @R2,R1
+    00000404 DE21                   MOV.L       L1323+44,R14; _p1
+    00000406 3138                   SUB         R3,R1
+    00000408 1F11                   MOV.L       R1,@(4,R15)
+    0000040A A0A1                   BRA         L1174
+    0000040C 4B08                   SHLL2       R11
+    0000040E              L1175:                            
+        expand.c   177                    p1 = stack[h + i];
+    0000040E D320                   MOV.L       L1323+48,R3; _stack
+    00000410 6032                   MOV.L       @R3,R0
+    00000412 02BE                   MOV.L       @(R0,R11),R2
+    00000414 2E22                   MOV.L       R2,@R14
+    00000416 6423                   MOV         R2,R4
+    00000418 8448                   MOV.B       @(8,R4),R0
+    0000041A 2008                   TST         R0,R0
+    0000041C 8F03                   BF/S        L1177
+    0000041E 65A2                   MOV.L       @R10,R5
+    00000420 61E2                   MOV.L       @R14,R1
+    00000422 A003                   BRA         L1178
+    00000424 6112                   MOV.L       @R1,R1
+    00000426              L1177:                            
+    00000426 921B                   MOV.W       L1323,R2   ; H'0570
+    00000428 61A2                   MOV.L       @R10,R1
+    0000042A 312C                   ADD         R2,R1
+    0000042C              L1178:                            
+    0000042C 9019                   MOV.W       L1323+2,R0 ; H'03F0
+    0000042E 305C                   ADD         R5,R0
+    00000430 3100                   CMP/EQ      R0,R1
+    00000432 8901                   BT          L1324
+    00000434 A08A                   BRA         L1179
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000436 0009                   NOP
+    00000438              L1324:                            
+        expand.c   178                    if (car(p1) != symbol(POWER))
+        expand.c   179                            continue;
+        expand.c   180                    if (cadr(p1) != X)
+    00000438 8448                   MOV.B       @(8,R4),R0
+    0000043A 2008                   TST         R0,R0
+    0000043C 8B01                   BF          L1182
+    0000043E A002                   BRA         L1184
+    00000440 5241                   MOV.L       @(4,R4),R2
+    00000442              L1182:                            
+    00000442 920D                   MOV.W       L1323,R2   ; H'0570
+    00000444 325C                   ADD         R5,R2
+    00000446              L1184:                            
+    00000446 8428                   MOV.B       @(8,R2),R0
+    00000448 2008                   TST         R0,R0
+    0000044A 8B23                   BF          L1181
+    0000044C 8448                   MOV.B       @(8,R4),R0
+    0000044E 2008                   TST         R0,R0
+    00000450 8B01                   BF          L1183
+    00000452 A002                   BRA         L1185
+    00000454 5241                   MOV.L       @(4,R4),R2
+    00000456              L1183:                            
+    00000456 9203                   MOV.W       L1323,R2   ; H'0570
+    00000458 325C                   ADD         R5,R2
+    0000045A              L1185:                            
+    0000045A 6322                   MOV.L       @R2,R3
+    0000045C A01C                   BRA         L1186
+    0000045E 0009                   NOP
+    00000460              L1323:                            
+    00000460 0570                   .DATA.W     H'0570
+    00000462 03F0                   .DATA.W     H'03F0
+    00000464 <00000000>             .DATA.L     _push
+    00000468 <00000000>             .DATA.L     _p5
+    0000046C <00000000>             .DATA.L     _copy_tensor
+    00000470 <00000000>             .DATA.L     _pop
+    00000474 <00000000>             .DATA.L     _p9
+    00000478 <00000000>             .DATA.L     _tos
+    0000047C <00000000>             .DATA.L     _p2
+    00000480 <00000000>             .DATA.L     _factors
+    00000484 <00000000>             .DATA.L     _p3
+    00000488 <00000000>             .DATA.L     _symtab
+    0000048C <00000000>             .DATA.L     _p1
+    00000490 <00000000>             .DATA.L     _stack
+    00000494              L1181:                            
+    00000494 9346                   MOV.W       L1325,R3   ; H'0570
+    00000496 335C                   ADD         R5,R3
+    00000498              L1186:                            
+    00000498 6192                   MOV.L       @R9,R1
+    0000049A 3310                   CMP/EQ      R1,R3
+    0000049C 8B56                   BF          L1179
+        expand.c   181                            continue;
+        expand.c   182                    push(caddr(p1));
+    0000049E 64E2                   MOV.L       @R14,R4
+    000004A0 8448                   MOV.B       @(8,R4),R0
+    000004A2 2008                   TST         R0,R0
+    000004A4 8B02                   BF          L1189
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000004A6 64E2                   MOV.L       @R14,R4
+    000004A8 A004                   BRA         L1194
+    000004AA 5441                   MOV.L       @(4,R4),R4
+    000004AC              L1189:                            
+    000004AC 933A                   MOV.W       L1325,R3   ; H'0570
+    000004AE D21E                   MOV.L       L1325+4,R2 ; _symtab
+    000004B0 6422                   MOV.L       @R2,R4
+    000004B2 343C                   ADD         R3,R4
+    000004B4              L1194:                            
+    000004B4 8448                   MOV.B       @(8,R4),R0
+    000004B6 2008                   TST         R0,R0
+    000004B8 8B0C                   BF          L1188
+    000004BA 64E2                   MOV.L       @R14,R4
+    000004BC 8448                   MOV.B       @(8,R4),R0
+    000004BE 2008                   TST         R0,R0
+    000004C0 8B02                   BF          L1190
+    000004C2 64E2                   MOV.L       @R14,R4
+    000004C4 A004                   BRA         L1195
+    000004C6 5441                   MOV.L       @(4,R4),R4
+    000004C8              L1190:                            
+    000004C8 932C                   MOV.W       L1325,R3   ; H'0570
+    000004CA D217                   MOV.L       L1325+4,R2 ; _symtab
+    000004CC 6422                   MOV.L       @R2,R4
+    000004CE 343C                   ADD         R3,R4
+    000004D0              L1195:                            
+    000004D0 A004                   BRA         L1196
+    000004D2 5441                   MOV.L       @(4,R4),R4
+    000004D4              L1188:                            
+    000004D4 9326                   MOV.W       L1325,R3   ; H'0570
+    000004D6 D214                   MOV.L       L1325+4,R2 ; _symtab
+    000004D8 6422                   MOV.L       @R2,R4
+    000004DA 343C                   ADD         R3,R4
+    000004DC              L1196:                            
+    000004DC 8448                   MOV.B       @(8,R4),R0
+    000004DE 2008                   TST         R0,R0
+    000004E0 8B24                   BF          L1187
+    000004E2 64E2                   MOV.L       @R14,R4
+    000004E4 8448                   MOV.B       @(8,R4),R0
+    000004E6 2008                   TST         R0,R0
+    000004E8 8B02                   BF          L1192
+    000004EA 64E2                   MOV.L       @R14,R4
+    000004EC A004                   BRA         L1197
+    000004EE 5441                   MOV.L       @(4,R4),R4
+    000004F0              L1192:                            
+    000004F0 9318                   MOV.W       L1325,R3   ; H'0570
+    000004F2 D20D                   MOV.L       L1325+4,R2 ; _symtab
+    000004F4 6422                   MOV.L       @R2,R4
+    000004F6 343C                   ADD         R3,R4
+    000004F8              L1197:                            
+    000004F8 8448                   MOV.B       @(8,R4),R0
+    000004FA 2008                   TST         R0,R0
+    000004FC 8B0C                   BF          L1191
+    000004FE 64E2                   MOV.L       @R14,R4
+    00000500 8448                   MOV.B       @(8,R4),R0
+    00000502 2008                   TST         R0,R0
+    00000504 8B02                   BF          L1193
+    00000506 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   16
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000508 A004                   BRA         L1198
+    0000050A 5441                   MOV.L       @(4,R4),R4
+    0000050C              L1193:                            
+    0000050C 930A                   MOV.W       L1325,R3   ; H'0570
+    0000050E D206                   MOV.L       L1325+4,R2 ; _symtab
+    00000510 6422                   MOV.L       @R2,R4
+    00000512 343C                   ADD         R3,R4
+    00000514              L1198:                            
+    00000514 A004                   BRA         L1199
+    00000516 5441                   MOV.L       @(4,R4),R4
+    00000518              L1191:                            
+    00000518 9304                   MOV.W       L1325,R3   ; H'0570
+    0000051A D203                   MOV.L       L1325+4,R2 ; _symtab
+    0000051C 6422                   MOV.L       @R2,R4
+    0000051E 343C                   ADD         R3,R4
+    00000520              L1199:                            
+    00000520 A008                   BRA         L1200
+    00000522 6442                   MOV.L       @R4,R4
+    00000524              L1325:                            
+    00000524 0570                   .DATA.W     H'0570
+    00000526 0000                   .DATA.W     0
+    00000528 <00000000>             .DATA.L     _symtab
+    0000052C              L1187:                            
+    0000052C 937E                   MOV.W       L1326,R3   ; H'0570
+    0000052E D240                   MOV.L       L1326+4,R2 ; _symtab
+    00000530 6422                   MOV.L       @R2,R4
+    00000532 343C                   ADD         R3,R4
+    00000534              L1200:                            
+    00000534 4D0B                   JSR         @R13
+    00000536 0009                   NOP
+        expand.c   183                    k = pop_integer();
+    00000538 D33E                   MOV.L       L1326+8,R3 ; _pop_integer
+    0000053A 430B                   JSR         @R3
+    0000053C 0009                   NOP
+    0000053E 6403                   MOV         R0,R4
+        expand.c   184                    if (k == (int) 0x80000000)
+    00000540 D23D                   MOV.L       L1326+12,R2; H'80000000
+    00000542 3420                   CMP/EQ      R2,R4
+    00000544 8902                   BT          L1179
+        expand.c   185                            continue;
+        expand.c   186                    if (k < j)
+    00000546 34C3                   CMP/GE      R12,R4
+    00000548 8900                   BT          L1179
+        expand.c   187                            j = k;
+    0000054A 6C43                   MOV         R4,R12
+    0000054C              L1179:                            
+    0000054C 7801                   ADD         #1,R8
+    0000054E 7B04                   ADD         #4,R11
+    00000550              L1174:                            
+    00000550 52F1                   MOV.L       @(4,R15),R2
+    00000552 3823                   CMP/GE      R2,R8
+    00000554 8901                   BT          L1327
+    00000556 AF5A                   BRA         L1175
+    00000558 0009                   NOP
+    0000055A              L1327:                            
+        expand.c   188            }
+        expand.c   189    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   17
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   190            tos = h;
+        expand.c   191    
+        expand.c   192            if (j == 0)
+    0000055A 2CC8                   TST         R12,R12
+    0000055C 61F2                   MOV.L       @R15,R1
+    0000055E D337                   MOV.L       L1326+16,R3; _tos
+    00000560 8D27                   BT/S        L1204
+    00000562 2312                   MOV.L       R1,@R3
+        expand.c   193                    return;
+        expand.c   194    
+        expand.c   195            // A = A / X^j
+        expand.c   196    
+        expand.c   197            push(A);
+    00000564 D336                   MOV.L       L1326+20,R3; _p2
+    00000566 4D0B                   JSR         @R13
+    00000568 6432                   MOV.L       @R3,R4
+        expand.c   198            push(X);
+    0000056A 4D0B                   JSR         @R13
+    0000056C 6492                   MOV.L       @R9,R4
+        expand.c   199            push_integer(-j);
+    0000056E 64CB                   NEG         R12,R4
+    00000570 D334                   MOV.L       L1326+24,R3; _push_integer
+    00000572 430B                   JSR         @R3
+    00000574 2F42                   MOV.L       R4,@R15
+        expand.c   200            power();
+    00000576 D234                   MOV.L       L1326+28,R2; _power
+    00000578 420B                   JSR         @R2
+    0000057A 0009                   NOP
+        expand.c   201            multiply();
+    0000057C D333                   MOV.L       L1326+32,R3; _multiply
+    0000057E 430B                   JSR         @R3
+    00000580 0009                   NOP
+        expand.c   202            A = pop();
+    00000582 D233                   MOV.L       L1326+36,R2; _pop
+    00000584 420B                   JSR         @R2
+    00000586 0009                   NOP
+    00000588 D32D                   MOV.L       L1326+20,R3; _p2
+    0000058A 2302                   MOV.L       R0,@R3
+        expand.c   203    
+        expand.c   204            // B = B / X^j
+        expand.c   205    
+        expand.c   206            push(B);
+    0000058C D231                   MOV.L       L1326+40,R2; _p3
+    0000058E 4D0B                   JSR         @R13
+    00000590 6422                   MOV.L       @R2,R4
+        expand.c   207            push(X);
+    00000592 4D0B                   JSR         @R13
+    00000594 6492                   MOV.L       @R9,R4
+        expand.c   208            push_integer(-j);
+    00000596 D32B                   MOV.L       L1326+24,R3; _push_integer
+    00000598 430B                   JSR         @R3
+    0000059A 64F2                   MOV.L       @R15,R4
+        expand.c   209            power();
+    0000059C D22A                   MOV.L       L1326+28,R2; _power
+    0000059E 420B                   JSR         @R2
+    000005A0 0009                   NOP
+        expand.c   210            multiply();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   18
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000005A2 D32A                   MOV.L       L1326+32,R3; _multiply
+    000005A4 430B                   JSR         @R3
+    000005A6 0009                   NOP
+        expand.c   211            B = pop();
+    000005A8 D229                   MOV.L       L1326+36,R2; _pop
+    000005AA 420B                   JSR         @R2
+    000005AC 0009                   NOP
+    000005AE D329                   MOV.L       L1326+40,R3; _p3
+    000005B0 2302                   MOV.L       R0,@R3
+        expand.c   212    }
+    000005B2              L1204:                            
+    000005B2 7F08                   ADD         #8,R15
+    000005B4 4F26                   LDS.L       @R15+,PR
+    000005B6 68F6                   MOV.L       @R15+,R8
+    000005B8 69F6                   MOV.L       @R15+,R9
+    000005BA 6AF6                   MOV.L       @R15+,R10
+    000005BC 6BF6                   MOV.L       @R15+,R11
+    000005BE 6CF6                   MOV.L       @R15+,R12
+    000005C0 6DF6                   MOV.L       @R15+,R13
+    000005C2 000B                   RTS
+    000005C4 6EF6                   MOV.L       @R15+,R14
+        expand.c   213    
+        expand.c   214    // Returns the expansion coefficient matrix C.
+        expand.c   215    //
+        expand.c   216    // Example:
+        expand.c   217    //
+        expand.c   218    //       B         1
+        expand.c   219    //      --- = -----------
+        expand.c   220    //       A      2 
+        expand.c   221    //             x (x + 1)
+        expand.c   222    //
+        expand.c   223    // We have
+        expand.c   224    //
+        expand.c   225    //       B     Y1     Y2      Y3
+        expand.c   226    //      --- = ---- + ---- + -------
+        expand.c   227    //       A      2     x      x + 1
+        expand.c   228    //             x
+        expand.c   229    //
+        expand.c   230    // Our task is to solve for the unknowns Y1, Y2, and Y3.
+        expand.c   231    //
+        expand.c   232    // Multiplying both sides by A yields
+        expand.c   233    //
+        expand.c   234    //           AY1     AY2      AY3
+        expand.c   235    //      B = ----- + ----- + -------
+        expand.c   236    //            2      x       x + 1
+        expand.c   237    //           x
+        expand.c   238    //
+        expand.c   239    // Let
+        expand.c   240    //
+        expand.c   241    //            A               A                 A
+        expand.c   242    //      W1 = ----       W2 = ---        W3 = -------
+        expand.c   243    //             2              x               x + 1
+        expand.c   244    //            x
+        expand.c   245    //
+        expand.c   246    // Then the coefficient matrix C is
+        expand.c   247    //
+        expand.c   248    //              coeff(W1,x,0)   coeff(W2,x,0)   coeff(W3,x,0)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   19
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   249    //
+        expand.c   250    //       C =    coeff(W1,x,1)   coeff(W2,x,1)   coeff(W3,x,1)
+        expand.c   251    //
+        expand.c   252    //              coeff(W1,x,2)   coeff(W2,x,2)   coeff(W3,x,2)
+        expand.c   253    //
+        expand.c   254    // It follows that
+        expand.c   255    //
+        expand.c   256    //       coeff(B,x,0)     Y1
+        expand.c   257    //
+        expand.c   258    //       coeff(B,x,1) = C Y2
+        expand.c   259    //
+        expand.c   260    //       coeff(B,x,2) =   Y3
+        expand.c   261    //
+        expand.c   262    // Hence
+        expand.c   263    //
+        expand.c   264    //       Y1       coeff(B,x,0)
+        expand.c   265    //             -1
+        expand.c   266    //       Y2 = C   coeff(B,x,1)
+        expand.c   267    //
+        expand.c   268    //       Y3       coeff(B,x,2)
+        expand.c   269    
+        expand.c   270    void
+        expand.c   271    expand_get_C(void)
+    000005C6              _expand_get_C:                   ; function: expand_get_C
+                                                           ; frame size=44
+    000005C6 2FE6                   MOV.L       R14,@-R15
+    000005C8 2FD6                   MOV.L       R13,@-R15
+    000005CA 2FC6                   MOV.L       R12,@-R15
+    000005CC 2FB6                   MOV.L       R11,@-R15
+    000005CE 2FA6                   MOV.L       R10,@-R15
+    000005D0 2F96                   MOV.L       R9,@-R15
+    000005D2 2F86                   MOV.L       R8,@-R15
+    000005D4 4F22                   STS.L       PR,@-R15
+    000005D6 4F12                   STS.L       MACL,@-R15
+        expand.c   272    {
+        expand.c   273            int h, i, j, n;
+        expand.c   274            U **a;
+        expand.c   275            h = tos;
+    000005D8 D218                   MOV.L       L1326+16,R2; _tos
+    000005DA 7FFC                   ADD         #-4,R15
+    000005DC D518                   MOV.L       L1326+20,R5; _p2
+    000005DE DD1E                   MOV.L       L1326+44,R13; _p5
+    000005E0 6452                   MOV.L       @R5,R4
+    000005E2 8448                   MOV.B       @(8,R4),R0
+    000005E4 2008                   TST         R0,R0
+    000005E6 8F02                   BF/S        L1206
+    000005E8 6C22                   MOV.L       @R2,R12
+    000005EA A004                   BRA         L1207
+    000005EC 6342                   MOV.L       @R4,R3
+    000005EE              L1206:                            
+    000005EE 911D                   MOV.W       L1326,R1   ; H'0570
+    000005F0 D00F                   MOV.L       L1326+4,R0 ; _symtab
+    000005F2 6302                   MOV.L       @R0,R3
+    000005F4 331C                   ADD         R1,R3
+    000005F6              L1207:                            
+    000005F6 921A                   MOV.W       L1326+2,R2 ; H'0384
+    000005F8 D00D                   MOV.L       L1326+4,R0 ; _symtab
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   20
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000005FA 6102                   MOV.L       @R0,R1
+    000005FC 312C                   ADD         R2,R1
+    000005FE 3310                   CMP/EQ      R1,R3
+    00000600 8B47                   BF          L1205
+        expand.c   276            if (car(A) == symbol(MULTIPLY)) {
+        expand.c   277                    p1 = cdr(A);
+    00000602 DE16                   MOV.L       L1326+48,R14; _p1
+    00000604 6352                   MOV.L       @R5,R3
+    00000606 8438                   MOV.B       @(8,R3),R0
+    00000608 2008                   TST         R0,R0
+    0000060A 8B02                   BF          L1208
+    0000060C 6152                   MOV.L       @R5,R1
+    0000060E A039                   BRA         L1317
+    00000610 5111                   MOV.L       @(4,R1),R1
+    00000612              L1208:                            
+    00000612 930B                   MOV.W       L1326,R3   ; H'0570
+    00000614 D006                   MOV.L       L1326+4,R0 ; _symtab
+    00000616 6102                   MOV.L       @R0,R1
+    00000618 313C                   ADD         R3,R1
+        expand.c   278                    while (iscons(p1)) {
+    0000061A A033                   BRA         L1317
+    0000061C 0009                   NOP
+    0000061E              L1211:                            
+        expand.c   279                            F = car(p1);
+    0000061E 63E2                   MOV.L       @R14,R3
+    00000620 8438                   MOV.B       @(8,R3),R0
+    00000622 2008                   TST         R0,R0
+    00000624 8B1C                   BF          L1212
+    00000626 62E2                   MOV.L       @R14,R2
+    00000628 A01E                   BRA         L1213
+    0000062A 6222                   MOV.L       @R2,R2
+    0000062C              L1326:                            
+    0000062C 0570                   .DATA.W     H'0570
+    0000062E 0384                   .DATA.W     H'0384
+    00000630 <00000000>             .DATA.L     _symtab
+    00000634 <00000000>             .DATA.L     _pop_integer
+    00000638 80000000               .DATA.L     H'80000000
+    0000063C <00000000>             .DATA.L     _tos
+    00000640 <00000000>             .DATA.L     _p2
+    00000644 <00000000>             .DATA.L     _push_integer
+    00000648 <00000000>             .DATA.L     _power
+    0000064C <00000000>             .DATA.L     _multiply
+    00000650 <00000000>             .DATA.L     _pop
+    00000654 <00000000>             .DATA.L     _p3
+    00000658 <00000000>             .DATA.L     _p5
+    0000065C <00000000>             .DATA.L     _p1
+    00000660              L1212:                            
+    00000660 9376                   MOV.W       L1328,R3   ; H'0570
+    00000662 D13C                   MOV.L       L1328+4,R1 ; _symtab
+    00000664 6212                   MOV.L       @R1,R2
+    00000666 323C                   ADD         R3,R2
+    00000668              L1213:                            
+        expand.c   280                            expand_get_CF();
+    00000668 B08C                   BSR         _expand_get_CF
+    0000066A 2D22                   MOV.L       R2,@R13
+        expand.c   281                            p1 = cdr(p1);
+    0000066C 63E2                   MOV.L       @R14,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   21
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000066E 8438                   MOV.B       @(8,R3),R0
+    00000670 2008                   TST         R0,R0
+    00000672 8B03                   BF          L1214
+    00000674 62E2                   MOV.L       @R14,R2
+    00000676 5121                   MOV.L       @(4,R2),R1
+    00000678 A004                   BRA         L1317
+    0000067A 0009                   NOP
+    0000067C              L1214:                            
+    0000067C 9368                   MOV.W       L1328,R3   ; H'0570
+    0000067E D035                   MOV.L       L1328+4,R0 ; _symtab
+    00000680 6102                   MOV.L       @R0,R1
+    00000682 313C                   ADD         R3,R1
+    00000684              L1317:                            
+    00000684 2E12                   MOV.L       R1,@R14
+    00000686 6313                   MOV         R1,R3
+    00000688 8438                   MOV.B       @(8,R3),R0
+    0000068A 2008                   TST         R0,R0
+    0000068C 89C7                   BT          L1211
+    0000068E A002                   BRA         L1216
+    00000690 0009                   NOP
+    00000692              L1205:                            
+        expand.c   282                    }
+        expand.c   283            } else {
+        expand.c   284                    F = A;
+        expand.c   285                    expand_get_CF();
+    00000692 B077                   BSR         _expand_get_CF
+    00000694 2D42                   MOV.L       R4,@R13
+    00000696              L1216:                            
+        expand.c   286            }
+        expand.c   287            n = tos - h;
+    00000696 D230                   MOV.L       L1328+8,R2 ; _tos
+        expand.c   288            if (n == 1) {
+    00000698 D930                   MOV.L       L1328+12,R9; _p4
+    0000069A 6E22                   MOV.L       @R2,R14
+    0000069C 3EC8                   SUB         R12,R14
+    0000069E 60E3                   MOV         R14,R0
+    000006A0 8801                   CMP/EQ      #1,R0
+    000006A2 8B04                   BF          L1217
+        expand.c   289                    C = pop();
+    000006A4 D12E                   MOV.L       L1328+16,R1; _pop
+    000006A6 410B                   JSR         @R1
+    000006A8 0009                   NOP
+        expand.c   290                    return;
+    000006AA A046                   BRA         L1218
+    000006AC 2902                   MOV.L       R0,@R9
+    000006AE              L1217:                            
+        expand.c   291            }
+        expand.c   292            C = alloc_tensor(n * n);
+    000006AE 0EE7                   MUL.L       R14,R14
+    000006B0 D32C                   MOV.L       L1328+20,R3; _alloc_tensor
+    000006B2 430B                   JSR         @R3
+    000006B4 041A                   STS         MACL,R4
+        expand.c   293            C->u.tensor->ndim = 2;
+    000006B6 6203                   MOV         R0,R2
+        expand.c   294            C->u.tensor->dim[0] = n;
+        expand.c   295            C->u.tensor->dim[1] = n;
+        expand.c   296            a = stack + h;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   22
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   297            for (i = 0; i < n; i++) {
+    000006B8 DD2C                   MOV.L       L1328+28,R13; _push
+    000006BA E102                   MOV         #2,R1
+    000006BC 2902                   MOV.L       R0,@R9
+    000006BE 4C08                   SHLL2       R12
+    000006C0 6322                   MOV.L       @R2,R3
+    000006C2 2312                   MOV.L       R1,@R3
+    000006C4 6392                   MOV.L       @R9,R3
+    000006C6 6232                   MOV.L       @R3,R2
+    000006C8 12E1                   MOV.L       R14,@(4,R2)
+    000006CA 6392                   MOV.L       @R9,R3
+    000006CC 6232                   MOV.L       @R3,R2
+    000006CE 12E2                   MOV.L       R14,@(8,R2)
+    000006D0 D225                   MOV.L       L1328+24,R2; _stack
+    000006D2 6322                   MOV.L       @R2,R3
+    000006D4 3C3C                   ADD         R3,R12
+    000006D6 2FC2                   MOV.L       R12,@R15
+    000006D8 A029                   BRA         L1219
+    000006DA EA00                   MOV         #0,R10
+    000006DC              L1220:                            
+    000006DC 0AE7                   MUL.L       R14,R10
+        expand.c   298                    for (j = 0; j < n; j++) {
+    000006DE 4E15                   CMP/PL      R14
+    000006E0 E800                   MOV         #0,R8
+    000006E2 0B1A                   STS         MACL,R11
+    000006E4 4B08                   SHLL2       R11
+    000006E6 8F21                   BF/S        L1221
+    000006E8 6CF2                   MOV.L       @R15,R12
+    000006EA              L1222:                            
+        expand.c   299                            push(a[j]);
+    000006EA 4D0B                   JSR         @R13
+    000006EC 64C6                   MOV.L       @R12+,R4
+        expand.c   300                            push(X);
+    000006EE D220                   MOV.L       L1328+32,R2; _p9
+    000006F0 4D0B                   JSR         @R13
+    000006F2 6422                   MOV.L       @R2,R4
+        expand.c   301                            push_integer(i);
+    000006F4 D31F                   MOV.L       L1328+36,R3; _push_integer
+    000006F6 430B                   JSR         @R3
+    000006F8 64A3                   MOV         R10,R4
+        expand.c   302                            power();
+    000006FA D21F                   MOV.L       L1328+40,R2; _power
+    000006FC 420B                   JSR         @R2
+    000006FE 0009                   NOP
+        expand.c   303                            divide();
+    00000700 D31E                   MOV.L       L1328+44,R3; _divide
+    00000702 430B                   JSR         @R3
+    00000704 0009                   NOP
+        expand.c   304                            push(X);
+    00000706 D21A                   MOV.L       L1328+32,R2; _p9
+    00000708 4D0B                   JSR         @R13
+    0000070A 6422                   MOV.L       @R2,R4
+        expand.c   305                            filter();
+    0000070C D31C                   MOV.L       L1328+48,R3; _filter
+    0000070E 430B                   JSR         @R3
+    00000710 0009                   NOP
+        expand.c   306                            C->u.tensor->elem[n * i + j] = pop();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   23
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000712 6192                   MOV.L       @R9,R1
+    00000714 D312                   MOV.L       L1328+16,R3; _pop
+    00000716 6212                   MOV.L       @R1,R2
+    00000718 7268                   ADD         #104,R2
+    0000071A 32BC                   ADD         R11,R2
+    0000071C 430B                   JSR         @R3
+    0000071E 2F26                   MOV.L       R2,@-R15
+    00000720 61F6                   MOV.L       @R15+,R1
+    00000722 7801                   ADD         #1,R8
+    00000724 2102                   MOV.L       R0,@R1
+    00000726 38E3                   CMP/GE      R14,R8
+    00000728 8FDF                   BF/S        L1222
+    0000072A 7B04                   ADD         #4,R11
+    0000072C              L1221:                            
+    0000072C 7A01                   ADD         #1,R10
+    0000072E              L1219:                            
+    0000072E 3AE3                   CMP/GE      R14,R10
+    00000730 8BD4                   BF          L1220
+        expand.c   307                    }
+        expand.c   308            }
+        expand.c   309            tos -= n;
+    00000732 D309                   MOV.L       L1328+8,R3 ; _tos
+    00000734 6232                   MOV.L       @R3,R2
+    00000736 32E8                   SUB         R14,R2
+    00000738 2322                   MOV.L       R2,@R3
+        expand.c   310    }
+    0000073A              L1218:                            
+    0000073A 7F04                   ADD         #4,R15
+    0000073C 4F16                   LDS.L       @R15+,MACL
+    0000073E 4F26                   LDS.L       @R15+,PR
+    00000740 68F6                   MOV.L       @R15+,R8
+    00000742 69F6                   MOV.L       @R15+,R9
+    00000744 6AF6                   MOV.L       @R15+,R10
+    00000746 6BF6                   MOV.L       @R15+,R11
+    00000748 6CF6                   MOV.L       @R15+,R12
+    0000074A 6DF6                   MOV.L       @R15+,R13
+    0000074C 000B                   RTS
+    0000074E 6EF6                   MOV.L       @R15+,R14
+    00000750              L1328:                            
+    00000750 0570                   .DATA.W     H'0570
+    00000752 0000                   .DATA.W     0
+    00000754 <00000000>             .DATA.L     _symtab
+    00000758 <00000000>             .DATA.L     _tos
+    0000075C <00000000>             .DATA.L     _p4
+    00000760 <00000000>             .DATA.L     _pop
+    00000764 <00000000>             .DATA.L     _alloc_tensor
+    00000768 <00000000>             .DATA.L     _stack
+    0000076C <00000000>             .DATA.L     _push
+    00000770 <00000000>             .DATA.L     _p9
+    00000774 <00000000>             .DATA.L     _push_integer
+    00000778 <00000000>             .DATA.L     _power
+    0000077C <00000000>             .DATA.L     _divide
+    00000780 <00000000>             .DATA.L     _filter
+        expand.c   311    
+        expand.c   312    // The following table shows the push order for simple roots, repeated roots,
+        expand.c   313    // and inrreducible factors.
+        expand.c   314    //
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   24
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   315    //  Factor F        Push 1st        Push 2nd         Push 3rd      Push 4th
+        expand.c   316    //
+        expand.c   317    //
+        expand.c   318    //                   A
+        expand.c   319    //  x               ---
+        expand.c   320    //                   x
+        expand.c   321    //
+        expand.c   322    //
+        expand.c   323    //   2               A               A
+        expand.c   324    //  x               ----            ---
+        expand.c   325    //                    2              x
+        expand.c   326    //                   x
+        expand.c   327    //
+        expand.c   328    //
+        expand.c   329    //                     A
+        expand.c   330    //  x + 1           -------
+        expand.c   331    //                   x + 1
+        expand.c   332    //
+        expand.c   333    //
+        expand.c   334    //         2            A              A
+        expand.c   335    //  (x + 1)         ----------      -------
+        expand.c   336    //                          2        x + 1
+        expand.c   337    //                   (x + 1)
+        expand.c   338    //
+        expand.c   339    //
+        expand.c   340    //   2                   A               Ax
+        expand.c   341    //  x  + x + 1      ------------    ------------
+        expand.c   342    //                    2               2
+        expand.c   343    //                   x  + x + 1      x  + x + 1
+        expand.c   344    //
+        expand.c   345    //
+        expand.c   346    //    2         2          A              Ax              A             Ax
+        expand.c   347    //  (x  + x + 1)    --------------- ---------------  ------------  ------------
+        expand.c   348    //                     2         2     2         2     2             2
+        expand.c   349    //                   (x  + x + 1)    (x  + x + 1)     x  + x + 1    x  + x + 1
+        expand.c   350    //
+        expand.c   351    //
+        expand.c   352    // For T = A/F and F = P^N we have
+        expand.c   353    //
+        expand.c   354    //
+        expand.c   355    //      Factor F          Push 1st    Push 2nd    Push 3rd    Push 4th
+        expand.c   356    //
+        expand.c   357    //      x                 T
+        expand.c   358    //
+        expand.c   359    //       2
+        expand.c   360    //      x                 T           TP
+        expand.c   361    //
+        expand.c   362    //
+        expand.c   363    //      x + 1             T
+        expand.c   364    //
+        expand.c   365    //             2
+        expand.c   366    //      (x + 1)           T           TP
+        expand.c   367    //
+        expand.c   368    //       2
+        expand.c   369    //      x  + x + 1        T           TX
+        expand.c   370    //
+        expand.c   371    //        2         2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   25
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   372    //      (x  + x + 1)      T           TX          TP          TPX
+        expand.c   373    //
+        expand.c   374    //
+        expand.c   375    // Hence we want to push in the order
+        expand.c   376    //
+        expand.c   377    //      T * (P ^ i) * (X ^ j)
+        expand.c   378    //
+        expand.c   379    // for all i, j such that
+        expand.c   380    //
+        expand.c   381    //      i = 0, 1, ..., N - 1
+        expand.c   382    //
+        expand.c   383    //      j = 0, 1, ..., deg(P) - 1
+        expand.c   384    //
+        expand.c   385    // where index j runs first.
+        expand.c   386    
+        expand.c   387    void
+        expand.c   388    expand_get_CF(void)
+    00000784              _expand_get_CF:                  ; function: expand_get_CF
+                                                           ; frame size=40
+    00000784 2FE6                   MOV.L       R14,@-R15
+    00000786 2FD6                   MOV.L       R13,@-R15
+    00000788 2FC6                   MOV.L       R12,@-R15
+    0000078A 2FB6                   MOV.L       R11,@-R15
+    0000078C 2FA6                   MOV.L       R10,@-R15
+    0000078E 2F96                   MOV.L       R9,@-R15
+    00000790 2F86                   MOV.L       R8,@-R15
+    00000792 4F22                   STS.L       PR,@-R15
+        expand.c   389    {       int d, i, j, n;
+        expand.c   390            if (!find(F, X))
+    00000794 DE33                   MOV.L       L1329+6,R14; _p5
+    00000796 7FF8                   ADD         #-8,R15
+    00000798 D333                   MOV.L       L1329+10,R3; _p9
+    0000079A 6532                   MOV.L       @R3,R5
+    0000079C D233                   MOV.L       L1329+14,R2; _find
+    0000079E 420B                   JSR         @R2
+    000007A0 64E2                   MOV.L       @R14,R4
+    000007A2 2008                   TST         R0,R0
+    000007A4 8B01                   BF          L1330
+    000007A6 A0C9                   BRA         L1224
+    000007A8 0009                   NOP
+    000007AA              L1330:                            
+        expand.c   391                    return;
+        expand.c   392            trivial_divide();
+    000007AA B0D1                   BSR         _trivial_divide
+    000007AC 0009                   NOP
+        expand.c   393            if (car(F) == symbol(POWER)) {
+    000007AE D830                   MOV.L       L1329+18,R8; _p6
+    000007B0 DD30                   MOV.L       L1329+22,R13; _push
+    000007B2 62E2                   MOV.L       @R14,R2
+    000007B4 8428                   MOV.B       @(8,R2),R0
+    000007B6 2008                   TST         R0,R0
+    000007B8 8B02                   BF          L1226
+    000007BA 62E2                   MOV.L       @R14,R2
+    000007BC A004                   BRA         L1227
+    000007BE 6322                   MOV.L       @R2,R3
+    000007C0              L1226:                            
+    000007C0 924D                   MOV.W       L1329,R2   ; H'0570
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   26
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000007C2 D12D                   MOV.L       L1329+26,R1; _symtab
+    000007C4 6312                   MOV.L       @R1,R3
+    000007C6 332C                   ADD         R2,R3
+    000007C8              L1227:                            
+    000007C8 924A                   MOV.W       L1329+2,R2 ; H'03F0
+    000007CA D12B                   MOV.L       L1329+26,R1; _symtab
+    000007CC 6012                   MOV.L       @R1,R0
+    000007CE 302C                   ADD         R2,R0
+    000007D0 3300                   CMP/EQ      R0,R3
+    000007D2 8901                   BT          L1331
+    000007D4 A07D                   BRA         L1225
+    000007D6 0009                   NOP
+    000007D8              L1331:                            
+        expand.c   394                    push(caddr(F));
+    000007D8 64E2                   MOV.L       @R14,R4
+    000007DA 8448                   MOV.B       @(8,R4),R0
+    000007DC 2008                   TST         R0,R0
+    000007DE 8B02                   BF          L1230
+    000007E0 64E2                   MOV.L       @R14,R4
+    000007E2 A004                   BRA         L1235
+    000007E4 5441                   MOV.L       @(4,R4),R4
+    000007E6              L1230:                            
+    000007E6 933A                   MOV.W       L1329,R3   ; H'0570
+    000007E8 D123                   MOV.L       L1329+26,R1; _symtab
+    000007EA 6412                   MOV.L       @R1,R4
+    000007EC 343C                   ADD         R3,R4
+    000007EE              L1235:                            
+    000007EE 8448                   MOV.B       @(8,R4),R0
+    000007F0 2008                   TST         R0,R0
+    000007F2 8B0C                   BF          L1229
+    000007F4 64E2                   MOV.L       @R14,R4
+    000007F6 8448                   MOV.B       @(8,R4),R0
+    000007F8 2008                   TST         R0,R0
+    000007FA 8B02                   BF          L1231
+    000007FC 64E2                   MOV.L       @R14,R4
+    000007FE A004                   BRA         L1236
+    00000800 5441                   MOV.L       @(4,R4),R4
+    00000802              L1231:                            
+    00000802 932C                   MOV.W       L1329,R3   ; H'0570
+    00000804 D21C                   MOV.L       L1329+26,R2; _symtab
+    00000806 6422                   MOV.L       @R2,R4
+    00000808 343C                   ADD         R3,R4
+    0000080A              L1236:                            
+    0000080A A004                   BRA         L1237
+    0000080C 5441                   MOV.L       @(4,R4),R4
+    0000080E              L1229:                            
+    0000080E 9326                   MOV.W       L1329,R3   ; H'0570
+    00000810 D219                   MOV.L       L1329+26,R2; _symtab
+    00000812 6422                   MOV.L       @R2,R4
+    00000814 343C                   ADD         R3,R4
+    00000816              L1237:                            
+    00000816 8448                   MOV.B       @(8,R4),R0
+    00000818 2008                   TST         R0,R0
+    0000081A 8B2F                   BF          L1228
+    0000081C 64E2                   MOV.L       @R14,R4
+    0000081E 8448                   MOV.B       @(8,R4),R0
+    00000820 2008                   TST         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   27
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000822 8B02                   BF          L1233
+    00000824 64E2                   MOV.L       @R14,R4
+    00000826 A004                   BRA         L1238
+    00000828 5441                   MOV.L       @(4,R4),R4
+    0000082A              L1233:                            
+    0000082A 9318                   MOV.W       L1329,R3   ; H'0570
+    0000082C D212                   MOV.L       L1329+26,R2; _symtab
+    0000082E 6422                   MOV.L       @R2,R4
+    00000830 343C                   ADD         R3,R4
+    00000832              L1238:                            
+    00000832 8448                   MOV.B       @(8,R4),R0
+    00000834 2008                   TST         R0,R0
+    00000836 8B0C                   BF          L1232
+    00000838 64E2                   MOV.L       @R14,R4
+    0000083A 8448                   MOV.B       @(8,R4),R0
+    0000083C 2008                   TST         R0,R0
+    0000083E 8B02                   BF          L1234
+    00000840 64E2                   MOV.L       @R14,R4
+    00000842 A004                   BRA         L1239
+    00000844 5441                   MOV.L       @(4,R4),R4
+    00000846              L1234:                            
+    00000846 930A                   MOV.W       L1329,R3   ; H'0570
+    00000848 D20B                   MOV.L       L1329+26,R2; _symtab
+    0000084A 6422                   MOV.L       @R2,R4
+    0000084C 343C                   ADD         R3,R4
+    0000084E              L1239:                            
+    0000084E A004                   BRA         L1240
+    00000850 5441                   MOV.L       @(4,R4),R4
+    00000852              L1232:                            
+    00000852 9304                   MOV.W       L1329,R3   ; H'0570
+    00000854 D208                   MOV.L       L1329+26,R2; _symtab
+    00000856 6422                   MOV.L       @R2,R4
+    00000858 343C                   ADD         R3,R4
+    0000085A              L1240:                            
+    0000085A A013                   BRA         L1241
+    0000085C 6442                   MOV.L       @R4,R4
+    0000085E              L1329:                            
+    0000085E 0570                   .DATA.W     H'0570
+    00000860 03F0                   .DATA.W     H'03F0
+    00000862 0000                   .DATA.W     0
+    00000864 <00000000>             .DATA.L     _p5
+    00000868 <00000000>             .DATA.L     _p9
+    0000086C <00000000>             .DATA.L     _find
+    00000870 <00000000>             .DATA.L     _p6
+    00000874 <00000000>             .DATA.L     _push
+    00000878 <00000000>             .DATA.L     _symtab
+    0000087C              L1228:                            
+    0000087C 9376                   MOV.W       L1332,R3   ; H'0570
+    0000087E D23C                   MOV.L       L1332+4,R2 ; _symtab
+    00000880 6422                   MOV.L       @R2,R4
+    00000882 343C                   ADD         R3,R4
+    00000884              L1241:                            
+    00000884 4D0B                   JSR         @R13
+    00000886 0009                   NOP
+        expand.c   395                    n = pop_integer();
+    00000888 D33A                   MOV.L       L1332+8,R3 ; _pop_integer
+    0000088A 430B                   JSR         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   28
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000088C 0009                   NOP
+    0000088E 1F01                   MOV.L       R0,@(4,R15)
+        expand.c   396                    P = cadr(F);
+    00000890 63E2                   MOV.L       @R14,R3
+    00000892 8438                   MOV.B       @(8,R3),R0
+    00000894 2008                   TST         R0,R0
+    00000896 8B02                   BF          L1243
+    00000898 62E2                   MOV.L       @R14,R2
+    0000089A A004                   BRA         L1245
+    0000089C 5221                   MOV.L       @(4,R2),R2
+    0000089E              L1243:                            
+    0000089E 9365                   MOV.W       L1332,R3   ; H'0570
+    000008A0 D133                   MOV.L       L1332+4,R1 ; _symtab
+    000008A2 6212                   MOV.L       @R1,R2
+    000008A4 323C                   ADD         R3,R2
+    000008A6              L1245:                            
+    000008A6 8428                   MOV.B       @(8,R2),R0
+    000008A8 2008                   TST         R0,R0
+    000008AA 8B0C                   BF          L1242
+    000008AC 63E2                   MOV.L       @R14,R3
+    000008AE 8438                   MOV.B       @(8,R3),R0
+    000008B0 2008                   TST         R0,R0
+    000008B2 8B02                   BF          L1244
+    000008B4 62E2                   MOV.L       @R14,R2
+    000008B6 A004                   BRA         L1246
+    000008B8 5221                   MOV.L       @(4,R2),R2
+    000008BA              L1244:                            
+    000008BA 9357                   MOV.W       L1332,R3   ; H'0570
+    000008BC D12C                   MOV.L       L1332+4,R1 ; _symtab
+    000008BE 6212                   MOV.L       @R1,R2
+    000008C0 323C                   ADD         R3,R2
+    000008C2              L1246:                            
+    000008C2 A009                   BRA         L1318
+    000008C4 6322                   MOV.L       @R2,R3
+    000008C6              L1242:                            
+    000008C6 9251                   MOV.W       L1332,R2   ; H'0570
+    000008C8 D129                   MOV.L       L1332+4,R1 ; _symtab
+    000008CA 6312                   MOV.L       @R1,R3
+    000008CC 332C                   ADD         R2,R3
+    000008CE A003                   BRA         L1318
+    000008D0 0009                   NOP
+    000008D2              L1225:                            
+        expand.c   397            } else {
+        expand.c   398                    n = 1;
+    000008D2 E101                   MOV         #1,R1
+    000008D4 1F11                   MOV.L       R1,@(4,R15)
+        expand.c   399                    P = F;
+    000008D6 63E2                   MOV.L       @R14,R3
+    000008D8              L1318:                            
+    000008D8 2832                   MOV.L       R3,@R8
+        expand.c   400            }
+        expand.c   401            push(P);
+    000008DA 4D0B                   JSR         @R13
+    000008DC 6433                   MOV         R3,R4
+        expand.c   402            push(X);
+    000008DE D226                   MOV.L       L1332+12,R2; _p9
+    000008E0 4D0B                   JSR         @R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   29
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000008E2 6422                   MOV.L       @R2,R4
+        expand.c   403            degree();
+    000008E4 D325                   MOV.L       L1332+16,R3; _degree
+    000008E6 430B                   JSR         @R3
+    000008E8 0009                   NOP
+        expand.c   404            d = pop_integer();
+    000008EA D122                   MOV.L       L1332+8,R1 ; _pop_integer
+    000008EC 410B                   JSR         @R1
+    000008EE 0009                   NOP
+    000008F0 2F02                   MOV.L       R0,@R15
+        expand.c   405            for (i = 0; i < n; i++) {
+    000008F2 D923                   MOV.L       L1332+20,R9; _multiply
+    000008F4 DA23                   MOV.L       L1332+24,R10; _power
+    000008F6 DB24                   MOV.L       L1332+28,R11; _push_integer
+    000008F8 A01D                   BRA         L1249
+    000008FA EC00                   MOV         #0,R12
+    000008FC              L1250:                            
+        expand.c   406                    for (j = 0; j < d; j++) {
+    000008FC 62F2                   MOV.L       @R15,R2
+    000008FE 4215                   CMP/PL      R2
+    00000900 8F18                   BF/S        L1251
+    00000902 EE00                   MOV         #0,R14
+    00000904              L1252:                            
+        expand.c   407                            push(T);
+    00000904 D121                   MOV.L       L1332+32,R1; _p8
+    00000906 4D0B                   JSR         @R13
+    00000908 6412                   MOV.L       @R1,R4
+        expand.c   408                            push(P);
+    0000090A 4D0B                   JSR         @R13
+    0000090C 6482                   MOV.L       @R8,R4
+        expand.c   409                            push_integer(i);
+    0000090E 4B0B                   JSR         @R11
+    00000910 64C3                   MOV         R12,R4
+        expand.c   410                            power();
+    00000912 4A0B                   JSR         @R10
+    00000914 0009                   NOP
+        expand.c   411                            multiply();
+    00000916 490B                   JSR         @R9
+    00000918 0009                   NOP
+        expand.c   412                            push(X);
+    0000091A D317                   MOV.L       L1332+12,R3; _p9
+    0000091C 4D0B                   JSR         @R13
+    0000091E 6432                   MOV.L       @R3,R4
+        expand.c   413                            push_integer(j);
+    00000920 4B0B                   JSR         @R11
+    00000922 64E3                   MOV         R14,R4
+        expand.c   414                            power();
+    00000924 4A0B                   JSR         @R10
+    00000926 0009                   NOP
+        expand.c   415                            multiply();
+    00000928 490B                   JSR         @R9
+    0000092A 0009                   NOP
+    0000092C 62F2                   MOV.L       @R15,R2
+    0000092E 7E01                   ADD         #1,R14
+    00000930 3E23                   CMP/GE      R2,R14
+    00000932 8BE7                   BF          L1252
+    00000934              L1251:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   30
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000934 7C01                   ADD         #1,R12
+    00000936              L1249:                            
+    00000936 52F1                   MOV.L       @(4,R15),R2
+    00000938 3C23                   CMP/GE      R2,R12
+    0000093A 8BDF                   BF          L1250
+    0000093C              L1224:                            
+        expand.c   416                    }
+        expand.c   417            }
+        expand.c   418    }
+    0000093C 7F08                   ADD         #8,R15
+    0000093E 4F26                   LDS.L       @R15+,PR
+    00000940 68F6                   MOV.L       @R15+,R8
+    00000942 69F6                   MOV.L       @R15+,R9
+    00000944 6AF6                   MOV.L       @R15+,R10
+    00000946 6BF6                   MOV.L       @R15+,R11
+    00000948 6CF6                   MOV.L       @R15+,R12
+    0000094A 6DF6                   MOV.L       @R15+,R13
+    0000094C 000B                   RTS
+    0000094E 6EF6                   MOV.L       @R15+,R14
+        expand.c   419    
+        expand.c   420    // Returns T = A/F where F is a factor of A.
+        expand.c   421    
+        expand.c   422    void
+        expand.c   423    trivial_divide(void)
+    00000950              _trivial_divide:                 ; function: trivial_divide
+                                                           ; frame size=28
+    00000950 2FE6                   MOV.L       R14,@-R15
+    00000952 2FD6                   MOV.L       R13,@-R15
+    00000954 2FC6                   MOV.L       R12,@-R15
+    00000956 2FB6                   MOV.L       R11,@-R15
+    00000958 2FA6                   MOV.L       R10,@-R15
+    0000095A 4F22                   STS.L       PR,@-R15
+    0000095C D50C                   MOV.L       L1332+36,R5; _p2
+    0000095E 7FFC                   ADD         #-4,R15
+    00000960 6452                   MOV.L       @R5,R4
+    00000962 8448                   MOV.B       @(8,R4),R0
+    00000964 2008                   TST         R0,R0
+    00000966 8B15                   BF          L1254
+    00000968 A018                   BRA         L1255
+    0000096A 6342                   MOV.L       @R4,R3
+    0000096C              L1332:                            
+    0000096C 0570                   .DATA.W     H'0570
+    0000096E 0000                   .DATA.W     0
+    00000970 <00000000>             .DATA.L     _symtab
+    00000974 <00000000>             .DATA.L     _pop_integer
+    00000978 <00000000>             .DATA.L     _p9
+    0000097C <00000000>             .DATA.L     _degree
+    00000980 <00000000>             .DATA.L     _multiply
+    00000984 <00000000>             .DATA.L     _power
+    00000988 <00000000>             .DATA.L     _push_integer
+    0000098C <00000000>             .DATA.L     _p8
+    00000990 <00000000>             .DATA.L     _p2
+    00000994              L1254:                            
+    00000994 9264                   MOV.W       L1333,R2   ; H'0570
+    00000996 D133                   MOV.L       L1333+4,R1 ; _symtab
+    00000998 6312                   MOV.L       @R1,R3
+    0000099A 332C                   ADD         R2,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   31
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000099C              L1255:                            
+    0000099C 9261                   MOV.W       L1333+2,R2 ; H'0384
+    0000099E D131                   MOV.L       L1333+4,R1 ; _symtab
+    000009A0 6012                   MOV.L       @R1,R0
+    000009A2 302C                   ADD         R2,R0
+    000009A4 3300                   CMP/EQ      R0,R3
+    000009A6 8B4B                   BF          L1253
+        expand.c   424    {
+        expand.c   425            int h;
+        expand.c   426            if (car(A) == symbol(MULTIPLY)) {
+        expand.c   427                    h = tos;
+    000009A8 D32F                   MOV.L       L1333+8,R3 ; _tos
+    000009AA 6132                   MOV.L       @R3,R1
+        expand.c   428                    p0 = cdr(A);
+    000009AC DE2F                   MOV.L       L1333+12,R14; _p0
+    000009AE 2F12                   MOV.L       R1,@R15
+    000009B0 6052                   MOV.L       @R5,R0
+    000009B2 8408                   MOV.B       @(8,R0),R0
+    000009B4 2008                   TST         R0,R0
+    000009B6 8B02                   BF          L1256
+    000009B8 6152                   MOV.L       @R5,R1
+    000009BA A004                   BRA         L1257
+    000009BC 5111                   MOV.L       @(4,R1),R1
+    000009BE              L1256:                            
+    000009BE 904F                   MOV.W       L1333,R0   ; H'0570
+    000009C0 D228                   MOV.L       L1333+4,R2 ; _symtab
+    000009C2 6122                   MOV.L       @R2,R1
+    000009C4 310C                   ADD         R0,R1
+    000009C6              L1257:                            
+    000009C6 DA2A                   MOV.L       L1333+16,R10; _equal
+    000009C8 DB2A                   MOV.L       L1333+20,R11; _push
+    000009CA DC2B                   MOV.L       L1333+24,R12; _p5
+    000009CC DD2B                   MOV.L       L1333+28,R13; _eval
+        expand.c   429                    while (iscons(p0)) {
+    000009CE A02B                   BRA         L1258
+    000009D0 2E12                   MOV.L       R1,@R14
+    000009D2              L1259:                            
+        expand.c   430                            if (!equal(car(p0), F)) {
+    000009D2 64E2                   MOV.L       @R14,R4
+    000009D4 8448                   MOV.B       @(8,R4),R0
+    000009D6 2008                   TST         R0,R0
+    000009D8 8F03                   BF/S        L1261
+    000009DA 65C2                   MOV.L       @R12,R5
+    000009DC 64E2                   MOV.L       @R14,R4
+    000009DE A004                   BRA         L1262
+    000009E0 6442                   MOV.L       @R4,R4
+    000009E2              L1261:                            
+    000009E2 933D                   MOV.W       L1333,R3   ; H'0570
+    000009E4 D21F                   MOV.L       L1333+4,R2 ; _symtab
+    000009E6 6422                   MOV.L       @R2,R4
+    000009E8 343C                   ADD         R3,R4
+    000009EA              L1262:                            
+    000009EA 4A0B                   JSR         @R10
+    000009EC 0009                   NOP
+    000009EE 2008                   TST         R0,R0
+    000009F0 8B0E                   BF          L1260
+        expand.c   431                                    push(car(p0));
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   32
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000009F2 64E2                   MOV.L       @R14,R4
+    000009F4 8448                   MOV.B       @(8,R4),R0
+    000009F6 2008                   TST         R0,R0
+    000009F8 8B02                   BF          L1263
+    000009FA 64E2                   MOV.L       @R14,R4
+    000009FC A004                   BRA         L1264
+    000009FE 6442                   MOV.L       @R4,R4
+    00000A00              L1263:                            
+    00000A00 932E                   MOV.W       L1333,R3   ; H'0570
+    00000A02 D218                   MOV.L       L1333+4,R2 ; _symtab
+    00000A04 6422                   MOV.L       @R2,R4
+    00000A06 343C                   ADD         R3,R4
+    00000A08              L1264:                            
+    00000A08 4B0B                   JSR         @R11
+    00000A0A 0009                   NOP
+        expand.c   432                                    eval(); // force expansion of (x+1)^2, f.e.
+    00000A0C 4D0B                   JSR         @R13
+    00000A0E 0009                   NOP
+    00000A10              L1260:                            
+        expand.c   433                            }
+        expand.c   434                            p0 = cdr(p0);
+    00000A10 62E2                   MOV.L       @R14,R2
+    00000A12 8428                   MOV.B       @(8,R2),R0
+    00000A14 2008                   TST         R0,R0
+    00000A16 8B02                   BF          L1265
+    00000A18 62E2                   MOV.L       @R14,R2
+    00000A1A A004                   BRA         L1266
+    00000A1C 5321                   MOV.L       @(4,R2),R3
+    00000A1E              L1265:                            
+    00000A1E 921F                   MOV.W       L1333,R2   ; H'0570
+    00000A20 D110                   MOV.L       L1333+4,R1 ; _symtab
+    00000A22 6312                   MOV.L       @R1,R3
+    00000A24 332C                   ADD         R2,R3
+    00000A26              L1266:                            
+    00000A26 2E32                   MOV.L       R3,@R14
+    00000A28              L1258:                            
+    00000A28 62E2                   MOV.L       @R14,R2
+    00000A2A 8428                   MOV.B       @(8,R2),R0
+    00000A2C 2008                   TST         R0,R0
+    00000A2E 89D0                   BT          L1259
+        expand.c   435                    }
+        expand.c   436                    multiply_all(tos - h);
+    00000A30 63F2                   MOV.L       @R15,R3
+    00000A32 D20D                   MOV.L       L1333+8,R2 ; _tos
+    00000A34 D112                   MOV.L       L1333+32,R1; _multiply_all
+    00000A36 6422                   MOV.L       @R2,R4
+    00000A38 410B                   JSR         @R1
+    00000A3A 3438                   SUB         R3,R4
+    00000A3C A003                   BRA         L1267
+    00000A3E 0009                   NOP
+    00000A40              L1253:                            
+        expand.c   437            } else
+        expand.c   438                    push_integer(1);
+    00000A40 D110                   MOV.L       L1333+36,R1; _push_integer
+    00000A42 410B                   JSR         @R1
+    00000A44 E401                   MOV         #1,R4
+    00000A46              L1267:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   33
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   439            T = pop();
+    00000A46 D310                   MOV.L       L1333+40,R3; _pop
+    00000A48 430B                   JSR         @R3
+    00000A4A 0009                   NOP
+    00000A4C D20F                   MOV.L       L1333+44,R2; _p8
+    00000A4E 2202                   MOV.L       R0,@R2
+        expand.c   440    }
+    00000A50 7F04                   ADD         #4,R15
+    00000A52 4F26                   LDS.L       @R15+,PR
+    00000A54 6AF6                   MOV.L       @R15+,R10
+    00000A56 6BF6                   MOV.L       @R15+,R11
+    00000A58 6CF6                   MOV.L       @R15+,R12
+    00000A5A 6DF6                   MOV.L       @R15+,R13
+    00000A5C 000B                   RTS
+    00000A5E 6EF6                   MOV.L       @R15+,R14
+    00000A60              L1333:                            
+    00000A60 0570                   .DATA.W     H'0570
+    00000A62 0384                   .DATA.W     H'0384
+    00000A64 <00000000>             .DATA.L     _symtab
+    00000A68 <00000000>             .DATA.L     _tos
+    00000A6C <00000000>             .DATA.L     _p0
+    00000A70 <00000000>             .DATA.L     _equal
+    00000A74 <00000000>             .DATA.L     _push
+    00000A78 <00000000>             .DATA.L     _p5
+    00000A7C <00000000>             .DATA.L     _eval
+    00000A80 <00000000>             .DATA.L     _multiply_all
+    00000A84 <00000000>             .DATA.L     _push_integer
+    00000A88 <00000000>             .DATA.L     _pop
+    00000A8C <00000000>             .DATA.L     _p8
+        expand.c   441    
+        expand.c   442    // Returns the expansion coefficient vector B.
+        expand.c   443    
+        expand.c   444    void
+        expand.c   445    expand_get_B(void)
+    00000A90              _expand_get_B:                   ; function: expand_get_B
+                                                           ; frame size=36
+    00000A90 2FE6                   MOV.L       R14,@-R15
+    00000A92 2FD6                   MOV.L       R13,@-R15
+    00000A94 2FC6                   MOV.L       R12,@-R15
+    00000A96 2FB6                   MOV.L       R11,@-R15
+    00000A98 2FA6                   MOV.L       R10,@-R15
+    00000A9A 2F96                   MOV.L       R9,@-R15
+    00000A9C 2F86                   MOV.L       R8,@-R15
+    00000A9E 4F22                   STS.L       PR,@-R15
+    00000AA0 D33F                   MOV.L       L1334+4,R3 ; _p4
+    00000AA2 6432                   MOV.L       @R3,R4
+    00000AA4 8448                   MOV.B       @(8,R4),R0
+    00000AA6 600C                   EXTU.B      R0,R0
+    00000AA8 8804                   CMP/EQ      #4,R0
+    00000AAA 8B35                   BF          L1269
+        expand.c   446    {
+        expand.c   447            int i, n;
+        expand.c   448            if (!istensor(C))
+        expand.c   449                    return;
+        expand.c   450            n = C->u.tensor->dim[0];
+    00000AAC 6B42                   MOV.L       @R4,R11
+    00000AAE 5BB1                   MOV.L       @(4,R11),R11
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   34
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expand.c   451            T = alloc_tensor(n);
+    00000AB0 DC3C                   MOV.L       L1334+8,R12; _p8
+    00000AB2 D33D                   MOV.L       L1334+12,R3; _alloc_tensor
+    00000AB4 430B                   JSR         @R3
+    00000AB6 64B3                   MOV         R11,R4
+    00000AB8 2C02                   MOV.L       R0,@R12
+        expand.c   452            T->u.tensor->ndim = 1;
+    00000ABA 6203                   MOV         R0,R2
+        expand.c   453            T->u.tensor->dim[0] = n;
+        expand.c   454            for (i = 0; i < n; i++) {
+    00000ABC D83B                   MOV.L       L1334+16,R8; _push_integer
+    00000ABE 4B15                   CMP/PL      R11
+    00000AC0 D93B                   MOV.L       L1334+20,R9; _p3
+    00000AC2 E101                   MOV         #1,R1
+    00000AC4 DA3B                   MOV.L       L1334+24,R10; _p9
+    00000AC6 6322                   MOV.L       @R2,R3
+    00000AC8 DD3B                   MOV.L       L1334+28,R13; _push
+    00000ACA 2312                   MOV.L       R1,@R3
+    00000ACC 63C2                   MOV.L       @R12,R3
+    00000ACE 6232                   MOV.L       @R3,R2
+    00000AD0 12B1                   MOV.L       R11,@(4,R2)
+    00000AD2 8F1F                   BF/S        L1270
+    00000AD4 EE00                   MOV         #0,R14
+    00000AD6              L1271:                            
+        expand.c   455                    push(B);
+    00000AD6 4D0B                   JSR         @R13
+    00000AD8 6492                   MOV.L       @R9,R4
+        expand.c   456                    push(X);
+    00000ADA 4D0B                   JSR         @R13
+    00000ADC 64A2                   MOV.L       @R10,R4
+        expand.c   457                    push_integer(i);
+    00000ADE 480B                   JSR         @R8
+    00000AE0 64E3                   MOV         R14,R4
+        expand.c   458                    power();
+    00000AE2 D236                   MOV.L       L1334+32,R2; _power
+    00000AE4 420B                   JSR         @R2
+    00000AE6 0009                   NOP
+        expand.c   459                    divide();
+    00000AE8 D335                   MOV.L       L1334+36,R3; _divide
+    00000AEA 430B                   JSR         @R3
+    00000AEC 0009                   NOP
+        expand.c   460                    push(X);
+    00000AEE 4D0B                   JSR         @R13
+    00000AF0 64A2                   MOV.L       @R10,R4
+        expand.c   461                    filter();
+    00000AF2 D234                   MOV.L       L1334+40,R2; _filter
+    00000AF4 420B                   JSR         @R2
+    00000AF6 0009                   NOP
+        expand.c   462                    T->u.tensor->elem[i] = pop();
+    00000AF8 63C2                   MOV.L       @R12,R3
+    00000AFA 61E3                   MOV         R14,R1
+    00000AFC D232                   MOV.L       L1334+44,R2; _pop
+    00000AFE 4108                   SHLL2       R1
+    00000B00 6332                   MOV.L       @R3,R3
+    00000B02 7368                   ADD         #104,R3
+    00000B04 313C                   ADD         R3,R1
+    00000B06 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   35
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000B08 2F16                   MOV.L       R1,@-R15
+    00000B0A 7E01                   ADD         #1,R14
+    00000B0C 63F6                   MOV.L       @R15+,R3
+    00000B0E 3EB3                   CMP/GE      R11,R14
+    00000B10 8FE1                   BF/S        L1271
+    00000B12 2302                   MOV.L       R0,@R3
+    00000B14              L1270:                            
+        expand.c   463            }
+        expand.c   464            B = T;
+    00000B14 63C2                   MOV.L       @R12,R3
+    00000B16 2932                   MOV.L       R3,@R9
+        expand.c   465    }
+    00000B18              L1269:                            
+    00000B18 4F26                   LDS.L       @R15+,PR
+    00000B1A 68F6                   MOV.L       @R15+,R8
+    00000B1C 69F6                   MOV.L       @R15+,R9
+    00000B1E 6AF6                   MOV.L       @R15+,R10
+    00000B20 6BF6                   MOV.L       @R15+,R11
+    00000B22 6CF6                   MOV.L       @R15+,R12
+    00000B24 6DF6                   MOV.L       @R15+,R13
+    00000B26 000B                   RTS
+    00000B28 6EF6                   MOV.L       @R15+,R14
+        expand.c   466    
+        expand.c   467    // Returns the expansion fractions in A.
+        expand.c   468    
+        expand.c   469    void
+        expand.c   470    expand_get_A(void)
+    00000B2A              _expand_get_A:                   ; function: expand_get_A
+                                                           ; frame size=24
+    00000B2A 2FE6                   MOV.L       R14,@-R15
+    00000B2C 2FD6                   MOV.L       R13,@-R15
+    00000B2E 2FC6                   MOV.L       R12,@-R15
+    00000B30 2FB6                   MOV.L       R11,@-R15
+    00000B32 2FA6                   MOV.L       R10,@-R15
+    00000B34 4F22                   STS.L       PR,@-R15
+    00000B36 DC25                   MOV.L       L1334+48,R12; _p2
+    00000B38 D319                   MOV.L       L1334+4,R3 ; _p4
+    00000B3A 6032                   MOV.L       @R3,R0
+    00000B3C 8408                   MOV.B       @(8,R0),R0
+    00000B3E 600C                   EXTU.B      R0,R0
+    00000B40 8804                   CMP/EQ      #4,R0
+    00000B42 8D0B                   BT/S        L1272
+    00000B44 64C2                   MOV.L       @R12,R4
+        expand.c   471    {
+        expand.c   472            int h, i, n;
+        expand.c   473            if (!istensor(C)) {
+        expand.c   474                    push(A);
+    00000B46 D11C                   MOV.L       L1334+28,R1; _push
+    00000B48 410B                   JSR         @R1
+    00000B4A 0009                   NOP
+        expand.c   475                    reciprocate();
+    00000B4C D320                   MOV.L       L1334+52,R3; _reciprocate
+    00000B4E 430B                   JSR         @R3
+    00000B50 0009                   NOP
+        expand.c   476                    A = pop();
+    00000B52 D21D                   MOV.L       L1334+44,R2; _pop
+    00000B54 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   36
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000B56 0009                   NOP
+        expand.c   477                    return;
+    00000B58 A087                   BRA         L1273
+    00000B5A 2C02                   MOV.L       R0,@R12
+    00000B5C              L1272:                            
+        expand.c   478            }
+        expand.c   479            h = tos;
+    00000B5C DA1D                   MOV.L       L1334+56,R10; _tos
+        expand.c   480            if (car(A) == symbol(MULTIPLY)) {
+    00000B5E DD1E                   MOV.L       L1334+60,R13; _p5
+    00000B60 DE10                   MOV.L       L1334+8,R14; _p8
+    00000B62 8448                   MOV.B       @(8,R4),R0
+    00000B64 2008                   TST         R0,R0
+    00000B66 8F02                   BF/S        L1275
+    00000B68 6BA2                   MOV.L       @R10,R11
+    00000B6A A004                   BRA         L1276
+    00000B6C 6342                   MOV.L       @R4,R3
+    00000B6E              L1275:                            
+    00000B6E 9215                   MOV.W       L1334,R2   ; H'0570
+    00000B70 D11A                   MOV.L       L1334+64,R1; _symtab
+    00000B72 6312                   MOV.L       @R1,R3
+    00000B74 332C                   ADD         R2,R3
+    00000B76              L1276:                            
+    00000B76 9212                   MOV.W       L1334+2,R2 ; H'0384
+    00000B78 D118                   MOV.L       L1334+64,R1; _symtab
+    00000B7A 6012                   MOV.L       @R1,R0
+    00000B7C 302C                   ADD         R2,R0
+    00000B7E 3300                   CMP/EQ      R0,R3
+    00000B80 8B4E                   BF          L1274
+        expand.c   481                    T = cdr(A);
+    00000B82 63C2                   MOV.L       @R12,R3
+    00000B84 8438                   MOV.B       @(8,R3),R0
+    00000B86 2008                   TST         R0,R0
+    00000B88 8B02                   BF          L1277
+    00000B8A 61C2                   MOV.L       @R12,R1
+    00000B8C A041                   BRA         L1319
+    00000B8E 5111                   MOV.L       @(4,R1),R1
+    00000B90              L1277:                            
+    00000B90 9304                   MOV.W       L1334,R3   ; H'0570
+    00000B92 D012                   MOV.L       L1334+64,R0; _symtab
+    00000B94 6102                   MOV.L       @R0,R1
+    00000B96 313C                   ADD         R3,R1
+        expand.c   482                    while (iscons(T)) {
+    00000B98 A03B                   BRA         L1319
+    00000B9A 0009                   NOP
+    00000B9C              L1334:                            
+    00000B9C 0570                   .DATA.W     H'0570
+    00000B9E 0384                   .DATA.W     H'0384
+    00000BA0 <00000000>             .DATA.L     _p4
+    00000BA4 <00000000>             .DATA.L     _p8
+    00000BA8 <00000000>             .DATA.L     _alloc_tensor
+    00000BAC <00000000>             .DATA.L     _push_integer
+    00000BB0 <00000000>             .DATA.L     _p3
+    00000BB4 <00000000>             .DATA.L     _p9
+    00000BB8 <00000000>             .DATA.L     _push
+    00000BBC <00000000>             .DATA.L     _power
+    00000BC0 <00000000>             .DATA.L     _divide
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   37
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000BC4 <00000000>             .DATA.L     _filter
+    00000BC8 <00000000>             .DATA.L     _pop
+    00000BCC <00000000>             .DATA.L     _p2
+    00000BD0 <00000000>             .DATA.L     _reciprocate
+    00000BD4 <00000000>             .DATA.L     _tos
+    00000BD8 <00000000>             .DATA.L     _p5
+    00000BDC <00000000>             .DATA.L     _symtab
+    00000BE0              L1280:                            
+        expand.c   483                            F = car(T);
+    00000BE0 63E2                   MOV.L       @R14,R3
+    00000BE2 8438                   MOV.B       @(8,R3),R0
+    00000BE4 2008                   TST         R0,R0
+    00000BE6 8B02                   BF          L1281
+    00000BE8 62E2                   MOV.L       @R14,R2
+    00000BEA A004                   BRA         L1282
+    00000BEC 6222                   MOV.L       @R2,R2
+    00000BEE              L1281:                            
+    00000BEE 9370                   MOV.W       L1335,R3   ; H'0570
+    00000BF0 D139                   MOV.L       L1335+6,R1 ; _symtab
+    00000BF2 6212                   MOV.L       @R1,R2
+    00000BF4 323C                   ADD         R3,R2
+    00000BF6              L1282:                            
+        expand.c   484                            expand_get_AF();
+    00000BF6 B03F                   BSR         _expand_get_AF
+    00000BF8 2D22                   MOV.L       R2,@R13
+        expand.c   485                            T = cdr(T);
+    00000BFA 63E2                   MOV.L       @R14,R3
+    00000BFC 8438                   MOV.B       @(8,R3),R0
+    00000BFE 2008                   TST         R0,R0
+    00000C00 8B03                   BF          L1283
+    00000C02 62E2                   MOV.L       @R14,R2
+    00000C04 5121                   MOV.L       @(4,R2),R1
+    00000C06 A004                   BRA         L1319
+    00000C08 0009                   NOP
+    00000C0A              L1283:                            
+    00000C0A 9362                   MOV.W       L1335,R3   ; H'0570
+    00000C0C D032                   MOV.L       L1335+6,R0 ; _symtab
+    00000C0E 6102                   MOV.L       @R0,R1
+    00000C10 313C                   ADD         R3,R1
+    00000C12              L1319:                            
+    00000C12 6313                   MOV         R1,R3
+    00000C14 2E12                   MOV.L       R1,@R14
+    00000C16 8438                   MOV.B       @(8,R3),R0
+    00000C18 2008                   TST         R0,R0
+    00000C1A 89E1                   BT          L1280
+    00000C1C A002                   BRA         L1285
+    00000C1E 0009                   NOP
+    00000C20              L1274:                            
+        expand.c   486                    }
+        expand.c   487            } else {
+        expand.c   488                    F = A;
+        expand.c   489                    expand_get_AF();
+    00000C20 B02A                   BSR         _expand_get_AF
+    00000C22 2D42                   MOV.L       R4,@R13
+    00000C24              L1285:                            
+        expand.c   490            }
+        expand.c   491            n = tos - h;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   38
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000C24 6DA2                   MOV.L       @R10,R13
+    00000C26 3DB8                   SUB         R11,R13
+        expand.c   492            T = alloc_tensor(n);
+    00000C28 D22C                   MOV.L       L1335+10,R2; _alloc_tensor
+    00000C2A 420B                   JSR         @R2
+    00000C2C 64D3                   MOV         R13,R4
+        expand.c   493            T->u.tensor->ndim = 1;
+    00000C2E 6303                   MOV         R0,R3
+        expand.c   494            T->u.tensor->dim[0] = n;
+        expand.c   495            for (i = 0; i < n; i++)
+    00000C30 D72B                   MOV.L       L1335+14,R7; _stack
+    00000C32 4D15                   CMP/PL      R13
+    00000C34 2E02                   MOV.L       R0,@R14
+    00000C36 E101                   MOV         #1,R1
+    00000C38 6232                   MOV.L       @R3,R2
+    00000C3A E600                   MOV         #0,R6
+    00000C3C 2212                   MOV.L       R1,@R2
+    00000C3E 64B3                   MOV         R11,R4
+    00000C40 63E2                   MOV.L       @R14,R3
+    00000C42 4408                   SHLL2       R4
+    00000C44 6232                   MOV.L       @R3,R2
+    00000C46 12D1                   MOV.L       R13,@(4,R2)
+    00000C48 8F0C                   BF/S        L1286
+    00000C4A 6563                   MOV         R6,R5
+    00000C4C              L1287:                            
+        expand.c   496                    T->u.tensor->elem[i] = stack[h + i];
+    00000C4C 60E2                   MOV.L       @R14,R0
+    00000C4E 7601                   ADD         #1,R6
+    00000C50 6302                   MOV.L       @R0,R3
+    00000C52 36D3                   CMP/GE      R13,R6
+    00000C54 6072                   MOV.L       @R7,R0
+    00000C56 7368                   ADD         #104,R3
+    00000C58 024E                   MOV.L       @(R0,R4),R2
+    00000C5A 335C                   ADD         R5,R3
+    00000C5C 2322                   MOV.L       R2,@R3
+    00000C5E 7404                   ADD         #4,R4
+    00000C60 8FF4                   BF/S        L1287
+    00000C62 7504                   ADD         #4,R5
+    00000C64              L1286:                            
+        expand.c   497            tos = h;
+    00000C64 2AB2                   MOV.L       R11,@R10
+        expand.c   498            A = T;
+    00000C66 62E2                   MOV.L       @R14,R2
+    00000C68 2C22                   MOV.L       R2,@R12
+        expand.c   499    }
+    00000C6A              L1273:                            
+    00000C6A 4F26                   LDS.L       @R15+,PR
+    00000C6C 6AF6                   MOV.L       @R15+,R10
+    00000C6E 6BF6                   MOV.L       @R15+,R11
+    00000C70 6CF6                   MOV.L       @R15+,R12
+    00000C72 6DF6                   MOV.L       @R15+,R13
+    00000C74 000B                   RTS
+    00000C76 6EF6                   MOV.L       @R15+,R14
+        expand.c   500    
+        expand.c   501    void
+        expand.c   502    expand_get_AF(void)
+    00000C78              _expand_get_AF:                  ; function: expand_get_AF
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   39
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+                                                           ; frame size=32
+    00000C78 2FE6                   MOV.L       R14,@-R15
+    00000C7A 2FD6                   MOV.L       R13,@-R15
+    00000C7C 2FC6                   MOV.L       R12,@-R15
+        expand.c   503    {       int d, i, j, n = 1;
+    00000C7E EC01                   MOV         #1,R12
+        expand.c   504            if (!find(F, X))
+    00000C80 DE18                   MOV.L       L1335+18,R14; _p5
+    00000C82 2FB6                   MOV.L       R11,@-R15
+    00000C84 2FA6                   MOV.L       R10,@-R15
+    00000C86 2F96                   MOV.L       R9,@-R15
+    00000C88 2F86                   MOV.L       R8,@-R15
+    00000C8A 4F22                   STS.L       PR,@-R15
+    00000C8C D316                   MOV.L       L1335+22,R3; _p9
+    00000C8E 6532                   MOV.L       @R3,R5
+    00000C90 D216                   MOV.L       L1335+26,R2; _find
+    00000C92 420B                   JSR         @R2
+    00000C94 64E2                   MOV.L       @R14,R4
+    00000C96 2008                   TST         R0,R0
+    00000C98 8B01                   BF          L1336
+    00000C9A A0C2                   BRA         L1289
+    00000C9C 0009                   NOP
+    00000C9E              L1336:                            
+    00000C9E DD14                   MOV.L       L1335+30,R13; _push
+    00000CA0 64E2                   MOV.L       @R14,R4
+    00000CA2 8448                   MOV.B       @(8,R4),R0
+    00000CA4 2008                   TST         R0,R0
+    00000CA6 8B01                   BF          L1291
+    00000CA8 A004                   BRA         L1292
+    00000CAA 6242                   MOV.L       @R4,R2
+    00000CAC              L1291:                            
+    00000CAC 9311                   MOV.W       L1335,R3   ; H'0570
+    00000CAE D10A                   MOV.L       L1335+6,R1 ; _symtab
+    00000CB0 6212                   MOV.L       @R1,R2
+    00000CB2 323C                   ADD         R3,R2
+    00000CB4              L1292:                            
+    00000CB4 930E                   MOV.W       L1335+2,R3 ; H'03F0
+    00000CB6 D108                   MOV.L       L1335+6,R1 ; _symtab
+    00000CB8 6012                   MOV.L       @R1,R0
+    00000CBA 303C                   ADD         R3,R0
+    00000CBC 3200                   CMP/EQ      R0,R2
+    00000CBE 8901                   BT          L1337
+    00000CC0 A083                   BRA         L1290
+    00000CC2 0009                   NOP
+    00000CC4              L1337:                            
+        expand.c   505                    return;
+        expand.c   506            if (car(F) == symbol(POWER)) {
+        expand.c   507                    push(caddr(F));
+    00000CC4 64E2                   MOV.L       @R14,R4
+    00000CC6 8448                   MOV.B       @(8,R4),R0
+    00000CC8 2008                   TST         R0,R0
+    00000CCA 8B13                   BF          L1295
+    00000CCC 64E2                   MOV.L       @R14,R4
+    00000CCE A015                   BRA         L1300
+    00000CD0 5441                   MOV.L       @(4,R4),R4
+    00000CD2              L1335:                            
+    00000CD2 0570                   .DATA.W     H'0570
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   40
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000CD4 03F0                   .DATA.W     H'03F0
+    00000CD6 0000                   .DATA.W     0
+    00000CD8 <00000000>             .DATA.L     _symtab
+    00000CDC <00000000>             .DATA.L     _alloc_tensor
+    00000CE0 <00000000>             .DATA.L     _stack
+    00000CE4 <00000000>             .DATA.L     _p5
+    00000CE8 <00000000>             .DATA.L     _p9
+    00000CEC <00000000>             .DATA.L     _find
+    00000CF0 <00000000>             .DATA.L     _push
+    00000CF4              L1295:                            
+    00000CF4 925F                   MOV.W       L1338,R2   ; H'0570
+    00000CF6 D130                   MOV.L       L1338+2,R1 ; _symtab
+    00000CF8 6412                   MOV.L       @R1,R4
+    00000CFA 342C                   ADD         R2,R4
+    00000CFC              L1300:                            
+    00000CFC 8448                   MOV.B       @(8,R4),R0
+    00000CFE 2008                   TST         R0,R0
+    00000D00 8B0C                   BF          L1294
+    00000D02 64E2                   MOV.L       @R14,R4
+    00000D04 8448                   MOV.B       @(8,R4),R0
+    00000D06 2008                   TST         R0,R0
+    00000D08 8B02                   BF          L1296
+    00000D0A 64E2                   MOV.L       @R14,R4
+    00000D0C A004                   BRA         L1301
+    00000D0E 5441                   MOV.L       @(4,R4),R4
+    00000D10              L1296:                            
+    00000D10 9351                   MOV.W       L1338,R3   ; H'0570
+    00000D12 D229                   MOV.L       L1338+2,R2 ; _symtab
+    00000D14 6422                   MOV.L       @R2,R4
+    00000D16 343C                   ADD         R3,R4
+    00000D18              L1301:                            
+    00000D18 A004                   BRA         L1302
+    00000D1A 5441                   MOV.L       @(4,R4),R4
+    00000D1C              L1294:                            
+    00000D1C 934B                   MOV.W       L1338,R3   ; H'0570
+    00000D1E D226                   MOV.L       L1338+2,R2 ; _symtab
+    00000D20 6422                   MOV.L       @R2,R4
+    00000D22 343C                   ADD         R3,R4
+    00000D24              L1302:                            
+    00000D24 8448                   MOV.B       @(8,R4),R0
+    00000D26 2008                   TST         R0,R0
+    00000D28 8B20                   BF          L1293
+    00000D2A 64E2                   MOV.L       @R14,R4
+    00000D2C 8448                   MOV.B       @(8,R4),R0
+    00000D2E 2008                   TST         R0,R0
+    00000D30 8B02                   BF          L1298
+    00000D32 64E2                   MOV.L       @R14,R4
+    00000D34 A004                   BRA         L1303
+    00000D36 5441                   MOV.L       @(4,R4),R4
+    00000D38              L1298:                            
+    00000D38 933D                   MOV.W       L1338,R3   ; H'0570
+    00000D3A D21F                   MOV.L       L1338+2,R2 ; _symtab
+    00000D3C 6422                   MOV.L       @R2,R4
+    00000D3E 343C                   ADD         R3,R4
+    00000D40              L1303:                            
+    00000D40 8448                   MOV.B       @(8,R4),R0
+    00000D42 2008                   TST         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   41
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000D44 8B0C                   BF          L1297
+    00000D46 64E2                   MOV.L       @R14,R4
+    00000D48 8448                   MOV.B       @(8,R4),R0
+    00000D4A 2008                   TST         R0,R0
+    00000D4C 8B02                   BF          L1299
+    00000D4E 64E2                   MOV.L       @R14,R4
+    00000D50 A004                   BRA         L1304
+    00000D52 5441                   MOV.L       @(4,R4),R4
+    00000D54              L1299:                            
+    00000D54 932F                   MOV.W       L1338,R3   ; H'0570
+    00000D56 D218                   MOV.L       L1338+2,R2 ; _symtab
+    00000D58 6422                   MOV.L       @R2,R4
+    00000D5A 343C                   ADD         R3,R4
+    00000D5C              L1304:                            
+    00000D5C A004                   BRA         L1305
+    00000D5E 5441                   MOV.L       @(4,R4),R4
+    00000D60              L1297:                            
+    00000D60 9329                   MOV.W       L1338,R3   ; H'0570
+    00000D62 D215                   MOV.L       L1338+2,R2 ; _symtab
+    00000D64 6422                   MOV.L       @R2,R4
+    00000D66 343C                   ADD         R3,R4
+    00000D68              L1305:                            
+    00000D68 A004                   BRA         L1306
+    00000D6A 6442                   MOV.L       @R4,R4
+    00000D6C              L1293:                            
+    00000D6C 9323                   MOV.W       L1338,R3   ; H'0570
+    00000D6E D212                   MOV.L       L1338+2,R2 ; _symtab
+    00000D70 6422                   MOV.L       @R2,R4
+    00000D72 343C                   ADD         R3,R4
+    00000D74              L1306:                            
+    00000D74 4D0B                   JSR         @R13
+    00000D76 0009                   NOP
+        expand.c   508                    n = pop_integer();
+    00000D78 D310                   MOV.L       L1338+6,R3 ; _pop_integer
+    00000D7A 430B                   JSR         @R3
+    00000D7C 0009                   NOP
+    00000D7E 6C03                   MOV         R0,R12
+        expand.c   509                    F = cadr(F);
+    00000D80 62E2                   MOV.L       @R14,R2
+    00000D82 8428                   MOV.B       @(8,R2),R0
+    00000D84 2008                   TST         R0,R0
+    00000D86 8B02                   BF          L1308
+    00000D88 62E2                   MOV.L       @R14,R2
+    00000D8A A004                   BRA         L1310
+    00000D8C 5321                   MOV.L       @(4,R2),R3
+    00000D8E              L1308:                            
+    00000D8E 9212                   MOV.W       L1338,R2   ; H'0570
+    00000D90 D109                   MOV.L       L1338+2,R1 ; _symtab
+    00000D92 6312                   MOV.L       @R1,R3
+    00000D94 332C                   ADD         R2,R3
+    00000D96              L1310:                            
+    00000D96 8438                   MOV.B       @(8,R3),R0
+    00000D98 2008                   TST         R0,R0
+    00000D9A 8B11                   BF          L1307
+    00000D9C 63E2                   MOV.L       @R14,R3
+    00000D9E 8438                   MOV.B       @(8,R3),R0
+    00000DA0 2008                   TST         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   42
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000DA2 8B02                   BF          L1309
+    00000DA4 62E2                   MOV.L       @R14,R2
+    00000DA6 A004                   BRA         L1311
+    00000DA8 5221                   MOV.L       @(4,R2),R2
+    00000DAA              L1309:                            
+    00000DAA 9304                   MOV.W       L1338,R3   ; H'0570
+    00000DAC D102                   MOV.L       L1338+2,R1 ; _symtab
+    00000DAE 6212                   MOV.L       @R1,R2
+    00000DB0 323C                   ADD         R3,R2
+    00000DB2              L1311:                            
+    00000DB2 A009                   BRA         L1312
+    00000DB4 6222                   MOV.L       @R2,R2
+    00000DB6              L1338:                            
+    00000DB6 0570                   .DATA.W     H'0570
+    00000DB8 <00000000>             .DATA.L     _symtab
+    00000DBC <00000000>             .DATA.L     _pop_integer
+    00000DC0              L1307:                            
+    00000DC0 9338                   MOV.W       L1339,R3   ; H'0570
+    00000DC2 D11D                   MOV.L       L1339+4,R1 ; _symtab
+    00000DC4 6212                   MOV.L       @R1,R2
+    00000DC6 323C                   ADD         R3,R2
+    00000DC8              L1312:                            
+    00000DC8 2E22                   MOV.L       R2,@R14
+    00000DCA              L1290:                            
+        expand.c   510            }
+        expand.c   511            push(F);
+    00000DCA 4D0B                   JSR         @R13
+    00000DCC 64E2                   MOV.L       @R14,R4
+        expand.c   512            push(X);
+    00000DCE D31B                   MOV.L       L1339+8,R3 ; _p9
+    00000DD0 4D0B                   JSR         @R13
+    00000DD2 6432                   MOV.L       @R3,R4
+        expand.c   513            degree();
+    00000DD4 D21A                   MOV.L       L1339+12,R2; _degree
+    00000DD6 420B                   JSR         @R2
+    00000DD8 0009                   NOP
+        expand.c   514            d = pop_integer();
+    00000DDA D11A                   MOV.L       L1339+16,R1; _pop_integer
+    00000DDC 410B                   JSR         @R1
+    00000DDE 0009                   NOP
+        expand.c   515            for (i = n; i > 0; i--) {
+    00000DE0 D919                   MOV.L       L1339+20,R9; _push_integer
+    00000DE2 6803                   MOV         R0,R8
+    00000DE4 DA19                   MOV.L       L1339+24,R10; _power
+    00000DE6 A01A                   BRA         L1313
+    00000DE8 6BC3                   MOV         R12,R11
+    00000DEA              L1314:                            
+        expand.c   516                    for (j = 0; j < d; j++) {
+    00000DEA 4815                   CMP/PL      R8
+    00000DEC 8F16                   BF/S        L1315
+    00000DEE EC00                   MOV         #0,R12
+    00000DF0              L1316:                            
+        expand.c   517                            push(F);
+    00000DF0 4D0B                   JSR         @R13
+    00000DF2 64E2                   MOV.L       @R14,R4
+        expand.c   518                            push_integer(i);
+    00000DF4 490B                   JSR         @R9
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE   43
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000DF6 64B3                   MOV         R11,R4
+        expand.c   519                            power();
+    00000DF8 4A0B                   JSR         @R10
+    00000DFA 0009                   NOP
+        expand.c   520                            reciprocate();
+    00000DFC D314                   MOV.L       L1339+28,R3; _reciprocate
+    00000DFE 430B                   JSR         @R3
+    00000E00 0009                   NOP
+        expand.c   521                            push(X);
+    00000E02 D20E                   MOV.L       L1339+8,R2 ; _p9
+    00000E04 4D0B                   JSR         @R13
+    00000E06 6422                   MOV.L       @R2,R4
+        expand.c   522                            push_integer(j);
+    00000E08 490B                   JSR         @R9
+    00000E0A 64C3                   MOV         R12,R4
+        expand.c   523                            power();
+    00000E0C 4A0B                   JSR         @R10
+    00000E0E 0009                   NOP
+        expand.c   524                            multiply();
+    00000E10 D310                   MOV.L       L1339+32,R3; _multiply
+    00000E12 430B                   JSR         @R3
+    00000E14 0009                   NOP
+    00000E16 7C01                   ADD         #1,R12
+    00000E18 3C83                   CMP/GE      R8,R12
+    00000E1A 8BE9                   BF          L1316
+    00000E1C              L1315:                            
+    00000E1C 7BFF                   ADD         #-1,R11
+    00000E1E              L1313:                            
+    00000E1E 4B15                   CMP/PL      R11
+    00000E20 89E3                   BT          L1314
+    00000E22              L1289:                            
+        expand.c   525                    }
+        expand.c   526            }
+        expand.c   527    }
+    00000E22 4F26                   LDS.L       @R15+,PR
+    00000E24 68F6                   MOV.L       @R15+,R8
+    00000E26 69F6                   MOV.L       @R15+,R9
+    00000E28 6AF6                   MOV.L       @R15+,R10
+    00000E2A 6BF6                   MOV.L       @R15+,R11
+    00000E2C 6CF6                   MOV.L       @R15+,R12
+    00000E2E 6DF6                   MOV.L       @R15+,R13
+    00000E30 000B                   RTS
+    00000E32 6EF6                   MOV.L       @R15+,R14
+    00000E34              L1339:                            
+    00000E34 0570                   .DATA.W     H'0570
+    00000E36 0000                   .DATA.W     0
+    00000E38 <00000000>             .DATA.L     _symtab
+    00000E3C <00000000>             .DATA.L     _p9
+    00000E40 <00000000>             .DATA.L     _degree
+    00000E44 <00000000>             .DATA.L     _pop_integer
+    00000E48 <00000000>             .DATA.L     _push_integer
+    00000E4C <00000000>             .DATA.L     _power
+    00000E50 <00000000>             .DATA.L     _reciprocate
+    00000E54 <00000000>             .DATA.L     _multiply
+        expand.c   528    
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      528
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000E58 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000E58 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           42
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          10
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:           242
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk5EC2.tmp 
+

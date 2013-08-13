@@ -1,0 +1,2315 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\eigen.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c     1    //-----------------------------------------------------------------------------
+         eigen.c     2    //
+         eigen.c     3    //      Compute eigenvalues and eigenvectors
+         eigen.c     4    //
+         eigen.c     5    //      Input:          stack[tos - 1]          symmetric matrix
+         eigen.c     6    //
+         eigen.c     7    //      Output:         D                       diagnonal matrix
+         eigen.c     8    //
+         eigen.c     9    //                      Q                       eigenvector matrix
+         eigen.c    10    //
+         eigen.c    11    //      D and Q have the property that
+         eigen.c    12    //
+         eigen.c    13    //              A == dot(transpose(Q),D,Q)
+         eigen.c    14    //
+         eigen.c    15    //      where A is the original matrix.
+         eigen.c    16    //
+         eigen.c    17    //      The eigenvalues are on the diagonal of D.
+         eigen.c    18    //
+         eigen.c    19    //      The eigenvectors are row vectors in Q.
+         eigen.c    20    //
+         eigen.c    21    //      The eigenvalue relation
+         eigen.c    22    //
+         eigen.c    23    //              A X = lambda X
+         eigen.c    24    //
+         eigen.c    25    //      can be checked as follows:
+         eigen.c    26    //
+         eigen.c    27    //              lambda = D[1,1]
+         eigen.c    28    //
+         eigen.c    29    //              X = Q[1]
+         eigen.c    30    //
+         eigen.c    31    //              dot(A,X) - lambda X
+         eigen.c    32    //
+         eigen.c    33    //-----------------------------------------------------------------------------
+         eigen.c    34    
+         eigen.c    35    #include "stdafx.h"
+         eigen.c    36    #include "defs.h"
+         eigen.c    37    
+         eigen.c    38    #define D(i, j) yydd[n * (i) + (j)]
+         eigen.c    39    #define Q(i, j) yyqq[n * (i) + (j)]
+         eigen.c    40    
+         eigen.c    41    extern void copy_tensor(void);
+         eigen.c    42    static void eigen(int);
+         eigen.c    43    static int check_arg(void);
+         eigen.c    44    static int step(void);
+         eigen.c    45    static void step2(int, int);
+         eigen.c    46    static int n;
+         eigen.c    47    static double *yydd, *yyqq;
+         eigen.c    48    
+         eigen.c    49    void
+         eigen.c    50    eval_eigen(void)
+P   00000000              _eval_eigen:                     ; function: eval_eigen
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c    51    {
+         eigen.c    52            if (check_arg() == 0)
+    00000004 B053                   BSR         __$check_arg
+    00000006 0009                   NOP
+    00000008 2008                   TST         R0,R0
+    0000000A 8B03                   BF          L1128
+         eigen.c    53                    stop("eigen: argument is not a square matrix");
+    0000000C D438                   MOV.L       L1197+2,R4 ; L1066
+    0000000E D339                   MOV.L       L1197+6,R3 ; _stop
+    00000010 430B                   JSR         @R3
+    00000012 0009                   NOP
+    00000014              L1128:                            
+         eigen.c    54    
+         eigen.c    55            eigen(EIGEN);
+    00000014 B133                   BSR         __$eigen
+    00000016 E427                   MOV         #39,R4
+         eigen.c    56    
+         eigen.c    57            p1 = usr_symbol("D");
+    00000018 DE37                   MOV.L       L1197+10,R14; _p1
+    0000001A D438                   MOV.L       L1197+14,R4; L1067
+    0000001C D338                   MOV.L       L1197+18,R3; _usr_symbol
+    0000001E 430B                   JSR         @R3
+    00000020 0009                   NOP
+    00000022 2E02                   MOV.L       R0,@R14
+         eigen.c    58            set_binding(p1, p2);
+    00000024 D237                   MOV.L       L1197+22,R2; _p2
+    00000026 6522                   MOV.L       @R2,R5
+    00000028 D337                   MOV.L       L1197+26,R3; _set_binding
+    0000002A 430B                   JSR         @R3
+    0000002C 6403                   MOV         R0,R4
+         eigen.c    59    
+         eigen.c    60            p1 = usr_symbol("Q");
+    0000002E D437                   MOV.L       L1197+30,R4; L1068
+    00000030 D233                   MOV.L       L1197+18,R2; _usr_symbol
+    00000032 420B                   JSR         @R2
+    00000034 0009                   NOP
+    00000036 2E02                   MOV.L       R0,@R14
+         eigen.c    61            set_binding(p1, p3);
+    00000038 D335                   MOV.L       L1197+34,R3; _p3
+    0000003A 6532                   MOV.L       @R3,R5
+    0000003C D232                   MOV.L       L1197+26,R2; _set_binding
+    0000003E 420B                   JSR         @R2
+    00000040 6403                   MOV         R0,R4
+         eigen.c    62    
+         eigen.c    63            push(symbol(NIL));
+    00000042 9354                   MOV.W       L1197,R3   ; H'0570
+    00000044 D233                   MOV.L       L1197+38,R2; _symtab
+    00000046 6422                   MOV.L       @R2,R4
+    00000048 4F26                   LDS.L       @R15+,PR
+    0000004A 343C                   ADD         R3,R4
+    0000004C D132                   MOV.L       L1197+42,R1; _push
+    0000004E 412B                   JMP         @R1
+    00000050 6EF6                   MOV.L       @R15+,R14
+         eigen.c    64    }
+         eigen.c    65    
+         eigen.c    66    void
+         eigen.c    67    eval_eigenval(void)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000052              _eval_eigenval:                  ; function: eval_eigenval
+                                                           ; frame size=4
+    00000052 4F22                   STS.L       PR,@-R15
+         eigen.c    68    {
+         eigen.c    69            if (check_arg() == 0) {
+    00000054 B02B                   BSR         __$check_arg
+    00000056 0009                   NOP
+    00000058 2008                   TST         R0,R0
+    0000005A 8B0A                   BF          L1129
+         eigen.c    70                    push_symbol(EIGENVAL);
+    0000005C D32F                   MOV.L       L1197+46,R3; _push_symbol
+    0000005E 430B                   JSR         @R3
+    00000060 E428                   MOV         #40,R4
+         eigen.c    71                    push(p1);
+    00000062 D225                   MOV.L       L1197+10,R2; _p1
+    00000064 D32C                   MOV.L       L1197+42,R3; _push
+    00000066 430B                   JSR         @R3
+    00000068 6422                   MOV.L       @R2,R4
+         eigen.c    72                    list(2);
+    0000006A E402                   MOV         #2,R4
+    0000006C D22C                   MOV.L       L1197+50,R2; _list
+    0000006E 422B                   JMP         @R2
+    00000070 4F26                   LDS.L       @R15+,PR
+    00000072              L1129:                            
+         eigen.c    73                    return;
+         eigen.c    74            }
+         eigen.c    75    
+         eigen.c    76            eigen(EIGENVAL);
+    00000072 B104                   BSR         __$eigen
+    00000074 E428                   MOV         #40,R4
+         eigen.c    77    
+         eigen.c    78            push(p2);
+    00000076 D223                   MOV.L       L1197+22,R2; _p2
+    00000078 D327                   MOV.L       L1197+42,R3; _push
+    0000007A 6422                   MOV.L       @R2,R4
+    0000007C 432B                   JMP         @R3
+    0000007E 4F26                   LDS.L       @R15+,PR
+         eigen.c    79    }
+         eigen.c    80    
+         eigen.c    81    void
+         eigen.c    82    eval_eigenvec(void)
+    00000080              _eval_eigenvec:                  ; function: eval_eigenvec
+                                                           ; frame size=4
+    00000080 4F22                   STS.L       PR,@-R15
+         eigen.c    83    {
+         eigen.c    84            if (check_arg() == 0) {
+    00000082 B014                   BSR         __$check_arg
+    00000084 0009                   NOP
+    00000086 2008                   TST         R0,R0
+    00000088 8B0A                   BF          L1131
+         eigen.c    85                    push_symbol(EIGENVEC);
+    0000008A D324                   MOV.L       L1197+46,R3; _push_symbol
+    0000008C 430B                   JSR         @R3
+    0000008E E429                   MOV         #41,R4
+         eigen.c    86                    push(p1);
+    00000090 D219                   MOV.L       L1197+10,R2; _p1
+    00000092 D321                   MOV.L       L1197+42,R3; _push
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000094 430B                   JSR         @R3
+    00000096 6422                   MOV.L       @R2,R4
+         eigen.c    87                    list(2);
+    00000098 D221                   MOV.L       L1197+50,R2; _list
+    0000009A E402                   MOV         #2,R4
+    0000009C 422B                   JMP         @R2
+    0000009E 4F26                   LDS.L       @R15+,PR
+    000000A0              L1131:                            
+         eigen.c    88                    return;
+         eigen.c    89            }
+         eigen.c    90    
+         eigen.c    91            eigen(EIGENVEC);
+    000000A0 B0ED                   BSR         __$eigen
+    000000A2 E429                   MOV         #41,R4
+         eigen.c    92    
+         eigen.c    93            push(p3);
+    000000A4 D21A                   MOV.L       L1197+34,R2; _p3
+    000000A6 6422                   MOV.L       @R2,R4
+    000000A8 D31B                   MOV.L       L1197+42,R3; _push
+    000000AA 432B                   JMP         @R3
+    000000AC 4F26                   LDS.L       @R15+,PR
+         eigen.c    94    }
+         eigen.c    95    
+         eigen.c    96    static int
+         eigen.c    97    check_arg(void)
+    000000AE              __$check_arg:                    ; function: check_arg
+                                                           ; frame size=76
+                                                           ; used runtime library name:
+                                                           ; __subdr, __gtd
+    000000AE 2FE6                   MOV.L       R14,@-R15
+    000000B0 2FD6                   MOV.L       R13,@-R15
+    000000B2 2FC6                   MOV.L       R12,@-R15
+    000000B4 2FB6                   MOV.L       R11,@-R15
+    000000B6 2FA6                   MOV.L       R10,@-R15
+    000000B8 2F96                   MOV.L       R9,@-R15
+    000000BA 2F86                   MOV.L       R8,@-R15
+    000000BC 4F22                   STS.L       PR,@-R15
+    000000BE 4F12                   STS.L       MACL,@-R15
+         eigen.c    98    {
+         eigen.c    99            int i, j;
+         eigen.c   100    
+         eigen.c   101            push(cadr(p1));
+    000000C0 DD0D                   MOV.L       L1197+10,R13; _p1
+    000000C2 7FFC                   ADD         #-4,R15
+    000000C4 64D2                   MOV.L       @R13,R4
+    000000C6 8448                   MOV.B       @(8,R4),R0
+    000000C8 2008                   TST         R0,R0
+    000000CA 8B02                   BF          L1134
+    000000CC 64D2                   MOV.L       @R13,R4
+    000000CE A004                   BRA         L1136
+    000000D0 5441                   MOV.L       @(4,R4),R4
+    000000D2              L1134:                            
+    000000D2 930C                   MOV.W       L1197,R3   ; H'0570
+    000000D4 D20F                   MOV.L       L1197+38,R2; _symtab
+    000000D6 6422                   MOV.L       @R2,R4
+    000000D8 343C                   ADD         R3,R4
+    000000DA              L1136:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000DA 8448                   MOV.B       @(8,R4),R0
+    000000DC 2008                   TST         R0,R0
+    000000DE 8B27                   BF          L1133
+    000000E0 64D2                   MOV.L       @R13,R4
+    000000E2 8448                   MOV.B       @(8,R4),R0
+    000000E4 2008                   TST         R0,R0
+    000000E6 8B1D                   BF          L1135
+    000000E8 64D2                   MOV.L       @R13,R4
+    000000EA A01F                   BRA         L1137
+    000000EC 5441                   MOV.L       @(4,R4),R4
+    000000EE              L1197:                            
+    000000EE 0570                   .DATA.W     H'0570
+    000000F0 <00000000>             .DATA.L     L1066
+    000000F4 <00000000>             .DATA.L     _stop
+    000000F8 <00000000>             .DATA.L     _p1
+    000000FC <00000000>             .DATA.L     L1067
+    00000100 <00000000>             .DATA.L     _usr_symbol
+    00000104 <00000000>             .DATA.L     _p2
+    00000108 <00000000>             .DATA.L     _set_binding
+    0000010C <00000000>             .DATA.L     L1068
+    00000110 <00000000>             .DATA.L     _p3
+    00000114 <00000000>             .DATA.L     _symtab
+    00000118 <00000000>             .DATA.L     _push
+    0000011C <00000000>             .DATA.L     _push_symbol
+    00000120 <00000000>             .DATA.L     _list
+    00000124              L1135:                            
+    00000124 9352                   MOV.W       L1198,R3   ; H'0570
+    00000126 D22A                   MOV.L       L1198+4,R2 ; _symtab
+    00000128 6422                   MOV.L       @R2,R4
+    0000012A 343C                   ADD         R3,R4
+    0000012C              L1137:                            
+    0000012C A004                   BRA         L1138
+    0000012E 6442                   MOV.L       @R4,R4
+    00000130              L1133:                            
+    00000130 934C                   MOV.W       L1198,R3   ; H'0570
+    00000132 D227                   MOV.L       L1198+4,R2 ; _symtab
+    00000134 6422                   MOV.L       @R2,R4
+    00000136 343C                   ADD         R3,R4
+    00000138              L1138:                            
+    00000138 D326                   MOV.L       L1198+8,R3 ; _push
+    0000013A 430B                   JSR         @R3
+    0000013C 0009                   NOP
+         eigen.c   102            eval();
+    0000013E D226                   MOV.L       L1198+12,R2; _eval
+    00000140 420B                   JSR         @R2
+    00000142 0009                   NOP
+         eigen.c   103            yyfloat();
+    00000144 D325                   MOV.L       L1198+16,R3; _yyfloat
+    00000146 430B                   JSR         @R3
+    00000148 0009                   NOP
+         eigen.c   104            eval();
+    0000014A D223                   MOV.L       L1198+12,R2; _eval
+    0000014C 420B                   JSR         @R2
+    0000014E 0009                   NOP
+         eigen.c   105            p1 = pop();
+    00000150 D323                   MOV.L       L1198+20,R3; _pop
+    00000152 430B                   JSR         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000154 0009                   NOP
+    00000156 2D02                   MOV.L       R0,@R13
+         eigen.c   106    
+         eigen.c   107            if (!istensor(p1))
+    00000158 8408                   MOV.B       @(8,R0),R0
+    0000015A 600C                   EXTU.B      R0,R0
+    0000015C 8804                   CMP/EQ      #4,R0
+    0000015E 8901                   BT          L1139
+         eigen.c   108                    return 0;
+    00000160 A082                   BRA         L1140
+    00000162 E000                   MOV         #0,R0
+    00000164              L1139:                            
+         eigen.c   109    
+         eigen.c   110            if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
+    00000164 DA1F                   MOV.L       L1198+24,R10; _stop
+    00000166 64D2                   MOV.L       @R13,R4
+    00000168 6442                   MOV.L       @R4,R4
+    0000016A 6042                   MOV.L       @R4,R0
+    0000016C 8802                   CMP/EQ      #2,R0
+    0000016E 8B03                   BF          L1142
+    00000170 5242                   MOV.L       @(8,R4),R2
+    00000172 5341                   MOV.L       @(4,R4),R3
+    00000174 3320                   CMP/EQ      R2,R3
+    00000176 8902                   BT          L1141
+    00000178              L1142:                            
+         eigen.c   111                    stop("eigen: argument is not a square matrix");
+    00000178 D41B                   MOV.L       L1198+28,R4; L1066
+    0000017A 4A0B                   JSR         @R10
+    0000017C 0009                   NOP
+    0000017E              L1141:                            
+         eigen.c   112    
+         eigen.c   113            n = p1->u.tensor->dim[0];
+         eigen.c   114    
+         eigen.c   115            for (i = 0; i < n; i++)
+    0000017E E900                   MOV         #0,R9
+    00000180 DE1A                   MOV.L       L1198+32,R14; __$n
+    00000182 63D2                   MOV.L       @R13,R3
+    00000184 D81A                   MOV.L       L1198+36,R8; L1076
+    00000186 6232                   MOV.L       @R3,R2
+    00000188 5121                   MOV.L       @(4,R2),R1
+    0000018A 2E12                   MOV.L       R1,@R14
+    0000018C A016                   BRA         L1143
+    0000018E 6B93                   MOV         R9,R11
+    00000190              L1144:                            
+         eigen.c   116                    for (j = 0; j < n; j++)
+    00000190 A010                   BRA         L1145
+    00000192 6C93                   MOV         R9,R12
+    00000194              L1146:                            
+         eigen.c   117                            if (!isdouble(p1->u.tensor->elem[n * i + j]))
+    00000194 60D2                   MOV.L       @R13,R0
+    00000196 6002                   MOV.L       @R0,R0
+    00000198 63E2                   MOV.L       @R14,R3
+    0000019A 7068                   ADD         #104,R0
+    0000019C 03B7                   MUL.L       R11,R3
+    0000019E 031A                   STS         MACL,R3
+    000001A0 33CC                   ADD         R12,R3
+    000001A2 4308                   SHLL2       R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001A4 003E                   MOV.L       @(R0,R3),R0
+    000001A6 8408                   MOV.B       @(8,R0),R0
+    000001A8 600C                   EXTU.B      R0,R0
+    000001AA 8802                   CMP/EQ      #2,R0
+    000001AC 8901                   BT          L1147
+         eigen.c   118                                    stop("eigen: matrix is not numerical");
+    000001AE 4A0B                   JSR         @R10
+    000001B0 6483                   MOV         R8,R4
+    000001B2              L1147:                            
+    000001B2 7C01                   ADD         #1,R12
+    000001B4              L1145:                            
+    000001B4 62E2                   MOV.L       @R14,R2
+    000001B6 3C23                   CMP/GE      R2,R12
+    000001B8 8BEC                   BF          L1146
+    000001BA 7B01                   ADD         #1,R11
+    000001BC              L1143:                            
+    000001BC 62E2                   MOV.L       @R14,R2
+    000001BE 3B23                   CMP/GE      R2,R11
+    000001C0 8BE6                   BF          L1144
+         eigen.c   119    
+         eigen.c   120            for (i = 0; i < n - 1; i++)
+    000001C2 D80C                   MOV.L       L1198+40,R8; _fabs
+    000001C4 A04B                   BRA         L1148
+    000001C6 6B93                   MOV         R9,R11
+    000001C8              L1149:                            
+         eigen.c   121                    for (j = i + 1; j < n; j++)
+    000001C8 A044                   BRA         L1193
+    000001CA 6CB3                   MOV         R11,R12
+    000001CC              L1198:                            
+    000001CC 0570                   .DATA.W     H'0570
+    000001CE 0000                   .DATA.W     0
+    000001D0 <00000000>             .DATA.L     _symtab
+    000001D4 <00000000>             .DATA.L     _push
+    000001D8 <00000000>             .DATA.L     _eval
+    000001DC <00000000>             .DATA.L     _yyfloat
+    000001E0 <00000000>             .DATA.L     _pop
+    000001E4 <00000000>             .DATA.L     _stop
+    000001E8 <00000000>             .DATA.L     L1066
+    000001EC <00000000>             .DATA.L     __$n
+    000001F0 <00000000>             .DATA.L     L1076
+    000001F4 <00000000>             .DATA.L     _fabs
+    000001F8              L1151:                            
+         eigen.c   122                            if (fabs(p1->u.tensor->elem[n * i + j]->u.d - p1->u.tensor->elem[n * j + i]->u.d) 
+                         +> 1e-10)
+    000001F8 7FF0                   ADD         #-16,R15
+    000001FA 69D2                   MOV.L       @R13,R9
+    000001FC 6992                   MOV.L       @R9,R9
+    000001FE 1F94                   MOV.L       R9,@(16,R15)
+    00000200 60E2                   MOV.L       @R14,R0
+    00000202 7968                   ADD         #104,R9
+    00000204 00B7                   MUL.L       R11,R0
+    00000206 001A                   STS         MACL,R0
+    00000208 30CC                   ADD         R12,R0
+    0000020A 4008                   SHLL2       R0
+    0000020C 039E                   MOV.L       @(R0,R9),R3
+    0000020E 5231                   MOV.L       @(4,R3),R2
+    00000210 2F26                   MOV.L       R2,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000212 6232                   MOV.L       @R3,R2
+    00000214 2F26                   MOV.L       R2,@-R15
+    00000216 60E2                   MOV.L       @R14,R0
+    00000218 00C7                   MUL.L       R12,R0
+    0000021A 001A                   STS         MACL,R0
+    0000021C 30BC                   ADD         R11,R0
+    0000021E 4008                   SHLL2       R0
+    00000220 029E                   MOV.L       @(R0,R9),R2
+    00000222 5121                   MOV.L       @(4,R2),R1
+    00000224 D07F                   MOV.L       L1199,R0   ; __subdr
+    00000226 2F16                   MOV.L       R1,@-R15
+    00000228 6122                   MOV.L       @R2,R1
+    0000022A 2F16                   MOV.L       R1,@-R15
+    0000022C 63F3                   MOV         R15,R3
+    0000022E 7310                   ADD         #16,R3
+    00000230 400B                   JSR         @R0
+    00000232 2F36                   MOV.L       R3,@-R15
+    00000234 E208                   MOV         #8,R2
+    00000236 32FC                   ADD         R15,R2
+    00000238 480B                   JSR         @R8
+    0000023A 2F26                   MOV.L       R2,@-R15
+    0000023C D17A                   MOV.L       L1199+4,R1 ; H'D9D7BDBB
+    0000023E 7F0C                   ADD         #12,R15
+    00000240 D37B                   MOV.L       L1199+12,R3; __gtd
+    00000242 2F16                   MOV.L       R1,@-R15
+    00000244 D179                   MOV.L       L1199+8,R1 ; H'3DDB7CDF
+    00000246 430B                   JSR         @R3
+    00000248 2F16                   MOV.L       R1,@-R15
+    0000024A 8800                   CMP/EQ      #0,R0
+    0000024C 8902                   BT          L1193
+         eigen.c   123                                    stop("eigen: matrix is not symmetrical");
+    0000024E D479                   MOV.L       L1199+16,R4; L1077
+    00000250 4A0B                   JSR         @R10
+    00000252 0009                   NOP
+    00000254              L1193:                            
+    00000254 62E2                   MOV.L       @R14,R2
+    00000256 7C01                   ADD         #1,R12
+    00000258 3C23                   CMP/GE      R2,R12
+    0000025A 8BCD                   BF          L1151
+    0000025C 7B01                   ADD         #1,R11
+    0000025E              L1148:                            
+    0000025E 62E2                   MOV.L       @R14,R2
+    00000260 72FF                   ADD         #-1,R2
+    00000262 3B23                   CMP/GE      R2,R11
+    00000264 8BB0                   BF          L1149
+         eigen.c   124    
+         eigen.c   125            return 1;
+    00000266 E001                   MOV         #1,R0
+         eigen.c   126    }
+    00000268              L1140:                            
+    00000268 7F04                   ADD         #4,R15
+    0000026A 4F16                   LDS.L       @R15+,MACL
+    0000026C 4F26                   LDS.L       @R15+,PR
+    0000026E 68F6                   MOV.L       @R15+,R8
+    00000270 69F6                   MOV.L       @R15+,R9
+    00000272 6AF6                   MOV.L       @R15+,R10
+    00000274 6BF6                   MOV.L       @R15+,R11
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000276 6CF6                   MOV.L       @R15+,R12
+    00000278 6DF6                   MOV.L       @R15+,R13
+    0000027A 000B                   RTS
+    0000027C 6EF6                   MOV.L       @R15+,R14
+         eigen.c   127    
+         eigen.c   128    //-----------------------------------------------------------------------------
+         eigen.c   129    //
+         eigen.c   130    //      Input:          p1              matrix
+         eigen.c   131    //
+         eigen.c   132    //      Output:         p2              eigenvalues
+         eigen.c   133    //
+         eigen.c   134    //                      p3              eigenvectors
+         eigen.c   135    //
+         eigen.c   136    //-----------------------------------------------------------------------------
+         eigen.c   137    
+         eigen.c   138    static void
+         eigen.c   139    eigen(int op)
+    0000027E              __$eigen:                        ; function: eigen
+                                                           ; frame size=48
+    0000027E 2FE6                   MOV.L       R14,@-R15
+    00000280 2FD6                   MOV.L       R13,@-R15
+    00000282 2FC6                   MOV.L       R12,@-R15
+    00000284 2FB6                   MOV.L       R11,@-R15
+    00000286 2FA6                   MOV.L       R10,@-R15
+    00000288 2F96                   MOV.L       R9,@-R15
+    0000028A 2F86                   MOV.L       R8,@-R15
+    0000028C 4F22                   STS.L       PR,@-R15
+    0000028E 4F12                   STS.L       MACL,@-R15
+    00000290 2F46                   MOV.L       R4,@-R15
+         eigen.c   140    {
+         eigen.c   141            int i, j;
+         eigen.c   142    
+         eigen.c   143            // malloc working vars
+         eigen.c   144    
+         eigen.c   145            yydd = (double *) malloc(n * n * sizeof (double));
+    00000292 DD69                   MOV.L       L1199+20,R13; __$yydd
+    00000294 DE69                   MOV.L       L1199+24,R14; __$n
+    00000296 63E2                   MOV.L       @R14,R3
+    00000298 6233                   MOV         R3,R2
+    0000029A 0237                   MUL.L       R3,R2
+    0000029C D368                   MOV.L       L1199+28,R3; _malloc
+    0000029E 041A                   STS         MACL,R4
+    000002A0 4408                   SHLL2       R4
+    000002A2 430B                   JSR         @R3
+    000002A4 4400                   SHLL        R4
+         eigen.c   146    
+         eigen.c   147            if (yydd == NULL)
+    000002A6 6203                   MOV         R0,R2
+    000002A8 2228                   TST         R2,R2
+    000002AA 8F04                   BF/S        L1153
+    000002AC 2D02                   MOV.L       R0,@R13
+         eigen.c   148                    stop("malloc failure");
+    000002AE D465                   MOV.L       L1199+32,R4; L1082
+    000002B0 D365                   MOV.L       L1199+36,R3; _stop
+    000002B2 430B                   JSR         @R3
+    000002B4 0009                   NOP
+    000002B6              L1153:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c   149    
+         eigen.c   150            yyqq = (double *) malloc(n * n * sizeof (double));
+    000002B6 DC65                   MOV.L       L1199+40,R12; __$yyqq
+    000002B8 63E2                   MOV.L       @R14,R3
+    000002BA 6233                   MOV         R3,R2
+    000002BC 0237                   MUL.L       R3,R2
+    000002BE 041A                   STS         MACL,R4
+    000002C0 D35F                   MOV.L       L1199+28,R3; _malloc
+    000002C2 4408                   SHLL2       R4
+    000002C4 430B                   JSR         @R3
+    000002C6 4400                   SHLL        R4
+         eigen.c   151    
+         eigen.c   152            if (yyqq == NULL)
+    000002C8 6203                   MOV         R0,R2
+    000002CA 2228                   TST         R2,R2
+    000002CC 8F04                   BF/S        L1154
+    000002CE 2C02                   MOV.L       R0,@R12
+         eigen.c   153                    stop("malloc failure");
+    000002D0 D45C                   MOV.L       L1199+32,R4; L1082
+    000002D2 D35D                   MOV.L       L1199+36,R3; _stop
+    000002D4 430B                   JSR         @R3
+    000002D6 0009                   NOP
+    000002D8              L1154:                            
+         eigen.c   154    
+         eigen.c   155            // initialize D
+         eigen.c   156    
+         eigen.c   157            for (i = 0; i < n; i++) {
+    000002D8 D95D                   MOV.L       L1199+44,R9; _p1
+    000002DA EA00                   MOV         #0,R10
+    000002DC A04B                   BRA         L1155
+    000002DE 64A3                   MOV         R10,R4
+    000002E0              L1156:                            
+         eigen.c   158                    D(i, i) = p1->u.tensor->elem[n * i + i]->u.d;
+    000002E0 0347                   MUL.L       R4,R3
+    000002E2 031A                   STS         MACL,R3
+    000002E4 62D2                   MOV.L       @R13,R2
+    000002E6 334C                   ADD         R4,R3
+    000002E8 6092                   MOV.L       @R9,R0
+    000002EA 4308                   SHLL2       R3
+    000002EC 6102                   MOV.L       @R0,R1
+    000002EE 4300                   SHLL        R3
+    000002F0 332C                   ADD         R2,R3
+    000002F2 7168                   ADD         #104,R1
+    000002F4 62E2                   MOV.L       @R14,R2
+    000002F6 0247                   MUL.L       R4,R2
+    000002F8 021A                   STS         MACL,R2
+    000002FA 324C                   ADD         R4,R2
+    000002FC 4208                   SHLL2       R2
+    000002FE 321C                   ADD         R1,R2
+    00000300 6122                   MOV.L       @R2,R1
+    00000302 6233                   MOV         R3,R2
+    00000304 6012                   MOV.L       @R1,R0
+    00000306 2202                   MOV.L       R0,@R2
+    00000308 5011                   MOV.L       @(4,R1),R0
+    0000030A 1201                   MOV.L       R0,@(4,R2)
+         eigen.c   159                    for (j = i + 1; j < n; j++) {
+    0000030C A02E                   BRA         L1194
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000030E 6543                   MOV         R4,R5
+    00000310              L1158:                            
+         eigen.c   160                            D(i, j) = p1->u.tensor->elem[n * i + j]->u.d;
+    00000310 62E2                   MOV.L       @R14,R2
+    00000312 0247                   MUL.L       R4,R2
+    00000314 63D2                   MOV.L       @R13,R3
+    00000316 021A                   STS         MACL,R2
+    00000318 6092                   MOV.L       @R9,R0
+    0000031A 325C                   ADD         R5,R2
+    0000031C 6102                   MOV.L       @R0,R1
+    0000031E 4208                   SHLL2       R2
+    00000320 4200                   SHLL        R2
+    00000322 323C                   ADD         R3,R2
+    00000324 63E2                   MOV.L       @R14,R3
+    00000326 7168                   ADD         #104,R1
+    00000328 0347                   MUL.L       R4,R3
+    0000032A 031A                   STS         MACL,R3
+    0000032C 335C                   ADD         R5,R3
+    0000032E 4308                   SHLL2       R3
+    00000330 331C                   ADD         R1,R3
+    00000332 6132                   MOV.L       @R3,R1
+    00000334 6323                   MOV         R2,R3
+    00000336 6012                   MOV.L       @R1,R0
+    00000338 2302                   MOV.L       R0,@R3
+    0000033A 5011                   MOV.L       @(4,R1),R0
+    0000033C 1301                   MOV.L       R0,@(4,R3)
+         eigen.c   161                            D(j, i) = p1->u.tensor->elem[n * i + j]->u.d;
+    0000033E 63E2                   MOV.L       @R14,R3
+    00000340 62D2                   MOV.L       @R13,R2
+    00000342 0357                   MUL.L       R5,R3
+    00000344 031A                   STS         MACL,R3
+    00000346 334C                   ADD         R4,R3
+    00000348 4308                   SHLL2       R3
+    0000034A 4300                   SHLL        R3
+    0000034C 332C                   ADD         R2,R3
+    0000034E 6092                   MOV.L       @R9,R0
+    00000350 62E2                   MOV.L       @R14,R2
+    00000352 6102                   MOV.L       @R0,R1
+    00000354 0247                   MUL.L       R4,R2
+    00000356 7168                   ADD         #104,R1
+    00000358 021A                   STS         MACL,R2
+    0000035A 325C                   ADD         R5,R2
+    0000035C 4208                   SHLL2       R2
+    0000035E 321C                   ADD         R1,R2
+    00000360 6122                   MOV.L       @R2,R1
+    00000362 6233                   MOV         R3,R2
+    00000364 6012                   MOV.L       @R1,R0
+    00000366 2202                   MOV.L       R0,@R2
+    00000368 5011                   MOV.L       @(4,R1),R0
+    0000036A 1201                   MOV.L       R0,@(4,R2)
+    0000036C              L1194:                            
+    0000036C 63E2                   MOV.L       @R14,R3
+    0000036E 7501                   ADD         #1,R5
+    00000370 3533                   CMP/GE      R3,R5
+    00000372 8BCD                   BF          L1158
+    00000374 7401                   ADD         #1,R4
+    00000376              L1155:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000376 63E2                   MOV.L       @R14,R3
+    00000378 3433                   CMP/GE      R3,R4
+    0000037A 8BB1                   BF          L1156
+         eigen.c   162                    }
+         eigen.c   163            }
+         eigen.c   164    
+         eigen.c   165            // initialize Q
+         eigen.c   166    
+         eigen.c   167            for (i = 0; i < n; i++) {
+    0000037C A02A                   BRA         L1159
+    0000037E 64A3                   MOV         R10,R4
+    00000380              L1160:                            
+         eigen.c   168                    Q(i, i) = 1.0;
+    00000380 62E2                   MOV.L       @R14,R2
+    00000382 0247                   MUL.L       R4,R2
+    00000384 63C2                   MOV.L       @R12,R3
+    00000386 021A                   STS         MACL,R2
+    00000388 D032                   MOV.L       L1199+48,R0; H'3FF00000
+    0000038A 324C                   ADD         R4,R2
+    0000038C 4208                   SHLL2       R2
+    0000038E 4200                   SHLL        R2
+    00000390 323C                   ADD         R3,R2
+    00000392 6123                   MOV         R2,R1
+    00000394 2102                   MOV.L       R0,@R1
+    00000396 E000                   MOV         #0,R0
+    00000398 1101                   MOV.L       R0,@(4,R1)
+         eigen.c   169                    for (j = i + 1; j < n; j++) {
+    0000039A A016                   BRA         L1195
+    0000039C 6543                   MOV         R4,R5
+    0000039E              L1162:                            
+         eigen.c   170                            Q(i, j) = 0.0;
+    0000039E 62E2                   MOV.L       @R14,R2
+    000003A0 63C2                   MOV.L       @R12,R3
+    000003A2 0247                   MUL.L       R4,R2
+    000003A4 021A                   STS         MACL,R2
+    000003A6 325C                   ADD         R5,R2
+    000003A8 4208                   SHLL2       R2
+    000003AA 4200                   SHLL        R2
+    000003AC 323C                   ADD         R3,R2
+    000003AE 6123                   MOV         R2,R1
+    000003B0 2102                   MOV.L       R0,@R1
+    000003B2 1101                   MOV.L       R0,@(4,R1)
+         eigen.c   171                            Q(j, i) = 0.0;
+    000003B4 63E2                   MOV.L       @R14,R3
+    000003B6 0357                   MUL.L       R5,R3
+    000003B8 62C2                   MOV.L       @R12,R2
+    000003BA 031A                   STS         MACL,R3
+    000003BC 334C                   ADD         R4,R3
+    000003BE 4308                   SHLL2       R3
+    000003C0 4300                   SHLL        R3
+    000003C2 332C                   ADD         R2,R3
+    000003C4 6133                   MOV         R3,R1
+    000003C6 2102                   MOV.L       R0,@R1
+    000003C8 1101                   MOV.L       R0,@(4,R1)
+    000003CA              L1195:                            
+    000003CA 7501                   ADD         #1,R5
+    000003CC 63E2                   MOV.L       @R14,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003CE 3533                   CMP/GE      R3,R5
+    000003D0 8BE5                   BF          L1162
+    000003D2 7401                   ADD         #1,R4
+    000003D4              L1159:                            
+    000003D4 63E2                   MOV.L       @R14,R3
+    000003D6 3433                   CMP/GE      R3,R4
+    000003D8 8BD2                   BF          L1160
+         eigen.c   172                    }
+         eigen.c   173            }
+         eigen.c   174    
+         eigen.c   175            // step up to 100 times
+         eigen.c   176    
+         eigen.c   177            for (i = 0; i < 100; i++)
+    000003DA 6BA3                   MOV         R10,R11
+    000003DC E864                   MOV         #100,R8
+    000003DE              L1164:                            
+         eigen.c   178                    if (step() == 0)
+    000003DE B0B6                   BSR         __$step
+    000003E0 0009                   NOP
+    000003E2 2008                   TST         R0,R0
+    000003E4 8902                   BT          L1163
+    000003E6 7B01                   ADD         #1,R11
+    000003E8 3B83                   CMP/GE      R8,R11
+    000003EA 8BF8                   BF          L1164
+    000003EC              L1163:                            
+         eigen.c   179                            break;
+         eigen.c   180    
+         eigen.c   181            if (i == 100)
+    000003EC 60B3                   MOV         R11,R0
+    000003EE 8864                   CMP/EQ      #100,R0
+    000003F0 8B03                   BF          L1167
+         eigen.c   182                    printstr("\nnote: eigen did not converge\n");
+    000003F2 D419                   MOV.L       L1199+52,R4; L1087
+    000003F4 D219                   MOV.L       L1199+56,R2; _printstr
+    000003F6 420B                   JSR         @R2
+    000003F8 0009                   NOP
+    000003FA              L1167:                            
+         eigen.c   183    
+         eigen.c   184            // p2 = D
+         eigen.c   185    
+         eigen.c   186            if (op == EIGEN || op == EIGENVAL) {
+    000003FA 60F2                   MOV.L       @R15,R0
+    000003FC 8827                   CMP/EQ      #39,R0
+    000003FE 8902                   BT          L1169
+    00000400 60F2                   MOV.L       @R15,R0
+    00000402 8828                   CMP/EQ      #40,R0
+    00000404 8B59                   BF          L1168
+    00000406              L1169:                            
+         eigen.c   187    
+         eigen.c   188                    push(p1);
+    00000406 D216                   MOV.L       L1199+60,R2; _push
+    00000408 420B                   JSR         @R2
+    0000040A 6492                   MOV.L       @R9,R4
+         eigen.c   189                    copy_tensor();
+    0000040C D315                   MOV.L       L1199+64,R3; _copy_tensor
+    0000040E 430B                   JSR         @R3
+    00000410 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c   190                    p2 = pop();
+    00000412 D215                   MOV.L       L1199+68,R2; _pop
+    00000414 420B                   JSR         @R2
+    00000416 0009                   NOP
+    00000418 D314                   MOV.L       L1199+72,R3; _p2
+    0000041A 2302                   MOV.L       R0,@R3
+         eigen.c   191    
+         eigen.c   192                    for (i = 0; i < n; i++) {
+    0000041C A04A                   BRA         L1170
+    0000041E 68A3                   MOV         R10,R8
+    00000420              L1171:                            
+         eigen.c   193                            for (j = 0; j < n; j++) {
+    00000420 A044                   BRA         L1172
+    00000422 6BA3                   MOV         R10,R11
+    00000424              L1199:                            
+    00000424 <00000000>             .DATA.L     __subdr
+    00000428 D9D7BDBB               .DATA.L     H'D9D7BDBB
+    0000042C 3DDB7CDF               .DATA.L     H'3DDB7CDF
+    00000430 <00000000>             .DATA.L     __gtd
+    00000434 <00000000>             .DATA.L     L1077
+    00000438 <00000000>             .DATA.L     __$yydd
+    0000043C <00000000>             .DATA.L     __$n
+    00000440 <00000000>             .DATA.L     _malloc
+    00000444 <00000000>             .DATA.L     L1082
+    00000448 <00000000>             .DATA.L     _stop
+    0000044C <00000000>             .DATA.L     __$yyqq
+    00000450 <00000000>             .DATA.L     _p1
+    00000454 3FF00000               .DATA.L     H'3FF00000
+    00000458 <00000000>             .DATA.L     L1087
+    0000045C <00000000>             .DATA.L     _printstr
+    00000460 <00000000>             .DATA.L     _push
+    00000464 <00000000>             .DATA.L     _copy_tensor
+    00000468 <00000000>             .DATA.L     _pop
+    0000046C <00000000>             .DATA.L     _p2
+    00000470              L1173:                            
+         eigen.c   194                                    push_double(D(i, j));
+    00000470 0287                   MUL.L       R8,R2
+    00000472 021A                   STS         MACL,R2
+    00000474 63D2                   MOV.L       @R13,R3
+    00000476 32BC                   ADD         R11,R2
+    00000478 4208                   SHLL2       R2
+    0000047A 4200                   SHLL        R2
+    0000047C 323C                   ADD         R3,R2
+    0000047E 5121                   MOV.L       @(4,R2),R1
+    00000480 D34E                   MOV.L       L1200,R3   ; _push_double
+    00000482 2F16                   MOV.L       R1,@-R15
+    00000484 6122                   MOV.L       @R2,R1
+    00000486 430B                   JSR         @R3
+    00000488 2F16                   MOV.L       R1,@-R15
+    0000048A 7F08                   ADD         #8,R15
+         eigen.c   195                                    p2->u.tensor->elem[n * i + j] = pop();
+    0000048C D34C                   MOV.L       L1200+4,R3 ; _p2
+    0000048E 6032                   MOV.L       @R3,R0
+    00000490 61E2                   MOV.L       @R14,R1
+    00000492 6202                   MOV.L       @R0,R2
+    00000494 0187                   MUL.L       R8,R1
+    00000496 7268                   ADD         #104,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000498 011A                   STS         MACL,R1
+    0000049A 31BC                   ADD         R11,R1
+    0000049C 4108                   SHLL2       R1
+    0000049E 312C                   ADD         R2,R1
+    000004A0 D248                   MOV.L       L1200+8,R2 ; _pop
+    000004A2 420B                   JSR         @R2
+    000004A4 2F16                   MOV.L       R1,@-R15
+    000004A6 7B01                   ADD         #1,R11
+    000004A8 63F6                   MOV.L       @R15+,R3
+    000004AA 2302                   MOV.L       R0,@R3
+    000004AC              L1172:                            
+    000004AC 62E2                   MOV.L       @R14,R2
+    000004AE 3B23                   CMP/GE      R2,R11
+    000004B0 8BDE                   BF          L1173
+    000004B2 7801                   ADD         #1,R8
+    000004B4              L1170:                            
+    000004B4 62E2                   MOV.L       @R14,R2
+    000004B6 3823                   CMP/GE      R2,R8
+    000004B8 8BB2                   BF          L1171
+    000004BA              L1168:                            
+         eigen.c   196                            }
+         eigen.c   197                    }
+         eigen.c   198            }
+         eigen.c   199    
+         eigen.c   200            // p3 = Q
+         eigen.c   201    
+         eigen.c   202            if (op == EIGEN || op == EIGENVEC) {
+    000004BA 60F2                   MOV.L       @R15,R0
+    000004BC 8827                   CMP/EQ      #39,R0
+    000004BE 8902                   BT          L1175
+    000004C0 60F2                   MOV.L       @R15,R0
+    000004C2 8829                   CMP/EQ      #41,R0
+    000004C4 8B33                   BF          L1174
+    000004C6              L1175:                            
+         eigen.c   203    
+         eigen.c   204                    push(p1);
+    000004C6 D240                   MOV.L       L1200+12,R2; _push
+    000004C8 420B                   JSR         @R2
+    000004CA 6492                   MOV.L       @R9,R4
+         eigen.c   205                    copy_tensor();
+    000004CC D33F                   MOV.L       L1200+16,R3; _copy_tensor
+    000004CE 430B                   JSR         @R3
+    000004D0 0009                   NOP
+         eigen.c   206                    p3 = pop();
+    000004D2 D83F                   MOV.L       L1200+20,R8; _p3
+    000004D4 D23B                   MOV.L       L1200+8,R2 ; _pop
+    000004D6 420B                   JSR         @R2
+    000004D8 0009                   NOP
+    000004DA 2802                   MOV.L       R0,@R8
+         eigen.c   207    
+         eigen.c   208                    for (i = 0; i < n; i++) {
+    000004DC A024                   BRA         L1176
+    000004DE 69A3                   MOV         R10,R9
+    000004E0              L1177:                            
+         eigen.c   209                            for (j = 0; j < n; j++) {
+    000004E0 A01E                   BRA         L1178
+    000004E2 6BA3                   MOV         R10,R11
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   16
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000004E4              L1179:                            
+         eigen.c   210                                    push_double(Q(i, j));
+    000004E4 63E2                   MOV.L       @R14,R3
+    000004E6 0397                   MUL.L       R9,R3
+    000004E8 62C2                   MOV.L       @R12,R2
+    000004EA 031A                   STS         MACL,R3
+    000004EC 33BC                   ADD         R11,R3
+    000004EE 4308                   SHLL2       R3
+    000004F0 4300                   SHLL        R3
+    000004F2 332C                   ADD         R2,R3
+    000004F4 5131                   MOV.L       @(4,R3),R1
+    000004F6 2F16                   MOV.L       R1,@-R15
+    000004F8 6132                   MOV.L       @R3,R1
+    000004FA D230                   MOV.L       L1200,R2   ; _push_double
+    000004FC 420B                   JSR         @R2
+    000004FE 2F16                   MOV.L       R1,@-R15
+         eigen.c   211                                    p3->u.tensor->elem[n * i + j] = pop();
+    00000500 D130                   MOV.L       L1200+8,R1 ; _pop
+    00000502 7F08                   ADD         #8,R15
+    00000504 6082                   MOV.L       @R8,R0
+    00000506 6302                   MOV.L       @R0,R3
+    00000508 62E2                   MOV.L       @R14,R2
+    0000050A 7368                   ADD         #104,R3
+    0000050C 0297                   MUL.L       R9,R2
+    0000050E 021A                   STS         MACL,R2
+    00000510 32BC                   ADD         R11,R2
+    00000512 4208                   SHLL2       R2
+    00000514 323C                   ADD         R3,R2
+    00000516 410B                   JSR         @R1
+    00000518 2F26                   MOV.L       R2,@-R15
+    0000051A 7B01                   ADD         #1,R11
+    0000051C 63F6                   MOV.L       @R15+,R3
+    0000051E 2302                   MOV.L       R0,@R3
+    00000520              L1178:                            
+    00000520 62E2                   MOV.L       @R14,R2
+    00000522 3B23                   CMP/GE      R2,R11
+    00000524 8BDE                   BF          L1179
+    00000526 7901                   ADD         #1,R9
+    00000528              L1176:                            
+    00000528 62E2                   MOV.L       @R14,R2
+    0000052A 3923                   CMP/GE      R2,R9
+    0000052C 8BD8                   BF          L1177
+    0000052E              L1174:                            
+         eigen.c   212                            }
+         eigen.c   213                    }
+         eigen.c   214            }
+         eigen.c   215    
+         eigen.c   216            // free working vars
+         eigen.c   217    
+         eigen.c   218            free(yydd);
+    0000052E D229                   MOV.L       L1200+24,R2; _free
+    00000530 420B                   JSR         @R2
+    00000532 64D2                   MOV.L       @R13,R4
+         eigen.c   219            free(yyqq);
+    00000534 64C2                   MOV.L       @R12,R4
+    00000536 7F04                   ADD         #4,R15
+    00000538 D326                   MOV.L       L1200+24,R3; _free
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   17
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000053A 4F16                   LDS.L       @R15+,MACL
+    0000053C 4F26                   LDS.L       @R15+,PR
+    0000053E 68F6                   MOV.L       @R15+,R8
+    00000540 69F6                   MOV.L       @R15+,R9
+    00000542 6AF6                   MOV.L       @R15+,R10
+    00000544 6BF6                   MOV.L       @R15+,R11
+    00000546 6CF6                   MOV.L       @R15+,R12
+    00000548 6DF6                   MOV.L       @R15+,R13
+    0000054A 432B                   JMP         @R3
+    0000054C 6EF6                   MOV.L       @R15+,R14
+         eigen.c   220    }
+         eigen.c   221    
+         eigen.c   222    //-----------------------------------------------------------------------------
+         eigen.c   223    //
+         eigen.c   224    //      Example: p = 1, q = 3
+         eigen.c   225    //
+         eigen.c   226    //              c       0       s       0
+         eigen.c   227    //
+         eigen.c   228    //              0       1       0       0
+         eigen.c   229    //      G =
+         eigen.c   230    //              -s      0       c       0
+         eigen.c   231    //
+         eigen.c   232    //              0       0       0       1
+         eigen.c   233    //
+         eigen.c   234    //      The effect of multiplying G times A is...
+         eigen.c   235    //
+         eigen.c   236    //      row 1 of A    = c (row 1 of A ) + s (row 3 of A )
+         eigen.c   237    //                n+1                n                 n
+         eigen.c   238    //
+         eigen.c   239    //      row 3 of A    = c (row 3 of A ) - s (row 1 of A )
+         eigen.c   240    //                n+1                n                 n
+         eigen.c   241    //
+         eigen.c   242    //      In terms of components the overall effect is...
+         eigen.c   243    //
+         eigen.c   244    //      row 1 = c row 1 + s row 3
+         eigen.c   245    //
+         eigen.c   246    //              A[1,1] = c A[1,1] + s A[3,1]
+         eigen.c   247    //
+         eigen.c   248    //              A[1,2] = c A[1,2] + s A[3,2]
+         eigen.c   249    //
+         eigen.c   250    //              A[1,3] = c A[1,3] + s A[3,3]
+         eigen.c   251    //
+         eigen.c   252    //              A[1,4] = c A[1,4] + s A[3,4]
+         eigen.c   253    //
+         eigen.c   254    //      row 3 = c row 3 - s row 1
+         eigen.c   255    //
+         eigen.c   256    //              A[3,1] = c A[3,1] - s A[1,1]
+         eigen.c   257    //
+         eigen.c   258    //              A[3,2] = c A[3,2] - s A[1,2]
+         eigen.c   259    //
+         eigen.c   260    //              A[3,3] = c A[3,3] - s A[1,3]
+         eigen.c   261    //
+         eigen.c   262    //              A[3,4] = c A[3,4] - s A[1,4]
+         eigen.c   263    //
+         eigen.c   264    //                                         T
+         eigen.c   265    //      The effect of multiplying A times G  is...
+         eigen.c   266    //
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   18
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c   267    //      col 1 of A    = c (col 1 of A ) + s (col 3 of A )
+         eigen.c   268    //                n+1                n                 n
+         eigen.c   269    //
+         eigen.c   270    //      col 3 of A    = c (col 3 of A ) - s (col 1 of A )
+         eigen.c   271    //                n+1                n                 n
+         eigen.c   272    //
+         eigen.c   273    //      In terms of components the overall effect is...
+         eigen.c   274    //
+         eigen.c   275    //      col 1 = c col 1 + s col 3
+         eigen.c   276    //
+         eigen.c   277    //              A[1,1] = c A[1,1] + s A[1,3]
+         eigen.c   278    //
+         eigen.c   279    //              A[2,1] = c A[2,1] + s A[2,3]
+         eigen.c   280    //
+         eigen.c   281    //              A[3,1] = c A[3,1] + s A[3,3]
+         eigen.c   282    //
+         eigen.c   283    //              A[4,1] = c A[4,1] + s A[4,3]
+         eigen.c   284    //
+         eigen.c   285    //      col 3 = c col 3 - s col 1
+         eigen.c   286    //
+         eigen.c   287    //              A[1,3] = c A[1,3] - s A[1,1]
+         eigen.c   288    //
+         eigen.c   289    //              A[2,3] = c A[2,3] - s A[2,1]
+         eigen.c   290    //
+         eigen.c   291    //              A[3,3] = c A[3,3] - s A[3,1]
+         eigen.c   292    //
+         eigen.c   293    //              A[4,3] = c A[4,3] - s A[4,1]
+         eigen.c   294    //
+         eigen.c   295    //      What we want to do is just compute the upper triangle of A since we
+         eigen.c   296    //      know the lower triangle is identical.
+         eigen.c   297    //
+         eigen.c   298    //      In other words, we just want to update components A[i,j] where i < j.
+         eigen.c   299    //
+         eigen.c   300    //-----------------------------------------------------------------------------
+         eigen.c   301    //
+         eigen.c   302    //      Example: p = 2, q = 5
+         eigen.c   303    //
+         eigen.c   304    //                              p                       q
+         eigen.c   305    //
+         eigen.c   306    //                      j=1     j=2     j=3     j=4     j=5     j=6
+         eigen.c   307    //
+         eigen.c   308    //              i=1     .       A[1,2]  .       .       A[1,5]  .
+         eigen.c   309    //
+         eigen.c   310    //      p       i=2     A[2,1]  A[2,2]  A[2,3]  A[2,4]  A[2,5]  A[2,6]
+         eigen.c   311    //
+         eigen.c   312    //              i=3     .       A[3,2]  .       .       A[3,5]  .
+         eigen.c   313    //
+         eigen.c   314    //              i=4     .       A[4,2]  .       .       A[4,5]  .
+         eigen.c   315    //
+         eigen.c   316    //      q       i=5     A[5,1]  A[5,2]  A[5,3]  A[5,4]  A[5,5]  A[5,6]
+         eigen.c   317    //
+         eigen.c   318    //              i=6     .       A[6,2]  .       .       A[6,5]  .
+         eigen.c   319    //
+         eigen.c   320    //-----------------------------------------------------------------------------
+         eigen.c   321    //
+         eigen.c   322    //      This is what B = GA does:
+         eigen.c   323    //
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   19
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c   324    //      row 2 = c row 2 + s row 5
+         eigen.c   325    //
+         eigen.c   326    //              B[2,1] = c * A[2,1] + s * A[5,1]
+         eigen.c   327    //              B[2,2] = c * A[2,2] + s * A[5,2]
+         eigen.c   328    //              B[2,3] = c * A[2,3] + s * A[5,3]
+         eigen.c   329    //              B[2,4] = c * A[2,4] + s * A[5,4]
+         eigen.c   330    //              B[2,5] = c * A[2,5] + s * A[5,5]
+         eigen.c   331    //              B[2,6] = c * A[2,6] + s * A[5,6]
+         eigen.c   332    //
+         eigen.c   333    //      row 5 = c row 5 - s row 2
+         eigen.c   334    //
+         eigen.c   335    //              B[5,1] = c * A[5,1] + s * A[2,1]
+         eigen.c   336    //              B[5,2] = c * A[5,2] + s * A[2,2]
+         eigen.c   337    //              B[5,3] = c * A[5,3] + s * A[2,3]
+         eigen.c   338    //              B[5,4] = c * A[5,4] + s * A[2,4]
+         eigen.c   339    //              B[5,5] = c * A[5,5] + s * A[2,5]
+         eigen.c   340    //              B[5,6] = c * A[5,6] + s * A[2,6]
+         eigen.c   341    //
+         eigen.c   342    //                     T
+         eigen.c   343    //      This is what BG  does:
+         eigen.c   344    //
+         eigen.c   345    //      col 2 = c col 2 + s col 5
+         eigen.c   346    //
+         eigen.c   347    //              B[1,2] = c * A[1,2] + s * A[1,5]
+         eigen.c   348    //              B[2,2] = c * A[2,2] + s * A[2,5]
+         eigen.c   349    //              B[3,2] = c * A[3,2] + s * A[3,5]
+         eigen.c   350    //              B[4,2] = c * A[4,2] + s * A[4,5]
+         eigen.c   351    //              B[5,2] = c * A[5,2] + s * A[5,5]
+         eigen.c   352    //              B[6,2] = c * A[6,2] + s * A[6,5]
+         eigen.c   353    //
+         eigen.c   354    //      col 5 = c col 5 - s col 2
+         eigen.c   355    //
+         eigen.c   356    //              B[1,5] = c * A[1,5] - s * A[1,2]
+         eigen.c   357    //              B[2,5] = c * A[2,5] - s * A[2,2]
+         eigen.c   358    //              B[3,5] = c * A[3,5] - s * A[3,2]
+         eigen.c   359    //              B[4,5] = c * A[4,5] - s * A[4,2]
+         eigen.c   360    //              B[5,5] = c * A[5,5] - s * A[5,2]
+         eigen.c   361    //              B[6,5] = c * A[6,5] - s * A[6,2]
+         eigen.c   362    //
+         eigen.c   363    //-----------------------------------------------------------------------------
+         eigen.c   364    //
+         eigen.c   365    //      Step 1: Just do upper triangle (i < j), B[2,5] = 0
+         eigen.c   366    //
+         eigen.c   367    //              B[1,2] = c * A[1,2] + s * A[1,5]
+         eigen.c   368    //
+         eigen.c   369    //              B[2,3] = c * A[2,3] + s * A[5,3]
+         eigen.c   370    //              B[2,4] = c * A[2,4] + s * A[5,4]
+         eigen.c   371    //              B[2,6] = c * A[2,6] + s * A[5,6]
+         eigen.c   372    //
+         eigen.c   373    //              B[1,5] = c * A[1,5] - s * A[1,2]
+         eigen.c   374    //              B[3,5] = c * A[3,5] - s * A[3,2]
+         eigen.c   375    //              B[4,5] = c * A[4,5] - s * A[4,2]
+         eigen.c   376    //
+         eigen.c   377    //              B[5,6] = c * A[5,6] + s * A[2,6]
+         eigen.c   378    //
+         eigen.c   379    //-----------------------------------------------------------------------------
+         eigen.c   380    //
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   20
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c   381    //      Step 2: Transpose where i > j since A[i,j] == A[j,i]
+         eigen.c   382    //
+         eigen.c   383    //              B[1,2] = c * A[1,2] + s * A[1,5]
+         eigen.c   384    //
+         eigen.c   385    //              B[2,3] = c * A[2,3] + s * A[3,5]
+         eigen.c   386    //              B[2,4] = c * A[2,4] + s * A[4,5]
+         eigen.c   387    //              B[2,6] = c * A[2,6] + s * A[5,6]
+         eigen.c   388    //
+         eigen.c   389    //              B[1,5] = c * A[1,5] - s * A[1,2]
+         eigen.c   390    //              B[3,5] = c * A[3,5] - s * A[2,3]
+         eigen.c   391    //              B[4,5] = c * A[4,5] - s * A[2,4]
+         eigen.c   392    //
+         eigen.c   393    //              B[5,6] = c * A[5,6] + s * A[2,6]
+         eigen.c   394    //
+         eigen.c   395    //-----------------------------------------------------------------------------
+         eigen.c   396    //
+         eigen.c   397    //      Step 3: Same as above except reorder
+         eigen.c   398    //
+         eigen.c   399    //      k < p           (k = 1)
+         eigen.c   400    //
+         eigen.c   401    //              A[1,2] = c * A[1,2] + s * A[1,5]
+         eigen.c   402    //              A[1,5] = c * A[1,5] - s * A[1,2]
+         eigen.c   403    //
+         eigen.c   404    //      p < k < q       (k = 3..4)
+         eigen.c   405    //
+         eigen.c   406    //              A[2,3] = c * A[2,3] + s * A[3,5]
+         eigen.c   407    //              A[3,5] = c * A[3,5] - s * A[2,3]
+         eigen.c   408    //
+         eigen.c   409    //              A[2,4] = c * A[2,4] + s * A[4,5]
+         eigen.c   410    //              A[4,5] = c * A[4,5] - s * A[2,4]
+         eigen.c   411    //
+         eigen.c   412    //      q < k           (k = 6)
+         eigen.c   413    //
+         eigen.c   414    //              A[2,6] = c * A[2,6] + s * A[5,6]
+         eigen.c   415    //              A[5,6] = c * A[5,6] - s * A[2,6]
+         eigen.c   416    //
+         eigen.c   417    //-----------------------------------------------------------------------------
+         eigen.c   418    
+         eigen.c   419    static int
+         eigen.c   420    step(void)
+    0000054E              __$step:                         ; function: step
+                                                           ; frame size=44
+                                                           ; used runtime library name:
+                                                           ; __eqd
+         eigen.c   421    {
+         eigen.c   422            int count, i, j;
+         eigen.c   423    
+         eigen.c   424            count = 0;
+    0000054E E400                   MOV         #0,R4
+    00000550 2FE6                   MOV.L       R14,@-R15
+    00000552 2FD6                   MOV.L       R13,@-R15
+    00000554 2FC6                   MOV.L       R12,@-R15
+    00000556 2FB6                   MOV.L       R11,@-R15
+    00000558 2FA6                   MOV.L       R10,@-R15
+    0000055A 6B43                   MOV         R4,R11
+         eigen.c   425    
+         eigen.c   426            // for each upper triangle "off-diagonal" component do step2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   21
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c   427    
+         eigen.c   428            for (i = 0; i < n - 1; i++) {
+    0000055C DC1F                   MOV.L       L1200+32,R12; __$n
+    0000055E 4F22                   STS.L       PR,@-R15
+    00000560 4F12                   STS.L       MACL,@-R15
+    00000562 DA1D                   MOV.L       L1200+28,R10; __$yydd
+    00000564 A01D                   BRA         L1180
+    00000566 6E43                   MOV         R4,R14
+    00000568              L1181:                            
+         eigen.c   429                    for (j = i + 1; j < n; j++) {
+    00000568 A016                   BRA         L1196
+    0000056A 6DE3                   MOV         R14,R13
+    0000056C              L1183:                            
+         eigen.c   430                            if (D(i, j) != 0.0) {
+    0000056C 03E7                   MUL.L       R14,R3
+    0000056E 031A                   STS         MACL,R3
+    00000570 62A2                   MOV.L       @R10,R2
+    00000572 33DC                   ADD         R13,R3
+    00000574 4308                   SHLL2       R3
+    00000576 4300                   SHLL        R3
+    00000578 332C                   ADD         R2,R3
+    0000057A E200                   MOV         #0,R2
+    0000057C 5131                   MOV.L       @(4,R3),R1
+    0000057E 2F16                   MOV.L       R1,@-R15
+    00000580 6132                   MOV.L       @R3,R1
+    00000582 2F16                   MOV.L       R1,@-R15
+    00000584 2F26                   MOV.L       R2,@-R15
+    00000586 D316                   MOV.L       L1200+36,R3; __eqd
+    00000588 430B                   JSR         @R3
+    0000058A 2F26                   MOV.L       R2,@-R15
+    0000058C 8800                   CMP/EQ      #0,R0
+    0000058E 8B03                   BF          L1196
+         eigen.c   431                                    step2(i, j);
+    00000590 65D3                   MOV         R13,R5
+    00000592 B027                   BSR         __$step2
+    00000594 64E3                   MOV         R14,R4
+         eigen.c   432                                    count++;
+    00000596 7B01                   ADD         #1,R11
+    00000598              L1196:                            
+    00000598 63C2                   MOV.L       @R12,R3
+    0000059A 7D01                   ADD         #1,R13
+    0000059C 3D33                   CMP/GE      R3,R13
+    0000059E 8BE5                   BF          L1183
+    000005A0 7E01                   ADD         #1,R14
+    000005A2              L1180:                            
+    000005A2 63C2                   MOV.L       @R12,R3
+    000005A4 73FF                   ADD         #-1,R3
+    000005A6 3E33                   CMP/GE      R3,R14
+    000005A8 8BDE                   BF          L1181
+         eigen.c   433                            }
+         eigen.c   434                    }
+         eigen.c   435            }
+         eigen.c   436    
+         eigen.c   437            return count;
+    000005AA 60B3                   MOV         R11,R0
+         eigen.c   438    }
+    000005AC 4F16                   LDS.L       @R15+,MACL
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   22
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000005AE 4F26                   LDS.L       @R15+,PR
+    000005B0 6AF6                   MOV.L       @R15+,R10
+    000005B2 6BF6                   MOV.L       @R15+,R11
+    000005B4 6CF6                   MOV.L       @R15+,R12
+    000005B6 6DF6                   MOV.L       @R15+,R13
+    000005B8 000B                   RTS
+    000005BA 6EF6                   MOV.L       @R15+,R14
+    000005BC              L1200:                            
+    000005BC <00000000>             .DATA.L     _push_double
+    000005C0 <00000000>             .DATA.L     _p2
+    000005C4 <00000000>             .DATA.L     _pop
+    000005C8 <00000000>             .DATA.L     _push
+    000005CC <00000000>             .DATA.L     _copy_tensor
+    000005D0 <00000000>             .DATA.L     _p3
+    000005D4 <00000000>             .DATA.L     _free
+    000005D8 <00000000>             .DATA.L     __$yydd
+    000005DC <00000000>             .DATA.L     __$n
+    000005E0 <00000000>             .DATA.L     __eqd
+         eigen.c   439    
+         eigen.c   440    static void
+         eigen.c   441    step2(int p, int q)
+    000005E4              __$step2:                        ; function: step2
+                                                           ; frame size=140
+                                                           ; used runtime library name:
+                                                           ; __addd, __subdr, __muld, __divdr, __negd, __ltd
+    000005E4 2FE6                   MOV.L       R14,@-R15
+    000005E6 2FD6                   MOV.L       R13,@-R15
+    000005E8 2FC6                   MOV.L       R12,@-R15
+    000005EA 6C53                   MOV         R5,R12
+         eigen.c   442    {
+         eigen.c   443            int k;
+         eigen.c   444            double t, theta;
+         eigen.c   445            double c, cc, s, ss;
+         eigen.c   446    
+         eigen.c   447            // compute c and s
+         eigen.c   448    
+         eigen.c   449            // from Numerical Recipes (except they have a_qq - a_pp)
+         eigen.c   450    
+         eigen.c   451            theta = 0.5 * (D(p, p) - D(q, q)) / D(p, q);
+    000005EC DDCB                   MOV.L       L1201+2,R13; __$yydd
+    000005EE 2FB6                   MOV.L       R11,@-R15
+    000005F0 4F22                   STS.L       PR,@-R15
+    000005F2 6B43                   MOV         R4,R11
+    000005F4 DECA                   MOV.L       L1201+6,R14; __$n
+    000005F6 4F12                   STS.L       MACL,@-R15
+    000005F8 7FD0                   ADD         #-48,R15
+    000005FA 7FF0                   ADD         #-16,R15
+    000005FC 64E2                   MOV.L       @R14,R4
+    000005FE 04B7                   MUL.L       R11,R4
+    00000600 62D2                   MOV.L       @R13,R2
+    00000602 041A                   STS         MACL,R4
+    00000604 6343                   MOV         R4,R3
+    00000606 33BC                   ADD         R11,R3
+    00000608 4308                   SHLL2       R3
+    0000060A 4300                   SHLL        R3
+    0000060C 332C                   ADD         R2,R3
+    0000060E 5131                   MOV.L       @(4,R3),R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   23
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000610 2F16                   MOV.L       R1,@-R15
+    00000612 6132                   MOV.L       @R3,R1
+    00000614 2F16                   MOV.L       R1,@-R15
+    00000616 62E2                   MOV.L       @R14,R2
+    00000618 02C7                   MUL.L       R12,R2
+    0000061A 021A                   STS         MACL,R2
+    0000061C 32CC                   ADD         R12,R2
+    0000061E 4208                   SHLL2       R2
+    00000620 4200                   SHLL        R2
+    00000622 61D2                   MOV.L       @R13,R1
+    00000624 321C                   ADD         R1,R2
+    00000626 5021                   MOV.L       @(4,R2),R0
+    00000628 D1BE                   MOV.L       L1201+10,R1; __subdr
+    0000062A 2F06                   MOV.L       R0,@-R15
+    0000062C 6022                   MOV.L       @R2,R0
+    0000062E 2F06                   MOV.L       R0,@-R15
+    00000630 63F3                   MOV         R15,R3
+    00000632 7310                   ADD         #16,R3
+    00000634 410B                   JSR         @R1
+    00000636 2F36                   MOV.L       R3,@-R15
+    00000638 D1BC                   MOV.L       L1201+18,R1; __muld
+    0000063A E200                   MOV         #0,R2
+    0000063C 2F26                   MOV.L       R2,@-R15
+    0000063E D2BA                   MOV.L       L1201+14,R2; H'3FE00000
+    00000640 2F26                   MOV.L       R2,@-R15
+    00000642 63F3                   MOV         R15,R3
+    00000644 7310                   ADD         #16,R3
+    00000646 410B                   JSR         @R1
+    00000648 2F36                   MOV.L       R3,@-R15
+    0000064A 6243                   MOV         R4,R2
+    0000064C 63D2                   MOV.L       @R13,R3
+    0000064E 32CC                   ADD         R12,R2
+    00000650 4208                   SHLL2       R2
+    00000652 4200                   SHLL        R2
+    00000654 323C                   ADD         R3,R2
+    00000656 5121                   MOV.L       @(4,R2),R1
+    00000658 D3B5                   MOV.L       L1201+22,R3; __divdr
+    0000065A 2F16                   MOV.L       R1,@-R15
+    0000065C 6122                   MOV.L       @R2,R1
+    0000065E 2F16                   MOV.L       R1,@-R15
+    00000660 60F3                   MOV         R15,R0
+    00000662 7030                   ADD         #48,R0
+    00000664 430B                   JSR         @R3
+    00000666 2F06                   MOV.L       R0,@-R15
+         eigen.c   452    
+         eigen.c   453            t = 1.0 / (fabs(theta) + sqrt(theta * theta + 1.0));
+    00000668 D1B3                   MOV.L       L1201+30,R1; _fabs
+    0000066A E200                   MOV         #0,R2
+    0000066C 2F26                   MOV.L       R2,@-R15
+    0000066E D2B1                   MOV.L       L1201+26,R2; H'3FF00000
+    00000670 2F26                   MOV.L       R2,@-R15
+    00000672 7FF0                   ADD         #-16,R15
+    00000674 53FF                   MOV.L       @(60,R15),R3
+    00000676 E208                   MOV         #8,R2
+    00000678 2F36                   MOV.L       R3,@-R15
+    0000067A 53FF                   MOV.L       @(60,R15),R3
+    0000067C 2F36                   MOV.L       R3,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   24
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000067E 32FC                   ADD         R15,R2
+    00000680 410B                   JSR         @R1
+    00000682 2F26                   MOV.L       R2,@-R15
+    00000684 D1A9                   MOV.L       L1201+18,R1; __muld
+    00000686 7FF4                   ADD         #-12,R15
+    00000688 E054                   MOV         #84,R0
+    0000068A 02FE                   MOV.L       @(R0,R15),R2
+    0000068C 2F26                   MOV.L       R2,@-R15
+    0000068E E054                   MOV         #84,R0
+    00000690 02FE                   MOV.L       @(R0,R15),R2
+    00000692 E05C                   MOV         #92,R0
+    00000694 2F26                   MOV.L       R2,@-R15
+    00000696 03FE                   MOV.L       @(R0,R15),R3
+    00000698 2F36                   MOV.L       R3,@-R15
+    0000069A E05C                   MOV         #92,R0
+    0000069C 03FE                   MOV.L       @(R0,R15),R3
+    0000069E 2F36                   MOV.L       R3,@-R15
+    000006A0 62F3                   MOV         R15,R2
+    000006A2 7210                   ADD         #16,R2
+    000006A4 410B                   JSR         @R1
+    000006A6 2F26                   MOV.L       R2,@-R15
+    000006A8 D1A4                   MOV.L       L1201+34,R1; __addd
+    000006AA E300                   MOV         #0,R3
+    000006AC 2F36                   MOV.L       R3,@-R15
+    000006AE D3A1                   MOV.L       L1201+26,R3; H'3FF00000
+    000006B0 2F36                   MOV.L       R3,@-R15
+    000006B2 62F3                   MOV         R15,R2
+    000006B4 7210                   ADD         #16,R2
+    000006B6 410B                   JSR         @R1
+    000006B8 2F26                   MOV.L       R2,@-R15
+    000006BA E308                   MOV         #8,R3
+    000006BC 33FC                   ADD         R15,R3
+    000006BE 2F36                   MOV.L       R3,@-R15
+    000006C0 D39F                   MOV.L       L1201+38,R3; _sqrt
+    000006C2 430B                   JSR         @R3
+    000006C4 0009                   NOP
+    000006C6 7F0C                   ADD         #12,R15
+    000006C8 D39C                   MOV.L       L1201+34,R3; __addd
+    000006CA 60F3                   MOV         R15,R0
+    000006CC 7010                   ADD         #16,R0
+    000006CE 430B                   JSR         @R3
+    000006D0 2F06                   MOV.L       R0,@-R15
+    000006D2 61F3                   MOV         R15,R1
+    000006D4 D296                   MOV.L       L1201+22,R2; __divdr
+    000006D6 7138                   ADD         #56,R1
+    000006D8 420B                   JSR         @R2
+    000006DA 2F16                   MOV.L       R1,@-R15
+         eigen.c   454    
+         eigen.c   455            if (theta < 0.0)
+    000006DC 53F9                   MOV.L       @(36,R15),R3
+    000006DE E200                   MOV         #0,R2
+    000006E0 2F36                   MOV.L       R3,@-R15
+    000006E2 53F9                   MOV.L       @(36,R15),R3
+    000006E4 2F36                   MOV.L       R3,@-R15
+    000006E6 2F26                   MOV.L       R2,@-R15
+    000006E8 D396                   MOV.L       L1201+42,R3; __ltd
+    000006EA 430B                   JSR         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   25
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000006EC 2F26                   MOV.L       R2,@-R15
+    000006EE 8800                   CMP/EQ      #0,R0
+    000006F0 8908                   BT          L1186
+         eigen.c   456                    t = -t;
+    000006F2 52FB                   MOV.L       @(44,R15),R2
+    000006F4 D394                   MOV.L       L1201+46,R3; __negd
+    000006F6 2F26                   MOV.L       R2,@-R15
+    000006F8 52FB                   MOV.L       @(44,R15),R2
+    000006FA 2F26                   MOV.L       R2,@-R15
+    000006FC 61F3                   MOV         R15,R1
+    000006FE 7130                   ADD         #48,R1
+    00000700 430B                   JSR         @R3
+    00000702 2F16                   MOV.L       R1,@-R15
+    00000704              L1186:                            
+         eigen.c   457    
+         eigen.c   458            c = 1.0 / sqrt(t * t + 1.0);
+    00000704 D189                   MOV.L       L1201+18,R1; __muld
+    00000706 E200                   MOV         #0,R2
+    00000708 2F26                   MOV.L       R2,@-R15
+    0000070A E04C                   MOV         #76,R0
+    0000070C D289                   MOV.L       L1201+26,R2; H'3FF00000
+    0000070E 2F26                   MOV.L       R2,@-R15
+    00000710 7FE8                   ADD         #-24,R15
+    00000712 03FE                   MOV.L       @(R0,R15),R3
+    00000714 2F36                   MOV.L       R3,@-R15
+    00000716 E04C                   MOV         #76,R0
+    00000718 03FE                   MOV.L       @(R0,R15),R3
+    0000071A E054                   MOV         #84,R0
+    0000071C 2F36                   MOV.L       R3,@-R15
+    0000071E 02FE                   MOV.L       @(R0,R15),R2
+    00000720 2F26                   MOV.L       R2,@-R15
+    00000722 E054                   MOV         #84,R0
+    00000724 02FE                   MOV.L       @(R0,R15),R2
+    00000726 2F26                   MOV.L       R2,@-R15
+    00000728 63F3                   MOV         R15,R3
+    0000072A 7310                   ADD         #16,R3
+    0000072C 410B                   JSR         @R1
+    0000072E 2F36                   MOV.L       R3,@-R15
+    00000730 D182                   MOV.L       L1201+34,R1; __addd
+    00000732 E200                   MOV         #0,R2
+    00000734 2F26                   MOV.L       R2,@-R15
+    00000736 D27F                   MOV.L       L1201+26,R2; H'3FF00000
+    00000738 2F26                   MOV.L       R2,@-R15
+    0000073A 63F3                   MOV         R15,R3
+    0000073C 7310                   ADD         #16,R3
+    0000073E 410B                   JSR         @R1
+    00000740 2F36                   MOV.L       R3,@-R15
+    00000742 E208                   MOV         #8,R2
+    00000744 D37E                   MOV.L       L1201+38,R3; _sqrt
+    00000746 32FC                   ADD         R15,R2
+    00000748 430B                   JSR         @R3
+    0000074A 2F26                   MOV.L       R2,@-R15
+    0000074C D278                   MOV.L       L1201+22,R2; __divdr
+    0000074E 7F0C                   ADD         #12,R15
+    00000750 60F3                   MOV         R15,R0
+    00000752 7028                   ADD         #40,R0
+    00000754 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   26
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000756 2F06                   MOV.L       R0,@-R15
+         eigen.c   459    
+         eigen.c   460            s = t * c;
+    00000758 53FB                   MOV.L       @(44,R15),R3
+    0000075A 2F36                   MOV.L       R3,@-R15
+    0000075C 53FB                   MOV.L       @(44,R15),R3
+    0000075E 2F36                   MOV.L       R3,@-R15
+    00000760 52F9                   MOV.L       @(36,R15),R2
+    00000762 2F26                   MOV.L       R2,@-R15
+    00000764 52F9                   MOV.L       @(36,R15),R2
+    00000766 2F26                   MOV.L       R2,@-R15
+    00000768 D370                   MOV.L       L1201+18,R3; __muld
+    0000076A 61F3                   MOV         R15,R1
+    0000076C 7118                   ADD         #24,R1
+    0000076E 430B                   JSR         @R3
+    00000770 2F16                   MOV.L       R1,@-R15
+         eigen.c   461    
+         eigen.c   462            // D = GD
+         eigen.c   463    
+         eigen.c   464            // which means "add rows"
+         eigen.c   465    
+         eigen.c   466            for (k = 0; k < n; k++) {
+    00000772 E600                   MOV         #0,R6
+    00000774 A064                   BRA         L1187
+    00000776 6463                   MOV         R6,R4
+    00000778              L1188:                            
+         eigen.c   467                    cc = D(p, k);
+    00000778 65E2                   MOV.L       @R14,R5
+    0000077A 61F3                   MOV         R15,R1
+    0000077C 63D2                   MOV.L       @R13,R3
+    0000077E 7110                   ADD         #16,R1
+    00000780 05B7                   MUL.L       R11,R5
+    00000782 051A                   STS         MACL,R5
+    00000784 354C                   ADD         R4,R5
+    00000786 4508                   SHLL2       R5
+    00000788 4500                   SHLL        R5
+    0000078A 353C                   ADD         R3,R5
+    0000078C 6253                   MOV         R5,R2
+    0000078E 6022                   MOV.L       @R2,R0
+    00000790 2102                   MOV.L       R0,@R1
+    00000792 5021                   MOV.L       @(4,R2),R0
+    00000794 1101                   MOV.L       R0,@(4,R1)
+         eigen.c   468                    ss = D(q, k);
+    00000796 60F3                   MOV         R15,R0
+    00000798 63E2                   MOV.L       @R14,R3
+    0000079A 03C7                   MUL.L       R12,R3
+    0000079C 62D2                   MOV.L       @R13,R2
+    0000079E 031A                   STS         MACL,R3
+    000007A0 334C                   ADD         R4,R3
+    000007A2 4308                   SHLL2       R3
+    000007A4 4300                   SHLL        R3
+    000007A6 332C                   ADD         R2,R3
+    000007A8 6133                   MOV         R3,R1
+    000007AA 6212                   MOV.L       @R1,R2
+    000007AC 2022                   MOV.L       R2,@R0
+    000007AE 5211                   MOV.L       @(4,R1),R2
+    000007B0 1021                   MOV.L       R2,@(4,R0)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   27
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         eigen.c   469                    D(p, k) = c * cc + s * ss;
+    000007B2 7FF8                   ADD         #-8,R15
+    000007B4 51F9                   MOV.L       @(36,R15),R1
+    000007B6 2F16                   MOV.L       R1,@-R15
+    000007B8 51F9                   MOV.L       @(36,R15),R1
+    000007BA 2F16                   MOV.L       R1,@-R15
+    000007BC 53F9                   MOV.L       @(36,R15),R3
+    000007BE 2F36                   MOV.L       R3,@-R15
+    000007C0 53F9                   MOV.L       @(36,R15),R3
+    000007C2 2F36                   MOV.L       R3,@-R15
+    000007C4 D159                   MOV.L       L1201+18,R1; __muld
+    000007C6 62F3                   MOV         R15,R2
+    000007C8 7210                   ADD         #16,R2
+    000007CA 410B                   JSR         @R1
+    000007CC 2F26                   MOV.L       R2,@-R15
+    000007CE 7FF8                   ADD         #-8,R15
+    000007D0 D156                   MOV.L       L1201+18,R1; __muld
+    000007D2 53F7                   MOV.L       @(28,R15),R3
+    000007D4 2F36                   MOV.L       R3,@-R15
+    000007D6 53F7                   MOV.L       @(28,R15),R3
+    000007D8 2F36                   MOV.L       R3,@-R15
+    000007DA 52F7                   MOV.L       @(28,R15),R2
+    000007DC 2F26                   MOV.L       R2,@-R15
+    000007DE 52F7                   MOV.L       @(28,R15),R2
+    000007E0 2F26                   MOV.L       R2,@-R15
+    000007E2 63F3                   MOV         R15,R3
+    000007E4 7310                   ADD         #16,R3
+    000007E6 410B                   JSR         @R1
+    000007E8 2F36                   MOV.L       R3,@-R15
+    000007EA D254                   MOV.L       L1201+34,R2; __addd
+    000007EC 420B                   JSR         @R2
+    000007EE 2F56                   MOV.L       R5,@-R15
+         eigen.c   470                    D(q, k) = c * ss - s * cc;
+    000007F0 63E2                   MOV.L       @R14,R3
+    000007F2 03C7                   MUL.L       R12,R3
+    000007F4 62D2                   MOV.L       @R13,R2
+    000007F6 7FF8                   ADD         #-8,R15
+    000007F8 51F9                   MOV.L       @(36,R15),R1
+    000007FA 031A                   STS         MACL,R3
+    000007FC 2F16                   MOV.L       R1,@-R15
+    000007FE 334C                   ADD         R4,R3
+    00000800 51F9                   MOV.L       @(36,R15),R1
+    00000802 4308                   SHLL2       R3
+    00000804 2F16                   MOV.L       R1,@-R15
+    00000806 4300                   SHLL        R3
+    00000808 332C                   ADD         R2,R3
+    0000080A 52F5                   MOV.L       @(20,R15),R2
+    0000080C 2F26                   MOV.L       R2,@-R15
+    0000080E 52F5                   MOV.L       @(20,R15),R2
+    00000810 2F26                   MOV.L       R2,@-R15
+    00000812 61F3                   MOV         R15,R1
+    00000814 D245                   MOV.L       L1201+18,R2; __muld
+    00000816 7110                   ADD         #16,R1
+    00000818 420B                   JSR         @R2
+    0000081A 2F16                   MOV.L       R1,@-R15
+    0000081C 7FF8                   ADD         #-8,R15
+    0000081E 50F9                   MOV.L       @(36,R15),R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   28
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000820 2F06                   MOV.L       R0,@-R15
+    00000822 50F9                   MOV.L       @(36,R15),R0
+    00000824 2F06                   MOV.L       R0,@-R15
+    00000826 52F9                   MOV.L       @(36,R15),R2
+    00000828 2F26                   MOV.L       R2,@-R15
+    0000082A 52F9                   MOV.L       @(36,R15),R2
+    0000082C 2F26                   MOV.L       R2,@-R15
+    0000082E 61F3                   MOV         R15,R1
+    00000830 D23E                   MOV.L       L1201+18,R2; __muld
+    00000832 7110                   ADD         #16,R1
+    00000834 420B                   JSR         @R2
+    00000836 2F16                   MOV.L       R1,@-R15
+    00000838 D03A                   MOV.L       L1201+10,R0; __subdr
+    0000083A 400B                   JSR         @R0
+    0000083C 2F36                   MOV.L       R3,@-R15
+    0000083E 7401                   ADD         #1,R4
+    00000840              L1187:                            
+    00000840 63E2                   MOV.L       @R14,R3
+    00000842 3433                   CMP/GE      R3,R4
+    00000844 8B98                   BF          L1188
+         eigen.c   471            }
+         eigen.c   472    
+         eigen.c   473            // D = D transpose(G)
+         eigen.c   474    
+         eigen.c   475            // which means "add columns"
+         eigen.c   476    
+         eigen.c   477            for (k = 0; k < n; k++) {
+    00000846 A062                   BRA         L1189
+    00000848 6463                   MOV         R6,R4
+    0000084A              L1190:                            
+         eigen.c   478                    cc = D(k, p);
+    0000084A 61F3                   MOV         R15,R1
+    0000084C 65E2                   MOV.L       @R14,R5
+    0000084E 7110                   ADD         #16,R1
+    00000850 63D2                   MOV.L       @R13,R3
+    00000852 0547                   MUL.L       R4,R5
+    00000854 051A                   STS         MACL,R5
+    00000856 6753                   MOV         R5,R7
+    00000858 37BC                   ADD         R11,R7
+    0000085A 4708                   SHLL2       R7
+    0000085C 4700                   SHLL        R7
+    0000085E 373C                   ADD         R3,R7
+    00000860 6273                   MOV         R7,R2
+         eigen.c   479                    ss = D(k, q);
+    00000862 35CC                   ADD         R12,R5
+    00000864 6022                   MOV.L       @R2,R0
+    00000866 4508                   SHLL2       R5
+    00000868 2102                   MOV.L       R0,@R1
+    0000086A 4500                   SHLL        R5
+    0000086C 5021                   MOV.L       @(4,R2),R0
+    0000086E 1101                   MOV.L       R0,@(4,R1)
+    00000870 63D2                   MOV.L       @R13,R3
+    00000872 61F3                   MOV         R15,R1
+    00000874 353C                   ADD         R3,R5
+    00000876 6253                   MOV         R5,R2
+    00000878 6022                   MOV.L       @R2,R0
+    0000087A 2102                   MOV.L       R0,@R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   29
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000087C 5021                   MOV.L       @(4,R2),R0
+    0000087E 1101                   MOV.L       R0,@(4,R1)
+         eigen.c   480                    D(k, p) = c * cc + s * ss;
+    00000880 7FF8                   ADD         #-8,R15
+    00000882 53F9                   MOV.L       @(36,R15),R3
+    00000884 2F36                   MOV.L       R3,@-R15
+    00000886 53F9                   MOV.L       @(36,R15),R3
+    00000888 2F36                   MOV.L       R3,@-R15
+    0000088A 52F9                   MOV.L       @(36,R15),R2
+    0000088C D127                   MOV.L       L1201+18,R1; __muld
+    0000088E 2F26                   MOV.L       R2,@-R15
+    00000890 52F9                   MOV.L       @(36,R15),R2
+    00000892 2F26                   MOV.L       R2,@-R15
+    00000894 63F3                   MOV         R15,R3
+    00000896 7310                   ADD         #16,R3
+    00000898 410B                   JSR         @R1
+    0000089A 2F36                   MOV.L       R3,@-R15
+    0000089C D123                   MOV.L       L1201+18,R1; __muld
+    0000089E 7FF8                   ADD         #-8,R15
+    000008A0 52F7                   MOV.L       @(28,R15),R2
+    000008A2 2F26                   MOV.L       R2,@-R15
+    000008A4 52F7                   MOV.L       @(28,R15),R2
+    000008A6 2F26                   MOV.L       R2,@-R15
+    000008A8 53F7                   MOV.L       @(28,R15),R3
+    000008AA 2F36                   MOV.L       R3,@-R15
+    000008AC 53F7                   MOV.L       @(28,R15),R3
+    000008AE 2F36                   MOV.L       R3,@-R15
+    000008B0 62F3                   MOV         R15,R2
+    000008B2 7210                   ADD         #16,R2
+    000008B4 410B                   JSR         @R1
+    000008B6 2F26                   MOV.L       R2,@-R15
+    000008B8 D320                   MOV.L       L1201+34,R3; __addd
+    000008BA 430B                   JSR         @R3
+    000008BC 2F76                   MOV.L       R7,@-R15
+         eigen.c   481                    D(k, q) = c * ss - s * cc;
+    000008BE 62E2                   MOV.L       @R14,R2
+    000008C0 63D2                   MOV.L       @R13,R3
+    000008C2 7FF8                   ADD         #-8,R15
+    000008C4 0247                   MUL.L       R4,R2
+    000008C6 021A                   STS         MACL,R2
+    000008C8 51F9                   MOV.L       @(36,R15),R1
+    000008CA 32CC                   ADD         R12,R2
+    000008CC 2F16                   MOV.L       R1,@-R15
+    000008CE 4208                   SHLL2       R2
+    000008D0 51F9                   MOV.L       @(36,R15),R1
+    000008D2 4200                   SHLL        R2
+    000008D4 2F16                   MOV.L       R1,@-R15
+    000008D6 323C                   ADD         R3,R2
+    000008D8 53F5                   MOV.L       @(20,R15),R3
+    000008DA 2F36                   MOV.L       R3,@-R15
+    000008DC 53F5                   MOV.L       @(20,R15),R3
+    000008DE 2F36                   MOV.L       R3,@-R15
+    000008E0 D312                   MOV.L       L1201+18,R3; __muld
+    000008E2 61F3                   MOV         R15,R1
+    000008E4 7110                   ADD         #16,R1
+    000008E6 430B                   JSR         @R3
+    000008E8 2F16                   MOV.L       R1,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   30
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000008EA 7FF8                   ADD         #-8,R15
+    000008EC 50F9                   MOV.L       @(36,R15),R0
+    000008EE 2F06                   MOV.L       R0,@-R15
+    000008F0 50F9                   MOV.L       @(36,R15),R0
+    000008F2 2F06                   MOV.L       R0,@-R15
+    000008F4 53F9                   MOV.L       @(36,R15),R3
+    000008F6 2F36                   MOV.L       R3,@-R15
+    000008F8 53F9                   MOV.L       @(36,R15),R3
+    000008FA 2F36                   MOV.L       R3,@-R15
+    000008FC D30B                   MOV.L       L1201+18,R3; __muld
+    000008FE 61F3                   MOV         R15,R1
+    00000900 7110                   ADD         #16,R1
+    00000902 430B                   JSR         @R3
+    00000904 2F16                   MOV.L       R1,@-R15
+    00000906 D007                   MOV.L       L1201+10,R0; __subdr
+    00000908 400B                   JSR         @R0
+    0000090A 2F26                   MOV.L       R2,@-R15
+    0000090C 7401                   ADD         #1,R4
+    0000090E              L1189:                            
+    0000090E 63E2                   MOV.L       @R14,R3
+    00000910 3433                   CMP/GE      R3,R4
+    00000912 8B9A                   BF          L1190
+         eigen.c   482            }
+         eigen.c   483    
+         eigen.c   484            // Q = GQ
+         eigen.c   485    
+         eigen.c   486            // which means "add rows"
+         eigen.c   487    
+         eigen.c   488            for (k = 0; k < n; k++) {
+    00000914 D50D                   MOV.L       L1201+50,R5; __$yyqq
+    00000916 A07F                   BRA         L1191
+    00000918 6463                   MOV         R6,R4
+    0000091A              L1201:                            
+    0000091A 0000                   .DATA.W     0
+    0000091C <00000000>             .DATA.L     __$yydd
+    00000920 <00000000>             .DATA.L     __$n
+    00000924 <00000000>             .DATA.L     __subdr
+    00000928 3FE00000               .DATA.L     H'3FE00000
+    0000092C <00000000>             .DATA.L     __muld
+    00000930 <00000000>             .DATA.L     __divdr
+    00000934 3FF00000               .DATA.L     H'3FF00000
+    00000938 <00000000>             .DATA.L     _fabs
+    0000093C <00000000>             .DATA.L     __addd
+    00000940 <00000000>             .DATA.L     _sqrt
+    00000944 <00000000>             .DATA.L     __ltd
+    00000948 <00000000>             .DATA.L     __negd
+    0000094C <00000000>             .DATA.L     __$yyqq
+    00000950              L1192:                            
+         eigen.c   489                    cc = Q(p, k);
+    00000950 66E2                   MOV.L       @R14,R6
+    00000952 61F3                   MOV         R15,R1
+    00000954 6352                   MOV.L       @R5,R3
+    00000956 7110                   ADD         #16,R1
+    00000958 06B7                   MUL.L       R11,R6
+    0000095A 061A                   STS         MACL,R6
+    0000095C 364C                   ADD         R4,R6
+    0000095E 4608                   SHLL2       R6
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   31
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000960 4600                   SHLL        R6
+    00000962 363C                   ADD         R3,R6
+    00000964 6263                   MOV         R6,R2
+    00000966 6022                   MOV.L       @R2,R0
+    00000968 2102                   MOV.L       R0,@R1
+    0000096A 5021                   MOV.L       @(4,R2),R0
+    0000096C 1101                   MOV.L       R0,@(4,R1)
+         eigen.c   490                    ss = Q(q, k);
+    0000096E 60F3                   MOV         R15,R0
+    00000970 63E2                   MOV.L       @R14,R3
+    00000972 03C7                   MUL.L       R12,R3
+    00000974 6252                   MOV.L       @R5,R2
+    00000976 031A                   STS         MACL,R3
+    00000978 334C                   ADD         R4,R3
+    0000097A 4308                   SHLL2       R3
+    0000097C 4300                   SHLL        R3
+    0000097E 332C                   ADD         R2,R3
+    00000980 6133                   MOV         R3,R1
+    00000982 6212                   MOV.L       @R1,R2
+    00000984 2022                   MOV.L       R2,@R0
+    00000986 5211                   MOV.L       @(4,R1),R2
+    00000988 1021                   MOV.L       R2,@(4,R0)
+         eigen.c   491                    Q(p, k) = c * cc + s * ss;
+    0000098A 7FF8                   ADD         #-8,R15
+    0000098C 51F9                   MOV.L       @(36,R15),R1
+    0000098E 2F16                   MOV.L       R1,@-R15
+    00000990 51F9                   MOV.L       @(36,R15),R1
+    00000992 2F16                   MOV.L       R1,@-R15
+    00000994 53F9                   MOV.L       @(36,R15),R3
+    00000996 2F36                   MOV.L       R3,@-R15
+    00000998 53F9                   MOV.L       @(36,R15),R3
+    0000099A 2F36                   MOV.L       R3,@-R15
+    0000099C D130                   MOV.L       L1202+2,R1 ; __muld
+    0000099E 62F3                   MOV         R15,R2
+    000009A0 7210                   ADD         #16,R2
+    000009A2 410B                   JSR         @R1
+    000009A4 2F26                   MOV.L       R2,@-R15
+    000009A6 7FF8                   ADD         #-8,R15
+    000009A8 D12D                   MOV.L       L1202+2,R1 ; __muld
+    000009AA 53F7                   MOV.L       @(28,R15),R3
+    000009AC 2F36                   MOV.L       R3,@-R15
+    000009AE 53F7                   MOV.L       @(28,R15),R3
+    000009B0 2F36                   MOV.L       R3,@-R15
+    000009B2 52F7                   MOV.L       @(28,R15),R2
+    000009B4 2F26                   MOV.L       R2,@-R15
+    000009B6 52F7                   MOV.L       @(28,R15),R2
+    000009B8 2F26                   MOV.L       R2,@-R15
+    000009BA 63F3                   MOV         R15,R3
+    000009BC 7310                   ADD         #16,R3
+    000009BE 410B                   JSR         @R1
+    000009C0 2F36                   MOV.L       R3,@-R15
+    000009C2 D228                   MOV.L       L1202+6,R2 ; __addd
+    000009C4 420B                   JSR         @R2
+    000009C6 2F66                   MOV.L       R6,@-R15
+         eigen.c   492                    Q(q, k) = c * ss - s * cc;
+    000009C8 63E2                   MOV.L       @R14,R3
+    000009CA 03C7                   MUL.L       R12,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   32
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000009CC 6252                   MOV.L       @R5,R2
+    000009CE 7FF8                   ADD         #-8,R15
+    000009D0 51F9                   MOV.L       @(36,R15),R1
+    000009D2 031A                   STS         MACL,R3
+    000009D4 2F16                   MOV.L       R1,@-R15
+    000009D6 334C                   ADD         R4,R3
+    000009D8 51F9                   MOV.L       @(36,R15),R1
+    000009DA 4308                   SHLL2       R3
+    000009DC 2F16                   MOV.L       R1,@-R15
+    000009DE 4300                   SHLL        R3
+    000009E0 332C                   ADD         R2,R3
+    000009E2 52F5                   MOV.L       @(20,R15),R2
+    000009E4 2F26                   MOV.L       R2,@-R15
+    000009E6 52F5                   MOV.L       @(20,R15),R2
+    000009E8 2F26                   MOV.L       R2,@-R15
+    000009EA 61F3                   MOV         R15,R1
+    000009EC D21C                   MOV.L       L1202+2,R2 ; __muld
+    000009EE 7110                   ADD         #16,R1
+    000009F0 420B                   JSR         @R2
+    000009F2 2F16                   MOV.L       R1,@-R15
+    000009F4 7FF8                   ADD         #-8,R15
+    000009F6 50F9                   MOV.L       @(36,R15),R0
+    000009F8 2F06                   MOV.L       R0,@-R15
+    000009FA 50F9                   MOV.L       @(36,R15),R0
+    000009FC 2F06                   MOV.L       R0,@-R15
+    000009FE 52F9                   MOV.L       @(36,R15),R2
+    00000A00 2F26                   MOV.L       R2,@-R15
+    00000A02 52F9                   MOV.L       @(36,R15),R2
+    00000A04 2F26                   MOV.L       R2,@-R15
+    00000A06 61F3                   MOV         R15,R1
+    00000A08 D215                   MOV.L       L1202+2,R2 ; __muld
+    00000A0A 7110                   ADD         #16,R1
+    00000A0C 420B                   JSR         @R2
+    00000A0E 2F16                   MOV.L       R1,@-R15
+    00000A10 D015                   MOV.L       L1202+10,R0; __subdr
+    00000A12 400B                   JSR         @R0
+    00000A14 2F36                   MOV.L       R3,@-R15
+    00000A16 7401                   ADD         #1,R4
+    00000A18              L1191:                            
+    00000A18 63E2                   MOV.L       @R14,R3
+    00000A1A 3433                   CMP/GE      R3,R4
+    00000A1C 8B98                   BF          L1192
+         eigen.c   493            }
+         eigen.c   494    
+         eigen.c   495            D(p, q) = 0.0;
+    00000A1E E000                   MOV         #0,R0
+    00000A20 61E2                   MOV.L       @R14,R1
+    00000A22 01B7                   MUL.L       R11,R1
+    00000A24 63D2                   MOV.L       @R13,R3
+    00000A26 011A                   STS         MACL,R1
+    00000A28 31CC                   ADD         R12,R1
+    00000A2A 4108                   SHLL2       R1
+    00000A2C 4100                   SHLL        R1
+    00000A2E 313C                   ADD         R3,R1
+    00000A30 6213                   MOV         R1,R2
+         eigen.c   496            D(q, p) = 0.0;
+    00000A32 6103                   MOV         R0,R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   33
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000A34 2202                   MOV.L       R0,@R2
+    00000A36 1201                   MOV.L       R0,@(4,R2)
+    00000A38 63E2                   MOV.L       @R14,R3
+    00000A3A 03C7                   MUL.L       R12,R3
+    00000A3C 62D2                   MOV.L       @R13,R2
+    00000A3E 0C1A                   STS         MACL,R12
+    00000A40 3CBC                   ADD         R11,R12
+    00000A42 4C08                   SHLL2       R12
+    00000A44 4C00                   SHLL        R12
+    00000A46 3C2C                   ADD         R2,R12
+    00000A48 63C3                   MOV         R12,R3
+    00000A4A 2302                   MOV.L       R0,@R3
+    00000A4C 1311                   MOV.L       R1,@(4,R3)
+         eigen.c   497    }
+    00000A4E 7F30                   ADD         #48,R15
+    00000A50 4F16                   LDS.L       @R15+,MACL
+    00000A52 4F26                   LDS.L       @R15+,PR
+    00000A54 6BF6                   MOV.L       @R15+,R11
+    00000A56 6CF6                   MOV.L       @R15+,R12
+    00000A58 6DF6                   MOV.L       @R15+,R13
+    00000A5A 000B                   RTS
+    00000A5C 6EF6                   MOV.L       @R15+,R14
+    00000A5E              L1202:                            
+    00000A5E 0000                   .DATA.W     0
+    00000A60 <00000000>             .DATA.L     __muld
+    00000A64 <00000000>             .DATA.L     __addd
+    00000A68 <00000000>             .DATA.L     __subdr
+         eigen.c   498    
+C   00000000              L1066:
+    00000000 656967656E             .SDATA      "eigen: argument is not a square matrix"
+             3A20617267   
+             756D656E74   
+             206973206E   
+             6F74206120   
+             7371756172   
+             65206D6174   
+             726978       
+    00000026 00                     .DATA.B     H'00
+    00000027 00000001               .RES.B      1
+    00000028              L1067:
+    00000028 44                     .SDATA      "D"
+    00000029 00                     .DATA.B     H'00
+    0000002A 00000002               .RES.W      1
+    0000002C              L1068:
+    0000002C 51                     .SDATA      "Q"
+    0000002D 00                     .DATA.B     H'00
+    0000002E 00000002               .RES.W      1
+    00000030              L1076:
+    00000030 656967656E             .SDATA      "eigen: matrix is not numerical"
+             3A206D6174   
+             7269782069   
+             73206E6F74   
+             206E756D65   
+             726963616C   
+    0000004E 00                     .DATA.B     H'00
+    0000004F 00000001               .RES.B      1
+    00000050              L1077:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE   34
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000050 656967656E             .SDATA      "eigen: matrix is not symmetrical"
+             3A206D6174   
+             7269782069   
+             73206E6F74   
+             2073796D6D   
+             6574726963   
+             616C         
+    00000070 00                     .DATA.B     H'00
+    00000071 00000001               .RES.B      1
+    00000072 00000002               .RES.W      1
+    00000074              L1082:
+    00000074 6D616C6C6F             .SDATA      "malloc failure"
+             6320666169   
+             6C757265     
+    00000082 00                     .DATA.B     H'00
+    00000083 00000001               .RES.B      1
+    00000084              L1087:
+    00000084 0A                     .DATA.B     H'0A
+    00000085 6E6F74653A             .SDATA      "note: eigen did not converge"
+             2065696765   
+             6E20646964   
+             206E6F7420   
+             636F6E7665   
+             726765       
+    000000A1 0A00                   .DATA.B     H'0A,H'00
+B   00000000              __$n:                            ; static: n
+    00000000 00000004               .RES.L      1
+    00000004              __$yydd:                         ; static: yydd
+    00000004 00000004               .RES.L      1
+    00000008              __$yyqq:                         ; static: yyqq
+    00000008 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:56  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      498
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000A6C Byte(s)
+CONSTANT SECTION (C):                               000000A3 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               0000000C Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000B1B Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           28
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:           102
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk59B0.tmp 
+

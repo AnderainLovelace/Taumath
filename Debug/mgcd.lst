@@ -1,0 +1,467 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:14  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\mgcd.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          mgcd.c     1    //-----------------------------------------------------------------------------
+          mgcd.c     2    //
+          mgcd.c     3    //      Bignum GCD
+          mgcd.c     4    //
+          mgcd.c     5    //      Uses the binary GCD algorithm.
+          mgcd.c     6    //
+          mgcd.c     7    //      See "The Art of Computer Programming" p. 338.
+          mgcd.c     8    //
+          mgcd.c     9    //      mgcd always returns a positive value
+          mgcd.c    10    //
+          mgcd.c    11    //      mgcd(0, 0) = 0
+          mgcd.c    12    //
+          mgcd.c    13    //      mgcd(u, 0) = |u|
+          mgcd.c    14    //
+          mgcd.c    15    //      mgcd(0, v) = |v|
+          mgcd.c    16    //
+          mgcd.c    17    //-----------------------------------------------------------------------------
+          mgcd.c    18    
+          mgcd.c    19    #include "stdafx.h"
+          mgcd.c    20    #include "defs.h"
+          mgcd.c    21    
+          mgcd.c    22    unsigned int *
+          mgcd.c    23    mgcd(unsigned int *u, unsigned int *v)
+P   00000000              _mgcd:                           ; function: mgcd
+                                                           ; frame size=36
+    00000000 2FE6                   MOV.L       R14,@-R15
+          mgcd.c    24    {
+          mgcd.c    25            int i, k, n;
+          mgcd.c    26            unsigned int *t;
+          mgcd.c    27    
+          mgcd.c    28            if (MZERO(u)) {
+    00000002 6043                   MOV         R4,R0
+    00000004 2FD6                   MOV.L       R13,@-R15
+    00000006 6E53                   MOV         R5,R14
+    00000008 2FC6                   MOV.L       R12,@-R15
+    0000000A 70FC                   ADD         #-4,R0
+    0000000C 2FB6                   MOV.L       R11,@-R15
+    0000000E 2FA6                   MOV.L       R10,@-R15
+    00000010 2F96                   MOV.L       R9,@-R15
+    00000012 2F86                   MOV.L       R8,@-R15
+    00000014 4F22                   STS.L       PR,@-R15
+    00000016 7FFC                   ADD         #-4,R15
+    00000018 D953                   MOV.L       L1099+2,R9 ; _mcopy
+    0000001A 6002                   MOV.L       @R0,R0
+    0000001C 8801                   CMP/EQ      #1,R0
+    0000001E 8F05                   BF/S        L1079
+    00000020 ED01                   MOV         #1,R13
+    00000022 6242                   MOV.L       @R4,R2
+    00000024 2228                   TST         R2,R2
+    00000026 8B01                   BF          L1079
+    00000028 A008                   BRA         L1097
+          mgcd.c    29                    t = mcopy(v);
+    0000002A 64E3                   MOV         R14,R4
+    0000002C              L1079:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:14  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          mgcd.c    30                    MSIGN(t) = 1;
+          mgcd.c    31                    return t;
+          mgcd.c    32            }
+          mgcd.c    33    
+          mgcd.c    34            if (MZERO(v)) {
+    0000002C 60E3                   MOV         R14,R0
+    0000002E 70FC                   ADD         #-4,R0
+    00000030 6002                   MOV.L       @R0,R0
+    00000032 8801                   CMP/EQ      #1,R0
+    00000034 8B09                   BF          L1081
+    00000036 62E2                   MOV.L       @R14,R2
+    00000038 2228                   TST         R2,R2
+    0000003A 8B06                   BF          L1081
+    0000003C              L1097:                            
+    0000003C 490B                   JSR         @R9
+    0000003E 0009                   NOP
+    00000040 6A03                   MOV         R0,R10
+          mgcd.c    35                    t = mcopy(u);
+          mgcd.c    36                    MSIGN(t) = 1;
+    00000042 6303                   MOV         R0,R3
+    00000044 73F8                   ADD         #-8,R3
+    00000046 A083                   BRA         L1075
+    00000048 23D2                   MOV.L       R13,@R3
+    0000004A              L1081:                            
+          mgcd.c    37                    return t;
+          mgcd.c    38            }
+          mgcd.c    39    
+          mgcd.c    40            u = mcopy(u);
+    0000004A 490B                   JSR         @R9
+    0000004C 0009                   NOP
+    0000004E 6B03                   MOV         R0,R11
+          mgcd.c    41            v = mcopy(v);
+    00000050 490B                   JSR         @R9
+    00000052 64E3                   MOV         R14,R4
+    00000054 6A03                   MOV         R0,R10
+          mgcd.c    42    
+          mgcd.c    43            MSIGN(u) = 1;
+    00000056 63B3                   MOV         R11,R3
+    00000058 73F8                   ADD         #-8,R3
+          mgcd.c    44            MSIGN(v) = 1;
+    0000005A 62A3                   MOV         R10,R2
+    0000005C 23D2                   MOV.L       R13,@R3
+    0000005E 72F8                   ADD         #-8,R2
+    00000060 22D2                   MOV.L       R13,@R2
+          mgcd.c    45    
+          mgcd.c    46            k = 0;
+          mgcd.c    47    
+          mgcd.c    48            while ((u[0] & 1) == 0 && (v[0] & 1) == 0) {
+    00000062 A008                   BRA         L1098
+    00000064 E300                   MOV         #0,R3
+    00000066              L1083:                            
+          mgcd.c    49                    mshiftright(u);
+    00000066 D341                   MOV.L       L1099+6,R3 ; _mshiftright
+    00000068 430B                   JSR         @R3
+    0000006A 64B3                   MOV         R11,R4
+          mgcd.c    50                    mshiftright(v);
+    0000006C D23F                   MOV.L       L1099+6,R2 ; _mshiftright
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:14  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000006E 420B                   JSR         @R2
+    00000070 64A3                   MOV         R10,R4
+          mgcd.c    51                    k++;
+    00000072 63F2                   MOV.L       @R15,R3
+    00000074 7301                   ADD         #1,R3
+    00000076              L1098:                            
+    00000076 2F32                   MOV.L       R3,@R15
+    00000078 62B2                   MOV.L       @R11,R2
+    0000007A 22D8                   TST         R13,R2
+    0000007C 8B02                   BF          L1084
+    0000007E 61A2                   MOV.L       @R10,R1
+    00000080 21D8                   TST         R13,R1
+    00000082 89F0                   BT          L1083
+    00000084              L1084:                            
+          mgcd.c    52            }
+          mgcd.c    53    
+          mgcd.c    54            if (u[0] & 1) {
+    00000084 62B2                   MOV.L       @R11,R2
+    00000086 22D8                   TST         R13,R2
+    00000088 8908                   BT          L1085
+          mgcd.c    55                    t = mcopy(v);
+    0000008A 490B                   JSR         @R9
+    0000008C 64A3                   MOV         R10,R4
+    0000008E 6E03                   MOV         R0,R14
+          mgcd.c    56                    MSIGN(t) *= -1;
+    00000090 6403                   MOV         R0,R4
+    00000092 74F8                   ADD         #-8,R4
+    00000094 6242                   MOV.L       @R4,R2
+    00000096 622B                   NEG         R2,R2
+    00000098 A003                   BRA         L1086
+    0000009A 2422                   MOV.L       R2,@R4
+    0000009C              L1085:                            
+          mgcd.c    57            } else
+          mgcd.c    58                    t = mcopy(u);
+    0000009C 490B                   JSR         @R9
+    0000009E 64B3                   MOV         R11,R4
+    000000A0 6E03                   MOV         R0,R14
+    000000A2              L1086:                            
+    000000A2 68F2                   MOV.L       @R15,R8
+    000000A4 4811                   CMP/PZ      R8
+    000000A6 8900                   BT          L1087
+    000000A8 781F                   ADD         #31,R8
+    000000AA              L1087:                            
+    000000AA E3FB                   MOV         #-5,R3
+    000000AC 483C                   SHAD        R3,R8
+          mgcd.c    59    
+          mgcd.c    60            while (1) {
+    000000AE A003                   BRA         L1090
+    000000B0 7801                   ADD         #1,R8
+    000000B2              L1091:                            
+          mgcd.c    61    
+          mgcd.c    62                    while ((t[0] & 1) == 0)
+          mgcd.c    63                            mshiftright(t);
+    000000B2 D32E                   MOV.L       L1099+6,R3 ; _mshiftright
+    000000B4 430B                   JSR         @R3
+    000000B6 64E3                   MOV         R14,R4
+    000000B8              L1090:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:14  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000B8 62E2                   MOV.L       @R14,R2
+    000000BA 22D8                   TST         R13,R2
+    000000BC 89F9                   BT          L1091
+          mgcd.c    64    
+          mgcd.c    65                    if (MSIGN(t) == 1) {
+    000000BE 60E3                   MOV         R14,R0
+    000000C0 DC2B                   MOV.L       L1099+10,R12; _mfree
+    000000C2 70F8                   ADD         #-8,R0
+    000000C4 6002                   MOV.L       @R0,R0
+    000000C6 8801                   CMP/EQ      #1,R0
+    000000C8 8B05                   BF          L1092
+          mgcd.c    66                            mfree(u);
+    000000CA 4C0B                   JSR         @R12
+    000000CC 64B3                   MOV         R11,R4
+          mgcd.c    67                            u = mcopy(t);
+    000000CE 490B                   JSR         @R9
+    000000D0 64E3                   MOV         R14,R4
+    000000D2 A00A                   BRA         L1093
+    000000D4 6B03                   MOV         R0,R11
+    000000D6              L1092:                            
+          mgcd.c    68                    } else {
+          mgcd.c    69                            mfree(v);
+    000000D6 4C0B                   JSR         @R12
+    000000D8 64A3                   MOV         R10,R4
+          mgcd.c    70                            v = mcopy(t);
+    000000DA 490B                   JSR         @R9
+    000000DC 64E3                   MOV         R14,R4
+    000000DE 6A03                   MOV         R0,R10
+          mgcd.c    71                            MSIGN(v) *= -1;
+    000000E0 6403                   MOV         R0,R4
+    000000E2 74F8                   ADD         #-8,R4
+    000000E4 6342                   MOV.L       @R4,R3
+    000000E6 633B                   NEG         R3,R3
+    000000E8 2432                   MOV.L       R3,@R4
+    000000EA              L1093:                            
+          mgcd.c    72                    }
+          mgcd.c    73    
+          mgcd.c    74                    mfree(t);
+    000000EA 4C0B                   JSR         @R12
+    000000EC 64E3                   MOV         R14,R4
+          mgcd.c    75    
+          mgcd.c    76                    t = msub(u, v);
+    000000EE 65A3                   MOV         R10,R5
+    000000F0 D220                   MOV.L       L1099+14,R2; _msub
+    000000F2 420B                   JSR         @R2
+    000000F4 64B3                   MOV         R11,R4
+    000000F6 6E03                   MOV         R0,R14
+          mgcd.c    77    
+          mgcd.c    78                    if (MZERO(t)) {
+    000000F8 70FC                   ADD         #-4,R0
+    000000FA 6002                   MOV.L       @R0,R0
+    000000FC 8801                   CMP/EQ      #1,R0
+    000000FE 8BDB                   BF          L1090
+    00000100 62E2                   MOV.L       @R14,R2
+    00000102 2228                   TST         R2,R2
+    00000104 8BD8                   BF          L1090
+          mgcd.c    79                            mfree(t);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:14  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000106 4C0B                   JSR         @R12
+    00000108 64E3                   MOV         R14,R4
+          mgcd.c    80                            mfree(v);
+    0000010A 4C0B                   JSR         @R12
+    0000010C 64A3                   MOV         R10,R4
+          mgcd.c    81                            n = (k / 32) + 1;
+          mgcd.c    82                            v = mnew(n);
+    0000010E DE1A                   MOV.L       L1099+18,R14; _mnew
+    00000110 4E0B                   JSR         @R14
+    00000112 6483                   MOV         R8,R4
+    00000114 6E03                   MOV         R0,R14
+          mgcd.c    83                            MSIGN(v) = 1;
+    00000116 6303                   MOV         R0,R3
+    00000118 73F8                   ADD         #-8,R3
+          mgcd.c    84                            MLENGTH(v) = n;
+    0000011A 62E3                   MOV         R14,R2
+    0000011C 23D2                   MOV.L       R13,@R3
+          mgcd.c    85                            for (i = 0; i < n; i++)
+    0000011E E500                   MOV         #0,R5
+    00000120 2286                   MOV.L       R8,@-R2
+    00000122 E400                   MOV         #0,R4
+    00000124 4815                   CMP/PL      R8
+    00000126 8F06                   BF/S        L1095
+    00000128 34EC                   ADD         R14,R4
+    0000012A              L1096:                            
+          mgcd.c    86                                    v[i] = 0;
+    0000012A E200                   MOV         #0,R2
+    0000012C 2422                   MOV.L       R2,@R4
+    0000012E 7501                   ADD         #1,R5
+    00000130 3583                   CMP/GE      R8,R5
+    00000132 8FFA                   BF/S        L1096
+    00000134 7404                   ADD         #4,R4
+    00000136              L1095:                            
+          mgcd.c    87                            mp_set_bit(v, k);
+    00000136 DD11                   MOV.L       L1099+22,R13; _mp_set_bit
+    00000138 65F2                   MOV.L       @R15,R5
+    0000013A 4D0B                   JSR         @R13
+    0000013C 64E3                   MOV         R14,R4
+          mgcd.c    88                            t = mmul(u, v);
+    0000013E 65E3                   MOV         R14,R5
+    00000140 DD0F                   MOV.L       L1099+26,R13; _mmul
+    00000142 4D0B                   JSR         @R13
+    00000144 64B3                   MOV         R11,R4
+    00000146 6A03                   MOV         R0,R10
+          mgcd.c    89                            mfree(u);
+    00000148 4C0B                   JSR         @R12
+    0000014A 64B3                   MOV         R11,R4
+          mgcd.c    90                            mfree(v);
+    0000014C 4C0B                   JSR         @R12
+    0000014E 64E3                   MOV         R14,R4
+    00000150              L1075:
+          mgcd.c    91                            return t;
+    00000150 60A3                   MOV         R10,R0
+          mgcd.c    92                    }
+          mgcd.c    93            }
+          mgcd.c    94    }
+    00000152 7F04                   ADD         #4,R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:14  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000154 4F26                   LDS.L       @R15+,PR
+    00000156 68F6                   MOV.L       @R15+,R8
+    00000158 69F6                   MOV.L       @R15+,R9
+    0000015A 6AF6                   MOV.L       @R15+,R10
+    0000015C 6BF6                   MOV.L       @R15+,R11
+    0000015E 6CF6                   MOV.L       @R15+,R12
+    00000160 6DF6                   MOV.L       @R15+,R13
+    00000162 000B                   RTS
+    00000164 6EF6                   MOV.L       @R15+,R14
+    00000166              L1099:                            
+    00000166 0000                   .DATA.W     0
+    00000168 <00000000>             .DATA.L     _mcopy
+    0000016C <00000000>             .DATA.L     _mshiftright
+    00000170 <00000000>             .DATA.L     _mfree
+    00000174 <00000000>             .DATA.L     _msub
+    00000178 <00000000>             .DATA.L     _mnew
+    0000017C <00000000>             .DATA.L     _mp_set_bit
+    00000180 <00000000>             .DATA.L     _mmul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:14  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       94
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000184 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000184 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            7
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            25
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk9FF0.tmp 
+

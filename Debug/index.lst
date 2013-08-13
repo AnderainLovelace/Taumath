@@ -1,0 +1,1061 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\index.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         index.c     1    #include "stdafx.h"
+         index.c     2    #include "defs.h"
+         index.c     3    
+         index.c     4    // n is the total number of things on the stack. The first thing on the stack
+         index.c     5    // is the object to be indexed, followed by the indices themselves.
+         index.c     6    
+         index.c     7    void
+         index.c     8    index_function(int n)
+P   00000000              _index_function:                 ; function: index_function
+                                                           ; frame size=52
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+    00000010 4F12                   STS.L       MACL,@-R15
+    00000012 7FF0                   ADD         #-16,R15
+         index.c     9    {
+         index.c    10            int i, k, m, ndim, nelem, t;
+         index.c    11            U **s;
+         index.c    12    
+         index.c    13            save();
+    00000014 D36B                   MOV.L       L1136,R3   ; _save
+    00000016 430B                   JSR         @R3
+    00000018 2F42                   MOV.L       R4,@R15
+         index.c    14            s = stack + tos - n;
+    0000001A D86B                   MOV.L       L1136+4,R8 ; _tos
+    0000001C 63F2                   MOV.L       @R15,R3
+    0000001E 6282                   MOV.L       @R8,R2
+    00000020 D16A                   MOV.L       L1136+8,R1 ; _stack
+    00000022 4208                   SHLL2       R2
+         index.c    15            p1 = s[0];
+    00000024 DE6A                   MOV.L       L1136+12,R14; _p1
+    00000026 4308                   SHLL2       R3
+    00000028 3238                   SUB         R3,R2
+    0000002A 6312                   MOV.L       @R1,R3
+    0000002C 323C                   ADD         R3,R2
+    0000002E 1F23                   MOV.L       R2,@(12,R15)
+    00000030 6322                   MOV.L       @R2,R3
+    00000032 2E32                   MOV.L       R3,@R14
+    00000034 6433                   MOV         R3,R4
+    00000036 8448                   MOV.B       @(8,R4),R0
+    00000038 600C                   EXTU.B      R0,R0
+    0000003A 8804                   CMP/EQ      #4,R0
+    0000003C 8905                   BT          L1096
+         index.c    16    
+         index.c    17            // index of scalar ok
+         index.c    18    
+         index.c    19            if (!istensor(p1)) {
+         index.c    20                    tos -= n;
+    0000003E 63F2                   MOV.L       @R15,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000040 6282                   MOV.L       @R8,R2
+    00000042 3238                   SUB         R3,R2
+    00000044 2822                   MOV.L       R2,@R8
+    00000046 A0AE                   BRA         L1135
+         index.c    21                    push(p1);
+    00000048 64E2                   MOV.L       @R14,R4
+    0000004A              L1096:                            
+         index.c    22                    restore();
+         index.c    23                    return;
+         index.c    24            }
+         index.c    25    
+         index.c    26            ndim = p1->u.tensor->ndim;
+    0000004A 6D42                   MOV.L       @R4,R13
+         index.c    27    
+         index.c    28            m = n - 1;
+    0000004C 6BF2                   MOV.L       @R15,R11
+    0000004E 6DD2                   MOV.L       @R13,R13
+    00000050 7BFF                   ADD         #-1,R11
+         index.c    29    
+         index.c    30            if (m > ndim)
+    00000052 3BD7                   CMP/GT      R13,R11
+    00000054 8B03                   BF          L1098
+         index.c    31                    stop("too many indices for tensor");
+    00000056 D45F                   MOV.L       L1136+16,R4; L1068
+    00000058 D25F                   MOV.L       L1136+20,R2; _stop
+    0000005A 420B                   JSR         @R2
+    0000005C 0009                   NOP
+    0000005E              L1098:                            
+         index.c    32    
+         index.c    33            k = 0;
+    0000005E EC00                   MOV         #0,R12
+         index.c    34    
+         index.c    35            for (i = 0; i < m; i++) {
+    00000060 63C3                   MOV         R12,R3
+    00000062 6233                   MOV         R3,R2
+    00000064 1F31                   MOV.L       R3,@(4,R15)
+    00000066 4B15                   CMP/PL      R11
+    00000068 1F22                   MOV.L       R2,@(8,R15)
+    0000006A 8F2B                   BF/S        L1099
+    0000006C 6A23                   MOV         R2,R10
+    0000006E              L1100:                            
+         index.c    36                    push(s[i + 1]);
+    0000006E 54F3                   MOV.L       @(12,R15),R4
+    00000070 D35A                   MOV.L       L1136+24,R3; _push
+    00000072 34AC                   ADD         R10,R4
+    00000074 430B                   JSR         @R3
+    00000076 5441                   MOV.L       @(4,R4),R4
+         index.c    37                    t = pop_integer();
+    00000078 D259                   MOV.L       L1136+28,R2; _pop_integer
+    0000007A 420B                   JSR         @R2
+    0000007C 0009                   NOP
+    0000007E 6903                   MOV         R0,R9
+         index.c    38                    if (t < 1 || t > p1->u.tensor->dim[i])
+    00000080 E301                   MOV         #1,R3
+    00000082 3933                   CMP/GE      R3,R9
+    00000084 8B07                   BF          L1102
+    00000086 D252                   MOV.L       L1136+12,R2; _p1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000088 6022                   MOV.L       @R2,R0
+    0000008A 6102                   MOV.L       @R0,R1
+    0000008C 7104                   ADD         #4,R1
+    0000008E 31AC                   ADD         R10,R1
+    00000090 6012                   MOV.L       @R1,R0
+    00000092 3907                   CMP/GT      R0,R9
+    00000094 8B03                   BF          L1101
+    00000096              L1102:                            
+         index.c    39                            stop("index out of range");
+    00000096 D453                   MOV.L       L1136+32,R4; L1070
+    00000098 D34F                   MOV.L       L1136+20,R3; _stop
+    0000009A 430B                   JSR         @R3
+    0000009C 0009                   NOP
+    0000009E              L1101:                            
+         index.c    40                    k = k * p1->u.tensor->dim[i] + t - 1;
+    0000009E 62E2                   MOV.L       @R14,R2
+    000000A0 6122                   MOV.L       @R2,R1
+    000000A2 52F2                   MOV.L       @(8,R15),R2
+    000000A4 7104                   ADD         #4,R1
+    000000A6 312C                   ADD         R2,R1
+    000000A8 6312                   MOV.L       @R1,R3
+    000000AA 7204                   ADD         #4,R2
+    000000AC 0C37                   MUL.L       R3,R12
+    000000AE 031A                   STS         MACL,R3
+    000000B0 51F1                   MOV.L       @(4,R15),R1
+    000000B2 339C                   ADD         R9,R3
+    000000B4 6C33                   MOV         R3,R12
+    000000B6 7CFF                   ADD         #-1,R12
+    000000B8 7101                   ADD         #1,R1
+    000000BA 31B3                   CMP/GE      R11,R1
+    000000BC 1F11                   MOV.L       R1,@(4,R15)
+    000000BE 1F22                   MOV.L       R2,@(8,R15)
+    000000C0 8FD5                   BF/S        L1100
+    000000C2 7A04                   ADD         #4,R10
+    000000C4              L1099:                            
+         index.c    41            }
+         index.c    42    
+         index.c    43            if (ndim == m) {
+    000000C4 3DB0                   CMP/EQ      R11,R13
+    000000C6 8B0E                   BF          L1103
+         index.c    44                    tos -= n;
+    000000C8 63F2                   MOV.L       @R15,R3
+         index.c    45                    push(p1->u.tensor->elem[k]);
+    000000CA 64C3                   MOV         R12,R4
+    000000CC 6282                   MOV.L       @R8,R2
+    000000CE 4408                   SHLL2       R4
+    000000D0 3238                   SUB         R3,R2
+    000000D2 2822                   MOV.L       R2,@R8
+    000000D4 60E2                   MOV.L       @R14,R0
+    000000D6 6302                   MOV.L       @R0,R3
+    000000D8 D240                   MOV.L       L1136+24,R2; _push
+    000000DA 7368                   ADD         #104,R3
+    000000DC 343C                   ADD         R3,R4
+    000000DE 420B                   JSR         @R2
+    000000E0 6442                   MOV.L       @R4,R4
+    000000E2 A063                   BRA         L1085
+    000000E4 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000E6              L1103:                            
+         index.c    46                    restore();
+         index.c    47                    return;
+         index.c    48            }
+         index.c    49    
+         index.c    50            for (i = m; i < ndim; i++)
+    000000E6 65B3                   MOV         R11,R5
+    000000E8 64B3                   MOV         R11,R4
+    000000EA 4408                   SHLL2       R4
+    000000EC 35D3                   CMP/GE      R13,R5
+    000000EE 8D0B                   BT/S        L1104
+    000000F0 66E2                   MOV.L       @R14,R6
+    000000F2              L1105:                            
+    000000F2 7501                   ADD         #1,R5
+         index.c    51                    k = k * p1->u.tensor->dim[i] + 0;
+    000000F4 6062                   MOV.L       @R6,R0
+    000000F6 35D3                   CMP/GE      R13,R5
+    000000F8 6303                   MOV         R0,R3
+    000000FA 7304                   ADD         #4,R3
+    000000FC 334C                   ADD         R4,R3
+    000000FE 6232                   MOV.L       @R3,R2
+    00000100 0C27                   MUL.L       R2,R12
+    00000102 0C1A                   STS         MACL,R12
+    00000104 8FF5                   BF/S        L1105
+    00000106 7404                   ADD         #4,R4
+    00000108              L1104:                            
+         index.c    52    
+         index.c    53            nelem = 1;
+    00000108 E901                   MOV         #1,R9
+         index.c    54    
+         index.c    55            for (i = m; i < ndim; i++)
+    0000010A 65B3                   MOV         R11,R5
+    0000010C 64B3                   MOV         R11,R4
+    0000010E 35D3                   CMP/GE      R13,R5
+    00000110 8D0B                   BT/S        L1106
+    00000112 4408                   SHLL2       R4
+    00000114              L1107:                            
+         index.c    56                    nelem *= p1->u.tensor->dim[i];
+    00000114 6062                   MOV.L       @R6,R0
+    00000116 7501                   ADD         #1,R5
+    00000118 6303                   MOV         R0,R3
+    0000011A 7304                   ADD         #4,R3
+    0000011C 334C                   ADD         R4,R3
+    0000011E 35D3                   CMP/GE      R13,R5
+    00000120 6232                   MOV.L       @R3,R2
+    00000122 0927                   MUL.L       R2,R9
+    00000124 091A                   STS         MACL,R9
+    00000126 8FF5                   BF/S        L1107
+    00000128 7404                   ADD         #4,R4
+    0000012A              L1106:                            
+         index.c    57    
+         index.c    58            p2 = alloc_tensor(nelem);
+    0000012A DA2F                   MOV.L       L1136+36,R10; _p2
+    0000012C D22F                   MOV.L       L1136+40,R2; _alloc_tensor
+    0000012E 420B                   JSR         @R2
+    00000130 6493                   MOV         R9,R4
+         index.c    59    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         index.c    60            p2->u.tensor->ndim = ndim - m;
+    00000132 6303                   MOV         R0,R3
+    00000134 2A02                   MOV.L       R0,@R10
+    00000136 61D3                   MOV         R13,R1
+    00000138 6232                   MOV.L       @R3,R2
+         index.c    61    
+         index.c    62            for (i = m; i < ndim; i++)
+    0000013A 64B3                   MOV         R11,R4
+    0000013C 31B8                   SUB         R11,R1
+    0000013E 66B3                   MOV         R11,R6
+    00000140 2212                   MOV.L       R1,@R2
+    00000142 65B3                   MOV         R11,R5
+    00000144 4608                   SHLL2       R6
+    00000146 35B8                   SUB         R11,R5
+    00000148 34D3                   CMP/GE      R13,R4
+    0000014A 8D10                   BT/S        L1108
+    0000014C 4508                   SHLL2       R5
+    0000014E              L1109:                            
+    0000014E 7401                   ADD         #1,R4
+         index.c    63                    p2->u.tensor->dim[i - m] = p1->u.tensor->dim[i];
+    00000150 60A2                   MOV.L       @R10,R0
+    00000152 34D3                   CMP/GE      R13,R4
+    00000154 6302                   MOV.L       @R0,R3
+    00000156 7304                   ADD         #4,R3
+    00000158 60E2                   MOV.L       @R14,R0
+    0000015A 335C                   ADD         R5,R3
+    0000015C 6002                   MOV.L       @R0,R0
+    0000015E 6203                   MOV         R0,R2
+    00000160 7204                   ADD         #4,R2
+    00000162 326C                   ADD         R6,R2
+    00000164 6122                   MOV.L       @R2,R1
+    00000166 7604                   ADD         #4,R6
+    00000168 2312                   MOV.L       R1,@R3
+    0000016A 8FF0                   BF/S        L1109
+    0000016C 7504                   ADD         #4,R5
+    0000016E              L1108:                            
+         index.c    64    
+         index.c    65            for (i = 0; i < nelem; i++)
+    0000016E E600                   MOV         #0,R6
+    00000170 E400                   MOV         #0,R4
+    00000172 34CC                   ADD         R12,R4
+    00000174 4408                   SHLL2       R4
+    00000176 4915                   CMP/PL      R9
+    00000178 8F10                   BF/S        L1110
+    0000017A 6563                   MOV         R6,R5
+    0000017C              L1111:                            
+         index.c    66                    p2->u.tensor->elem[i] = p1->u.tensor->elem[k + i];
+    0000017C 60A2                   MOV.L       @R10,R0
+    0000017E 7601                   ADD         #1,R6
+    00000180 6302                   MOV.L       @R0,R3
+    00000182 3693                   CMP/GE      R9,R6
+    00000184 60E2                   MOV.L       @R14,R0
+    00000186 7368                   ADD         #104,R3
+    00000188 6002                   MOV.L       @R0,R0
+    0000018A 335C                   ADD         R5,R3
+    0000018C 6203                   MOV         R0,R2
+    0000018E 7268                   ADD         #104,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000190 324C                   ADD         R4,R2
+    00000192 7404                   ADD         #4,R4
+    00000194 6122                   MOV.L       @R2,R1
+    00000196 2312                   MOV.L       R1,@R3
+    00000198 8FF0                   BF/S        L1111
+    0000019A 7504                   ADD         #4,R5
+    0000019C              L1110:                            
+         index.c    67    
+         index.c    68            tos -= n;
+    0000019C 63F2                   MOV.L       @R15,R3
+    0000019E 6282                   MOV.L       @R8,R2
+    000001A0 3238                   SUB         R3,R2
+    000001A2 2822                   MOV.L       R2,@R8
+         index.c    69            push(p2);
+    000001A4 64A2                   MOV.L       @R10,R4
+    000001A6              L1135:                            
+    000001A6 D30D                   MOV.L       L1136+24,R3; _push
+    000001A8 430B                   JSR         @R3
+    000001AA 0009                   NOP
+    000001AC              L1085:
+         index.c    70            restore();
+    000001AC D210                   MOV.L       L1136+44,R2; _restore
+    000001AE 7F10                   ADD         #16,R15
+    000001B0 4F16                   LDS.L       @R15+,MACL
+    000001B2 4F26                   LDS.L       @R15+,PR
+    000001B4 68F6                   MOV.L       @R15+,R8
+    000001B6 69F6                   MOV.L       @R15+,R9
+    000001B8 6AF6                   MOV.L       @R15+,R10
+    000001BA 6BF6                   MOV.L       @R15+,R11
+    000001BC 6CF6                   MOV.L       @R15+,R12
+    000001BE 6DF6                   MOV.L       @R15+,R13
+    000001C0 422B                   JMP         @R2
+    000001C2 6EF6                   MOV.L       @R15+,R14
+    000001C4              L1136:                            
+    000001C4 <00000000>             .DATA.L     _save
+    000001C8 <00000000>             .DATA.L     _tos
+    000001CC <00000000>             .DATA.L     _stack
+    000001D0 <00000000>             .DATA.L     _p1
+    000001D4 <00000000>             .DATA.L     L1068
+    000001D8 <00000000>             .DATA.L     _stop
+    000001DC <00000000>             .DATA.L     _push
+    000001E0 <00000000>             .DATA.L     _pop_integer
+    000001E4 <00000000>             .DATA.L     L1070
+    000001E8 <00000000>             .DATA.L     _p2
+    000001EC <00000000>             .DATA.L     _alloc_tensor
+    000001F0 <00000000>             .DATA.L     _restore
+         index.c    71    }
+         index.c    72    
+         index.c    73    //-----------------------------------------------------------------------------
+         index.c    74    //
+         index.c    75    //      Input:          n               Number of args on stack
+         index.c    76    //
+         index.c    77    //                      tos-n           Right-hand value
+         index.c    78    //
+         index.c    79    //                      tos-n+1         Left-hand value
+         index.c    80    //
+         index.c    81    //                      tos-n+2         First index
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         index.c    82    //
+         index.c    83    //                      .
+         index.c    84    //                      .
+         index.c    85    //                      .
+         index.c    86    //
+         index.c    87    //                      tos-1           Last index
+         index.c    88    //
+         index.c    89    //      Output:         Result on stack
+         index.c    90    //
+         index.c    91    //-----------------------------------------------------------------------------
+         index.c    92    
+         index.c    93    #define LVALUE p1
+         index.c    94    #define RVALUE p2
+         index.c    95    #define TMP p3
+         index.c    96    
+         index.c    97    void
+         index.c    98    set_component(int n)
+    000001F4              _set_component:                  ; function: set_component
+                                                           ; frame size=60
+    000001F4 2FE6                   MOV.L       R14,@-R15
+    000001F6 2FD6                   MOV.L       R13,@-R15
+    000001F8 2FC6                   MOV.L       R12,@-R15
+    000001FA 2FB6                   MOV.L       R11,@-R15
+    000001FC 2FA6                   MOV.L       R10,@-R15
+    000001FE 2F96                   MOV.L       R9,@-R15
+    00000200 2F86                   MOV.L       R8,@-R15
+    00000202 4F22                   STS.L       PR,@-R15
+    00000204 4F12                   STS.L       MACL,@-R15
+    00000206 7FE8                   ADD         #-24,R15
+         index.c    99    {
+         index.c   100            int i, k, m, ndim, t;
+         index.c   101            U **s;
+         index.c   102    
+         index.c   103            save();
+    00000208 D38D                   MOV.L       L1137+2,R3 ; _save
+    0000020A 430B                   JSR         @R3
+    0000020C 1F44                   MOV.L       R4,@(16,R15)
+         index.c   104    
+         index.c   105            if (n < 3)
+    0000020E E203                   MOV         #3,R2
+    00000210 53F4                   MOV.L       @(16,R15),R3
+    00000212 D98C                   MOV.L       L1137+6,R9 ; L1080
+    00000214 DB8C                   MOV.L       L1137+10,R11; _stop
+    00000216 3323                   CMP/GE      R2,R3
+    00000218 8901                   BT          L1112
+         index.c   106                    stop("error in indexed assign");
+    0000021A 4B0B                   JSR         @R11
+    0000021C 6493                   MOV         R9,R4
+    0000021E              L1112:                            
+         index.c   107    
+         index.c   108            s = stack + tos - n;
+    0000021E D28B                   MOV.L       L1137+14,R2; _tos
+    00000220 51F4                   MOV.L       @(16,R15),R1
+    00000222 6322                   MOV.L       @R2,R3
+    00000224 D08A                   MOV.L       L1137+18,R0; _stack
+    00000226 4308                   SHLL2       R3
+         index.c   109    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         index.c   110            RVALUE = s[0];
+    00000228 DD8A                   MOV.L       L1137+22,R13; _p2
+    0000022A 4108                   SHLL2       R1
+         index.c   111    
+         index.c   112            LVALUE = s[1];
+    0000022C DE8A                   MOV.L       L1137+26,R14; _p1
+    0000022E 3318                   SUB         R1,R3
+    00000230 6102                   MOV.L       @R0,R1
+    00000232 331C                   ADD         R1,R3
+    00000234 1F33                   MOV.L       R3,@(12,R15)
+    00000236 6232                   MOV.L       @R3,R2
+    00000238 2D22                   MOV.L       R2,@R13
+    0000023A 53F3                   MOV.L       @(12,R15),R3
+    0000023C 5231                   MOV.L       @(4,R3),R2
+    0000023E 2E22                   MOV.L       R2,@R14
+         index.c   113    
+         index.c   114            if (!istensor(LVALUE))
+    00000240 6023                   MOV         R2,R0
+    00000242 8408                   MOV.B       @(8,R0),R0
+    00000244 600C                   EXTU.B      R0,R0
+    00000246 8804                   CMP/EQ      #4,R0
+    00000248 8901                   BT          L1113
+         index.c   115                    stop("error in indexed assign");
+    0000024A 4B0B                   JSR         @R11
+    0000024C 6493                   MOV         R9,R4
+    0000024E              L1113:                            
+         index.c   116    
+         index.c   117            ndim = LVALUE->u.tensor->ndim;
+    0000024E 62E2                   MOV.L       @R14,R2
+    00000250 6322                   MOV.L       @R2,R3
+    00000252 6132                   MOV.L       @R3,R1
+    00000254 1F11                   MOV.L       R1,@(4,R15)
+         index.c   118    
+         index.c   119            m = n - 2;
+         index.c   120    
+         index.c   121            if (m > ndim)
+    00000256 6313                   MOV         R1,R3
+    00000258 5AF4                   MOV.L       @(16,R15),R10
+    0000025A 7AFE                   ADD         #-2,R10
+    0000025C 3A37                   CMP/GT      R3,R10
+    0000025E 8B01                   BF          L1114
+         index.c   122                    stop("error in indexed assign");
+    00000260 4B0B                   JSR         @R11
+    00000262 6493                   MOV         R9,R4
+    00000264              L1114:                            
+         index.c   123    
+         index.c   124            k = 0;
+    00000264 EC00                   MOV         #0,R12
+         index.c   125    
+         index.c   126            for (i = 0; i < m; i++) {
+    00000266 63C3                   MOV         R12,R3
+    00000268 1F32                   MOV.L       R3,@(8,R15)
+    0000026A 6233                   MOV         R3,R2
+    0000026C 1F25                   MOV.L       R2,@(20,R15)
+    0000026E 4A15                   CMP/PL      R10
+    00000270 8F2C                   BF/S        L1115
+    00000272 6823                   MOV         R2,R8
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000274              L1116:                            
+         index.c   127                    push(s[i + 2]);
+    00000274 54F3                   MOV.L       @(12,R15),R4
+    00000276 348C                   ADD         R8,R4
+    00000278 D378                   MOV.L       L1137+30,R3; _push
+    0000027A 430B                   JSR         @R3
+    0000027C 5442                   MOV.L       @(8,R4),R4
+         index.c   128                    t = pop_integer();
+    0000027E D278                   MOV.L       L1137+34,R2; _pop_integer
+    00000280 420B                   JSR         @R2
+    00000282 0009                   NOP
+         index.c   129                    if (t < 1 || t > LVALUE->u.tensor->dim[i])
+    00000284 E301                   MOV         #1,R3
+    00000286 3033                   CMP/GE      R3,R0
+    00000288 8F08                   BF/S        L1118
+    0000028A 2F02                   MOV.L       R0,@R15
+    0000028C D272                   MOV.L       L1137+26,R2; _p1
+    0000028E 6122                   MOV.L       @R2,R1
+    00000290 6212                   MOV.L       @R1,R2
+    00000292 7204                   ADD         #4,R2
+    00000294 328C                   ADD         R8,R2
+    00000296 6322                   MOV.L       @R2,R3
+    00000298 3037                   CMP/GT      R3,R0
+    0000029A 8B02                   BF          L1117
+    0000029C              L1118:                            
+         index.c   130                            stop("error in indexed assign\n");
+    0000029C D471                   MOV.L       L1137+38,R4; L1082
+    0000029E 4B0B                   JSR         @R11
+    000002A0 0009                   NOP
+    000002A2              L1117:                            
+         index.c   131                    k = k * p1->u.tensor->dim[i] + t - 1;
+    000002A2 63E2                   MOV.L       @R14,R3
+    000002A4 6132                   MOV.L       @R3,R1
+    000002A6 53F5                   MOV.L       @(20,R15),R3
+    000002A8 7104                   ADD         #4,R1
+    000002AA 313C                   ADD         R3,R1
+    000002AC 6212                   MOV.L       @R1,R2
+    000002AE 0C27                   MUL.L       R2,R12
+    000002B0 61F2                   MOV.L       @R15,R1
+    000002B2 021A                   STS         MACL,R2
+    000002B4 321C                   ADD         R1,R2
+    000002B6 6C23                   MOV         R2,R12
+    000002B8 52F2                   MOV.L       @(8,R15),R2
+    000002BA 7CFF                   ADD         #-1,R12
+    000002BC 7201                   ADD         #1,R2
+    000002BE 32A3                   CMP/GE      R10,R2
+    000002C0 1F22                   MOV.L       R2,@(8,R15)
+    000002C2 53F5                   MOV.L       @(20,R15),R3
+    000002C4 7304                   ADD         #4,R3
+    000002C6 1F35                   MOV.L       R3,@(20,R15)
+    000002C8 8FD4                   BF/S        L1116
+    000002CA 7804                   ADD         #4,R8
+    000002CC              L1115:                            
+    000002CC 63E2                   MOV.L       @R14,R3
+         index.c   132            }
+         index.c   133    
+         index.c   134            for (i = m; i < ndim; i++)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002CE 64A3                   MOV         R10,R4
+    000002D0 2F32                   MOV.L       R3,@R15
+    000002D2 65A3                   MOV         R10,R5
+    000002D4 52F1                   MOV.L       @(4,R15),R2
+    000002D6 3423                   CMP/GE      R2,R4
+    000002D8 8D0D                   BT/S        L1119
+    000002DA 4508                   SHLL2       R5
+    000002DC              L1120:                            
+         index.c   135                    k = k * p1->u.tensor->dim[i] + 0;
+    000002DC 60F2                   MOV.L       @R15,R0
+    000002DE 7401                   ADD         #1,R4
+    000002E0 6002                   MOV.L       @R0,R0
+    000002E2 6303                   MOV         R0,R3
+    000002E4 7304                   ADD         #4,R3
+    000002E6 335C                   ADD         R5,R3
+    000002E8 6232                   MOV.L       @R3,R2
+    000002EA 0C27                   MUL.L       R2,R12
+    000002EC 53F1                   MOV.L       @(4,R15),R3
+    000002EE 0C1A                   STS         MACL,R12
+    000002F0 3433                   CMP/GE      R3,R4
+    000002F2 8FF3                   BF/S        L1120
+    000002F4 7504                   ADD         #4,R5
+    000002F6              L1119:                            
+         index.c   136    
+         index.c   137            // copy
+         index.c   138    
+         index.c   139            TMP = alloc_tensor(LVALUE->u.tensor->nelem);
+    000002F6 E064                   MOV         #100,R0
+    000002F8 D35C                   MOV.L       L1137+46,R3; _alloc_tensor
+    000002FA D85B                   MOV.L       L1137+42,R8; _p3
+    000002FC 64F2                   MOV.L       @R15,R4
+    000002FE 6442                   MOV.L       @R4,R4
+    00000300 430B                   JSR         @R3
+    00000302 044E                   MOV.L       @(R0,R4),R4
+    00000304 2802                   MOV.L       R0,@R8
+         index.c   140    
+         index.c   141            TMP->u.tensor->ndim = LVALUE->u.tensor->ndim;
+    00000306 6203                   MOV         R0,R2
+    00000308 61E2                   MOV.L       @R14,R1
+    0000030A 6322                   MOV.L       @R2,R3
+    0000030C 6212                   MOV.L       @R1,R2
+    0000030E 6022                   MOV.L       @R2,R0
+    00000310 2302                   MOV.L       R0,@R3
+         index.c   142    
+         index.c   143            for (i = 0; i < p1->u.tensor->ndim; i++)
+    00000312 A00E                   BRA         L1121
+    00000314 E400                   MOV         #0,R4
+    00000316              L1122:                            
+         index.c   144                    TMP->u.tensor->dim[i] = LVALUE->u.tensor->dim[i];
+    00000316 6543                   MOV         R4,R5
+    00000318 6082                   MOV.L       @R8,R0
+    0000031A 4508                   SHLL2       R5
+    0000031C 6302                   MOV.L       @R0,R3
+    0000031E 7401                   ADD         #1,R4
+    00000320 60E2                   MOV.L       @R14,R0
+    00000322 7304                   ADD         #4,R3
+    00000324 6002                   MOV.L       @R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000326 335C                   ADD         R5,R3
+    00000328 6203                   MOV         R0,R2
+    0000032A 7204                   ADD         #4,R2
+    0000032C 325C                   ADD         R5,R2
+    0000032E 6122                   MOV.L       @R2,R1
+    00000330 2312                   MOV.L       R1,@R3
+    00000332              L1121:                            
+    00000332 63E2                   MOV.L       @R14,R3
+    00000334 6232                   MOV.L       @R3,R2
+    00000336 6122                   MOV.L       @R2,R1
+    00000338 3413                   CMP/GE      R1,R4
+    0000033A 8BEC                   BF          L1122
+         index.c   145    
+         index.c   146            for (i = 0; i < p1->u.tensor->nelem; i++)
+    0000033C A00E                   BRA         L1123
+    0000033E E400                   MOV         #0,R4
+    00000340              L1124:                            
+         index.c   147                    TMP->u.tensor->elem[i] = LVALUE->u.tensor->elem[i];
+    00000340 6082                   MOV.L       @R8,R0
+    00000342 6543                   MOV         R4,R5
+    00000344 6302                   MOV.L       @R0,R3
+    00000346 4508                   SHLL2       R5
+    00000348 60E2                   MOV.L       @R14,R0
+    0000034A 7401                   ADD         #1,R4
+    0000034C 6002                   MOV.L       @R0,R0
+    0000034E 7368                   ADD         #104,R3
+    00000350 335C                   ADD         R5,R3
+    00000352 6203                   MOV         R0,R2
+    00000354 7268                   ADD         #104,R2
+    00000356 325C                   ADD         R5,R2
+    00000358 6122                   MOV.L       @R2,R1
+    0000035A 2312                   MOV.L       R1,@R3
+    0000035C              L1123:                            
+    0000035C 63E2                   MOV.L       @R14,R3
+    0000035E E064                   MOV         #100,R0
+    00000360 6232                   MOV.L       @R3,R2
+    00000362 012E                   MOV.L       @(R0,R2),R1
+    00000364 3413                   CMP/GE      R1,R4
+    00000366 8BEB                   BF          L1124
+         index.c   148    
+         index.c   149            LVALUE = TMP;
+    00000368 6282                   MOV.L       @R8,R2
+    0000036A 2E22                   MOV.L       R2,@R14
+    0000036C 53F1                   MOV.L       @(4,R15),R3
+    0000036E 33A0                   CMP/EQ      R10,R3
+    00000370 8F0F                   BF/S        L1125
+    00000372 64D2                   MOV.L       @R13,R4
+         index.c   150    
+         index.c   151            if (ndim == m) {
+         index.c   152                    if (istensor(RVALUE))
+    00000374 8448                   MOV.B       @(8,R4),R0
+    00000376 600C                   EXTU.B      R0,R0
+    00000378 8804                   CMP/EQ      #4,R0
+    0000037A 8B01                   BF          L1126
+         index.c   153                            stop("error in indexed assign");
+    0000037C 4B0B                   JSR         @R11
+    0000037E 6493                   MOV         R9,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000380              L1126:                            
+         index.c   154                    LVALUE->u.tensor->elem[k] = RVALUE;
+    00000380 60E2                   MOV.L       @R14,R0
+    00000382 4C08                   SHLL2       R12
+    00000384 62D2                   MOV.L       @R13,R2
+    00000386 6002                   MOV.L       @R0,R0
+    00000388 6303                   MOV         R0,R3
+    0000038A 7368                   ADD         #104,R3
+    0000038C 3C3C                   ADD         R3,R12
+    0000038E A042                   BRA         L1087
+    00000390 2C22                   MOV.L       R2,@R12
+    00000392              L1125:                            
+         index.c   155                    tos -= n;
+         index.c   156                    push(LVALUE);
+         index.c   157                    restore();
+         index.c   158                    return;
+         index.c   159            }
+         index.c   160    
+         index.c   161            // see if the rvalue matches
+         index.c   162    
+         index.c   163            if (!istensor(RVALUE))
+    00000392 8448                   MOV.B       @(8,R4),R0
+    00000394 600C                   EXTU.B      R0,R0
+    00000396 8804                   CMP/EQ      #4,R0
+    00000398 8901                   BT          L1128
+         index.c   164                    stop("error in indexed assign");
+    0000039A 4B0B                   JSR         @R11
+    0000039C 6493                   MOV         R9,R4
+    0000039E              L1128:                            
+         index.c   165    
+         index.c   166            if (ndim - m != RVALUE->u.tensor->ndim)
+    0000039E 52F1                   MOV.L       @(4,R15),R2
+    000003A0 63D2                   MOV.L       @R13,R3
+    000003A2 32A8                   SUB         R10,R2
+    000003A4 6132                   MOV.L       @R3,R1
+    000003A6 6012                   MOV.L       @R1,R0
+    000003A8 3200                   CMP/EQ      R0,R2
+    000003AA 8901                   BT          L1129
+         index.c   167                    stop("error in indexed assign");
+    000003AC 4B0B                   JSR         @R11
+    000003AE 6493                   MOV         R9,R4
+    000003B0              L1129:                            
+         index.c   168    
+         index.c   169            for (i = 0; i < RVALUE->u.tensor->ndim; i++)
+    000003B0 A014                   BRA         L1130
+    000003B2 E800                   MOV         #0,R8
+    000003B4              L1131:                            
+         index.c   170                    if (LVALUE->u.tensor->dim[m + i] != RVALUE->u.tensor->dim[i])
+    000003B4 60E2                   MOV.L       @R14,R0
+    000003B6 6383                   MOV         R8,R3
+    000003B8 6202                   MOV.L       @R0,R2
+    000003BA 33AC                   ADD         R10,R3
+    000003BC 60D2                   MOV.L       @R13,R0
+    000003BE 7204                   ADD         #4,R2
+    000003C0 6102                   MOV.L       @R0,R1
+    000003C2 4308                   SHLL2       R3
+    000003C4 332C                   ADD         R2,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003C6 6283                   MOV         R8,R2
+    000003C8 6332                   MOV.L       @R3,R3
+    000003CA 7104                   ADD         #4,R1
+    000003CC 4208                   SHLL2       R2
+    000003CE 321C                   ADD         R1,R2
+    000003D0 6022                   MOV.L       @R2,R0
+    000003D2 3300                   CMP/EQ      R0,R3
+    000003D4 8901                   BT          L1132
+         index.c   171                            stop("error in indexed assign");
+    000003D6 4B0B                   JSR         @R11
+    000003D8 6493                   MOV         R9,R4
+    000003DA              L1132:                            
+    000003DA 7801                   ADD         #1,R8
+    000003DC              L1130:                            
+    000003DC 63D2                   MOV.L       @R13,R3
+    000003DE 6232                   MOV.L       @R3,R2
+    000003E0 6122                   MOV.L       @R2,R1
+    000003E2 3813                   CMP/GE      R1,R8
+    000003E4 8BE6                   BF          L1131
+         index.c   172    
+         index.c   173            // copy rvalue
+         index.c   174    
+         index.c   175            for (i = 0; i < RVALUE->u.tensor->nelem; i++)
+    000003E6 A010                   BRA         L1133
+    000003E8 E400                   MOV         #0,R4
+    000003EA              L1134:                            
+         index.c   176                    LVALUE->u.tensor->elem[k + i] = RVALUE->u.tensor->elem[i];
+    000003EA 6343                   MOV         R4,R3
+    000003EC 60E2                   MOV.L       @R14,R0
+    000003EE 33CC                   ADD         R12,R3
+    000003F0 6202                   MOV.L       @R0,R2
+    000003F2 4308                   SHLL2       R3
+    000003F4 60D2                   MOV.L       @R13,R0
+    000003F6 7268                   ADD         #104,R2
+    000003F8 6102                   MOV.L       @R0,R1
+    000003FA 332C                   ADD         R2,R3
+    000003FC 6243                   MOV         R4,R2
+    000003FE 4208                   SHLL2       R2
+    00000400 7168                   ADD         #104,R1
+    00000402 321C                   ADD         R1,R2
+    00000404 6022                   MOV.L       @R2,R0
+    00000406 7401                   ADD         #1,R4
+    00000408 2302                   MOV.L       R0,@R3
+    0000040A              L1133:                            
+    0000040A E064                   MOV         #100,R0
+    0000040C 63D2                   MOV.L       @R13,R3
+    0000040E 6232                   MOV.L       @R3,R2
+    00000410 012E                   MOV.L       @(R0,R2),R1
+    00000412 3413                   CMP/GE      R1,R4
+    00000414 8BE9                   BF          L1134
+    00000416              L1087:
+         index.c   177    
+         index.c   178            tos -= n;
+    00000416 D20D                   MOV.L       L1137+14,R2; _tos
+    00000418 53F4                   MOV.L       @(16,R15),R3
+    0000041A 6122                   MOV.L       @R2,R1
+    0000041C 3138                   SUB         R3,R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000041E 2212                   MOV.L       R1,@R2
+         index.c   179    
+         index.c   180            push(LVALUE);
+    00000420 D20E                   MOV.L       L1137+30,R2; _push
+    00000422 420B                   JSR         @R2
+    00000424 64E2                   MOV.L       @R14,R4
+         index.c   181    
+         index.c   182            restore();
+    00000426 7F18                   ADD         #24,R15
+    00000428 D311                   MOV.L       L1137+50,R3; _restore
+    0000042A 4F16                   LDS.L       @R15+,MACL
+    0000042C 4F26                   LDS.L       @R15+,PR
+    0000042E 68F6                   MOV.L       @R15+,R8
+    00000430 69F6                   MOV.L       @R15+,R9
+    00000432 6AF6                   MOV.L       @R15+,R10
+    00000434 6BF6                   MOV.L       @R15+,R11
+    00000436 6CF6                   MOV.L       @R15+,R12
+    00000438 6DF6                   MOV.L       @R15+,R13
+    0000043A 432B                   JMP         @R3
+    0000043C 6EF6                   MOV.L       @R15+,R14
+    0000043E              L1137:                            
+    0000043E 0000                   .DATA.W     0
+    00000440 <00000000>             .DATA.L     _save
+    00000444 <00000000>             .DATA.L     L1080
+    00000448 <00000000>             .DATA.L     _stop
+    0000044C <00000000>             .DATA.L     _tos
+    00000450 <00000000>             .DATA.L     _stack
+    00000454 <00000000>             .DATA.L     _p2
+    00000458 <00000000>             .DATA.L     _p1
+    0000045C <00000000>             .DATA.L     _push
+    00000460 <00000000>             .DATA.L     _pop_integer
+    00000464 <00000000>             .DATA.L     L1082
+    00000468 <00000000>             .DATA.L     _p3
+    0000046C <00000000>             .DATA.L     _alloc_tensor
+    00000470 <00000000>             .DATA.L     _restore
+         index.c   183    }
+         index.c   184    
+C   00000000              L1068:
+    00000000 746F6F206D             .SDATA      "too many indices for tensor"
+             616E792069   
+             6E64696365   
+             7320666F72   
+             2074656E73   
+             6F72         
+    0000001B 00                     .DATA.B     H'00
+    0000001C              L1070:
+    0000001C 696E646578             .SDATA      "index out of range"
+             206F757420   
+             6F66207261   
+             6E6765       
+    0000002E 00                     .DATA.B     H'00
+    0000002F 00000001               .RES.B      1
+    00000030              L1080:
+    00000030 6572726F72             .SDATA      "error in indexed assign"
+             20696E2069   
+             6E64657865   
+             6420617373   
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+             69676E       
+    00000047 00                     .DATA.B     H'00
+    00000048              L1082:
+    00000048 6572726F72             .SDATA      "error in indexed assign"
+             20696E2069   
+             6E64657865   
+             6420617373   
+             69676E       
+    0000005F 0A00                   .DATA.B     H'0A,H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:03  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      184
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000474 Byte(s)
+CONSTANT SECTION (C):                               00000061 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000004D5 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           11
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            59
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk74F3.tmp 
+

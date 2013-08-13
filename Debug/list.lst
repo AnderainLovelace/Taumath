@@ -1,0 +1,137 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:11  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\list.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          list.c     1    // Create a list from n things on the stack.
+          list.c     2    
+          list.c     3    #include "stdafx.h"
+          list.c     4    #include "defs.h"
+          list.c     5    
+          list.c     6    void
+          list.c     7    list(int n)
+P   00000000              _list:                           ; function: list
+                                                           ; frame size=16
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 6D43                   MOV         R4,R13
+          list.c     8    {
+          list.c     9            int i;
+          list.c    10            push(symbol(NIL));
+    00000008 9313                   MOV.W       L1063,R3   ; H'0570
+    0000000A 4F22                   STS.L       PR,@-R15
+    0000000C D209                   MOV.L       L1063+2,R2 ; _symtab
+    0000000E 6422                   MOV.L       @R2,R4
+    00000010 D109                   MOV.L       L1063+6,R1 ; _push
+    00000012 410B                   JSR         @R1
+    00000014 343C                   ADD         R3,R4
+          list.c    11            for (i = 0; i < n; i++)
+    00000016 4D15                   CMP/PL      R13
+    00000018 DC08                   MOV.L       L1063+10,R12; _cons
+    0000001A 8F05                   BF/S        L1061
+    0000001C EE00                   MOV         #0,R14
+    0000001E              L1062:                            
+          list.c    12                    cons();
+    0000001E 4C0B                   JSR         @R12
+    00000020 0009                   NOP
+    00000022 7E01                   ADD         #1,R14
+    00000024 3ED3                   CMP/GE      R13,R14
+    00000026 8BFA                   BF          L1062
+    00000028              L1061:                            
+          list.c    13    }
+    00000028 4F26                   LDS.L       @R15+,PR
+    0000002A 6CF6                   MOV.L       @R15+,R12
+    0000002C 6DF6                   MOV.L       @R15+,R13
+    0000002E 000B                   RTS
+    00000030 6EF6                   MOV.L       @R15+,R14
+    00000032              L1063:                            
+    00000032 0570                   .DATA.W     H'0570
+    00000034 <00000000>             .DATA.L     _symtab
+    00000038 <00000000>             .DATA.L     _push
+    0000003C <00000000>             .DATA.L     _cons
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:11  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       13
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000040 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000040 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            3
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk94F1.tmp 
+

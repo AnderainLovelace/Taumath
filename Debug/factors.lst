@@ -1,0 +1,335 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:59  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\factors.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       factors.c     1    // Push expression factors onto the stack. For example...
+       factors.c     2    //
+       factors.c     3    // Input
+       factors.c     4    //
+       factors.c     5    //       2
+       factors.c     6    //     3x  + 2x + 1
+       factors.c     7    //
+       factors.c     8    // Output on stack
+       factors.c     9    //
+       factors.c    10    //     [  3  ]
+       factors.c    11    //     [ x^2 ]
+       factors.c    12    //     [  2  ]
+       factors.c    13    //     [  x  ]
+       factors.c    14    //     [  1  ]
+       factors.c    15    //
+       factors.c    16    // but not necessarily in that order. Returns the number of factors.
+       factors.c    17    
+       factors.c    18    #include "stdafx.h"
+       factors.c    19    #include "defs.h"
+       factors.c    20    
+       factors.c    21    // Local U *p is OK here because no functional path to garbage collector.
+       factors.c    22    
+       factors.c    23    int
+       factors.c    24    factors(U *p)
+P   00000000              _factors:                        ; function: factors
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+       factors.c    25    {
+       factors.c    26            int h = tos;
+    00000004 D232                   MOV.L       L1092+6,R2 ; _tos
+    00000006 7FFC                   ADD         #-4,R15
+    00000008 D632                   MOV.L       L1092+10,R6; _symtab
+    0000000A 6322                   MOV.L       @R2,R3
+    0000000C 2F32                   MOV.L       R3,@R15
+    0000000E 8448                   MOV.B       @(8,R4),R0
+    00000010 2008                   TST         R0,R0
+    00000012 8F02                   BF/S        L1068
+    00000014 6562                   MOV.L       @R6,R5
+    00000016 A003                   BRA         L1069
+    00000018 6342                   MOV.L       @R4,R3
+    0000001A              L1068:                            
+    0000001A 9156                   MOV.W       L1092,R1   ; H'0570
+    0000001C 6362                   MOV.L       @R6,R3
+    0000001E 331C                   ADD         R1,R3
+    00000020              L1069:                            
+    00000020 6053                   MOV         R5,R0
+    00000022 700C                   ADD         #12,R0
+    00000024 3300                   CMP/EQ      R0,R3
+    00000026 8B1E                   BF          L1067
+       factors.c    27            if (car(p) == symbol(ADD)) {
+       factors.c    28                    p = cdr(p);
+    00000028 8448                   MOV.B       @(8,R4),R0
+    0000002A 2008                   TST         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:59  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000002C 8B01                   BF          L1070
+    0000002E A015                   BRA         L1072
+    00000030 5E41                   MOV.L       @(4,R4),R14
+    00000032              L1070:                            
+    00000032 9E4A                   MOV.W       L1092,R14  ; H'0570
+       factors.c    29                    while (iscons(p)) {
+    00000034 A012                   BRA         L1072
+    00000036 3E5C                   ADD         R5,R14
+    00000038              L1073:                            
+       factors.c    30                            push_term_factors(car(p));
+    00000038 8B01                   BF          L1074
+    0000003A A004                   BRA         L1075
+    0000003C 64E2                   MOV.L       @R14,R4
+    0000003E              L1074:                            
+    0000003E 9344                   MOV.W       L1092,R3   ; H'0570
+    00000040 D224                   MOV.L       L1092+10,R2; _symtab
+    00000042 6422                   MOV.L       @R2,R4
+    00000044 343C                   ADD         R3,R4
+    00000046              L1075:                            
+    00000046 B018                   BSR         _push_term_factors
+    00000048 0009                   NOP
+       factors.c    31                            p = cdr(p);
+    0000004A 84E8                   MOV.B       @(8,R14),R0
+    0000004C 2008                   TST         R0,R0
+    0000004E 8B01                   BF          L1076
+    00000050 A004                   BRA         L1072
+    00000052 5EE1                   MOV.L       @(4,R14),R14
+    00000054              L1076:                            
+    00000054 9339                   MOV.W       L1092,R3   ; H'0570
+    00000056 D21F                   MOV.L       L1092+10,R2; _symtab
+    00000058 6E22                   MOV.L       @R2,R14
+    0000005A 3E3C                   ADD         R3,R14
+    0000005C              L1072:                            
+    0000005C 84E8                   MOV.B       @(8,R14),R0
+    0000005E 2008                   TST         R0,R0
+    00000060 89EA                   BT          L1073
+    00000062 A002                   BRA         L1078
+    00000064 0009                   NOP
+    00000066              L1067:                            
+       factors.c    32                    }
+       factors.c    33            } else
+       factors.c    34                    push_term_factors(p);
+    00000066 B008                   BSR         _push_term_factors
+    00000068 0009                   NOP
+    0000006A              L1078:                            
+       factors.c    35            return tos - h;
+    0000006A 63F2                   MOV.L       @R15,R3
+    0000006C D218                   MOV.L       L1092+6,R2 ; _tos
+    0000006E 6022                   MOV.L       @R2,R0
+    00000070 3038                   SUB         R3,R0
+       factors.c    36    }
+    00000072 7F04                   ADD         #4,R15
+    00000074 4F26                   LDS.L       @R15+,PR
+    00000076 000B                   RTS
+    00000078 6EF6                   MOV.L       @R15+,R14
+       factors.c    37    
+       factors.c    38    // Local U *p is OK here because no functional path to garbage collector.
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:59  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       factors.c    39    
+       factors.c    40    void
+       factors.c    41    push_term_factors(U *p)
+    0000007A              _push_term_factors:              ; function: push_term_factors
+                                                           ; frame size=12
+    0000007A 2FE6                   MOV.L       R14,@-R15
+    0000007C 2FD6                   MOV.L       R13,@-R15
+    0000007E 4F22                   STS.L       PR,@-R15
+    00000080 D514                   MOV.L       L1092+10,R5; _symtab
+    00000082 DD15                   MOV.L       L1092+14,R13; _push
+    00000084 8448                   MOV.B       @(8,R4),R0
+    00000086 2008                   TST         R0,R0
+    00000088 8F02                   BF/S        L1081
+    0000008A 6652                   MOV.L       @R5,R6
+    0000008C A003                   BRA         L1082
+    0000008E 6342                   MOV.L       @R4,R3
+    00000090              L1081:                            
+    00000090 921B                   MOV.W       L1092,R2   ; H'0570
+    00000092 6352                   MOV.L       @R5,R3
+    00000094 332C                   ADD         R2,R3
+    00000096              L1082:                            
+    00000096 9019                   MOV.W       L1092+2,R0 ; H'0384
+    00000098 306C                   ADD         R6,R0
+    0000009A 3300                   CMP/EQ      R0,R3
+    0000009C 8B27                   BF          L1080
+       factors.c    42    {
+       factors.c    43            if (car(p) == symbol(MULTIPLY)) {
+       factors.c    44                    p = cdr(p);
+    0000009E 8448                   MOV.B       @(8,R4),R0
+    000000A0 2008                   TST         R0,R0
+    000000A2 8B01                   BF          L1083
+    000000A4 A01E                   BRA         L1085
+    000000A6 5E41                   MOV.L       @(4,R4),R14
+    000000A8              L1083:                            
+    000000A8 9E0F                   MOV.W       L1092,R14  ; H'0570
+       factors.c    45                    while (iscons(p)) {
+    000000AA A01B                   BRA         L1085
+    000000AC 3E6C                   ADD         R6,R14
+    000000AE              L1086:                            
+       factors.c    46                            push(car(p));
+    000000AE 8B01                   BF          L1087
+    000000B0 A004                   BRA         L1088
+    000000B2 64E2                   MOV.L       @R14,R4
+    000000B4              L1087:                            
+    000000B4 9309                   MOV.W       L1092,R3   ; H'0570
+    000000B6 D207                   MOV.L       L1092+10,R2; _symtab
+    000000B8 6422                   MOV.L       @R2,R4
+    000000BA 343C                   ADD         R3,R4
+    000000BC              L1088:                            
+    000000BC 4D0B                   JSR         @R13
+    000000BE 0009                   NOP
+       factors.c    47                            p = cdr(p);
+    000000C0 84E8                   MOV.B       @(8,R14),R0
+    000000C2 2008                   TST         R0,R0
+    000000C4 8B0A                   BF          L1089
+    000000C6 A00D                   BRA         L1085
+    000000C8 5EE1                   MOV.L       @(4,R14),R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:59  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000CA              L1092:                            
+    000000CA 0570                   .DATA.W     H'0570
+    000000CC 0384                   .DATA.W     H'0384
+    000000CE 0000                   .DATA.W     0
+    000000D0 <00000000>             .DATA.L     _tos
+    000000D4 <00000000>             .DATA.L     _symtab
+    000000D8 <00000000>             .DATA.L     _push
+    000000DC              L1089:                            
+    000000DC 930D                   MOV.W       L1093,R3   ; H'0570
+    000000DE D207                   MOV.L       L1093+2,R2 ; _symtab
+    000000E0 6E22                   MOV.L       @R2,R14
+    000000E2 3E3C                   ADD         R3,R14
+    000000E4              L1085:                            
+    000000E4 84E8                   MOV.B       @(8,R14),R0
+    000000E6 2008                   TST         R0,R0
+    000000E8 89E1                   BT          L1086
+    000000EA A002                   BRA         L1091
+    000000EC 0009                   NOP
+    000000EE              L1080:                            
+       factors.c    48                    }
+       factors.c    49            } else
+       factors.c    50                    push(p);
+    000000EE 4D0B                   JSR         @R13
+    000000F0 0009                   NOP
+    000000F2              L1091:                            
+       factors.c    51    }
+    000000F2 4F26                   LDS.L       @R15+,PR
+    000000F4 6DF6                   MOV.L       @R15+,R13
+    000000F6 000B                   RTS
+    000000F8 6EF6                   MOV.L       @R15+,R14
+    000000FA              L1093:                            
+    000000FA 0570                   .DATA.W     H'0570
+    000000FC <00000000>             .DATA.L     _symtab
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:59  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       51
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000100 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000100 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            3
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            27
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk6618.tmp 
+

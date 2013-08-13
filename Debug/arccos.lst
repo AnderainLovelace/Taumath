@@ -1,0 +1,599 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\arccos.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        arccos.c     1    #include "stdafx.h"
+        arccos.c     2    #include "defs.h"
+        arccos.c     3    
+        arccos.c     4    void
+        arccos.c     5    eval_arccos(void)
+P   00000000              _eval_arccos:                    ; function: eval_arccos
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+        arccos.c     6    {
+        arccos.c     7            push(cadr(p1));
+    00000004 DE35                   MOV.L       L1138+4,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1113
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1115
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1113:                            
+    00000014 9360                   MOV.W       L1138,R3   ; H'0570
+    00000016 D232                   MOV.L       L1138+8,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1115:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1112
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1114
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1116
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1114:                            
+    00000030 9352                   MOV.W       L1138,R3   ; H'0570
+    00000032 D22B                   MOV.L       L1138+8,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1116:                            
+    00000038 A004                   BRA         L1117
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1112:                            
+    0000003C 934C                   MOV.W       L1138,R3   ; H'0570
+    0000003E D228                   MOV.L       L1138+8,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1117:                            
+    00000044 D327                   MOV.L       L1138+12,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+        arccos.c     8            eval();
+    0000004A D227                   MOV.L       L1138+16,R2; _eval
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+        arccos.c     9            arccos();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+        arccos.c    10    }
+        arccos.c    11    
+        arccos.c    12    void
+        arccos.c    13    arccos(void)
+    00000054              _arccos:                         ; function: arccos
+                                                           ; frame size=44
+    00000054 2FE6                   MOV.L       R14,@-R15
+    00000056 2FD6                   MOV.L       R13,@-R15
+    00000058 2FC6                   MOV.L       R12,@-R15
+    0000005A 2FB6                   MOV.L       R11,@-R15
+    0000005C 2FA6                   MOV.L       R10,@-R15
+    0000005E 4F22                   STS.L       PR,@-R15
+        arccos.c    14    {
+        arccos.c    15            int n;
+        arccos.c    16            double d;
+        arccos.c    17    
+        arccos.c    18            save();
+    00000060 D322                   MOV.L       L1138+20,R3; _save
+    00000062 7FF8                   ADD         #-8,R15
+    00000064 430B                   JSR         @R3
+    00000066 0009                   NOP
+        arccos.c    19    
+        arccos.c    20            p1 = pop();
+    00000068 DE1C                   MOV.L       L1138+4,R14; _p1
+    0000006A D221                   MOV.L       L1138+24,R2; _pop
+    0000006C 420B                   JSR         @R2
+    0000006E 0009                   NOP
+    00000070 2E02                   MOV.L       R0,@R14
+    00000072 6403                   MOV         R0,R4
+    00000074 DB1B                   MOV.L       L1138+12,R11; _push
+    00000076 8448                   MOV.B       @(8,R4),R0
+    00000078 2008                   TST         R0,R0
+    0000007A 8B02                   BF          L1119
+    0000007C 62E2                   MOV.L       @R14,R2
+    0000007E A004                   BRA         L1120
+    00000080 6322                   MOV.L       @R2,R3
+    00000082              L1119:                            
+    00000082 9229                   MOV.W       L1138,R2   ; H'0570
+    00000084 D116                   MOV.L       L1138+8,R1 ; _symtab
+    00000086 6312                   MOV.L       @R1,R3
+    00000088 332C                   ADD         R2,R3
+    0000008A              L1120:                            
+    0000008A 9226                   MOV.W       L1138+2,R2 ; H'0120
+    0000008C D114                   MOV.L       L1138+8,R1 ; _symtab
+    0000008E 6012                   MOV.L       @R1,R0
+    00000090 302C                   ADD         R2,R0
+    00000092 3300                   CMP/EQ      R0,R3
+    00000094 8B2E                   BF          L1118
+        arccos.c    21    
+        arccos.c    22            if (car(p1) == symbol(COS)) {
+        arccos.c    23                    push(cadr(p1));
+    00000096 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000098 8448                   MOV.B       @(8,R4),R0
+    0000009A 2008                   TST         R0,R0
+    0000009C 8B02                   BF          L1122
+    0000009E 64E2                   MOV.L       @R14,R4
+    000000A0 A004                   BRA         L1124
+    000000A2 5441                   MOV.L       @(4,R4),R4
+    000000A4              L1122:                            
+    000000A4 9318                   MOV.W       L1138,R3   ; H'0570
+    000000A6 D10E                   MOV.L       L1138+8,R1 ; _symtab
+    000000A8 6412                   MOV.L       @R1,R4
+    000000AA 343C                   ADD         R3,R4
+    000000AC              L1124:                            
+    000000AC 8448                   MOV.B       @(8,R4),R0
+    000000AE 2008                   TST         R0,R0
+    000000B0 8B0C                   BF          L1121
+    000000B2 64E2                   MOV.L       @R14,R4
+    000000B4 8448                   MOV.B       @(8,R4),R0
+    000000B6 2008                   TST         R0,R0
+    000000B8 8B02                   BF          L1123
+    000000BA 64E2                   MOV.L       @R14,R4
+    000000BC A004                   BRA         L1125
+    000000BE 5441                   MOV.L       @(4,R4),R4
+    000000C0              L1123:                            
+    000000C0 930A                   MOV.W       L1138,R3   ; H'0570
+    000000C2 D207                   MOV.L       L1138+8,R2 ; _symtab
+    000000C4 6422                   MOV.L       @R2,R4
+    000000C6 343C                   ADD         R3,R4
+    000000C8              L1125:                            
+    000000C8 A089                   BRA         L1137
+    000000CA 6442                   MOV.L       @R4,R4
+    000000CC              L1121:                            
+    000000CC 9304                   MOV.W       L1138,R3   ; H'0570
+    000000CE D204                   MOV.L       L1138+8,R2 ; _symtab
+    000000D0 6422                   MOV.L       @R2,R4
+    000000D2 343C                   ADD         R3,R4
+    000000D4 A083                   BRA         L1137
+    000000D6 0009                   NOP
+    000000D8              L1138:                            
+    000000D8 0570                   .DATA.W     H'0570
+    000000DA 0120                   .DATA.W     H'0120
+    000000DC <00000000>             .DATA.L     _p1
+    000000E0 <00000000>             .DATA.L     _symtab
+    000000E4 <00000000>             .DATA.L     _push
+    000000E8 <00000000>             .DATA.L     _eval
+    000000EC <00000000>             .DATA.L     _save
+    000000F0 <00000000>             .DATA.L     _pop
+    000000F4              L1118:                            
+        arccos.c    24                    restore();
+        arccos.c    25                    return;
+        arccos.c    26            }
+        arccos.c    27    
+        arccos.c    28            if (isdouble(p1)) {
+    000000F4 8448                   MOV.B       @(8,R4),R0
+    000000F6 600C                   EXTU.B      R0,R0
+    000000F8 8802                   CMP/EQ      #2,R0
+    000000FA 8B1D                   BF          L1128
+        arccos.c    29                    errno = 0;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000FC D342                   MOV.L       L1139+2,R3 ; __errno
+    000000FE E200                   MOV         #0,R2
+    00000100 2322                   MOV.L       R2,@R3
+        arccos.c    30                    d = acos(p1->u.d);
+    00000102 61E2                   MOV.L       @R14,R1
+    00000104 5211                   MOV.L       @(4,R1),R2
+    00000106 2F26                   MOV.L       R2,@-R15
+    00000108 6212                   MOV.L       @R1,R2
+    0000010A 2F26                   MOV.L       R2,@-R15
+    0000010C D23F                   MOV.L       L1139+6,R2 ; _acos
+    0000010E 60F3                   MOV         R15,R0
+    00000110 7008                   ADD         #8,R0
+    00000112 420B                   JSR         @R2
+    00000114 2F06                   MOV.L       R0,@-R15
+        arccos.c    31                    if (errno)
+    00000116 D03C                   MOV.L       L1139+2,R0 ; __errno
+    00000118 6302                   MOV.L       @R0,R3
+    0000011A 2338                   TST         R3,R3
+    0000011C 8D04                   BT/S        L1129
+    0000011E 7F0C                   ADD         #12,R15
+        arccos.c    32                            stop("arccos function argument is not in the interval [-1,1]");
+    00000120 D43B                   MOV.L       L1139+10,R4; L1064
+    00000122 D33C                   MOV.L       L1139+14,R3; _stop
+    00000124 430B                   JSR         @R3
+    00000126 0009                   NOP
+    00000128              L1129:                            
+        arccos.c    33                    push_double(d);
+    00000128 52F1                   MOV.L       @(4,R15),R2
+    0000012A 2F26                   MOV.L       R2,@-R15
+    0000012C 52F1                   MOV.L       @(4,R15),R2
+    0000012E D33A                   MOV.L       L1139+18,R3; _push_double
+    00000130 430B                   JSR         @R3
+    00000132 2F26                   MOV.L       R2,@-R15
+    00000134 A05E                   BRA         L1076
+    00000136 7F08                   ADD         #8,R15
+    00000138              L1128:                            
+        arccos.c    34                    restore();
+        arccos.c    35                    return;
+        arccos.c    36            }
+        arccos.c    37    
+        arccos.c    38            // if p1 == 1/sqrt(2) then return 1/4*pi (45 degrees)
+        arccos.c    39    
+        arccos.c    40            if (isoneoversqrttwo(p1)) {
+    00000138 DA38                   MOV.L       L1139+22,R10; _multiply
+    0000013A DC39                   MOV.L       L1139+26,R12; _push_symbol
+    0000013C DD39                   MOV.L       L1139+30,R13; _push_rational
+    0000013E D23A                   MOV.L       L1139+34,R2; _isoneoversqrttwo
+    00000140 420B                   JSR         @R2
+    00000142 0009                   NOP
+    00000144 2008                   TST         R0,R0
+    00000146 8902                   BT          L1130
+        arccos.c    41                    push_rational(1, 4);
+    00000148 E504                   MOV         #4,R5
+    0000014A A007                   BRA         L1134
+    0000014C E401                   MOV         #1,R4
+    0000014E              L1130:                            
+        arccos.c    42                    push_symbol(PI);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        arccos.c    43                    multiply();
+        arccos.c    44                    restore();
+        arccos.c    45                    return;
+        arccos.c    46            }
+        arccos.c    47    
+        arccos.c    48            // if p1 == -1/sqrt(2) then return 3/4*pi (135 degrees)
+        arccos.c    49    
+        arccos.c    50            if (isminusoneoversqrttwo(p1)) {
+    0000014E D337                   MOV.L       L1139+38,R3; _isminusoneoversqrttwo
+    00000150 430B                   JSR         @R3
+    00000152 64E2                   MOV.L       @R14,R4
+    00000154 2008                   TST         R0,R0
+    00000156 8905                   BT          L1131
+        arccos.c    51                    push_rational(3, 4);
+    00000158 E504                   MOV         #4,R5
+    0000015A E403                   MOV         #3,R4
+    0000015C              L1134:                            
+    0000015C 4D0B                   JSR         @R13
+    0000015E 0009                   NOP
+    00000160 A035                   BRA         L1136
+    00000162 0009                   NOP
+    00000164              L1131:                            
+    00000164 64E2                   MOV.L       @R14,R4
+    00000166 8448                   MOV.B       @(8,R4),R0
+    00000168 600C                   EXTU.B      R0,R0
+    0000016A 8801                   CMP/EQ      #1,R0
+    0000016C 8908                   BT          L1132
+        arccos.c    52                    push_symbol(PI);
+        arccos.c    53                    multiply();
+        arccos.c    54                    restore();
+        arccos.c    55                    return;
+        arccos.c    56            }
+        arccos.c    57    
+        arccos.c    58            if (!isrational(p1)) {
+        arccos.c    59                    push_symbol(ARCCOS);
+    0000016E 4C0B                   JSR         @R12
+    00000170 E404                   MOV         #4,R4
+        arccos.c    60                    push(p1);
+    00000172 4B0B                   JSR         @R11
+    00000174 64E2                   MOV.L       @R14,R4
+        arccos.c    61                    list(2);
+    00000176 D22E                   MOV.L       L1139+42,R2; _list
+    00000178 420B                   JSR         @R2
+    0000017A E402                   MOV         #2,R4
+    0000017C A03A                   BRA         L1076
+    0000017E 0009                   NOP
+    00000180              L1132:                            
+        arccos.c    62                    restore();
+        arccos.c    63                    return;
+        arccos.c    64            }
+        arccos.c    65    
+        arccos.c    66            push(p1);
+    00000180 4B0B                   JSR         @R11
+    00000182 0009                   NOP
+        arccos.c    67            push_integer(2);
+    00000184 D22B                   MOV.L       L1139+46,R2; _push_integer
+    00000186 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000188 E402                   MOV         #2,R4
+        arccos.c    68            multiply();
+    0000018A 4A0B                   JSR         @R10
+    0000018C 0009                   NOP
+        arccos.c    69            n = pop_integer();
+    0000018E D32A                   MOV.L       L1139+50,R3; _pop_integer
+    00000190 430B                   JSR         @R3
+    00000192 0009                   NOP
+        arccos.c    70    
+        arccos.c    71            switch (n) {
+    00000194 88FE                   CMP/EQ      #-2,R0
+    00000196 8D0A                   BT/S        L1088
+    00000198 6403                   MOV         R0,R4
+    0000019A 88FF                   CMP/EQ      #-1,R0
+    0000019C 890B                   BT          L1089
+    0000019E 8800                   CMP/EQ      #0,R0
+    000001A0 890C                   BT          L1090
+    000001A2 8801                   CMP/EQ      #1,R0
+    000001A4 8910                   BT          L1091
+    000001A6 8802                   CMP/EQ      #2,R0
+    000001A8 8917                   BT          L1092
+    000001AA A01C                   BRA         L1093
+    000001AC 0009                   NOP
+    000001AE              L1088:                           ; case label 
+        arccos.c    72    
+        arccos.c    73            case -2:
+        arccos.c    74                    push_symbol(PI);
+    000001AE 4C0B                   JSR         @R12
+    000001B0 E47F                   MOV         #127,R4
+        arccos.c    75                    break;
+    000001B2 A01F                   BRA         L1076
+    000001B4 0009                   NOP
+    000001B6              L1089:                           ; case label 
+        arccos.c    76    
+        arccos.c    77            case -1:
+        arccos.c    78                    push_rational(2, 3);
+    000001B6 E503                   MOV         #3,R5
+    000001B8 A002                   BRA         L1135
+    000001BA E402                   MOV         #2,R4
+    000001BC              L1090:                           ; case label 
+        arccos.c    79                    push_symbol(PI);
+        arccos.c    80                    multiply();
+        arccos.c    81                    break;
+        arccos.c    82    
+        arccos.c    83            case 0:
+        arccos.c    84                    push_rational(1, 2);
+    000001BC E502                   MOV         #2,R5
+    000001BE E401                   MOV         #1,R4
+    000001C0              L1135:                            
+    000001C0 4D0B                   JSR         @R13
+    000001C2 0009                   NOP
+    000001C4 A003                   BRA         L1136
+    000001C6 0009                   NOP
+    000001C8              L1091:                           ; case label 
+        arccos.c    85                    push_symbol(PI);
+        arccos.c    86                    multiply();
+        arccos.c    87                    break;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        arccos.c    88    
+        arccos.c    89            case 1:
+        arccos.c    90                    push_rational(1, 3);
+    000001C8 E503                   MOV         #3,R5
+    000001CA 4D0B                   JSR         @R13
+    000001CC E401                   MOV         #1,R4
+    000001CE              L1136:                            
+        arccos.c    91                    push_symbol(PI);
+    000001CE 4C0B                   JSR         @R12
+    000001D0 E47F                   MOV         #127,R4
+        arccos.c    92                    multiply();
+    000001D2 4A0B                   JSR         @R10
+    000001D4 0009                   NOP
+        arccos.c    93                    break;
+    000001D6 A00D                   BRA         L1076
+    000001D8 0009                   NOP
+    000001DA              L1092:                           ; case label 
+        arccos.c    94    
+        arccos.c    95            case 2:
+        arccos.c    96                    push(zero);
+    000001DA D318                   MOV.L       L1139+54,R3; _zero
+    000001DC 6432                   MOV.L       @R3,R4
+        arccos.c    97                    break;
+    000001DE              L1137:                            
+    000001DE 4B0B                   JSR         @R11
+    000001E0 0009                   NOP
+    000001E2 A007                   BRA         L1076
+    000001E4 0009                   NOP
+    000001E6              L1093:                           ; default label 
+        arccos.c    98    
+        arccos.c    99            default:
+        arccos.c   100                    push_symbol(ARCCOS);
+    000001E6 4C0B                   JSR         @R12
+    000001E8 E404                   MOV         #4,R4
+        arccos.c   101                    push(p1);
+    000001EA 4B0B                   JSR         @R11
+    000001EC 64E2                   MOV.L       @R14,R4
+        arccos.c   102                    list(2);
+    000001EE D310                   MOV.L       L1139+42,R3; _list
+    000001F0 430B                   JSR         @R3
+    000001F2 E402                   MOV         #2,R4
+    000001F4              L1076:
+        arccos.c   103                    break;
+        arccos.c   104            }
+        arccos.c   105    
+        arccos.c   106            restore();
+    000001F4 D312                   MOV.L       L1139+58,R3; _restore
+    000001F6 7F08                   ADD         #8,R15
+    000001F8 4F26                   LDS.L       @R15+,PR
+    000001FA 6AF6                   MOV.L       @R15+,R10
+    000001FC 6BF6                   MOV.L       @R15+,R11
+    000001FE 6CF6                   MOV.L       @R15+,R12
+    00000200 6DF6                   MOV.L       @R15+,R13
+    00000202 432B                   JMP         @R3
+    00000204 6EF6                   MOV.L       @R15+,R14
+    00000206              L1139:                            
+    00000206 0000                   .DATA.W     0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000208 <00000000>             .DATA.L     __errno
+    0000020C <00000000>             .DATA.L     _acos
+    00000210 <00000000>             .DATA.L     L1064
+    00000214 <00000000>             .DATA.L     _stop
+    00000218 <00000000>             .DATA.L     _push_double
+    0000021C <00000000>             .DATA.L     _multiply
+    00000220 <00000000>             .DATA.L     _push_symbol
+    00000224 <00000000>             .DATA.L     _push_rational
+    00000228 <00000000>             .DATA.L     _isoneoversqrttwo
+    0000022C <00000000>             .DATA.L     _isminusoneoversqrttwo
+    00000230 <00000000>             .DATA.L     _list
+    00000234 <00000000>             .DATA.L     _push_integer
+    00000238 <00000000>             .DATA.L     _pop_integer
+    0000023C <00000000>             .DATA.L     _zero
+    00000240 <00000000>             .DATA.L     _restore
+        arccos.c   107    }
+        arccos.c   108    
+C   00000000              L1064:
+    00000000 617263636F             .SDATA      "arccos function argument is not in the interval [-1,1]"
+             732066756E   
+             6374696F6E   
+             2061726775   
+             6D656E7420   
+             6973206E6F   
+             7420696E20   
+             7468652069   
+             6E74657276   
+             616C205B2D   
+             312C315D     
+    00000036 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      108
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000244 Byte(s)
+CONSTANT SECTION (C):                               00000037 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 0000027B Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           20
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            55
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk2C63.tmp 
+

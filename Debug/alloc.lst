@@ -1,0 +1,995 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\alloc.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         alloc.c     1    #include "stdafx.h"
+         alloc.c     2    #include "defs.h"
+         alloc.c     3    
+         alloc.c     4    // up to 100 blocks of 100,000 atoms
+         alloc.c     5    
+         alloc.c     6    #define M 100
+         alloc.c     7    #define N 1000
+         alloc.c     8    
+         alloc.c     9    U **mem;
+         alloc.c    10    int mcount;
+         alloc.c    11    
+         alloc.c    12    U *free_list;
+         alloc.c    13    int free_count;
+         alloc.c    14    
+         alloc.c    15    U *
+         alloc.c    16    alloc(void)
+P   00000000              _alloc:                          ; function: alloc
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 4F12                   STS.L       MACL,@-R15
+    00000006 DE34                   MOV.L       L1145+6,R14; _free_count
+         alloc.c    17    {
+         alloc.c    18            U *p;
+         alloc.c    19            if (free_count == 0) {
+    00000008 63E2                   MOV.L       @R14,R3
+    0000000A 2338                   TST         R3,R3
+    0000000C 8B1A                   BF          L1105
+         alloc.c    20                    if (mcount == 0)
+    0000000E D233                   MOV.L       L1145+10,R2; _mcount
+    00000010 6322                   MOV.L       @R2,R3
+    00000012 2338                   TST         R3,R3
+    00000014 890D                   BT          L1096
+         alloc.c    21                            alloc_mem();
+         alloc.c    22                    else {
+         alloc.c    23                            gc();
+    00000016 B04D                   BSR         _gc
+    00000018 0009                   NOP
+         alloc.c    24                            if (free_count < N * mcount / 2)
+    0000001A 935A                   MOV.W       L1145,R3   ; H'03E8
+    0000001C D12F                   MOV.L       L1145+10,R1; _mcount
+    0000001E 6212                   MOV.L       @R1,R2
+    00000020 60E2                   MOV.L       @R14,R0
+    00000022 E100                   MOV         #0,R1
+    00000024 0237                   MUL.L       R3,R2
+    00000026 031A                   STS         MACL,R3
+    00000028 3137                   CMP/GT      R3,R1
+    0000002A 331E                   ADDC        R1,R3
+    0000002C 4321                   SHAR        R3
+    0000002E 3033                   CMP/GE      R3,R0
+    00000030 8901                   BT          L1107
+    00000032              L1096:
+         alloc.c    25                                    alloc_mem();
+    00000032 B18B                   BSR         _alloc_mem
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000034 0009                   NOP
+    00000036              L1107:                            
+         alloc.c    26                    }
+         alloc.c    27                    if (free_count == 0)
+    00000036 63E2                   MOV.L       @R14,R3
+    00000038 2338                   TST         R3,R3
+    0000003A 8B03                   BF          L1105
+         alloc.c    28                            stop("atom space exhausted");
+    0000003C D428                   MOV.L       L1145+14,R4; L1066
+    0000003E D329                   MOV.L       L1145+18,R3; _stop
+    00000040 430B                   JSR         @R3
+    00000042 0009                   NOP
+    00000044              L1105:                            
+         alloc.c    29            }
+         alloc.c    30            p = free_list;
+    00000044 D428                   MOV.L       L1145+22,R4; _free_list
+    00000046 6042                   MOV.L       @R4,R0
+         alloc.c    31            free_list = free_list->u.cons.cdr;
+    00000048 6203                   MOV         R0,R2
+    0000004A 5321                   MOV.L       @(4,R2),R3
+    0000004C 2432                   MOV.L       R3,@R4
+         alloc.c    32            free_count--;
+    0000004E 62E2                   MOV.L       @R14,R2
+    00000050 72FF                   ADD         #-1,R2
+    00000052 2E22                   MOV.L       R2,@R14
+         alloc.c    33            return p;
+         alloc.c    34    }
+    00000054 4F16                   LDS.L       @R15+,MACL
+    00000056 4F26                   LDS.L       @R15+,PR
+    00000058 000B                   RTS
+    0000005A 6EF6                   MOV.L       @R15+,R14
+         alloc.c    35    
+         alloc.c    36    U *
+         alloc.c    37    alloc_tensor(int nelem)
+    0000005C              _alloc_tensor:                   ; function: alloc_tensor
+                                                           ; frame size=12
+    0000005C 2FE6                   MOV.L       R14,@-R15
+    0000005E 2FD6                   MOV.L       R13,@-R15
+    00000060 4F22                   STS.L       PR,@-R15
+         alloc.c    38    {
+         alloc.c    39            int i;
+         alloc.c    40            U *p;
+         alloc.c    41            p = alloc();
+    00000062 BFCD                   BSR         _alloc
+    00000064 6D43                   MOV         R4,R13
+    00000066 6E03                   MOV         R0,R14
+         alloc.c    42            p->k = TENSOR;
+         alloc.c    43            p->u.tensor = (T *) malloc(sizeof (T) + nelem * sizeof (U *));
+    00000068 D320                   MOV.L       L1145+26,R3; _malloc
+    0000006A 64D3                   MOV         R13,R4
+    0000006C E004                   MOV         #4,R0
+    0000006E 4408                   SHLL2       R4
+    00000070 80E8                   MOV.B       R0,@(8,R14)
+    00000072 430B                   JSR         @R3
+    00000074 746C                   ADD         #108,R4
+         alloc.c    44            if (p->u.tensor == NULL)
+    00000076 6203                   MOV         R0,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000078 2228                   TST         R2,R2
+    0000007A 8F03                   BF/S        L1111
+    0000007C 2E02                   MOV.L       R0,@R14
+         alloc.c    45                    out_of_memory();
+    0000007E D31C                   MOV.L       L1145+30,R3; _out_of_memory
+    00000080 430B                   JSR         @R3
+    00000082 0009                   NOP
+    00000084              L1111:                            
+         alloc.c    46            p->u.tensor->nelem = nelem;
+    00000084 62E2                   MOV.L       @R14,R2
+    00000086 E064                   MOV         #100,R0
+         alloc.c    47            for (i = 0; i < nelem; i++)
+    00000088 D61A                   MOV.L       L1145+34,R6; _zero
+    0000008A 4D15                   CMP/PL      R13
+    0000008C 02D6                   MOV.L       R13,@(R0,R2)
+    0000008E E700                   MOV         #0,R7
+    00000090 6573                   MOV         R7,R5
+    00000092 8F0A                   BF/S        L1112
+    00000094 6473                   MOV         R7,R4
+    00000096              L1113:                            
+    00000096 7501                   ADD         #1,R5
+         alloc.c    48                    p->u.tensor->elem[i] = zero;
+    00000098 60E2                   MOV.L       @R14,R0
+    0000009A 35D3                   CMP/GE      R13,R5
+    0000009C 6262                   MOV.L       @R6,R2
+    0000009E 6303                   MOV         R0,R3
+    000000A0 7368                   ADD         #104,R3
+    000000A2 334C                   ADD         R4,R3
+    000000A4 2322                   MOV.L       R2,@R3
+    000000A6 8FF6                   BF/S        L1113
+    000000A8 7404                   ADD         #4,R4
+    000000AA              L1112:                            
+         alloc.c    49            return p;
+    000000AA 60E3                   MOV         R14,R0
+         alloc.c    50    }
+    000000AC 4F26                   LDS.L       @R15+,PR
+    000000AE 6DF6                   MOV.L       @R15+,R13
+    000000B0 000B                   RTS
+    000000B2 6EF6                   MOV.L       @R15+,R14
+         alloc.c    51    
+         alloc.c    52    // garbage collector
+         alloc.c    53    
+         alloc.c    54    void
+         alloc.c    55    gc(void)
+    000000B4              _gc:                             ; function: gc
+                                                           ; frame size=40
+    000000B4 2FE6                   MOV.L       R14,@-R15
+         alloc.c    56    {
+         alloc.c    57            int i, j;
+         alloc.c    58            U *p;
+         alloc.c    59    
+         alloc.c    60            // tag everything
+         alloc.c    61    
+         alloc.c    62            for (i = 0; i < mcount; i++) {
+    000000B6 EE00                   MOV         #0,R14
+    000000B8 2FD6                   MOV.L       R13,@-R15
+    000000BA 67E3                   MOV         R14,R7
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000BC 2FC6                   MOV.L       R12,@-R15
+    000000BE EC01                   MOV         #1,R12
+    000000C0 2FB6                   MOV.L       R11,@-R15
+    000000C2 2FA6                   MOV.L       R10,@-R15
+    000000C4 2F96                   MOV.L       R9,@-R15
+    000000C6 2F86                   MOV.L       R8,@-R15
+    000000C8 4F22                   STS.L       PR,@-R15
+    000000CA 7FF8                   ADD         #-8,R15
+    000000CC 9B02                   MOV.W       L1145+2,R11; H'2EE0
+    000000CE A020                   BRA         L1115
+    000000D0 65E3                   MOV         R14,R5
+    000000D2              L1145:                            
+    000000D2 03E8                   .DATA.W     H'03E8
+    000000D4 2EE0                   .DATA.W     H'2EE0
+    000000D6 0000                   .DATA.W     0
+    000000D8 <00000000>             .DATA.L     _free_count
+    000000DC <00000000>             .DATA.L     _mcount
+    000000E0 <00000000>             .DATA.L     L1066
+    000000E4 <00000000>             .DATA.L     _stop
+    000000E8 <00000000>             .DATA.L     _free_list
+    000000EC <00000000>             .DATA.L     _malloc
+    000000F0 <00000000>             .DATA.L     _out_of_memory
+    000000F4 <00000000>             .DATA.L     _zero
+    000000F8              L1116:                            
+         alloc.c    63                    p = mem[i];
+    000000F8 D336                   MOV.L       L1146+2,R3 ; _mem
+    000000FA 6032                   MOV.L       @R3,R0
+    000000FC 065E                   MOV.L       @(R0,R5),R6
+    000000FE 6463                   MOV         R6,R4
+    00000100 6D63                   MOV         R6,R13
+    00000102 3DBC                   ADD         R11,R13
+         alloc.c    64                    for (j = 0; j < N; j++)
+    00000104              L1117:                            
+         alloc.c    65                            p[j].tag = 1;
+    00000104 60C3                   MOV         R12,R0
+    00000106 8049                   MOV.B       R0,@(9,R4)
+    00000108 740C                   ADD         #12,R4
+    0000010A 34D2                   CMP/HS      R13,R4
+    0000010C 8BFA                   BF          L1117
+    0000010E 7701                   ADD         #1,R7
+    00000110 7504                   ADD         #4,R5
+    00000112              L1115:                            
+    00000112 D331                   MOV.L       L1146+6,R3 ; _mcount
+    00000114 6232                   MOV.L       @R3,R2
+    00000116 3723                   CMP/GE      R2,R7
+    00000118 8BEE                   BF          L1116
+         alloc.c    66            }
+         alloc.c    67    
+         alloc.c    68            // untag what's used
+         alloc.c    69    
+         alloc.c    70            untag(p0);
+    0000011A D030                   MOV.L       L1146+10,R0; _p0
+    0000011C B0D5                   BSR         _untag
+    0000011E 6402                   MOV.L       @R0,R4
+         alloc.c    71            untag(p1);
+    00000120 D22F                   MOV.L       L1146+14,R2; _p1
+    00000122 B0D2                   BSR         _untag
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000124 6422                   MOV.L       @R2,R4
+         alloc.c    72            untag(p2);
+    00000126 D12F                   MOV.L       L1146+18,R1; _p2
+    00000128 B0CF                   BSR         _untag
+    0000012A 6412                   MOV.L       @R1,R4
+         alloc.c    73            untag(p3);
+    0000012C D22E                   MOV.L       L1146+22,R2; _p3
+    0000012E B0CC                   BSR         _untag
+    00000130 6422                   MOV.L       @R2,R4
+         alloc.c    74            untag(p4);
+    00000132 D12E                   MOV.L       L1146+26,R1; _p4
+    00000134 B0C9                   BSR         _untag
+    00000136 6412                   MOV.L       @R1,R4
+         alloc.c    75            untag(p5);
+    00000138 D22D                   MOV.L       L1146+30,R2; _p5
+    0000013A B0C6                   BSR         _untag
+    0000013C 6422                   MOV.L       @R2,R4
+         alloc.c    76            untag(p6);
+    0000013E D12D                   MOV.L       L1146+34,R1; _p6
+    00000140 B0C3                   BSR         _untag
+    00000142 6412                   MOV.L       @R1,R4
+         alloc.c    77            untag(p7);
+    00000144 D22C                   MOV.L       L1146+38,R2; _p7
+    00000146 B0C0                   BSR         _untag
+    00000148 6422                   MOV.L       @R2,R4
+         alloc.c    78            untag(p8);
+    0000014A D12C                   MOV.L       L1146+42,R1; _p8
+    0000014C B0BD                   BSR         _untag
+    0000014E 6412                   MOV.L       @R1,R4
+         alloc.c    79            untag(p9);
+    00000150 D22B                   MOV.L       L1146+46,R2; _p9
+    00000152 B0BA                   BSR         _untag
+    00000154 6422                   MOV.L       @R2,R4
+         alloc.c    80    
+         alloc.c    81            untag(one);
+    00000156 D12B                   MOV.L       L1146+50,R1; _one
+    00000158 B0B7                   BSR         _untag
+    0000015A 6412                   MOV.L       @R1,R4
+         alloc.c    82            untag(zero);
+    0000015C D22A                   MOV.L       L1146+54,R2; _zero
+    0000015E B0B4                   BSR         _untag
+    00000160 6422                   MOV.L       @R2,R4
+         alloc.c    83            untag(imaginaryunit);
+    00000162 D12A                   MOV.L       L1146+58,R1; _imaginaryunit
+    00000164 B0B1                   BSR         _untag
+    00000166 6412                   MOV.L       @R1,R4
+    00000168 D929                   MOV.L       L1146+62,R9; _arglist
+    0000016A 6CE3                   MOV         R14,R12
+    0000016C DA29                   MOV.L       L1146+66,R10; _binding
+         alloc.c    84    
+         alloc.c    85            for (i = 0; i < NSYM; i++) {
+    0000016E 6BE3                   MOV         R14,R11
+    00000170 9D2F                   MOV.W       L1146,R13  ; H'01F4
+    00000172              L1118:                            
+         alloc.c    86                    untag(binding[i]);
+    00000172 60A2                   MOV.L       @R10,R0
+    00000174 B0A9                   BSR         _untag
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000176 04CE                   MOV.L       @(R0,R12),R4
+         alloc.c    87                    untag(arglist[i]);
+    00000178 6092                   MOV.L       @R9,R0
+    0000017A B0A6                   BSR         _untag
+    0000017C 04CE                   MOV.L       @(R0,R12),R4
+    0000017E 7B01                   ADD         #1,R11
+    00000180 3BD3                   CMP/GE      R13,R11
+    00000182 8FF6                   BF/S        L1118
+    00000184 7C04                   ADD         #4,R12
+         alloc.c    88            }
+         alloc.c    89    
+         alloc.c    90            for (i = 0; i < tos; i++)
+    00000186 6AE3                   MOV         R14,R10
+    00000188 D923                   MOV.L       L1146+70,R9; _tos
+    0000018A DB24                   MOV.L       L1146+74,R11; _stack
+    0000018C A005                   BRA         L1119
+    0000018E 6CE3                   MOV         R14,R12
+    00000190              L1120:                            
+         alloc.c    91                    untag(stack[i]);
+    00000190 60B2                   MOV.L       @R11,R0
+    00000192 B09A                   BSR         _untag
+    00000194 04CE                   MOV.L       @(R0,R12),R4
+    00000196 7A01                   ADD         #1,R10
+    00000198 7C04                   ADD         #4,R12
+    0000019A              L1119:                            
+    0000019A 6392                   MOV.L       @R9,R3
+    0000019C 3A33                   CMP/GE      R3,R10
+    0000019E 8BF7                   BF          L1120
+         alloc.c    92    
+         alloc.c    93            for (i = (int) (frame - stack); i < TOS; i++)
+    000001A0 63B2                   MOV.L       @R11,R3
+    000001A2 D21F                   MOV.L       L1146+78,R2; _frame
+    000001A4 6A22                   MOV.L       @R2,R10
+    000001A6 3A38                   SUB         R3,R10
+    000001A8 4A11                   CMP/PZ      R10
+    000001AA 8900                   BT          L1121
+    000001AC 7A03                   ADD         #3,R10
+    000001AE              L1121:                            
+    000001AE 4A21                   SHAR        R10
+    000001B0 4A21                   SHAR        R10
+    000001B2 6CA3                   MOV         R10,R12
+    000001B4 3AD3                   CMP/GE      R13,R10
+    000001B6 8D07                   BT/S        L1122
+    000001B8 4C08                   SHLL2       R12
+    000001BA              L1123:                            
+         alloc.c    94                    untag(stack[i]);
+    000001BA 60B2                   MOV.L       @R11,R0
+    000001BC B085                   BSR         _untag
+    000001BE 04CE                   MOV.L       @(R0,R12),R4
+    000001C0 7A01                   ADD         #1,R10
+    000001C2 3AD3                   CMP/GE      R13,R10
+    000001C4 8FF9                   BF/S        L1123
+    000001C6 7C04                   ADD         #4,R12
+    000001C8              L1122:                            
+         alloc.c    95    
+         alloc.c    96            // collect everything that's still tagged
+         alloc.c    97    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         alloc.c    98            free_count = 0;
+    000001C8 D316                   MOV.L       L1146+82,R3; _free_count
+    000001CA 23E2                   MOV.L       R14,@R3
+         alloc.c    99    
+         alloc.c   100            for (i = 0; i < mcount; i++) {
+    000001CC 2FE2                   MOV.L       R14,@R15
+    000001CE A06D                   BRA         L1124
+    000001D0 1FE1                   MOV.L       R14,@(4,R15)
+    000001D2              L1146:                            
+    000001D2 01F4                   .DATA.W     H'01F4
+    000001D4 <00000000>             .DATA.L     _mem
+    000001D8 <00000000>             .DATA.L     _mcount
+    000001DC <00000000>             .DATA.L     _p0
+    000001E0 <00000000>             .DATA.L     _p1
+    000001E4 <00000000>             .DATA.L     _p2
+    000001E8 <00000000>             .DATA.L     _p3
+    000001EC <00000000>             .DATA.L     _p4
+    000001F0 <00000000>             .DATA.L     _p5
+    000001F4 <00000000>             .DATA.L     _p6
+    000001F8 <00000000>             .DATA.L     _p7
+    000001FC <00000000>             .DATA.L     _p8
+    00000200 <00000000>             .DATA.L     _p9
+    00000204 <00000000>             .DATA.L     _one
+    00000208 <00000000>             .DATA.L     _zero
+    0000020C <00000000>             .DATA.L     _imaginaryunit
+    00000210 <00000000>             .DATA.L     _arglist
+    00000214 <00000000>             .DATA.L     _binding
+    00000218 <00000000>             .DATA.L     _tos
+    0000021C <00000000>             .DATA.L     _stack
+    00000220 <00000000>             .DATA.L     _frame
+    00000224 <00000000>             .DATA.L     _free_count
+    00000228              L1125:                            
+         alloc.c   101                    p = mem[i];
+    00000228 D239                   MOV.L       L1147+4,R2 ; _mem
+         alloc.c   102                    for (j = 0; j < N; j++) {
+    0000022A 6AE3                   MOV         R14,R10
+    0000022C 50F1                   MOV.L       @(4,R15),R0
+    0000022E 6322                   MOV.L       @R2,R3
+    00000230 093E                   MOV.L       @(R0,R3),R9
+    00000232 6D93                   MOV         R9,R13
+    00000234 6C93                   MOV         R9,R12
+    00000236 A030                   BRA         L1126
+    00000238 6893                   MOV         R9,R8
+    0000023A              L1127:                            
+    0000023A 6BA3                   MOV         R10,R11
+    0000023C 63A3                   MOV         R10,R3
+    0000023E 4B00                   SHLL        R11
+    00000240 3B3C                   ADD         R3,R11
+    00000242 4B08                   SHLL2       R11
+    00000244 3B9C                   ADD         R9,R11
+    00000246 84B9                   MOV.B       @(9,R11),R0
+    00000248 2008                   TST         R0,R0
+    0000024A 8922                   BT          L1129
+         alloc.c   103                            if (p[j].tag == 0)
+         alloc.c   104                                    continue;
+         alloc.c   105                            // still tagged so it's unused, put on free list
+         alloc.c   106                            switch (p[j].k) {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000024C 84B8                   MOV.B       @(8,R11),R0
+    0000024E 600C                   EXTU.B      R0,R0
+    00000250 8804                   CMP/EQ      #4,R0
+    00000252 8905                   BT          L1098
+    00000254 8803                   CMP/EQ      #3,R0
+    00000256 8905                   BT          L1099
+    00000258 8801                   CMP/EQ      #1,R0
+    0000025A 8909                   BT          L1100
+    0000025C A00E                   BRA         L1130
+    0000025E 0009                   NOP
+    00000260              L1098:                           ; case label 
+         alloc.c   107                            case TENSOR:
+         alloc.c   108                                    free(p[j].u.tensor);
+         alloc.c   109                                    break;
+    00000260 A001                   BRA         L1144
+    00000262 64B2                   MOV.L       @R11,R4
+    00000264              L1099:                           ; case label 
+         alloc.c   110                            case STR:
+         alloc.c   111                                    free(p[j].u.str);
+    00000264 6482                   MOV.L       @R8,R4
+         alloc.c   112                                    break;
+    00000266              L1144:                            
+    00000266 D32B                   MOV.L       L1147+8,R3 ; _free
+    00000268 430B                   JSR         @R3
+    0000026A 0009                   NOP
+    0000026C A006                   BRA         L1130
+    0000026E 0009                   NOP
+    00000270              L1100:                           ; case label 
+         alloc.c   113                            case NUM:
+         alloc.c   114                                    mfree(p[j].u.q.a);
+    00000270 D329                   MOV.L       L1147+12,R3; _mfree
+    00000272 430B                   JSR         @R3
+    00000274 64C2                   MOV.L       @R12,R4
+         alloc.c   115                                    mfree(p[j].u.q.b);
+    00000276 D228                   MOV.L       L1147+12,R2; _mfree
+    00000278 420B                   JSR         @R2
+    0000027A 54C1                   MOV.L       @(4,R12),R4
+         alloc.c   116                                    break;
+    0000027C              L1130:                            
+         alloc.c   117                            }
+         alloc.c   118                            p[j].k = CONS; // so no double free occurs above
+         alloc.c   119                            p[j].u.cons.cdr = free_list;
+    0000027C D227                   MOV.L       L1147+16,R2; _free_list
+    0000027E 60E3                   MOV         R14,R0
+    00000280 80D8                   MOV.B       R0,@(8,R13)
+         alloc.c   120                            free_list = p + j;
+    00000282 6123                   MOV         R2,R1
+    00000284 6322                   MOV.L       @R2,R3
+    00000286 1D31                   MOV.L       R3,@(4,R13)
+    00000288 21D2                   MOV.L       R13,@R1
+         alloc.c   121                            free_count++;
+    0000028A D325                   MOV.L       L1147+20,R3; _free_count
+    0000028C 6032                   MOV.L       @R3,R0
+    0000028E 7001                   ADD         #1,R0
+    00000290 2302                   MOV.L       R0,@R3
+    00000292              L1129:                            
+    00000292 7A01                   ADD         #1,R10
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000294 7D0C                   ADD         #12,R13
+    00000296 7C0C                   ADD         #12,R12
+    00000298 780C                   ADD         #12,R8
+    0000029A              L1126:                            
+    0000029A 9337                   MOV.W       L1147,R3   ; H'03E8
+    0000029C 3A33                   CMP/GE      R3,R10
+    0000029E 8BCC                   BF          L1127
+    000002A0 61F2                   MOV.L       @R15,R1
+    000002A2 7101                   ADD         #1,R1
+    000002A4 2F12                   MOV.L       R1,@R15
+    000002A6 53F1                   MOV.L       @(4,R15),R3
+    000002A8 7304                   ADD         #4,R3
+    000002AA 1F31                   MOV.L       R3,@(4,R15)
+    000002AC              L1124:                            
+    000002AC D31D                   MOV.L       L1147+24,R3; _mcount
+    000002AE 6232                   MOV.L       @R3,R2
+    000002B0 61F2                   MOV.L       @R15,R1
+    000002B2 3123                   CMP/GE      R2,R1
+    000002B4 8BB8                   BF          L1125
+         alloc.c   122                    }
+         alloc.c   123            }
+         alloc.c   124    }
+    000002B6 7F08                   ADD         #8,R15
+    000002B8 4F26                   LDS.L       @R15+,PR
+    000002BA 68F6                   MOV.L       @R15+,R8
+    000002BC 69F6                   MOV.L       @R15+,R9
+    000002BE 6AF6                   MOV.L       @R15+,R10
+    000002C0 6BF6                   MOV.L       @R15+,R11
+    000002C2 6CF6                   MOV.L       @R15+,R12
+    000002C4 6DF6                   MOV.L       @R15+,R13
+    000002C6 000B                   RTS
+    000002C8 6EF6                   MOV.L       @R15+,R14
+         alloc.c   125    
+         alloc.c   126    void
+         alloc.c   127    untag(U *p)
+    000002CA              _untag:                          ; function: untag
+                                                           ; frame size=16
+    000002CA 2FE6                   MOV.L       R14,@-R15
+    000002CC 2FD6                   MOV.L       R13,@-R15
+    000002CE 6E43                   MOV         R4,R14
+    000002D0 2FC6                   MOV.L       R12,@-R15
+    000002D2 4F22                   STS.L       PR,@-R15
+    000002D4              L1131:                            
+         alloc.c   128    {
+         alloc.c   129            int i;
+         alloc.c   130    
+         alloc.c   131            if (iscons(p)) {
+    000002D4 84E8                   MOV.B       @(8,R14),R0
+    000002D6 2008                   TST         R0,R0
+    000002D8 8F0D                   BF/S        L1132
+    000002DA EC00                   MOV         #0,R12
+    000002DC              L1133:                            
+         alloc.c   132                    do {
+         alloc.c   133                            if (p->tag == 0)
+    000002DC 84E9                   MOV.B       @(9,R14),R0
+    000002DE 2008                   TST         R0,R0
+    000002E0 892F                   BT          L1135
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         alloc.c   134                                    return;
+         alloc.c   135                            p->tag = 0;
+    000002E2 60C3                   MOV         R12,R0
+    000002E4 80E9                   MOV.B       R0,@(9,R14)
+         alloc.c   136                            untag(p->u.cons.car);
+    000002E6 BFF0                   BSR         _untag
+    000002E8 64E2                   MOV.L       @R14,R4
+         alloc.c   137                            p = p->u.cons.cdr;
+    000002EA 5EE1                   MOV.L       @(4,R14),R14
+         alloc.c   138                    } while (iscons(p));
+    000002EC 84E8                   MOV.B       @(8,R14),R0
+    000002EE 2008                   TST         R0,R0
+    000002F0 89F4                   BT          L1133
+         alloc.c   139                    untag(p);
+    000002F2 AFEF                   BRA         L1131
+    000002F4 0009                   NOP
+    000002F6              L1132:                            
+         alloc.c   140                    return;
+         alloc.c   141            }
+         alloc.c   142    
+         alloc.c   143            if (p->tag) {
+    000002F6 84E9                   MOV.B       @(9,R14),R0
+    000002F8 2008                   TST         R0,R0
+    000002FA 8922                   BT          L1135
+         alloc.c   144                    p->tag = 0;
+    000002FC 60C3                   MOV         R12,R0
+    000002FE 80E9                   MOV.B       R0,@(9,R14)
+         alloc.c   145                    if (istensor(p)) {
+    00000300 84E8                   MOV.B       @(8,R14),R0
+    00000302 600C                   EXTU.B      R0,R0
+    00000304 8804                   CMP/EQ      #4,R0
+    00000306 8B1C                   BF          L1135
+         alloc.c   146                            for (i = 0; i < p->u.tensor->nelem; i++)
+    00000308 A016                   BRA         L1138
+    0000030A 6DC3                   MOV         R12,R13
+    0000030C              L1147:                            
+    0000030C 03E8                   .DATA.W     H'03E8
+    0000030E 0000                   .DATA.W     0
+    00000310 <00000000>             .DATA.L     _mem
+    00000314 <00000000>             .DATA.L     _free
+    00000318 <00000000>             .DATA.L     _mfree
+    0000031C <00000000>             .DATA.L     _free_list
+    00000320 <00000000>             .DATA.L     _free_count
+    00000324 <00000000>             .DATA.L     _mcount
+    00000328              L1139:                            
+         alloc.c   147                                    untag(p->u.tensor->elem[i]);
+    00000328 63E2                   MOV.L       @R14,R3
+    0000032A 64D3                   MOV         R13,R4
+    0000032C 4408                   SHLL2       R4
+    0000032E 7368                   ADD         #104,R3
+    00000330 343C                   ADD         R3,R4
+    00000332 BFCA                   BSR         _untag
+    00000334 6442                   MOV.L       @R4,R4
+    00000336 7D01                   ADD         #1,R13
+    00000338              L1138:                            
+    00000338 63E2                   MOV.L       @R14,R3
+    0000033A E064                   MOV         #100,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000033C 023E                   MOV.L       @(R0,R3),R2
+    0000033E 3D23                   CMP/GE      R2,R13
+    00000340 8BF2                   BF          L1139
+    00000342              L1135:                            
+         alloc.c   148                    }
+         alloc.c   149            }
+         alloc.c   150    }
+    00000342 4F26                   LDS.L       @R15+,PR
+    00000344 6CF6                   MOV.L       @R15+,R12
+    00000346 6DF6                   MOV.L       @R15+,R13
+    00000348 000B                   RTS
+    0000034A 6EF6                   MOV.L       @R15+,R14
+         alloc.c   151    
+         alloc.c   152    // get memory for 100,000 atoms
+         alloc.c   153    
+         alloc.c   154    void
+         alloc.c   155    alloc_mem(void)
+    0000034C              _alloc_mem:                      ; function: alloc_mem
+                                                           ; frame size=8
+    0000034C 2FE6                   MOV.L       R14,@-R15
+    0000034E 4F22                   STS.L       PR,@-R15
+         alloc.c   156    {
+         alloc.c   157            int i;
+         alloc.c   158            U *p;
+         alloc.c   159            if (mcount == M)
+    00000350 DE32                   MOV.L       L1148+6,R14; _mcount
+    00000352 60E2                   MOV.L       @R14,R0
+    00000354 8864                   CMP/EQ      #100,R0
+    00000356 8924                   BT          L1141
+         alloc.c   160                    return;
+         alloc.c   161            p = (U *) malloc(N * sizeof (struct U));
+    00000358 945D                   MOV.W       L1148,R4   ; H'2EE0
+    0000035A D231                   MOV.L       L1148+10,R2; _malloc
+    0000035C 420B                   JSR         @R2
+    0000035E 0009                   NOP
+    00000360 6503                   MOV         R0,R5
+         alloc.c   162            if (p == NULL)
+    00000362 2558                   TST         R5,R5
+    00000364 891D                   BT          L1141
+    00000366 6453                   MOV         R5,R4
+    00000368 9755                   MOV.W       L1148,R7   ; H'2EE0
+    0000036A E600                   MOV         #0,R6
+         alloc.c   163                    return;
+         alloc.c   164            mem[mcount++] = p;
+    0000036C 62E2                   MOV.L       @R14,R2
+    0000036E 375C                   ADD         R5,R7
+    00000370 D32C                   MOV.L       L1148+14,R3; _mem
+    00000372 7201                   ADD         #1,R2
+    00000374 2E22                   MOV.L       R2,@R14
+    00000376 72FF                   ADD         #-1,R2
+    00000378 6032                   MOV.L       @R3,R0
+    0000037A 4208                   SHLL2       R2
+    0000037C 0256                   MOV.L       R5,@(R0,R2)
+         alloc.c   165            for (i = 0; i < N; i++) {
+    0000037E              L1143:                            
+         alloc.c   166                    p[i].k = CONS; // so no free in gc
+    0000037E 6063                   MOV         R6,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000380 8048                   MOV.B       R0,@(8,R4)
+         alloc.c   167                    p[i].u.cons.cdr = p + i + 1;
+    00000382 6343                   MOV         R4,R3
+    00000384 730C                   ADD         #12,R3
+    00000386 1431                   MOV.L       R3,@(4,R4)
+    00000388 740C                   ADD         #12,R4
+    0000038A 3472                   CMP/HS      R7,R4
+    0000038C 8BF7                   BF          L1143
+         alloc.c   168            }
+         alloc.c   169            p[N - 1].u.cons.cdr = free_list;
+    0000038E D426                   MOV.L       L1148+18,R4; _free_list
+    00000390 9042                   MOV.W       L1148+2,R0 ; H'2ED8
+    00000392 6342                   MOV.L       @R4,R3
+    00000394 0536                   MOV.L       R3,@(R0,R5)
+         alloc.c   170            free_list = p;
+    00000396 2452                   MOV.L       R5,@R4
+         alloc.c   171            free_count += N;
+    00000398 D424                   MOV.L       L1148+22,R4; _free_count
+    0000039A 933E                   MOV.W       L1148+4,R3 ; H'03E8
+    0000039C 6242                   MOV.L       @R4,R2
+    0000039E 323C                   ADD         R3,R2
+    000003A0 2422                   MOV.L       R2,@R4
+         alloc.c   172    }
+    000003A2              L1141:                            
+    000003A2 4F26                   LDS.L       @R15+,PR
+    000003A4 000B                   RTS
+    000003A6 6EF6                   MOV.L       @R15+,R14
+         alloc.c   173    
+         alloc.c   174    void
+         alloc.c   175    print_memory_info(void)
+    000003A8              _print_memory_info:              ; function: print_memory_info
+                                                           ; frame size=148
+    000003A8 2FE6                   MOV.L       R14,@-R15
+         alloc.c   176    {
+         alloc.c   177            char buf[100];
+         alloc.c   178    
+         alloc.c   179            sprintf(buf, "%d blocks (%d bytes/block)\n", N * mcount, (int) sizeof (U));
+    000003AA E30C                   MOV         #12,R3
+    000003AC 9235                   MOV.W       L1148+4,R2 ; H'03E8
+    000003AE 2FD6                   MOV.L       R13,@-R15
+    000003B0 2FC6                   MOV.L       R12,@-R15
+    000003B2 4F22                   STS.L       PR,@-R15
+    000003B4 4F12                   STS.L       MACL,@-R15
+    000003B6 7F9C                   ADD         #-100,R15
+    000003B8 DD1D                   MOV.L       L1148+26,R13; _sprintf
+    000003BA 6EF3                   MOV         R15,R14
+    000003BC D017                   MOV.L       L1148+6,R0 ; _mcount
+    000003BE 2F36                   MOV.L       R3,@-R15
+    000003C0 6102                   MOV.L       @R0,R1
+    000003C2 0127                   MUL.L       R2,R1
+    000003C4 D31B                   MOV.L       L1148+30,R3; L1093
+    000003C6 021A                   STS         MACL,R2
+    000003C8 2F26                   MOV.L       R2,@-R15
+    000003CA 2F36                   MOV.L       R3,@-R15
+    000003CC 4D0B                   JSR         @R13
+    000003CE 64E3                   MOV         R14,R4
+         alloc.c   180            printstr(buf);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003D0 DC19                   MOV.L       L1148+34,R12; _printstr
+    000003D2 4C0B                   JSR         @R12
+    000003D4 64E3                   MOV         R14,R4
+         alloc.c   181    
+         alloc.c   182            sprintf(buf, "%d free\n", free_count);
+    000003D6 D315                   MOV.L       L1148+22,R3; _free_count
+    000003D8 D118                   MOV.L       L1148+38,R1; L1094
+    000003DA 6232                   MOV.L       @R3,R2
+    000003DC 2F26                   MOV.L       R2,@-R15
+    000003DE 2F16                   MOV.L       R1,@-R15
+    000003E0 4D0B                   JSR         @R13
+    000003E2 64E3                   MOV         R14,R4
+         alloc.c   183            printstr(buf);
+    000003E4 4C0B                   JSR         @R12
+    000003E6 64E3                   MOV         R14,R4
+         alloc.c   184    
+         alloc.c   185            sprintf(buf, "%d used\n", N * mcount - free_count);
+    000003E8 9317                   MOV.W       L1148+4,R3 ; H'03E8
+    000003EA D10C                   MOV.L       L1148+6,R1 ; _mcount
+    000003EC 6212                   MOV.L       @R1,R2
+    000003EE 0237                   MUL.L       R3,R2
+    000003F0 D10E                   MOV.L       L1148+22,R1; _free_count
+    000003F2 031A                   STS         MACL,R3
+    000003F4 6012                   MOV.L       @R1,R0
+    000003F6 3308                   SUB         R0,R3
+    000003F8 2F36                   MOV.L       R3,@-R15
+    000003FA D211                   MOV.L       L1148+42,R2; L1095
+    000003FC 2F26                   MOV.L       R2,@-R15
+    000003FE 4D0B                   JSR         @R13
+    00000400 64E3                   MOV         R14,R4
+    00000402 7F1C                   ADD         #28,R15
+         alloc.c   186            printstr(buf);
+    00000404 4C0B                   JSR         @R12
+    00000406 64E3                   MOV         R14,R4
+         alloc.c   187    }
+    00000408 7F64                   ADD         #100,R15
+    0000040A 4F16                   LDS.L       @R15+,MACL
+    0000040C 4F26                   LDS.L       @R15+,PR
+    0000040E 6CF6                   MOV.L       @R15+,R12
+    00000410 6DF6                   MOV.L       @R15+,R13
+    00000412 000B                   RTS
+    00000414 6EF6                   MOV.L       @R15+,R14
+    00000416              L1148:                            
+    00000416 2EE0                   .DATA.W     H'2EE0
+    00000418 2ED8                   .DATA.W     H'2ED8
+    0000041A 03E8                   .DATA.W     H'03E8
+    0000041C <00000000>             .DATA.L     _mcount
+    00000420 <00000000>             .DATA.L     _malloc
+    00000424 <00000000>             .DATA.L     _mem
+    00000428 <00000000>             .DATA.L     _free_list
+    0000042C <00000000>             .DATA.L     _free_count
+    00000430 <00000000>             .DATA.L     _sprintf
+    00000434 <00000000>             .DATA.L     L1093
+    00000438 <00000000>             .DATA.L     _printstr
+    0000043C <00000000>             .DATA.L     L1094
+    00000440 <00000000>             .DATA.L     L1095
+C   00000000              L1066:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000000 61746F6D20             .SDATA      "atom space exhausted"
+             7370616365   
+             2065786861   
+             7573746564   
+    00000014 00                     .DATA.B     H'00
+    00000015 00000001               .RES.B      1
+    00000016 00000002               .RES.W      1
+    00000018              L1093:
+    00000018 256420626C             .SDATA      "%d blocks (%d bytes/block)"
+             6F636B7320   
+             2825642062   
+             797465732F   
+             626C6F636B   
+             29           
+    00000032 0A00                   .DATA.B     H'0A,H'00
+    00000034              L1094:
+    00000034 2564206672             .SDATA      "%d free"
+             6565         
+    0000003B 0A00                   .DATA.B     H'0A,H'00
+    0000003D 00000001               .RES.B      1
+    0000003E 00000002               .RES.W      1
+    00000040              L1095:
+    00000040 2564207573             .SDATA      "%d used"
+             6564         
+    00000047 0A00                   .DATA.B     H'0A,H'00
+B   00000000              _mem:                            ; static: mem
+    00000000 00000004               .RES.L      1
+    00000004              _mcount:                         ; static: mcount
+    00000004 00000004               .RES.L      1
+    00000008              _free_list:                      ; static: free_list
+    00000008 00000004               .RES.L      1
+    0000000C              _free_count:                     ; static: free_count
+    0000000C 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:44  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      187
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000444 Byte(s)
+CONSTANT SECTION (C):                               00000049 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000010 Byte(s)
+
+ TOTAL PROGRAM SIZE: 0000049D Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           25
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          10
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            76
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk2A00.tmp 
+

@@ -1,0 +1,203 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    1
+
+************ OBJECT LISTING ************
+
+Object program is empty.
+
+       mfactor.c     1    // For odd n, returns the largest factor less than or equal to sqrt(n)
+       mfactor.c     2    
+       mfactor.c     3    #include "stdafx.h"
+       mfactor.c     4    #include "defs.h"
+       mfactor.c     5    
+       mfactor.c     6    #if 0 // not used anymore
+       mfactor.c     7    
+       mfactor.c     8    unsigned int *
+       mfactor.c     9    mfactor(unsigned int *n)
+       mfactor.c    10    {
+       mfactor.c    11            unsigned int *r, *root, *t, *two, *x, *y;
+       mfactor.c    12    
+       mfactor.c    13            two = mint(2);
+       mfactor.c    14    
+       mfactor.c    15            root = msqrt(n);
+       mfactor.c    16    
+       mfactor.c    17            // y = 1;
+       mfactor.c    18    
+       mfactor.c    19            y = mint(1);
+       mfactor.c    20    
+       mfactor.c    21            // x = 2 isqrt(n) + 1
+       mfactor.c    22    
+       mfactor.c    23            t = madd(root, root);
+       mfactor.c    24            x = madd(t, y);
+       mfactor.c    25            mfree(t);
+       mfactor.c    26    
+       mfactor.c    27            // r = isqrt(n) ^ 2 - n
+       mfactor.c    28    
+       mfactor.c    29            t = mmul(root, root);
+       mfactor.c    30            r = msub(t, n);
+       mfactor.c    31            mfree(t);
+       mfactor.c    32    
+       mfactor.c    33            mfree(root);
+       mfactor.c    34    
+       mfactor.c    35            while (1) {
+       mfactor.c    36    
+       mfactor.c    37                    if (MZERO(r)) {
+       mfactor.c    38    
+       mfactor.c    39                            // n = (x - y) / 2
+       mfactor.c    40    
+       mfactor.c    41                            t = msub(x, y);
+       mfactor.c    42                            n = mdiv(t, two);
+       mfactor.c    43                            mfree(t);
+       mfactor.c    44    
+       mfactor.c    45                            mfree(r);
+       mfactor.c    46                            mfree(x);
+       mfactor.c    47                            mfree(y);
+       mfactor.c    48                            mfree(two);
+       mfactor.c    49    
+       mfactor.c    50                            return n;
+       mfactor.c    51                    }
+       mfactor.c    52    
+       mfactor.c    53                    // r = r + x
+       mfactor.c    54    
+       mfactor.c    55                    t = madd(r, x);
+       mfactor.c    56                    mfree(r);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    2
+
+       mfactor.c    57                    r = t;
+       mfactor.c    58    
+       mfactor.c    59                    // x = x + 2
+       mfactor.c    60    
+       mfactor.c    61                    t = madd(x, two);
+       mfactor.c    62                    mfree(x);
+       mfactor.c    63                    x = t;
+       mfactor.c    64    
+       mfactor.c    65                    while (1) {
+       mfactor.c    66    
+       mfactor.c    67                            // r = r - y
+       mfactor.c    68    
+       mfactor.c    69                            t = msub(r, y);
+       mfactor.c    70                            mfree(r);
+       mfactor.c    71                            r = t;
+       mfactor.c    72    
+       mfactor.c    73                            // y = y + 2
+       mfactor.c    74    
+       mfactor.c    75                            t = madd(y, two);
+       mfactor.c    76                            mfree(y);
+       mfactor.c    77                            y = t;
+       mfactor.c    78    
+       mfactor.c    79                            if (MSIGN(r) == -1 || MZERO(r))
+       mfactor.c    80                                    break;
+       mfactor.c    81                    }
+       mfactor.c    82            }
+       mfactor.c    83    }
+       mfactor.c    84    
+       mfactor.c    85    void
+       mfactor.c    86    test_mfactor(void)
+       mfactor.c    87    {
+       mfactor.c    88            unsigned int *n;
+       mfactor.c    89            n = mint(377);
+       mfactor.c    90            n = mfactor(n);
+       mfactor.c    91            printf("%d\n", n[0]);
+       mfactor.c    92    }
+       mfactor.c    93    
+       mfactor.c    94    #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:13  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:        5
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000000 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000000 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           0
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk9DFB.tmp 
+

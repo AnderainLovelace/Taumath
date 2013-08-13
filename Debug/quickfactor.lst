@@ -1,0 +1,467 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:26  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\quickfactor.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      quickfacto     1    //-----------------------------------------------------------------------------
+      quickfacto     2    //
+      quickfacto     3    //      Factor small numerical powers
+      quickfacto     4    //
+      quickfacto     5    //      Input:          tos-2           Base (positive integer < 2^31 - 1)
+      quickfacto     6    //
+      quickfacto     7    //                      tos-1           Exponent
+      quickfacto     8    //
+      quickfacto     9    //      Output:         Expr on stack
+      quickfacto    10    //
+      quickfacto    11    //-----------------------------------------------------------------------------
+      quickfacto    12    
+      quickfacto    13    #include "stdafx.h"
+      quickfacto    14    #include "defs.h"
+      quickfacto    15    
+      quickfacto    16    #define BASE p1
+      quickfacto    17    #define EXPO p2
+      quickfacto    18    
+      quickfacto    19    static void quickpower(void);
+      quickfacto    20    
+      quickfacto    21    void
+      quickfacto    22    quickfactor(void)
+P   00000000              _quickfactor:                    ; function: quickfactor
+                                                           ; frame size=32
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+      quickfacto    23    {
+      quickfacto    24            int h, i, n;
+      quickfacto    25            U **s;
+      quickfacto    26    
+      quickfacto    27            save();
+    00000010 D34F                   MOV.L       L1083+2,R3 ; _save
+    00000012 430B                   JSR         @R3
+    00000014 0009                   NOP
+      quickfacto    28    
+      quickfacto    29            EXPO = pop();
+    00000016 D94F                   MOV.L       L1083+6,R9 ; _p2
+    00000018 D24F                   MOV.L       L1083+10,R2; _pop
+    0000001A 420B                   JSR         @R2
+    0000001C 0009                   NOP
+      quickfacto    30            BASE = pop();
+    0000001E D34E                   MOV.L       L1083+10,R3; _pop
+    00000020 430B                   JSR         @R3
+    00000022 2902                   MOV.L       R0,@R9
+    00000024 D24D                   MOV.L       L1083+14,R2; _p1
+    00000026 2202                   MOV.L       R0,@R2
+      quickfacto    31    
+      quickfacto    32            h = tos;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:26  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000028 D84D                   MOV.L       L1083+18,R8; _tos
+    0000002A 6C82                   MOV.L       @R8,R12
+      quickfacto    33    
+      quickfacto    34            push(BASE);
+    0000002C DE4D                   MOV.L       L1083+22,R14; _push
+    0000002E 4E0B                   JSR         @R14
+    00000030 6403                   MOV         R0,R4
+      quickfacto    35    
+      quickfacto    36            factor_small_number();
+    00000032 D34D                   MOV.L       L1083+26,R3; _factor_small_number
+    00000034 430B                   JSR         @R3
+    00000036 0009                   NOP
+      quickfacto    37    
+      quickfacto    38            n = tos - h;
+    00000038 6B82                   MOV.L       @R8,R11
+      quickfacto    39    
+      quickfacto    40            s = stack + h;
+    0000003A 64C3                   MOV         R12,R4
+    0000003C D24B                   MOV.L       L1083+30,R2; _stack
+      quickfacto    41    
+      quickfacto    42            for (i = 0; i < n; i += 2) {
+    0000003E EA00                   MOV         #0,R10
+    00000040 6322                   MOV.L       @R2,R3
+    00000042 ED00                   MOV         #0,R13
+    00000044 3BC8                   SUB         R12,R11
+    00000046 4408                   SHLL2       R4
+    00000048 343C                   ADD         R3,R4
+    0000004A 4B15                   CMP/PL      R11
+    0000004C 8F0F                   BF/S        L1077
+    0000004E 3D4C                   ADD         R4,R13
+    00000050              L1078:                            
+      quickfacto    43                    push(s[i]);             // factored base
+    00000050 4E0B                   JSR         @R14
+    00000052 64D2                   MOV.L       @R13,R4
+      quickfacto    44                    push(s[i + 1]);         // factored exponent
+    00000054 4E0B                   JSR         @R14
+    00000056 54D1                   MOV.L       @(4,R13),R4
+      quickfacto    45                    push(EXPO);
+    00000058 4E0B                   JSR         @R14
+    0000005A 6492                   MOV.L       @R9,R4
+      quickfacto    46                    multiply();
+    0000005C D344                   MOV.L       L1083+34,R3; _multiply
+    0000005E 430B                   JSR         @R3
+    00000060 0009                   NOP
+      quickfacto    47                    quickpower();
+    00000062 B01B                   BSR         __$quickpower
+    00000064 0009                   NOP
+    00000066 7A02                   ADD         #2,R10
+    00000068 3AB3                   CMP/GE      R11,R10
+    0000006A 8FF1                   BF/S        L1078
+    0000006C 7D08                   ADD         #8,R13
+    0000006E              L1077:                            
+      quickfacto    48            }
+      quickfacto    49    
+      quickfacto    50            // stack has n results from factor_number_raw()
+      quickfacto    51    
+      quickfacto    52            // on top of that are all the expressions from quickpower()
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:26  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      quickfacto    53    
+      quickfacto    54            // multiply the quickpower() results
+      quickfacto    55    
+      quickfacto    56            multiply_all(tos - h - n);
+    0000006E 6482                   MOV.L       @R8,R4
+    00000070 D340                   MOV.L       L1083+38,R3; _multiply_all
+    00000072 34C8                   SUB         R12,R4
+    00000074 430B                   JSR         @R3
+    00000076 34B8                   SUB         R11,R4
+      quickfacto    57    
+      quickfacto    58            p1 = pop();
+    00000078 D237                   MOV.L       L1083+10,R2; _pop
+    0000007A 420B                   JSR         @R2
+    0000007C 0009                   NOP
+    0000007E D337                   MOV.L       L1083+14,R3; _p1
+    00000080 2302                   MOV.L       R0,@R3
+      quickfacto    59    
+      quickfacto    60            tos = h;
+    00000082 28C2                   MOV.L       R12,@R8
+      quickfacto    61    
+      quickfacto    62            push(p1);
+    00000084 4E0B                   JSR         @R14
+    00000086 6432                   MOV.L       @R3,R4
+      quickfacto    63    
+      quickfacto    64            restore();
+    00000088 4F26                   LDS.L       @R15+,PR
+    0000008A 68F6                   MOV.L       @R15+,R8
+    0000008C D23A                   MOV.L       L1083+42,R2; _restore
+    0000008E 69F6                   MOV.L       @R15+,R9
+    00000090 6AF6                   MOV.L       @R15+,R10
+    00000092 6BF6                   MOV.L       @R15+,R11
+    00000094 6CF6                   MOV.L       @R15+,R12
+    00000096 6DF6                   MOV.L       @R15+,R13
+    00000098 422B                   JMP         @R2
+    0000009A 6EF6                   MOV.L       @R15+,R14
+      quickfacto    65    }
+      quickfacto    66    
+      quickfacto    67    // BASE is a prime number so power is simpler
+      quickfacto    68    
+      quickfacto    69    static void
+      quickfacto    70    quickpower(void)
+    0000009C              __$quickpower:                   ; function: quickpower
+                                                           ; frame size=24
+    0000009C 2FE6                   MOV.L       R14,@-R15
+    0000009E 2FD6                   MOV.L       R13,@-R15
+    000000A0 2FC6                   MOV.L       R12,@-R15
+    000000A2 2FB6                   MOV.L       R11,@-R15
+    000000A4 2FA6                   MOV.L       R10,@-R15
+    000000A6 4F22                   STS.L       PR,@-R15
+      quickfacto    71    {
+      quickfacto    72            int expo;
+      quickfacto    73    
+      quickfacto    74            save();
+    000000A8 D229                   MOV.L       L1083+2,R2 ; _save
+    000000AA 420B                   JSR         @R2
+    000000AC 0009                   NOP
+      quickfacto    75    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:26  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      quickfacto    76            EXPO = pop();
+    000000AE DA29                   MOV.L       L1083+6,R10; _p2
+    000000B0 DB29                   MOV.L       L1083+10,R11; _pop
+    000000B2 4B0B                   JSR         @R11
+    000000B4 0009                   NOP
+      quickfacto    77            BASE = pop();
+    000000B6 DD29                   MOV.L       L1083+14,R13; _p1
+    000000B8 4B0B                   JSR         @R11
+    000000BA 2A02                   MOV.L       R0,@R10
+    000000BC 2D02                   MOV.L       R0,@R13
+      quickfacto    78    
+      quickfacto    79            push(EXPO);
+    000000BE DE29                   MOV.L       L1083+22,R14; _push
+    000000C0 4E0B                   JSR         @R14
+    000000C2 64A2                   MOV.L       @R10,R4
+      quickfacto    80            bignum_truncate();
+    000000C4 D32D                   MOV.L       L1083+46,R3; _bignum_truncate
+    000000C6 430B                   JSR         @R3
+    000000C8 0009                   NOP
+      quickfacto    81            p3 = pop();
+    000000CA DC2D                   MOV.L       L1083+50,R12; _p3
+    000000CC 4B0B                   JSR         @R11
+    000000CE 0009                   NOP
+    000000D0 2C02                   MOV.L       R0,@R12
+      quickfacto    82    
+      quickfacto    83            push(EXPO);
+    000000D2 4E0B                   JSR         @R14
+    000000D4 64A2                   MOV.L       @R10,R4
+      quickfacto    84            push(p3);
+    000000D6 4E0B                   JSR         @R14
+    000000D8 64C2                   MOV.L       @R12,R4
+      quickfacto    85            subtract();
+    000000DA D22A                   MOV.L       L1083+54,R2; _subtract
+    000000DC 420B                   JSR         @R2
+    000000DE 0009                   NOP
+      quickfacto    86            p4 = pop();
+    000000E0 DA29                   MOV.L       L1083+58,R10; _p4
+    000000E2 4B0B                   JSR         @R11
+    000000E4 0009                   NOP
+    000000E6 2A02                   MOV.L       R0,@R10
+      quickfacto    87    
+      quickfacto    88            // fractional part of EXPO
+      quickfacto    89    
+      quickfacto    90            if (!iszero(p4)) {
+    000000E8 D328                   MOV.L       L1083+62,R3; _iszero
+    000000EA 430B                   JSR         @R3
+    000000EC 6403                   MOV         R0,R4
+    000000EE 2008                   TST         R0,R0
+    000000F0 8B09                   BF          L1079
+      quickfacto    91                    push_symbol(POWER);
+    000000F2 D327                   MOV.L       L1083+66,R3; _push_symbol
+    000000F4 430B                   JSR         @R3
+    000000F6 E454                   MOV         #84,R4
+      quickfacto    92                    push(BASE);
+    000000F8 4E0B                   JSR         @R14
+    000000FA 64D2                   MOV.L       @R13,R4
+      quickfacto    93                    push(p4);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:26  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000FC 4E0B                   JSR         @R14
+    000000FE 64A2                   MOV.L       @R10,R4
+      quickfacto    94                    list(3);
+    00000100 D224                   MOV.L       L1083+70,R2; _list
+    00000102 420B                   JSR         @R2
+    00000104 E403                   MOV         #3,R4
+    00000106              L1079:                            
+      quickfacto    95            }
+      quickfacto    96    
+      quickfacto    97            push(p3);
+    00000106 4E0B                   JSR         @R14
+    00000108 64C2                   MOV.L       @R12,R4
+      quickfacto    98            expo = pop_integer();
+    0000010A D323                   MOV.L       L1083+74,R3; _pop_integer
+    0000010C 430B                   JSR         @R3
+    0000010E 0009                   NOP
+      quickfacto    99    
+      quickfacto   100            if (expo == (int) 0x80000000) {
+    00000110 D222                   MOV.L       L1083+78,R2; H'80000000
+    00000112 6B03                   MOV         R0,R11
+    00000114 3B20                   CMP/EQ      R2,R11
+    00000116 8B0B                   BF          L1080
+      quickfacto   101                    push_symbol(POWER);
+    00000118 D11D                   MOV.L       L1083+66,R1; _push_symbol
+    0000011A 410B                   JSR         @R1
+    0000011C E454                   MOV         #84,R4
+      quickfacto   102                    push(BASE);
+    0000011E 4E0B                   JSR         @R14
+    00000120 64D2                   MOV.L       @R13,R4
+      quickfacto   103                    push(p3);
+    00000122 4E0B                   JSR         @R14
+    00000124 64C2                   MOV.L       @R12,R4
+      quickfacto   104                    list(3);
+    00000126 D31B                   MOV.L       L1083+70,R3; _list
+    00000128 430B                   JSR         @R3
+    0000012A E403                   MOV         #3,R4
+    0000012C A007                   BRA         L1072
+    0000012E 0009                   NOP
+    00000130              L1080:                            
+      quickfacto   105                    restore();
+      quickfacto   106                    return;
+      quickfacto   107            }
+      quickfacto   108    
+      quickfacto   109            if (expo == 0) {
+    00000130 2BB8                   TST         R11,R11
+    00000132 8904                   BT          L1072
+      quickfacto   110                    restore();
+      quickfacto   111                    return;
+      quickfacto   112            }
+      quickfacto   113    
+      quickfacto   114            push(BASE);
+    00000134 4E0B                   JSR         @R14
+    00000136 64D2                   MOV.L       @R13,R4
+      quickfacto   115            bignum_power_number(expo);
+    00000138 D219                   MOV.L       L1083+82,R2; _bignum_power_number
+    0000013A 420B                   JSR         @R2
+    0000013C 64B3                   MOV         R11,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:26  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000013E              L1072:
+      quickfacto   116    
+      quickfacto   117            restore();
+    0000013E 4F26                   LDS.L       @R15+,PR
+    00000140 D30D                   MOV.L       L1083+42,R3; _restore
+    00000142 6AF6                   MOV.L       @R15+,R10
+    00000144 6BF6                   MOV.L       @R15+,R11
+    00000146 6CF6                   MOV.L       @R15+,R12
+    00000148 6DF6                   MOV.L       @R15+,R13
+    0000014A 432B                   JMP         @R3
+    0000014C 6EF6                   MOV.L       @R15+,R14
+    0000014E              L1083:                            
+    0000014E 0000                   .DATA.W     0
+    00000150 <00000000>             .DATA.L     _save
+    00000154 <00000000>             .DATA.L     _p2
+    00000158 <00000000>             .DATA.L     _pop
+    0000015C <00000000>             .DATA.L     _p1
+    00000160 <00000000>             .DATA.L     _tos
+    00000164 <00000000>             .DATA.L     _push
+    00000168 <00000000>             .DATA.L     _factor_small_number
+    0000016C <00000000>             .DATA.L     _stack
+    00000170 <00000000>             .DATA.L     _multiply
+    00000174 <00000000>             .DATA.L     _multiply_all
+    00000178 <00000000>             .DATA.L     _restore
+    0000017C <00000000>             .DATA.L     _bignum_truncate
+    00000180 <00000000>             .DATA.L     _p3
+    00000184 <00000000>             .DATA.L     _subtract
+    00000188 <00000000>             .DATA.L     _p4
+    0000018C <00000000>             .DATA.L     _iszero
+    00000190 <00000000>             .DATA.L     _push_symbol
+    00000194 <00000000>             .DATA.L     _list
+    00000198 <00000000>             .DATA.L     _pop_integer
+    0000019C 80000000               .DATA.L     H'80000000
+    000001A0 <00000000>             .DATA.L     _bignum_power_number
+      quickfacto   118    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:26  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      118
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000001A4 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000001A4 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           20
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            27
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkCE99.tmp 
+

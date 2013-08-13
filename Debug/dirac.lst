@@ -1,0 +1,599 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\dirac.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         dirac.c     1    //-----------------------------------------------------------------------------
+         dirac.c     2    //
+         dirac.c     3    //      Author : philippe.billet@noos.fr
+         dirac.c     4    //
+         dirac.c     5    //      Dirac function dirac(x)
+         dirac.c     6    //      dirac(-x)=dirac(x)
+         dirac.c     7    //  dirac(b-a)=dirac(a-b)
+         dirac.c     8    //-----------------------------------------------------------------------------
+         dirac.c     9    
+         dirac.c    10    #include "stdafx.h"
+         dirac.c    11    #include "defs.h"
+         dirac.c    12    static void ydirac(void);
+         dirac.c    13    
+         dirac.c    14    void
+         dirac.c    15    eval_dirac(void)
+P   00000000              _eval_dirac:                     ; function: eval_dirac
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+         dirac.c    16    {
+         dirac.c    17            push(cadr(p1));
+    00000004 DE3A                   MOV.L       L1117+4,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1083
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1085
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1083:                            
+    00000014 936A                   MOV.W       L1117,R3   ; H'0570
+    00000016 D237                   MOV.L       L1117+8,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1085:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1082
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1084
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1086
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1084:                            
+    00000030 935C                   MOV.W       L1117,R3   ; H'0570
+    00000032 D230                   MOV.L       L1117+8,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1086:                            
+    00000038 A004                   BRA         L1087
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1082:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003C 9356                   MOV.W       L1117,R3   ; H'0570
+    0000003E D22D                   MOV.L       L1117+8,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1087:                            
+    00000044 D32C                   MOV.L       L1117+12,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+         dirac.c    18            eval();
+    0000004A D22C                   MOV.L       L1117+16,R2; _eval
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+         dirac.c    19            dirac();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+         dirac.c    20    }
+         dirac.c    21    
+         dirac.c    22    void
+         dirac.c    23    dirac(void)
+    00000054              _dirac:                          ; function: dirac
+                                                           ; frame size=4
+    00000054 4F22                   STS.L       PR,@-R15
+         dirac.c    24    {
+         dirac.c    25            save();
+    00000056 D32A                   MOV.L       L1117+20,R3; _save
+    00000058 430B                   JSR         @R3
+    0000005A 0009                   NOP
+         dirac.c    26            ydirac();
+    0000005C B003                   BSR         __$ydirac
+    0000005E 0009                   NOP
+         dirac.c    27            restore();
+    00000060 D328                   MOV.L       L1117+24,R3; _restore
+    00000062 432B                   JMP         @R3
+    00000064 4F26                   LDS.L       @R15+,PR
+         dirac.c    28    }
+         dirac.c    29    
+         dirac.c    30    #define X p1
+         dirac.c    31    
+         dirac.c    32    static void
+         dirac.c    33    ydirac(void)
+    00000066              __$ydirac:                       ; function: ydirac
+                                                           ; frame size=36
+                                                           ; used runtime library name:
+                                                           ; __ned
+    00000066 2FE6                   MOV.L       R14,@-R15
+    00000068 2FD6                   MOV.L       R13,@-R15
+    0000006A 2FC6                   MOV.L       R12,@-R15
+    0000006C 2FB6                   MOV.L       R11,@-R15
+    0000006E 4F22                   STS.L       PR,@-R15
+         dirac.c    34    {
+         dirac.c    35    
+         dirac.c    36            X = pop();
+    00000070 DE1F                   MOV.L       L1117+4,R14; _p1
+    00000072 D325                   MOV.L       L1117+28,R3; _pop
+    00000074 430B                   JSR         @R3
+    00000076 0009                   NOP
+    00000078 2E02                   MOV.L       R0,@R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000007A 6403                   MOV         R0,R4
+    0000007C 8448                   MOV.B       @(8,R4),R0
+    0000007E 600C                   EXTU.B      R0,R0
+    00000080 8802                   CMP/EQ      #2,R0
+    00000082 8B0C                   BF          L1088
+         dirac.c    37    
+         dirac.c    38    
+         dirac.c    39            
+         dirac.c    40            if (isdouble(X)) {
+         dirac.c    41                    if (X->u.d == 0) 
+    00000084 5241                   MOV.L       @(4,R4),R2
+    00000086 E300                   MOV         #0,R3
+    00000088 2F26                   MOV.L       R2,@-R15
+    0000008A 6242                   MOV.L       @R4,R2
+    0000008C 2F26                   MOV.L       R2,@-R15
+    0000008E 2F36                   MOV.L       R3,@-R15
+    00000090 D21E                   MOV.L       L1117+32,R2; __ned
+    00000092 420B                   JSR         @R2
+    00000094 2F36                   MOV.L       R3,@-R15
+    00000096 8800                   CMP/EQ      #0,R0
+    00000098 8917                   BT          L1073
+    0000009A A018                   BRA         L1074
+    0000009C 0009                   NOP
+    0000009E              L1088:                            
+         dirac.c    42                            {push_integer(1);
+         dirac.c    43                             return;}
+         dirac.c    44                    else 
+         dirac.c    45                            {push_integer(0);
+         dirac.c    46                             return;}
+         dirac.c    47            }
+         dirac.c    48    
+         dirac.c    49            if (isrational(X)) {
+    0000009E 8801                   CMP/EQ      #1,R0
+    000000A0 8B1D                   BF          L1092
+         dirac.c    50                    if (MZERO(mmul(X->u.q.a,X->u.q.b))) 
+    000000A2 65E2                   MOV.L       @R14,R5
+    000000A4 64E2                   MOV.L       @R14,R4
+    000000A6 5551                   MOV.L       @(4,R5),R5
+    000000A8 D319                   MOV.L       L1117+36,R3; _mmul
+    000000AA 430B                   JSR         @R3
+    000000AC 6442                   MOV.L       @R4,R4
+    000000AE 70FC                   ADD         #-4,R0
+    000000B0 6002                   MOV.L       @R0,R0
+    000000B2 8801                   CMP/EQ      #1,R0
+    000000B4 8B0B                   BF          L1074
+    000000B6 D30E                   MOV.L       L1117+4,R3 ; _p1
+    000000B8 D215                   MOV.L       L1117+36,R2; _mmul
+    000000BA 6532                   MOV.L       @R3,R5
+    000000BC 6432                   MOV.L       @R3,R4
+    000000BE 5551                   MOV.L       @(4,R5),R5
+    000000C0 420B                   JSR         @R2
+    000000C2 6442                   MOV.L       @R4,R4
+    000000C4 6302                   MOV.L       @R0,R3
+    000000C6 2338                   TST         R3,R3
+    000000C8 8B01                   BF          L1074
+    000000CA              L1073:
+         dirac.c    51                            {push_integer(1);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         dirac.c    52                             return;}
+    000000CA A001                   BRA         L1115
+    000000CC E401                   MOV         #1,R4
+    000000CE              L1074:
+         dirac.c    53                    else 
+         dirac.c    54                            {push_integer(0);
+    000000CE E400                   MOV         #0,R4
+         dirac.c    55                             return;}
+    000000D0              L1115:                            
+    000000D0 4F26                   LDS.L       @R15+,PR
+    000000D2 6BF6                   MOV.L       @R15+,R11
+    000000D4 D30F                   MOV.L       L1117+40,R3; _push_integer
+    000000D6 6CF6                   MOV.L       @R15+,R12
+    000000D8 6DF6                   MOV.L       @R15+,R13
+    000000DA 432B                   JMP         @R3
+    000000DC 6EF6                   MOV.L       @R15+,R14
+    000000DE              L1092:                            
+         dirac.c    56                    
+         dirac.c    57            }
+         dirac.c    58            
+         dirac.c    59            if (car(X) == symbol(POWER)) {
+    000000DE DB0E                   MOV.L       L1117+44,R11; _push_symbol
+    000000E0 DD05                   MOV.L       L1117+12,R13; _push
+    000000E2 8448                   MOV.B       @(8,R4),R0
+    000000E4 2008                   TST         R0,R0
+    000000E6 8B19                   BF          L1096
+    000000E8 A01C                   BRA         L1097
+    000000EA 6242                   MOV.L       @R4,R2
+    000000EC              L1117:                            
+    000000EC 0570                   .DATA.W     H'0570
+    000000EE 0000                   .DATA.W     0
+    000000F0 <00000000>             .DATA.L     _p1
+    000000F4 <00000000>             .DATA.L     _symtab
+    000000F8 <00000000>             .DATA.L     _push
+    000000FC <00000000>             .DATA.L     _eval
+    00000100 <00000000>             .DATA.L     _save
+    00000104 <00000000>             .DATA.L     _restore
+    00000108 <00000000>             .DATA.L     _pop
+    0000010C <00000000>             .DATA.L     __ned
+    00000110 <00000000>             .DATA.L     _mmul
+    00000114 <00000000>             .DATA.L     _push_integer
+    00000118 <00000000>             .DATA.L     _push_symbol
+    0000011C              L1096:                            
+    0000011C 9368                   MOV.W       L1118,R3   ; H'0570
+    0000011E D135                   MOV.L       L1118+4,R1 ; _symtab
+    00000120 6212                   MOV.L       @R1,R2
+    00000122 323C                   ADD         R3,R2
+    00000124              L1097:                            
+    00000124 9365                   MOV.W       L1118+2,R3 ; H'03F0
+    00000126 D133                   MOV.L       L1118+4,R1 ; _symtab
+    00000128 6012                   MOV.L       @R1,R0
+    0000012A 303C                   ADD         R3,R0
+    0000012C 3200                   CMP/EQ      R0,R2
+    0000012E 8B22                   BF          L1095
+         dirac.c    60                    push_symbol(DIRAC);
+    00000130 4B0B                   JSR         @R11
+    00000132 E421                   MOV         #33,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         dirac.c    61                    push(cadr(X));
+    00000134 64E2                   MOV.L       @R14,R4
+    00000136 8448                   MOV.B       @(8,R4),R0
+    00000138 2008                   TST         R0,R0
+    0000013A 8B02                   BF          L1099
+    0000013C 64E2                   MOV.L       @R14,R4
+    0000013E A004                   BRA         L1101
+    00000140 5441                   MOV.L       @(4,R4),R4
+    00000142              L1099:                            
+    00000142 9355                   MOV.W       L1118,R3   ; H'0570
+    00000144 D22B                   MOV.L       L1118+4,R2 ; _symtab
+    00000146 6422                   MOV.L       @R2,R4
+    00000148 343C                   ADD         R3,R4
+    0000014A              L1101:                            
+    0000014A 8448                   MOV.B       @(8,R4),R0
+    0000014C 2008                   TST         R0,R0
+    0000014E 8B0C                   BF          L1098
+    00000150 64E2                   MOV.L       @R14,R4
+    00000152 8448                   MOV.B       @(8,R4),R0
+    00000154 2008                   TST         R0,R0
+    00000156 8B02                   BF          L1100
+    00000158 64E2                   MOV.L       @R14,R4
+    0000015A A004                   BRA         L1102
+    0000015C 5441                   MOV.L       @(4,R4),R4
+    0000015E              L1100:                            
+    0000015E 9347                   MOV.W       L1118,R3   ; H'0570
+    00000160 D224                   MOV.L       L1118+4,R2 ; _symtab
+    00000162 6422                   MOV.L       @R2,R4
+    00000164 343C                   ADD         R3,R4
+    00000166              L1102:                            
+    00000166 A067                   BRA         L1116
+    00000168 6442                   MOV.L       @R4,R4
+    0000016A              L1098:                            
+    0000016A 9341                   MOV.W       L1118,R3   ; H'0570
+    0000016C D221                   MOV.L       L1118+4,R2 ; _symtab
+    0000016E 6422                   MOV.L       @R2,R4
+    00000170 343C                   ADD         R3,R4
+    00000172 A061                   BRA         L1116
+    00000174 0009                   NOP
+    00000176              L1095:                            
+         dirac.c    62                    list(2);
+         dirac.c    63                    return;
+         dirac.c    64            }
+         dirac.c    65            
+         dirac.c    66            if (isnegativeterm(X)) {
+    00000176 DC20                   MOV.L       L1118+8,R12; _isnegativeterm
+    00000178 4C0B                   JSR         @R12
+    0000017A 0009                   NOP
+    0000017C 2008                   TST         R0,R0
+    0000017E 8908                   BT          L1104
+         dirac.c    67                    push_symbol(DIRAC);
+    00000180 4B0B                   JSR         @R11
+    00000182 E421                   MOV         #33,R4
+         dirac.c    68                    push(X);
+    00000184 4D0B                   JSR         @R13
+    00000186 64E2                   MOV.L       @R14,R4
+         dirac.c    69                    negate();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000188 D21C                   MOV.L       L1118+12,R2; _negate
+    0000018A 420B                   JSR         @R2
+    0000018C 0009                   NOP
+    0000018E A055                   BRA         L1072
+    00000190 0009                   NOP
+    00000192              L1104:                            
+         dirac.c    70                    list(2);
+         dirac.c    71                    return;
+         dirac.c    72            }
+         dirac.c    73            
+         dirac.c    74            if (isnegativeterm(p1) || (car(p1) == symbol(ADD) && isnegativeterm(cadr(p1)))) {
+    00000192 4C0B                   JSR         @R12
+    00000194 64E2                   MOV.L       @R14,R4
+    00000196 2008                   TST         R0,R0
+    00000198 8B42                   BF          L1106
+    0000019A D319                   MOV.L       L1118+16,R3; _p1
+    0000019C 6232                   MOV.L       @R3,R2
+    0000019E 8428                   MOV.B       @(8,R2),R0
+    000001A0 2008                   TST         R0,R0
+    000001A2 8B03                   BF          L1107
+    000001A4 6132                   MOV.L       @R3,R1
+    000001A6 6312                   MOV.L       @R1,R3
+    000001A8 A004                   BRA         L1111
+    000001AA 0009                   NOP
+    000001AC              L1107:                            
+    000001AC 9220                   MOV.W       L1118,R2   ; H'0570
+    000001AE D011                   MOV.L       L1118+4,R0 ; _symtab
+    000001B0 6302                   MOV.L       @R0,R3
+    000001B2 332C                   ADD         R2,R3
+    000001B4              L1111:                            
+    000001B4 D10F                   MOV.L       L1118+4,R1 ; _symtab
+    000001B6 6212                   MOV.L       @R1,R2
+    000001B8 720C                   ADD         #12,R2
+    000001BA 3320                   CMP/EQ      R2,R3
+    000001BC 8B39                   BF          L1105
+    000001BE D310                   MOV.L       L1118+16,R3; _p1
+    000001C0 6432                   MOV.L       @R3,R4
+    000001C2 8448                   MOV.B       @(8,R4),R0
+    000001C4 2008                   TST         R0,R0
+    000001C6 8B03                   BF          L1109
+    000001C8 D30D                   MOV.L       L1118+16,R3; _p1
+    000001CA 6432                   MOV.L       @R3,R4
+    000001CC A004                   BRA         L1112
+    000001CE 5441                   MOV.L       @(4,R4),R4
+    000001D0              L1109:                            
+    000001D0 930E                   MOV.W       L1118,R3   ; H'0570
+    000001D2 D208                   MOV.L       L1118+4,R2 ; _symtab
+    000001D4 6422                   MOV.L       @R2,R4
+    000001D6 343C                   ADD         R3,R4
+    000001D8              L1112:                            
+    000001D8 8448                   MOV.B       @(8,R4),R0
+    000001DA 2008                   TST         R0,R0
+    000001DC 8B18                   BF          L1108
+    000001DE D308                   MOV.L       L1118+16,R3; _p1
+    000001E0 6432                   MOV.L       @R3,R4
+    000001E2 8448                   MOV.B       @(8,R4),R0
+    000001E4 2008                   TST         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001E6 8B0D                   BF          L1110
+    000001E8 D305                   MOV.L       L1118+16,R3; _p1
+    000001EA 6432                   MOV.L       @R3,R4
+    000001EC A00E                   BRA         L1113
+    000001EE 5441                   MOV.L       @(4,R4),R4
+    000001F0              L1118:                            
+    000001F0 0570                   .DATA.W     H'0570
+    000001F2 03F0                   .DATA.W     H'03F0
+    000001F4 <00000000>             .DATA.L     _symtab
+    000001F8 <00000000>             .DATA.L     _isnegativeterm
+    000001FC <00000000>             .DATA.L     _negate
+    00000200 <00000000>             .DATA.L     _p1
+    00000204              L1110:                            
+    00000204 9322                   MOV.W       L1119,R3   ; H'0570
+    00000206 D212                   MOV.L       L1119+4,R2 ; _symtab
+    00000208 6422                   MOV.L       @R2,R4
+    0000020A 343C                   ADD         R3,R4
+    0000020C              L1113:                            
+    0000020C A004                   BRA         L1114
+    0000020E 6442                   MOV.L       @R4,R4
+    00000210              L1108:                            
+    00000210 931C                   MOV.W       L1119,R3   ; H'0570
+    00000212 D20F                   MOV.L       L1119+4,R2 ; _symtab
+    00000214 6422                   MOV.L       @R2,R4
+    00000216 343C                   ADD         R3,R4
+    00000218              L1114:                            
+    00000218 4C0B                   JSR         @R12
+    0000021A 0009                   NOP
+    0000021C 2008                   TST         R0,R0
+    0000021E 8908                   BT          L1105
+    00000220              L1106:                            
+         dirac.c    75                    push(p1);
+    00000220 4D0B                   JSR         @R13
+    00000222 64E2                   MOV.L       @R14,R4
+         dirac.c    76                    negate();
+    00000224 D20B                   MOV.L       L1119+8,R2 ; _negate
+    00000226 420B                   JSR         @R2
+    00000228 0009                   NOP
+         dirac.c    77                    p1 = pop();
+    0000022A D30B                   MOV.L       L1119+12,R3; _pop
+    0000022C 430B                   JSR         @R3
+    0000022E 0009                   NOP
+    00000230 2E02                   MOV.L       R0,@R14
+    00000232              L1105:                            
+         dirac.c    78            }
+         dirac.c    79            
+         dirac.c    80                     
+         dirac.c    81            push_symbol(DIRAC);
+    00000232 4B0B                   JSR         @R11
+    00000234 E421                   MOV         #33,R4
+         dirac.c    82            push(X);
+    00000236 64E2                   MOV.L       @R14,R4
+    00000238              L1116:                            
+    00000238 4D0B                   JSR         @R13
+    0000023A 0009                   NOP
+    0000023C              L1072:
+         dirac.c    83            list(2);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000023C 4F26                   LDS.L       @R15+,PR
+    0000023E E402                   MOV         #2,R4
+    00000240 D206                   MOV.L       L1119+16,R2; _list
+    00000242 6BF6                   MOV.L       @R15+,R11
+    00000244 6CF6                   MOV.L       @R15+,R12
+    00000246 6DF6                   MOV.L       @R15+,R13
+    00000248 422B                   JMP         @R2
+    0000024A 6EF6                   MOV.L       @R15+,R14
+    0000024C              L1119:                            
+    0000024C 0570                   .DATA.W     H'0570
+    0000024E 0000                   .DATA.W     0
+    00000250 <00000000>             .DATA.L     _symtab
+    00000254 <00000000>             .DATA.L     _negate
+    00000258 <00000000>             .DATA.L     _pop
+    0000025C <00000000>             .DATA.L     _list
+         dirac.c    84    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       84
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000260 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000260 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           14
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            51
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk51CD.tmp 
+

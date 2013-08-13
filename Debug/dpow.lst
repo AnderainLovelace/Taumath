@@ -1,0 +1,467 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\dpow.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          dpow.c     1    // power function for double precision floating point
+          dpow.c     2    
+          dpow.c     3    #include "stdafx.h"
+          dpow.c     4    #include "defs.h"
+          dpow.c     5    
+          dpow.c     6    void
+          dpow.c     7    dpow(void)
+P   00000000              _dpow:                           ; function: dpow
+                                                           ; frame size=84
+                                                           ; used runtime library name:
+                                                           ; __muld, __ned, __ltd, __ged
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 DE6F                   MOV.L       L1078+2,R14; _push_double
+    00000006 7FD0                   ADD         #-48,R15
+          dpow.c     8    {
+          dpow.c     9            double a, b, base, expo, result, theta;
+          dpow.c    10    
+          dpow.c    11            expo = pop_double();
+    00000008 D26F                   MOV.L       L1078+6,R2 ; _pop_double
+    0000000A 63F3                   MOV         R15,R3
+    0000000C 7310                   ADD         #16,R3
+    0000000E 420B                   JSR         @R2
+    00000010 2F36                   MOV.L       R3,@-R15
+          dpow.c    12            base = pop_double();
+    00000012 63F3                   MOV         R15,R3
+    00000014 D26C                   MOV.L       L1078+6,R2 ; _pop_double
+    00000016 731C                   ADD         #28,R3
+    00000018 420B                   JSR         @R2
+    0000001A 2F36                   MOV.L       R3,@-R15
+    0000001C 7F08                   ADD         #8,R15
+          dpow.c    13    
+          dpow.c    14            // divide by zero?
+          dpow.c    15    
+          dpow.c    16            if (base == 0.0 && expo < 0.0)
+    0000001E E200                   MOV         #0,R2
+    00000020 53F7                   MOV.L       @(28,R15),R3
+    00000022 2F36                   MOV.L       R3,@-R15
+    00000024 53F7                   MOV.L       @(28,R15),R3
+    00000026 2F36                   MOV.L       R3,@-R15
+    00000028 2F26                   MOV.L       R2,@-R15
+    0000002A D368                   MOV.L       L1078+10,R3; __ned
+    0000002C 430B                   JSR         @R3
+    0000002E 2F26                   MOV.L       R2,@-R15
+    00000030 8800                   CMP/EQ      #0,R0
+    00000032 8B0E                   BF          L1072
+    00000034 52F5                   MOV.L       @(20,R15),R2
+    00000036 E300                   MOV         #0,R3
+    00000038 2F26                   MOV.L       R2,@-R15
+    0000003A 52F5                   MOV.L       @(20,R15),R2
+    0000003C 2F26                   MOV.L       R2,@-R15
+    0000003E 2F36                   MOV.L       R3,@-R15
+    00000040 D263                   MOV.L       L1078+14,R2; __ltd
+    00000042 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000044 2F36                   MOV.L       R3,@-R15
+    00000046 8800                   CMP/EQ      #0,R0
+    00000048 8903                   BT          L1072
+          dpow.c    17                    stop("divide by zero");
+    0000004A D462                   MOV.L       L1078+18,R4; L1065
+    0000004C D362                   MOV.L       L1078+22,R3; _stop
+    0000004E 430B                   JSR         @R3
+    00000050 0009                   NOP
+    00000052              L1072:                            
+          dpow.c    18    
+          dpow.c    19            // nonnegative base or integer power?
+          dpow.c    20    
+          dpow.c    21            if (base >= 0.0 || fmod(expo, 1.0) == 0.0) {
+    00000052 E300                   MOV         #0,R3
+    00000054 52F7                   MOV.L       @(28,R15),R2
+    00000056 2F26                   MOV.L       R2,@-R15
+    00000058 52F7                   MOV.L       @(28,R15),R2
+    0000005A 2F26                   MOV.L       R2,@-R15
+    0000005C 2F36                   MOV.L       R3,@-R15
+    0000005E D25F                   MOV.L       L1078+26,R2; __ged
+    00000060 420B                   JSR         @R2
+    00000062 2F36                   MOV.L       R3,@-R15
+    00000064 8800                   CMP/EQ      #0,R0
+    00000066 8B15                   BF          L1074
+    00000068 D15E                   MOV.L       L1078+34,R1; _fmod
+    0000006A 7FF8                   ADD         #-8,R15
+    0000006C E300                   MOV         #0,R3
+    0000006E 2F36                   MOV.L       R3,@-R15
+    00000070 D35B                   MOV.L       L1078+30,R3; H'3FF00000
+    00000072 2F36                   MOV.L       R3,@-R15
+    00000074 52F9                   MOV.L       @(36,R15),R2
+    00000076 E310                   MOV         #16,R3
+    00000078 2F26                   MOV.L       R2,@-R15
+    0000007A 52F9                   MOV.L       @(36,R15),R2
+    0000007C 2F26                   MOV.L       R2,@-R15
+    0000007E 33FC                   ADD         R15,R3
+    00000080 410B                   JSR         @R1
+    00000082 2F36                   MOV.L       R3,@-R15
+    00000084 D251                   MOV.L       L1078+10,R2; __ned
+    00000086 7F14                   ADD         #20,R15
+    00000088 E300                   MOV         #0,R3
+    0000008A 2F36                   MOV.L       R3,@-R15
+    0000008C 420B                   JSR         @R2
+    0000008E 2F36                   MOV.L       R3,@-R15
+    00000090 8800                   CMP/EQ      #0,R0
+    00000092 8B16                   BF          L1073
+    00000094              L1074:                            
+          dpow.c    22                    result = pow(base, expo);
+    00000094 53F5                   MOV.L       @(20,R15),R3
+    00000096 2F36                   MOV.L       R3,@-R15
+    00000098 53F5                   MOV.L       @(20,R15),R3
+    0000009A 2F36                   MOV.L       R3,@-R15
+    0000009C 52F9                   MOV.L       @(36,R15),R2
+    0000009E 2F26                   MOV.L       R2,@-R15
+    000000A0 52F9                   MOV.L       @(36,R15),R2
+    000000A2 2F26                   MOV.L       R2,@-R15
+    000000A4 D150                   MOV.L       L1078+38,R1; _pow
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000A6 63F3                   MOV         R15,R3
+    000000A8 7318                   ADD         #24,R3
+    000000AA 410B                   JSR         @R1
+    000000AC 2F36                   MOV.L       R3,@-R15
+          dpow.c    23                    push_double(result);
+    000000AE 53F8                   MOV.L       @(32,R15),R3
+    000000B0 2F36                   MOV.L       R3,@-R15
+    000000B2 53F8                   MOV.L       @(32,R15),R3
+    000000B4 4E0B                   JSR         @R14
+    000000B6 2F36                   MOV.L       R3,@-R15
+    000000B8 7F1C                   ADD         #28,R15
+          dpow.c    24                    return;
+    000000BA 7F30                   ADD         #48,R15
+    000000BC 4F26                   LDS.L       @R15+,PR
+    000000BE 000B                   RTS
+    000000C0 6EF6                   MOV.L       @R15+,R14
+    000000C2              L1073:                            
+          dpow.c    25            }
+          dpow.c    26    
+          dpow.c    27            result = pow(fabs(base), expo);
+    000000C2 52F5                   MOV.L       @(20,R15),R2
+    000000C4 D149                   MOV.L       L1078+42,R1; _fabs
+    000000C6 2F26                   MOV.L       R2,@-R15
+    000000C8 52F5                   MOV.L       @(20,R15),R2
+    000000CA 2F26                   MOV.L       R2,@-R15
+    000000CC 7FF8                   ADD         #-8,R15
+    000000CE E208                   MOV         #8,R2
+    000000D0 53FB                   MOV.L       @(44,R15),R3
+    000000D2 2F36                   MOV.L       R3,@-R15
+    000000D4 53FB                   MOV.L       @(44,R15),R3
+    000000D6 2F36                   MOV.L       R3,@-R15
+    000000D8 32FC                   ADD         R15,R2
+    000000DA 410B                   JSR         @R1
+    000000DC 2F26                   MOV.L       R2,@-R15
+    000000DE 7F0C                   ADD         #12,R15
+    000000E0 D141                   MOV.L       L1078+38,R1; _pow
+    000000E2 62F3                   MOV         R15,R2
+    000000E4 7218                   ADD         #24,R2
+    000000E6 410B                   JSR         @R1
+    000000E8 2F26                   MOV.L       R2,@-R15
+    000000EA 7F14                   ADD         #20,R15
+          dpow.c    28    
+          dpow.c    29            theta = M_PI * expo;
+    000000EC D340                   MOV.L       L1078+46,R3; H'54442D18
+    000000EE 52F5                   MOV.L       @(20,R15),R2
+    000000F0 2F26                   MOV.L       R2,@-R15
+    000000F2 52F5                   MOV.L       @(20,R15),R2
+    000000F4 2F26                   MOV.L       R2,@-R15
+    000000F6 2F36                   MOV.L       R3,@-R15
+    000000F8 D33E                   MOV.L       L1078+50,R3; H'400921FB
+    000000FA 2F36                   MOV.L       R3,@-R15
+    000000FC D23E                   MOV.L       L1078+54,R2; __muld
+    000000FE 61F3                   MOV         R15,R1
+    00000100 7110                   ADD         #16,R1
+    00000102 420B                   JSR         @R2
+    00000104 2F16                   MOV.L       R1,@-R15
+          dpow.c    30    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          dpow.c    31            // this ensures the real part is 0.0 instead of a tiny fraction
+          dpow.c    32    
+          dpow.c    33            if (fmod(expo, 0.5) == 0.0) {
+    00000106 7FF8                   ADD         #-8,R15
+    00000108 D136                   MOV.L       L1078+34,R1; _fmod
+    0000010A E300                   MOV         #0,R3
+    0000010C 2F36                   MOV.L       R3,@-R15
+    0000010E D33B                   MOV.L       L1078+58,R3; H'3FE00000
+    00000110 2F36                   MOV.L       R3,@-R15
+    00000112 E310                   MOV         #16,R3
+    00000114 52F9                   MOV.L       @(36,R15),R2
+    00000116 2F26                   MOV.L       R2,@-R15
+    00000118 52F9                   MOV.L       @(36,R15),R2
+    0000011A 2F26                   MOV.L       R2,@-R15
+    0000011C 33FC                   ADD         R15,R3
+    0000011E 410B                   JSR         @R1
+    00000120 2F36                   MOV.L       R3,@-R15
+    00000122 7F14                   ADD         #20,R15
+    00000124 D229                   MOV.L       L1078+10,R2; __ned
+    00000126 E300                   MOV         #0,R3
+    00000128 2F36                   MOV.L       R3,@-R15
+    0000012A 420B                   JSR         @R2
+    0000012C 2F36                   MOV.L       R3,@-R15
+    0000012E 8800                   CMP/EQ      #0,R0
+    00000130 8B05                   BF          L1076
+          dpow.c    34                    a = 0.0;
+    00000132 63F3                   MOV         R15,R3
+    00000134 7328                   ADD         #40,R3
+    00000136 E100                   MOV         #0,R1
+    00000138 2312                   MOV.L       R1,@R3
+    0000013A A00A                   BRA         L1069
+    0000013C 1311                   MOV.L       R1,@(4,R3)
+    0000013E              L1076:                            
+          dpow.c    35                    b = sin(theta);
+          dpow.c    36            } else {
+          dpow.c    37                    a = cos(theta);
+    0000013E 52F1                   MOV.L       @(4,R15),R2
+    00000140 D12F                   MOV.L       L1078+62,R1; _cos
+    00000142 2F26                   MOV.L       R2,@-R15
+    00000144 52F1                   MOV.L       @(4,R15),R2
+    00000146 2F26                   MOV.L       R2,@-R15
+    00000148 63F3                   MOV         R15,R3
+    0000014A 7330                   ADD         #48,R3
+    0000014C 410B                   JSR         @R1
+    0000014E 2F36                   MOV.L       R3,@-R15
+    00000150 7F0C                   ADD         #12,R15
+    00000152              L1069:
+          dpow.c    38                    b = sin(theta);
+    00000152 53F1                   MOV.L       @(4,R15),R3
+    00000154 D12B                   MOV.L       L1078+66,R1; _sin
+    00000156 2F36                   MOV.L       R3,@-R15
+    00000158 53F1                   MOV.L       @(4,R15),R3
+    0000015A 2F36                   MOV.L       R3,@-R15
+    0000015C 62F3                   MOV         R15,R2
+    0000015E 7228                   ADD         #40,R2
+    00000160 410B                   JSR         @R1
+    00000162 2F26                   MOV.L       R2,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          dpow.c    39            }
+          dpow.c    40    
+          dpow.c    41            push_double(a * result);
+    00000164 D124                   MOV.L       L1078+54,R1; __muld
+    00000166 7F04                   ADD         #4,R15
+    00000168 52FD                   MOV.L       @(52,R15),R2
+    0000016A 2F26                   MOV.L       R2,@-R15
+    0000016C 52FD                   MOV.L       @(52,R15),R2
+    0000016E 2F26                   MOV.L       R2,@-R15
+    00000170 53F7                   MOV.L       @(28,R15),R3
+    00000172 2F36                   MOV.L       R3,@-R15
+    00000174 53F7                   MOV.L       @(28,R15),R3
+    00000176 2F36                   MOV.L       R3,@-R15
+    00000178 62F3                   MOV         R15,R2
+    0000017A 7210                   ADD         #16,R2
+    0000017C 410B                   JSR         @R1
+    0000017E 2F26                   MOV.L       R2,@-R15
+    00000180 4E0B                   JSR         @R14
+    00000182 0009                   NOP
+          dpow.c    42            push_double(b * result);
+    00000184 53FB                   MOV.L       @(44,R15),R3
+    00000186 2F36                   MOV.L       R3,@-R15
+    00000188 53FB                   MOV.L       @(44,R15),R3
+    0000018A 2F36                   MOV.L       R3,@-R15
+    0000018C 52F7                   MOV.L       @(28,R15),R2
+    0000018E 2F26                   MOV.L       R2,@-R15
+    00000190 52F7                   MOV.L       @(28,R15),R2
+    00000192 2F26                   MOV.L       R2,@-R15
+    00000194 D118                   MOV.L       L1078+54,R1; __muld
+    00000196 63F3                   MOV         R15,R3
+    00000198 7310                   ADD         #16,R3
+    0000019A 410B                   JSR         @R1
+    0000019C 2F36                   MOV.L       R3,@-R15
+    0000019E 4E0B                   JSR         @R14
+    000001A0 0009                   NOP
+          dpow.c    43            push(imaginaryunit);
+    000001A2 D219                   MOV.L       L1078+70,R2; _imaginaryunit
+    000001A4 D319                   MOV.L       L1078+74,R3; _push
+    000001A6 430B                   JSR         @R3
+    000001A8 6422                   MOV.L       @R2,R4
+          dpow.c    44            multiply();
+    000001AA D119                   MOV.L       L1078+78,R1; _multiply
+    000001AC 410B                   JSR         @R1
+    000001AE 0009                   NOP
+          dpow.c    45            add();
+    000001B0 D318                   MOV.L       L1078+82,R3; _add
+    000001B2 7F38                   ADD         #56,R15
+    000001B4 4F26                   LDS.L       @R15+,PR
+    000001B6 432B                   JMP         @R3
+    000001B8 6EF6                   MOV.L       @R15+,R14
+    000001BA              L1075:                            
+          dpow.c    46    }
+    000001BA 7F30                   ADD         #48,R15
+    000001BC 4F26                   LDS.L       @R15+,PR
+    000001BE 000B                   RTS
+    000001C0 6EF6                   MOV.L       @R15+,R14
+    000001C2              L1078:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001C2 0000                   .DATA.W     0
+    000001C4 <00000000>             .DATA.L     _push_double
+    000001C8 <00000000>             .DATA.L     _pop_double
+    000001CC <00000000>             .DATA.L     __ned
+    000001D0 <00000000>             .DATA.L     __ltd
+    000001D4 <00000000>             .DATA.L     L1065
+    000001D8 <00000000>             .DATA.L     _stop
+    000001DC <00000000>             .DATA.L     __ged
+    000001E0 3FF00000               .DATA.L     H'3FF00000
+    000001E4 <00000000>             .DATA.L     _fmod
+    000001E8 <00000000>             .DATA.L     _pow
+    000001EC <00000000>             .DATA.L     _fabs
+    000001F0 54442D18               .DATA.L     H'54442D18
+    000001F4 400921FB               .DATA.L     H'400921FB
+    000001F8 <00000000>             .DATA.L     __muld
+    000001FC 3FE00000               .DATA.L     H'3FE00000
+    00000200 <00000000>             .DATA.L     _cos
+    00000204 <00000000>             .DATA.L     _sin
+    00000208 <00000000>             .DATA.L     _imaginaryunit
+    0000020C <00000000>             .DATA.L     _push
+    00000210 <00000000>             .DATA.L     _multiply
+    00000214 <00000000>             .DATA.L     _add
+C   00000000              L1065:
+    00000000 6469766964             .SDATA      "divide by zero"
+             6520627920   
+             7A65726F     
+    0000000E 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         1
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       46
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000218 Byte(s)
+CONSTANT SECTION (C):                               0000000F Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000227 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           16
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            25
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk574D.tmp 
+

@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\real.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          real.c     1    /* Returns the real part of complex z
+          real.c     2    
+          real.c     3            z               real(z)
+          real.c     4            -               -------
+          real.c     5    
+          real.c     6            a + i b         a
+          real.c     7    
+          real.c     8            exp(i a)        cos(a)
+          real.c     9    */
+          real.c    10    
+          real.c    11    #include "stdafx.h"
+          real.c    12    #include "defs.h"
+          real.c    13    
+          real.c    14    void
+          real.c    15    eval_real(void)
+P   00000000              _eval_real:                      ; function: eval_real
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+          real.c    16    {
+          real.c    17            push(cadr(p1));
+    00000004 DE25                   MOV.L       L1066+2,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1061
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1063
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1061:                            
+    00000014 9341                   MOV.W       L1066,R3   ; H'0570
+    00000016 D222                   MOV.L       L1066+6,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1063:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1060
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1062
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1064
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1062:                            
+    00000030 9333                   MOV.W       L1066,R3   ; H'0570
+    00000032 D21B                   MOV.L       L1066+6,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1064:                            
+    00000038 A004                   BRA         L1065
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1060:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003C 932D                   MOV.W       L1066,R3   ; H'0570
+    0000003E D218                   MOV.L       L1066+6,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1065:                            
+    00000044 D317                   MOV.L       L1066+10,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+          real.c    18            eval();
+    0000004A D217                   MOV.L       L1066+14,R2; _eval
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+          real.c    19            real();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+          real.c    20    }
+          real.c    21    
+          real.c    22    void
+          real.c    23    real(void)
+    00000054              _real:                           ; function: real
+                                                           ; frame size=8
+    00000054 2FE6                   MOV.L       R14,@-R15
+    00000056 4F22                   STS.L       PR,@-R15
+          real.c    24    {
+          real.c    25            save();
+    00000058 D314                   MOV.L       L1066+18,R3; _save
+    0000005A 430B                   JSR         @R3
+    0000005C 0009                   NOP
+          real.c    26            rect();
+    0000005E D214                   MOV.L       L1066+22,R2; _rect
+    00000060 420B                   JSR         @R2
+    00000062 0009                   NOP
+          real.c    27            p1 = pop();
+    00000064 DE0D                   MOV.L       L1066+2,R14; _p1
+    00000066 D313                   MOV.L       L1066+26,R3; _pop
+    00000068 430B                   JSR         @R3
+    0000006A 0009                   NOP
+    0000006C 2E02                   MOV.L       R0,@R14
+          real.c    28            push(p1);
+    0000006E D20D                   MOV.L       L1066+10,R2; _push
+    00000070 420B                   JSR         @R2
+    00000072 6403                   MOV         R0,R4
+          real.c    29            push(p1);
+    00000074 D30B                   MOV.L       L1066+10,R3; _push
+    00000076 430B                   JSR         @R3
+    00000078 64E2                   MOV.L       @R14,R4
+          real.c    30            conjugate();
+    0000007A D20F                   MOV.L       L1066+30,R2; _conjugate
+    0000007C 420B                   JSR         @R2
+    0000007E 0009                   NOP
+          real.c    31            add();
+    00000080 D30E                   MOV.L       L1066+34,R3; _add
+    00000082 430B                   JSR         @R3
+    00000084 0009                   NOP
+          real.c    32            push_integer(2);
+    00000086 D20E                   MOV.L       L1066+38,R2; _push_integer
+    00000088 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000008A E402                   MOV         #2,R4
+          real.c    33            divide();
+    0000008C D30D                   MOV.L       L1066+42,R3; _divide
+    0000008E 430B                   JSR         @R3
+    00000090 0009                   NOP
+          real.c    34            restore();
+    00000092 4F26                   LDS.L       @R15+,PR
+    00000094 D20C                   MOV.L       L1066+46,R2; _restore
+    00000096 422B                   JMP         @R2
+    00000098 6EF6                   MOV.L       @R15+,R14
+    0000009A              L1066:                            
+    0000009A 0570                   .DATA.W     H'0570
+    0000009C <00000000>             .DATA.L     _p1
+    000000A0 <00000000>             .DATA.L     _symtab
+    000000A4 <00000000>             .DATA.L     _push
+    000000A8 <00000000>             .DATA.L     _eval
+    000000AC <00000000>             .DATA.L     _save
+    000000B0 <00000000>             .DATA.L     _rect
+    000000B4 <00000000>             .DATA.L     _pop
+    000000B8 <00000000>             .DATA.L     _conjugate
+    000000BC <00000000>             .DATA.L     _add
+    000000C0 <00000000>             .DATA.L     _push_integer
+    000000C4 <00000000>             .DATA.L     _divide
+    000000C8 <00000000>             .DATA.L     _restore
+          real.c    35    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       35
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000CC Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000CC Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           12
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            21
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkD263.tmp 
+

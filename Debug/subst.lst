@@ -1,0 +1,401 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:30  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\subst.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         subst.c     1    /*      Substitute new expr for old expr in expr.
+         subst.c     2    
+         subst.c     3            Input:  push    expr
+         subst.c     4    
+         subst.c     5                    push    old expr
+         subst.c     6    
+         subst.c     7                    push    new expr
+         subst.c     8    
+         subst.c     9            Output: Result on stack
+         subst.c    10    */
+         subst.c    11    
+         subst.c    12    #include "stdafx.h"
+         subst.c    13    #include "defs.h"
+         subst.c    14    
+         subst.c    15    void
+         subst.c    16    subst(void)
+P   00000000              _subst:                          ; function: subst
+                                                           ; frame size=40
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+         subst.c    17    {
+         subst.c    18            int i;
+         subst.c    19            save();
+    00000010 D340                   MOV.L       L1084+2,R3 ; _save
+    00000012 7FFC                   ADD         #-4,R15
+    00000014 430B                   JSR         @R3
+    00000016 0009                   NOP
+         subst.c    20            p3 = pop(); // new expr
+    00000018 D93F                   MOV.L       L1084+6,R9 ; _pop
+    0000001A DA40                   MOV.L       L1084+10,R10; _p3
+    0000001C 490B                   JSR         @R9
+    0000001E 0009                   NOP
+         subst.c    21            p2 = pop(); // old expr
+    00000020 DB3F                   MOV.L       L1084+14,R11; _p2
+    00000022 490B                   JSR         @R9
+    00000024 2A02                   MOV.L       R0,@R10
+         subst.c    22            if (p2 == symbol(NIL) || p3 == symbol(NIL)) {
+    00000026 6103                   MOV         R0,R1
+    00000028 2B02                   MOV.L       R0,@R11
+    0000002A 9372                   MOV.W       L1084,R3   ; H'0570
+    0000002C D23D                   MOV.L       L1084+18,R2; _symtab
+    0000002E 6422                   MOV.L       @R2,R4
+    00000030 343C                   ADD         R3,R4
+    00000032 3140                   CMP/EQ      R4,R1
+    00000034 8B01                   BF          L1085
+    00000036 A0A7                   BRA         L1064
+    00000038 0009                   NOP
+    0000003A              L1085:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:30  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003A D238                   MOV.L       L1084+10,R2; _p3
+    0000003C 6022                   MOV.L       @R2,R0
+    0000003E 3040                   CMP/EQ      R4,R0
+    00000040 8B01                   BF          L1086
+    00000042 A0A1                   BRA         L1064
+    00000044 0009                   NOP
+    00000046              L1086:                            
+         subst.c    23                    restore();
+         subst.c    24                    return;
+         subst.c    25            }
+         subst.c    26            p1 = pop(); // expr
+    00000046 DE38                   MOV.L       L1084+22,R14; _p1
+    00000048 490B                   JSR         @R9
+    0000004A 0009                   NOP
+    0000004C 2E02                   MOV.L       R0,@R14
+    0000004E 6803                   MOV         R0,R8
+    00000050 DD36                   MOV.L       L1084+26,R13; _push
+    00000052 8488                   MOV.B       @(8,R8),R0
+    00000054 600C                   EXTU.B      R0,R0
+    00000056 8804                   CMP/EQ      #4,R0
+    00000058 8B45                   BF          L1069
+         subst.c    27            if (istensor(p1)) {
+         subst.c    28                    p4 = alloc_tensor(p1->u.tensor->nelem);
+    0000005A E064                   MOV         #100,R0
+    0000005C D335                   MOV.L       L1084+34,R3; _alloc_tensor
+    0000005E DC34                   MOV.L       L1084+30,R12; _p4
+    00000060 6482                   MOV.L       @R8,R4
+    00000062 430B                   JSR         @R3
+    00000064 044E                   MOV.L       @(R0,R4),R4
+         subst.c    29                    p4->u.tensor->ndim = p1->u.tensor->ndim;
+    00000066 6203                   MOV         R0,R2
+    00000068 2C02                   MOV.L       R0,@R12
+         subst.c    30                    for (i = 0; i < p1->u.tensor->ndim; i++)
+    0000006A E600                   MOV         #0,R6
+    0000006C 6322                   MOV.L       @R2,R3
+    0000006E 61E2                   MOV.L       @R14,R1
+    00000070 6212                   MOV.L       @R1,R2
+    00000072 6022                   MOV.L       @R2,R0
+    00000074 2302                   MOV.L       R0,@R3
+    00000076 A00E                   BRA         L1070
+    00000078 6463                   MOV         R6,R4
+    0000007A              L1071:                            
+         subst.c    31                            p4->u.tensor->dim[i] = p1->u.tensor->dim[i];
+    0000007A 6543                   MOV         R4,R5
+    0000007C 60C2                   MOV.L       @R12,R0
+    0000007E 4508                   SHLL2       R5
+    00000080 6302                   MOV.L       @R0,R3
+    00000082 7401                   ADD         #1,R4
+    00000084 60E2                   MOV.L       @R14,R0
+    00000086 7304                   ADD         #4,R3
+    00000088 6002                   MOV.L       @R0,R0
+    0000008A 335C                   ADD         R5,R3
+    0000008C 6203                   MOV         R0,R2
+    0000008E 7204                   ADD         #4,R2
+    00000090 325C                   ADD         R5,R2
+    00000092 6122                   MOV.L       @R2,R1
+    00000094 2312                   MOV.L       R1,@R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:30  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000096              L1070:                            
+    00000096 63E2                   MOV.L       @R14,R3
+    00000098 6232                   MOV.L       @R3,R2
+    0000009A 6122                   MOV.L       @R2,R1
+    0000009C 3413                   CMP/GE      R1,R4
+    0000009E 8BEC                   BF          L1071
+         subst.c    32                    for (i = 0; i < p1->u.tensor->nelem; i++) {
+    000000A0 A019                   BRA         L1072
+    000000A2 6863                   MOV         R6,R8
+    000000A4              L1073:                            
+         subst.c    33                            push(p1->u.tensor->elem[i]);
+    000000A4 60E2                   MOV.L       @R14,R0
+    000000A6 6483                   MOV         R8,R4
+    000000A8 6302                   MOV.L       @R0,R3
+    000000AA 4408                   SHLL2       R4
+    000000AC 2F42                   MOV.L       R4,@R15
+    000000AE 7368                   ADD         #104,R3
+    000000B0 343C                   ADD         R3,R4
+    000000B2 4D0B                   JSR         @R13
+    000000B4 6442                   MOV.L       @R4,R4
+         subst.c    34                            push(p2);
+    000000B6 4D0B                   JSR         @R13
+    000000B8 64B2                   MOV.L       @R11,R4
+         subst.c    35                            push(p3);
+    000000BA 4D0B                   JSR         @R13
+    000000BC 64A2                   MOV.L       @R10,R4
+         subst.c    36                            subst();
+    000000BE BF9F                   BSR         _subst
+    000000C0 0009                   NOP
+         subst.c    37                            p4->u.tensor->elem[i] = pop();
+    000000C2 63C2                   MOV.L       @R12,R3
+    000000C4 6132                   MOV.L       @R3,R1
+    000000C6 63F2                   MOV.L       @R15,R3
+    000000C8 7168                   ADD         #104,R1
+    000000CA 313C                   ADD         R3,R1
+    000000CC 490B                   JSR         @R9
+    000000CE 2F16                   MOV.L       R1,@-R15
+    000000D0 63F6                   MOV.L       @R15+,R3
+    000000D2 7801                   ADD         #1,R8
+    000000D4 2302                   MOV.L       R0,@R3
+    000000D6              L1072:                            
+    000000D6 E064                   MOV         #100,R0
+    000000D8 62E2                   MOV.L       @R14,R2
+    000000DA 6322                   MOV.L       @R2,R3
+    000000DC 013E                   MOV.L       @(R0,R3),R1
+    000000DE 3813                   CMP/GE      R1,R8
+    000000E0 8BE0                   BF          L1073
+         subst.c    38                    }
+         subst.c    39                    push(p4);
+    000000E2 A007                   BRA         L1083
+    000000E4 64C2                   MOV.L       @R12,R4
+    000000E6              L1069:                            
+         subst.c    40            } else if (equal(p1, p2))
+    000000E6 65B2                   MOV.L       @R11,R5
+    000000E8 D313                   MOV.L       L1084+38,R3; _equal
+    000000EA 430B                   JSR         @R3
+    000000EC 6483                   MOV         R8,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:30  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000EE 2008                   TST         R0,R0
+    000000F0 8904                   BT          L1075
+         subst.c    41                    push(p3);
+    000000F2 64A2                   MOV.L       @R10,R4
+    000000F4              L1083:                            
+    000000F4 4D0B                   JSR         @R13
+    000000F6 0009                   NOP
+    000000F8 A046                   BRA         L1064
+    000000FA 0009                   NOP
+    000000FC              L1075:                            
+    000000FC 64E2                   MOV.L       @R14,R4
+    000000FE 8448                   MOV.B       @(8,R4),R0
+    00000100 2008                   TST         R0,R0
+    00000102 8B3F                   BF          L1077
+         subst.c    42            else if (iscons(p1)) {
+         subst.c    43                    push(car(p1));
+    00000104 64E2                   MOV.L       @R14,R4
+    00000106 8448                   MOV.B       @(8,R4),R0
+    00000108 2008                   TST         R0,R0
+    0000010A 8B17                   BF          L1078
+    0000010C 64E2                   MOV.L       @R14,R4
+    0000010E A019                   BRA         L1079
+    00000110 6442                   MOV.L       @R4,R4
+    00000112              L1084:                            
+    00000112 0570                   .DATA.W     H'0570
+    00000114 <00000000>             .DATA.L     _save
+    00000118 <00000000>             .DATA.L     _pop
+    0000011C <00000000>             .DATA.L     _p3
+    00000120 <00000000>             .DATA.L     _p2
+    00000124 <00000000>             .DATA.L     _symtab
+    00000128 <00000000>             .DATA.L     _p1
+    0000012C <00000000>             .DATA.L     _push
+    00000130 <00000000>             .DATA.L     _p4
+    00000134 <00000000>             .DATA.L     _alloc_tensor
+    00000138 <00000000>             .DATA.L     _equal
+    0000013C              L1078:                            
+    0000013C 932F                   MOV.W       L1087,R3   ; H'0570
+    0000013E D218                   MOV.L       L1087+2,R2 ; _symtab
+    00000140 6422                   MOV.L       @R2,R4
+    00000142 343C                   ADD         R3,R4
+    00000144              L1079:                            
+    00000144 4D0B                   JSR         @R13
+    00000146 0009                   NOP
+         subst.c    44                    push(p2);
+    00000148 4D0B                   JSR         @R13
+    0000014A 64B2                   MOV.L       @R11,R4
+         subst.c    45                    push(p3);
+    0000014C 4D0B                   JSR         @R13
+    0000014E 64A2                   MOV.L       @R10,R4
+         subst.c    46                    subst();
+    00000150 BF56                   BSR         _subst
+    00000152 0009                   NOP
+         subst.c    47                    push(cdr(p1));
+    00000154 64E2                   MOV.L       @R14,R4
+    00000156 8448                   MOV.B       @(8,R4),R0
+    00000158 2008                   TST         R0,R0
+    0000015A 8B02                   BF          L1080
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:30  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000015C 64E2                   MOV.L       @R14,R4
+    0000015E A004                   BRA         L1081
+    00000160 5441                   MOV.L       @(4,R4),R4
+    00000162              L1080:                            
+    00000162 931C                   MOV.W       L1087,R3   ; H'0570
+    00000164 D20E                   MOV.L       L1087+2,R2 ; _symtab
+    00000166 6422                   MOV.L       @R2,R4
+    00000168 343C                   ADD         R3,R4
+    0000016A              L1081:                            
+    0000016A 4D0B                   JSR         @R13
+    0000016C 0009                   NOP
+         subst.c    48                    push(p2);
+    0000016E 4D0B                   JSR         @R13
+    00000170 64B2                   MOV.L       @R11,R4
+         subst.c    49                    push(p3);
+    00000172 4D0B                   JSR         @R13
+    00000174 64A2                   MOV.L       @R10,R4
+         subst.c    50                    subst();
+    00000176 BF43                   BSR         _subst
+    00000178 0009                   NOP
+         subst.c    51                    cons();
+    0000017A D20A                   MOV.L       L1087+6,R2 ; _cons
+    0000017C 420B                   JSR         @R2
+    0000017E 0009                   NOP
+    00000180 A002                   BRA         L1064
+    00000182 0009                   NOP
+    00000184              L1077:                            
+         subst.c    52            } else
+         subst.c    53                    push(p1);
+    00000184 4D0B                   JSR         @R13
+    00000186 0009                   NOP
+    00000188              L1064:
+         subst.c    54            restore();
+    00000188 D207                   MOV.L       L1087+10,R2; _restore
+    0000018A 7F04                   ADD         #4,R15
+    0000018C 4F26                   LDS.L       @R15+,PR
+    0000018E 68F6                   MOV.L       @R15+,R8
+    00000190 69F6                   MOV.L       @R15+,R9
+    00000192 6AF6                   MOV.L       @R15+,R10
+    00000194 6BF6                   MOV.L       @R15+,R11
+    00000196 6CF6                   MOV.L       @R15+,R12
+    00000198 6DF6                   MOV.L       @R15+,R13
+    0000019A 422B                   JMP         @R2
+    0000019C 6EF6                   MOV.L       @R15+,R14
+    0000019E              L1087:                            
+    0000019E 0570                   .DATA.W     H'0570
+    000001A0 <00000000>             .DATA.L     _symtab
+    000001A4 <00000000>             .DATA.L     _cons
+    000001A8 <00000000>             .DATA.L     _restore
+         subst.c    55    }
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:30  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       55
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000001AC Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000001AC Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           12
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkE17D.tmp 
+

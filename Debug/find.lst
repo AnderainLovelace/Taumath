@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\find.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          find.c     1    // returns 1 if expr p contains expr q, otherweise returns 0
+          find.c     2    
+          find.c     3    #include "stdafx.h"
+          find.c     4    #include "defs.h"
+          find.c     5    
+          find.c     6    int
+          find.c     7    find(U *p, U *q)
+P   00000000              _find:                           ; function: find
+                                                           ; frame size=16
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 6E43                   MOV         R4,R14
+          find.c     8    {
+          find.c     9            int i;
+          find.c    10    
+          find.c    11            if (equal(p, q))
+    00000004 D321                   MOV.L       L1085+4,R3 ; _equal
+    00000006 2FD6                   MOV.L       R13,@-R15
+    00000008 2FC6                   MOV.L       R12,@-R15
+    0000000A 4F22                   STS.L       PR,@-R15
+    0000000C 430B                   JSR         @R3
+    0000000E 6C53                   MOV         R5,R12
+    00000010 2008                   TST         R0,R0
+    00000012 8B25                   BF          L1067
+          find.c    12                    return 1;
+          find.c    13    
+          find.c    14            if (istensor(p)) {
+    00000014 84E8                   MOV.B       @(8,R14),R0
+    00000016 600C                   EXTU.B      R0,R0
+    00000018 8804                   CMP/EQ      #4,R0
+    0000001A 8B2C                   BF          L1078
+          find.c    15                    for (i = 0; i < p->u.tensor->nelem; i++)
+    0000001C A00B                   BRA         L1075
+    0000001E ED00                   MOV         #0,R13
+    00000020              L1076:                            
+          find.c    16                            if (find(p->u.tensor->elem[i], q))
+    00000020 63E2                   MOV.L       @R14,R3
+    00000022 64D3                   MOV         R13,R4
+    00000024 65C3                   MOV         R12,R5
+    00000026 4408                   SHLL2       R4
+    00000028 7368                   ADD         #104,R3
+    0000002A 343C                   ADD         R3,R4
+    0000002C BFE8                   BSR         _find
+    0000002E 6442                   MOV.L       @R4,R4
+    00000030 2008                   TST         R0,R0
+    00000032 8B15                   BF          L1067
+    00000034 7D01                   ADD         #1,R13
+    00000036              L1075:                            
+    00000036 E064                   MOV         #100,R0
+    00000038 63E2                   MOV.L       @R14,R3
+    0000003A 023E                   MOV.L       @(R0,R3),R2
+    0000003C 3D23                   CMP/GE      R2,R13
+    0000003E 8BEF                   BF          L1076
+    00000040 A01C                   BRA         L1064
+    00000042 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000044              L1079:                            
+          find.c    17                                    return 1;
+          find.c    18                    return 0;
+          find.c    19            }
+          find.c    20    
+          find.c    21            while (iscons(p)) {
+          find.c    22                    if (find(car(p), q))
+    00000044 84E8                   MOV.B       @(8,R14),R0
+    00000046 2008                   TST         R0,R0
+    00000048 8F02                   BF/S        L1081
+    0000004A 65C3                   MOV         R12,R5
+    0000004C A004                   BRA         L1082
+    0000004E 64E2                   MOV.L       @R14,R4
+    00000050              L1081:                            
+    00000050 931A                   MOV.W       L1085,R3   ; H'0570
+    00000052 D20F                   MOV.L       L1085+8,R2 ; _symtab
+    00000054 6422                   MOV.L       @R2,R4
+    00000056 343C                   ADD         R3,R4
+    00000058              L1082:                            
+    00000058 BFD2                   BSR         _find
+    0000005A 0009                   NOP
+    0000005C 2008                   TST         R0,R0
+    0000005E 8901                   BT          L1080
+    00000060              L1067:
+          find.c    23                            return 1;
+    00000060 A00D                   BRA         L1073
+    00000062 E001                   MOV         #1,R0
+    00000064              L1080:                            
+          find.c    24                    p = cdr(p);
+    00000064 84E8                   MOV.B       @(8,R14),R0
+    00000066 2008                   TST         R0,R0
+    00000068 8B01                   BF          L1083
+    0000006A A004                   BRA         L1078
+    0000006C 5EE1                   MOV.L       @(4,R14),R14
+    0000006E              L1083:                            
+    0000006E 930B                   MOV.W       L1085,R3   ; H'0570
+    00000070 D207                   MOV.L       L1085+8,R2 ; _symtab
+    00000072 6E22                   MOV.L       @R2,R14
+    00000074 3E3C                   ADD         R3,R14
+    00000076              L1078:                            
+    00000076 84E8                   MOV.B       @(8,R14),R0
+    00000078 2008                   TST         R0,R0
+    0000007A 89E3                   BT          L1079
+    0000007C              L1064:
+          find.c    25            }
+          find.c    26    
+          find.c    27            return 0;
+    0000007C E000                   MOV         #0,R0
+          find.c    28    }
+    0000007E              L1073:                            
+    0000007E 4F26                   LDS.L       @R15+,PR
+    00000080 6CF6                   MOV.L       @R15+,R12
+    00000082 6DF6                   MOV.L       @R15+,R13
+    00000084 000B                   RTS
+    00000086 6EF6                   MOV.L       @R15+,R14
+    00000088              L1085:                            
+    00000088 0570                   .DATA.W     H'0570
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000008A 0000                   .DATA.W     0
+    0000008C <00000000>             .DATA.L     _equal
+    00000090 <00000000>             .DATA.L     _symtab
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       28
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000094 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000094 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk68E8.tmp 
+

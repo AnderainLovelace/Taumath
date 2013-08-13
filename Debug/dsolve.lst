@@ -1,0 +1,533 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\dsolve.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        dsolve.c     1    #include "stdafx.h"
+        dsolve.c     2    
+        dsolve.c     3    #include "defs.h"
+        dsolve.c     4    
+        dsolve.c     5    //      q(x)y' + p(x)*y = g(x)
+        dsolve.c     6    //
+        dsolve.c     7    //      u(x) = exp(integral(p))
+        dsolve.c     8    //
+        dsolve.c     9    //      y = (integral(u*g) + c) / u(x)
+        dsolve.c    10    
+        dsolve.c    11    
+        dsolve.c    12    #define f p1
+        dsolve.c    13    #define y p2
+        dsolve.c    14    #define x p3
+        dsolve.c    15    
+        dsolve.c    16    #define p p4
+        dsolve.c    17    #define g p5
+        dsolve.c    18    #define q p6
+        dsolve.c    19    
+        dsolve.c    20    #define mu p7
+        dsolve.c    21    
+        dsolve.c    22    void
+        dsolve.c    23    dsolve(void)
+P   00000000              _dsolve:                         ; function: dsolve
+                                                           ; frame size=28
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 4F22                   STS.L       PR,@-R15
+        dsolve.c    24    {
+        dsolve.c    25            int n;
+        dsolve.c    26    
+        dsolve.c    27            save();
+    0000000E D364                   MOV.L       L1073+2,R3 ; _save
+    00000010 430B                   JSR         @R3
+    00000012 0009                   NOP
+        dsolve.c    28    
+        dsolve.c    29            x = pop();
+    00000014 DC63                   MOV.L       L1073+6,R12; _p3
+    00000016 DD64                   MOV.L       L1073+10,R13; _pop
+    00000018 4D0B                   JSR         @R13
+    0000001A 0009                   NOP
+        dsolve.c    30            y = pop();
+    0000001C 4D0B                   JSR         @R13
+    0000001E 2C02                   MOV.L       R0,@R12
+    00000020 D262                   MOV.L       L1073+14,R2; _p2
+        dsolve.c    31            f = pop();
+    00000022 4D0B                   JSR         @R13
+    00000024 2202                   MOV.L       R0,@R2
+    00000026 D362                   MOV.L       L1073+18,R3; _p1
+        dsolve.c    32    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        dsolve.c    33            push(f);
+    00000028 DE62                   MOV.L       L1073+22,R14; _push
+    0000002A 2302                   MOV.L       R0,@R3
+    0000002C 4E0B                   JSR         @R14
+    0000002E 6403                   MOV         R0,R4
+        dsolve.c    34            push(y);
+    00000030 D25E                   MOV.L       L1073+14,R2; _p2
+    00000032 4E0B                   JSR         @R14
+    00000034 6422                   MOV.L       @R2,R4
+        dsolve.c    35            push(x);
+    00000036 4E0B                   JSR         @R14
+    00000038 64C2                   MOV.L       @R12,R4
+        dsolve.c    36    
+        dsolve.c    37            n = distilly();
+    0000003A B04D                   BSR         _distilly
+    0000003C 0009                   NOP
+        dsolve.c    38    
+        dsolve.c    39            if (n != 3)
+    0000003E 8803                   CMP/EQ      #3,R0
+    00000040 8D04                   BT/S        L1067
+    00000042 6403                   MOV         R0,R4
+        dsolve.c    40                    stop("error in dsolve");
+    00000044 D45C                   MOV.L       L1073+26,R4; L1060
+    00000046 D35D                   MOV.L       L1073+30,R3; _stop
+    00000048 430B                   JSR         @R3
+    0000004A 0009                   NOP
+    0000004C              L1067:                            
+        dsolve.c    41    
+        dsolve.c    42            q=pop();
+    0000004C D95C                   MOV.L       L1073+34,R9; _p6
+    0000004E 4D0B                   JSR         @R13
+    00000050 0009                   NOP
+        dsolve.c    43    
+        dsolve.c    44            p = pop();
+    00000052 4D0B                   JSR         @R13
+    00000054 2902                   MOV.L       R0,@R9
+    00000056 D25B                   MOV.L       L1073+38,R2; _p4
+        dsolve.c    45    
+        dsolve.c    46            negate();
+    00000058 D35B                   MOV.L       L1073+42,R3; _negate
+    0000005A 430B                   JSR         @R3
+    0000005C 2202                   MOV.L       R0,@R2
+        dsolve.c    47            g = pop();
+    0000005E 4D0B                   JSR         @R13
+    00000060 0009                   NOP
+    00000062 D15A                   MOV.L       L1073+46,R1; _p5
+        dsolve.c    48    
+        dsolve.c    49    /*      print(g);
+        dsolve.c    50            print(p);
+        dsolve.c    51            print(p);
+        dsolve.c    52    */
+        dsolve.c    53            push(p);
+    00000064 D357                   MOV.L       L1073+38,R3; _p4
+    00000066 2102                   MOV.L       R0,@R1
+    00000068 4E0B                   JSR         @R14
+    0000006A 6432                   MOV.L       @R3,R4
+        dsolve.c    54            push(q);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000006C 4E0B                   JSR         @R14
+    0000006E 6492                   MOV.L       @R9,R4
+        dsolve.c    55            divide();
+    00000070 DA57                   MOV.L       L1073+50,R10; _divide
+    00000072 4A0B                   JSR         @R10
+    00000074 0009                   NOP
+        dsolve.c    56            push(x);
+    00000076 4E0B                   JSR         @R14
+    00000078 64C2                   MOV.L       @R12,R4
+        dsolve.c    57            integral();
+    0000007A D256                   MOV.L       L1073+54,R2; _integral
+    0000007C 420B                   JSR         @R2
+    0000007E 0009                   NOP
+        dsolve.c    58            exponential();
+    00000080 D355                   MOV.L       L1073+58,R3; _exponential
+    00000082 430B                   JSR         @R3
+    00000084 0009                   NOP
+        dsolve.c    59            mu = pop();
+    00000086 DB55                   MOV.L       L1073+62,R11; _p7
+    00000088 4D0B                   JSR         @R13
+    0000008A 0009                   NOP
+    0000008C 2B02                   MOV.L       R0,@R11
+        dsolve.c    60    
+        dsolve.c    61            push(mu);
+    0000008E 4E0B                   JSR         @R14
+    00000090 6403                   MOV         R0,R4
+        dsolve.c    62            push(g);
+    00000092 D24E                   MOV.L       L1073+46,R2; _p5
+    00000094 4E0B                   JSR         @R14
+    00000096 6422                   MOV.L       @R2,R4
+        dsolve.c    63            push(q);
+    00000098 4E0B                   JSR         @R14
+    0000009A 6492                   MOV.L       @R9,R4
+        dsolve.c    64            divide();
+    0000009C 4A0B                   JSR         @R10
+    0000009E 0009                   NOP
+        dsolve.c    65            multiply();
+    000000A0 D34F                   MOV.L       L1073+66,R3; _multiply
+    000000A2 430B                   JSR         @R3
+    000000A4 0009                   NOP
+        dsolve.c    66            push(x);
+    000000A6 4E0B                   JSR         @R14
+    000000A8 64C2                   MOV.L       @R12,R4
+        dsolve.c    67            integral();
+    000000AA D24A                   MOV.L       L1073+54,R2; _integral
+    000000AC 420B                   JSR         @R2
+    000000AE 0009                   NOP
+        dsolve.c    68            scan("C");
+    000000B0 D44C                   MOV.L       L1073+70,R4; L1061
+    000000B2 D34D                   MOV.L       L1073+74,R3; _scan
+    000000B4 430B                   JSR         @R3
+    000000B6 0009                   NOP
+        dsolve.c    69            add();
+    000000B8 D24C                   MOV.L       L1073+78,R2; _add
+    000000BA 420B                   JSR         @R2
+    000000BC 0009                   NOP
+        dsolve.c    70            push(mu);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000BE 4E0B                   JSR         @R14
+    000000C0 64B2                   MOV.L       @R11,R4
+        dsolve.c    71            divide();
+    000000C2 4A0B                   JSR         @R10
+    000000C4 0009                   NOP
+        dsolve.c    72    
+        dsolve.c    73            restore();
+    000000C6 4F26                   LDS.L       @R15+,PR
+    000000C8 D349                   MOV.L       L1073+82,R3; _restore
+    000000CA 69F6                   MOV.L       @R15+,R9
+    000000CC 6AF6                   MOV.L       @R15+,R10
+    000000CE 6BF6                   MOV.L       @R15+,R11
+    000000D0 6CF6                   MOV.L       @R15+,R12
+    000000D2 6DF6                   MOV.L       @R15+,R13
+    000000D4 432B                   JMP         @R3
+    000000D6 6EF6                   MOV.L       @R15+,R14
+        dsolve.c    74    }
+        dsolve.c    75    
+        dsolve.c    76    //      n       p1              p2      p3      p4      p5      stack
+        dsolve.c    77    
+        dsolve.c    78    //      1       4y'+3xy+2x+1    y       x       1       2x+1    2x+1
+        dsolve.c    79    
+        dsolve.c    80    //      2       4y'+3xy         y'      x       y       3xy     3x
+        dsolve.c    81    
+        dsolve.c    82    //      3       4y'             y''     x       y'      4y'     4
+        dsolve.c    83    
+        dsolve.c    84    int distilly()
+    000000D8              _distilly:                       ; function: distilly
+                                                           ; frame size=36
+    000000D8 2FE6                   MOV.L       R14,@-R15
+        dsolve.c    85    {
+        dsolve.c    86            int n = 0;
+    000000DA E300                   MOV         #0,R3
+        dsolve.c    87            save();
+    000000DC D230                   MOV.L       L1073+2,R2 ; _save
+    000000DE 2FD6                   MOV.L       R13,@-R15
+    000000E0 2FC6                   MOV.L       R12,@-R15
+    000000E2 2FB6                   MOV.L       R11,@-R15
+    000000E4 2FA6                   MOV.L       R10,@-R15
+    000000E6 2F96                   MOV.L       R9,@-R15
+    000000E8 2F86                   MOV.L       R8,@-R15
+    000000EA 4F22                   STS.L       PR,@-R15
+    000000EC 7FFC                   ADD         #-4,R15
+    000000EE 420B                   JSR         @R2
+    000000F0 2F32                   MOV.L       R3,@R15
+        dsolve.c    88            p4 = one;
+    000000F2 D934                   MOV.L       L1073+38,R9; _p4
+    000000F4 D23F                   MOV.L       L1073+86,R2; _one
+    000000F6 6322                   MOV.L       @R2,R3
+        dsolve.c    89            p3 = pop();
+    000000F8 DB2B                   MOV.L       L1073+10,R11; _pop
+    000000FA 4B0B                   JSR         @R11
+    000000FC 2932                   MOV.L       R3,@R9
+    000000FE D329                   MOV.L       L1073+6,R3 ; _p3
+        dsolve.c    90            p2 = pop();
+    00000100 DC2A                   MOV.L       L1073+14,R12; _p2
+    00000102 4B0B                   JSR         @R11
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000104 2302                   MOV.L       R0,@R3
+        dsolve.c    91            p1 = pop();
+    00000106 DD2A                   MOV.L       L1073+18,R13; _p1
+    00000108 4B0B                   JSR         @R11
+    0000010A 2C02                   MOV.L       R0,@R12
+    0000010C 2D02                   MOV.L       R0,@R13
+    0000010E D83A                   MOV.L       L1073+90,R8; _zero
+    00000110 DA2E                   MOV.L       L1073+46,R10; _p5
+    00000112 DE28                   MOV.L       L1073+22,R14; _push
+        dsolve.c    92            while (1) {
+    00000114              L1069:                            
+        dsolve.c    93                    n++;
+    00000114 63F2                   MOV.L       @R15,R3
+    00000116 7301                   ADD         #1,R3
+    00000118 2F32                   MOV.L       R3,@R15
+        dsolve.c    94                    push(p1);
+    0000011A 4E0B                   JSR         @R14
+    0000011C 64D2                   MOV.L       @R13,R4
+        dsolve.c    95                    push(p2);
+    0000011E 4E0B                   JSR         @R14
+    00000120 64C2                   MOV.L       @R12,R4
+        dsolve.c    96                    push(zero);
+    00000122 4E0B                   JSR         @R14
+    00000124 6482                   MOV.L       @R8,R4
+        dsolve.c    97                    subst();
+    00000126 D335                   MOV.L       L1073+94,R3; _subst
+    00000128 430B                   JSR         @R3
+    0000012A 0009                   NOP
+        dsolve.c    98                    eval();
+    0000012C D234                   MOV.L       L1073+98,R2; _eval
+    0000012E 420B                   JSR         @R2
+    00000130 0009                   NOP
+        dsolve.c    99                    p5 = pop();
+    00000132 4B0B                   JSR         @R11
+    00000134 0009                   NOP
+    00000136 2A02                   MOV.L       R0,@R10
+        dsolve.c   100                    push(p5);
+    00000138 4E0B                   JSR         @R14
+    0000013A 6403                   MOV         R0,R4
+        dsolve.c   101                    push(p4);
+    0000013C 4E0B                   JSR         @R14
+    0000013E 6492                   MOV.L       @R9,R4
+        dsolve.c   102                    divide();
+    00000140 D323                   MOV.L       L1073+50,R3; _divide
+    00000142 430B                   JSR         @R3
+    00000144 0009                   NOP
+        dsolve.c   103                    push(p1);
+    00000146 4E0B                   JSR         @R14
+    00000148 64D2                   MOV.L       @R13,R4
+        dsolve.c   104                    push(p5);
+    0000014A 4E0B                   JSR         @R14
+    0000014C 64A2                   MOV.L       @R10,R4
+        dsolve.c   105                    subtract();
+    0000014E D22D                   MOV.L       L1073+102,R2; _subtract
+    00000150 420B                   JSR         @R2
+    00000152 0009                   NOP
+        dsolve.c   106                    p1 = pop();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000154 4B0B                   JSR         @R11
+    00000156 0009                   NOP
+    00000158 2D02                   MOV.L       R0,@R13
+        dsolve.c   107                    if (equal(p1, zero))
+    0000015A 6582                   MOV.L       @R8,R5
+    0000015C D32A                   MOV.L       L1073+106,R3; _equal
+    0000015E 430B                   JSR         @R3
+    00000160 6403                   MOV         R0,R4
+    00000162 2008                   TST         R0,R0
+    00000164 8B0D                   BF          L1071
+        dsolve.c   108                            break;
+        dsolve.c   109                    p4 = p2;
+    00000166 62C2                   MOV.L       @R12,R2
+    00000168 2922                   MOV.L       R2,@R9
+        dsolve.c   110                    push(p2);
+    0000016A 4E0B                   JSR         @R14
+    0000016C 64C2                   MOV.L       @R12,R4
+        dsolve.c   111                    push(p3);
+    0000016E D30D                   MOV.L       L1073+6,R3 ; _p3
+    00000170 4E0B                   JSR         @R14
+    00000172 6432                   MOV.L       @R3,R4
+        dsolve.c   112                    derivative();
+    00000174 D225                   MOV.L       L1073+110,R2; _derivative
+    00000176 420B                   JSR         @R2
+    00000178 0009                   NOP
+        dsolve.c   113                    p2 = pop();
+    0000017A 4B0B                   JSR         @R11
+    0000017C 0009                   NOP
+    0000017E AFC9                   BRA         L1069
+    00000180 2C02                   MOV.L       R0,@R12
+    00000182              L1071:                            
+        dsolve.c   114            }
+        dsolve.c   115            restore();
+    00000182 D31B                   MOV.L       L1073+82,R3; _restore
+    00000184 430B                   JSR         @R3
+    00000186 0009                   NOP
+        dsolve.c   116            return n;
+    00000188 60F2                   MOV.L       @R15,R0
+        dsolve.c   117    }
+    0000018A 7F04                   ADD         #4,R15
+    0000018C 4F26                   LDS.L       @R15+,PR
+    0000018E 68F6                   MOV.L       @R15+,R8
+    00000190 69F6                   MOV.L       @R15+,R9
+    00000192 6AF6                   MOV.L       @R15+,R10
+    00000194 6BF6                   MOV.L       @R15+,R11
+    00000196 6CF6                   MOV.L       @R15+,R12
+    00000198 6DF6                   MOV.L       @R15+,R13
+    0000019A 000B                   RTS
+    0000019C 6EF6                   MOV.L       @R15+,R14
+    0000019E              L1073:                            
+    0000019E 0000                   .DATA.W     0
+    000001A0 <00000000>             .DATA.L     _save
+    000001A4 <00000000>             .DATA.L     _p3
+    000001A8 <00000000>             .DATA.L     _pop
+    000001AC <00000000>             .DATA.L     _p2
+    000001B0 <00000000>             .DATA.L     _p1
+    000001B4 <00000000>             .DATA.L     _push
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001B8 <00000000>             .DATA.L     L1060
+    000001BC <00000000>             .DATA.L     _stop
+    000001C0 <00000000>             .DATA.L     _p6
+    000001C4 <00000000>             .DATA.L     _p4
+    000001C8 <00000000>             .DATA.L     _negate
+    000001CC <00000000>             .DATA.L     _p5
+    000001D0 <00000000>             .DATA.L     _divide
+    000001D4 <00000000>             .DATA.L     _integral
+    000001D8 <00000000>             .DATA.L     _exponential
+    000001DC <00000000>             .DATA.L     _p7
+    000001E0 <00000000>             .DATA.L     _multiply
+    000001E4 <00000000>             .DATA.L     L1061
+    000001E8 <00000000>             .DATA.L     _scan
+    000001EC <00000000>             .DATA.L     _add
+    000001F0 <00000000>             .DATA.L     _restore
+    000001F4 <00000000>             .DATA.L     _one
+    000001F8 <00000000>             .DATA.L     _zero
+    000001FC <00000000>             .DATA.L     _subst
+    00000200 <00000000>             .DATA.L     _eval
+    00000204 <00000000>             .DATA.L     _subtract
+    00000208 <00000000>             .DATA.L     _equal
+    0000020C <00000000>             .DATA.L     _derivative
+C   00000000              L1060:
+    00000000 6572726F72             .SDATA      "error in dsolve"
+             20696E2064   
+             736F6C7665   
+    0000000F 00                     .DATA.B     H'00
+    00000010              L1061:
+    00000010 43                     .SDATA      "C"
+    00000011 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      117
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000210 Byte(s)
+CONSTANT SECTION (C):                               00000012 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000222 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           26
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            34
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk5886.tmp 
+

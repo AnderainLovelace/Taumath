@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:50  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\conj.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          conj.c     1    // Complex conjugate
+          conj.c     2    
+          conj.c     3    #include "stdafx.h"
+          conj.c     4    #include "defs.h"
+          conj.c     5    
+          conj.c     6    void
+          conj.c     7    eval_conj(void)
+P   00000000              _eval_conj:                      ; function: eval_conj
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+          conj.c     8    {
+          conj.c     9            push(cadr(p1));
+    00000004 DE29                   MOV.L       L1069+4,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1062
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1064
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1062:                            
+    00000014 9348                   MOV.W       L1069,R3   ; H'0570
+    00000016 D226                   MOV.L       L1069+8,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1064:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1061
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1063
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1065
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1063:                            
+    00000030 933A                   MOV.W       L1069,R3   ; H'0570
+    00000032 D21F                   MOV.L       L1069+8,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1065:                            
+    00000038 A004                   BRA         L1066
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1061:                            
+    0000003C 9334                   MOV.W       L1069,R3   ; H'0570
+    0000003E D21C                   MOV.L       L1069+8,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1066:                            
+    00000044 D31B                   MOV.L       L1069+12,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:50  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          conj.c    10            eval();
+    0000004A D21B                   MOV.L       L1069+16,R2; _eval
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+          conj.c    11            p1 = pop();
+    00000050 D31A                   MOV.L       L1069+20,R3; _pop
+    00000052 430B                   JSR         @R3
+    00000054 0009                   NOP
+    00000056 2E02                   MOV.L       R0,@R14
+          conj.c    12            push(p1);
+    00000058 D216                   MOV.L       L1069+12,R2; _push
+    0000005A 420B                   JSR         @R2
+    0000005C 6403                   MOV         R0,R4
+          conj.c    13            if (!find(p1, imaginaryunit)) { // example: (-1)^(1/3)
+    0000005E D318                   MOV.L       L1069+24,R3; _imaginaryunit
+    00000060 D218                   MOV.L       L1069+28,R2; _find
+    00000062 6532                   MOV.L       @R3,R5
+    00000064 420B                   JSR         @R2
+    00000066 64E2                   MOV.L       @R14,R4
+    00000068 2008                   TST         R0,R0
+    0000006A 8B08                   BF          L1067
+          conj.c    14                    polar();
+    0000006C D216                   MOV.L       L1069+32,R2; _polar
+    0000006E 420B                   JSR         @R2
+    00000070 0009                   NOP
+          conj.c    15                    conjugate();
+    00000072 B007                   BSR         _conjugate
+    00000074 0009                   NOP
+          conj.c    16                    clockform();
+    00000076 4F26                   LDS.L       @R15+,PR
+    00000078 D214                   MOV.L       L1069+36,R2; _clockform
+    0000007A 422B                   JMP         @R2
+    0000007C 6EF6                   MOV.L       @R15+,R14
+    0000007E              L1067:                            
+          conj.c    17            } else
+          conj.c    18                    conjugate();
+    0000007E 4F26                   LDS.L       @R15+,PR
+    00000080 A000                   BRA         _conjugate
+    00000082 6EF6                   MOV.L       @R15+,R14
+          conj.c    19    }
+          conj.c    20    
+          conj.c    21    
+          conj.c    22    void
+          conj.c    23    conjugate(void)
+    00000084              _conjugate:                      ; function: conjugate
+                                                           ; frame size=4
+    00000084 4F22                   STS.L       PR,@-R15
+          conj.c    24    {
+          conj.c    25            push(imaginaryunit);
+    00000086 D30E                   MOV.L       L1069+24,R3; _imaginaryunit
+    00000088 D20A                   MOV.L       L1069+12,R2; _push
+    0000008A 420B                   JSR         @R2
+    0000008C 6432                   MOV.L       @R3,R4
+          conj.c    26            push(imaginaryunit);
+    0000008E D10C                   MOV.L       L1069+24,R1; _imaginaryunit
+    00000090 D308                   MOV.L       L1069+12,R3; _push
+    00000092 430B                   JSR         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:50  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000094 6412                   MOV.L       @R1,R4
+          conj.c    27            negate();
+    00000096 D20E                   MOV.L       L1069+40,R2; _negate
+    00000098 420B                   JSR         @R2
+    0000009A 0009                   NOP
+          conj.c    28            subst();
+    0000009C D30D                   MOV.L       L1069+44,R3; _subst
+    0000009E 430B                   JSR         @R3
+    000000A0 0009                   NOP
+          conj.c    29            eval();
+    000000A2 D205                   MOV.L       L1069+16,R2; _eval
+    000000A4 422B                   JMP         @R2
+    000000A6 4F26                   LDS.L       @R15+,PR
+    000000A8              L1069:                            
+    000000A8 0570                   .DATA.W     H'0570
+    000000AA 0000                   .DATA.W     0
+    000000AC <00000000>             .DATA.L     _p1
+    000000B0 <00000000>             .DATA.L     _symtab
+    000000B4 <00000000>             .DATA.L     _push
+    000000B8 <00000000>             .DATA.L     _eval
+    000000BC <00000000>             .DATA.L     _pop
+    000000C0 <00000000>             .DATA.L     _imaginaryunit
+    000000C4 <00000000>             .DATA.L     _find
+    000000C8 <00000000>             .DATA.L     _polar
+    000000CC <00000000>             .DATA.L     _clockform
+    000000D0 <00000000>             .DATA.L     _negate
+    000000D4 <00000000>             .DATA.L     _subst
+          conj.c    30    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:50  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       30
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000D8 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000D8 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           11
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            21
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk42A3.tmp 
+

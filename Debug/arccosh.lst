@@ -1,0 +1,467 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:45  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\arccosh.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       arccosh.c     1    #include "stdafx.h"
+       arccosh.c     2    #include "defs.h"
+       arccosh.c     3    
+       arccosh.c     4    void
+       arccosh.c     5    eval_arccosh(void)
+P   00000000              _eval_arccosh:                   ; function: eval_arccosh
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+       arccosh.c     6    {
+       arccosh.c     7            push(cadr(p1));
+    00000004 DE35                   MOV.L       L1097+6,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1079
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1081
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1079:                            
+    00000014 935F                   MOV.W       L1097,R3   ; H'0570
+    00000016 D232                   MOV.L       L1097+10,R2; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1081:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1078
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1080
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1082
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1080:                            
+    00000030 9351                   MOV.W       L1097,R3   ; H'0570
+    00000032 D22B                   MOV.L       L1097+10,R2; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1082:                            
+    00000038 A004                   BRA         L1083
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1078:                            
+    0000003C 934B                   MOV.W       L1097,R3   ; H'0570
+    0000003E D228                   MOV.L       L1097+10,R2; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1083:                            
+    00000044 D327                   MOV.L       L1097+14,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+       arccosh.c     8            eval();
+    0000004A D227                   MOV.L       L1097+18,R2; _eval
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:45  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+       arccosh.c     9            arccosh();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+       arccosh.c    10    }
+       arccosh.c    11    
+       arccosh.c    12    void
+       arccosh.c    13    arccosh(void)
+    00000054              _arccosh:                        ; function: arccosh
+                                                           ; frame size=80
+                                                           ; used runtime library name:
+                                                           ; __addd, __muld, __ltd
+    00000054 2FE6                   MOV.L       R14,@-R15
+    00000056 2FD6                   MOV.L       R13,@-R15
+    00000058 4F22                   STS.L       PR,@-R15
+    0000005A 7FF8                   ADD         #-8,R15
+       arccosh.c    14    {
+       arccosh.c    15            double d;
+       arccosh.c    16            save();
+    0000005C D323                   MOV.L       L1097+22,R3; _save
+    0000005E 430B                   JSR         @R3
+    00000060 0009                   NOP
+       arccosh.c    17            p1 = pop();
+    00000062 DE1E                   MOV.L       L1097+6,R14; _p1
+    00000064 D222                   MOV.L       L1097+26,R2; _pop
+    00000066 420B                   JSR         @R2
+    00000068 0009                   NOP
+    0000006A 6403                   MOV         R0,R4
+    0000006C 2E02                   MOV.L       R0,@R14
+    0000006E DD1D                   MOV.L       L1097+14,R13; _push
+    00000070 8448                   MOV.B       @(8,R4),R0
+    00000072 2008                   TST         R0,R0
+    00000074 8B02                   BF          L1085
+    00000076 62E2                   MOV.L       @R14,R2
+    00000078 A004                   BRA         L1086
+    0000007A 6322                   MOV.L       @R2,R3
+    0000007C              L1085:                            
+    0000007C 922B                   MOV.W       L1097,R2   ; H'0570
+    0000007E D118                   MOV.L       L1097+10,R1; _symtab
+    00000080 6312                   MOV.L       @R1,R3
+    00000082 332C                   ADD         R2,R3
+    00000084              L1086:                            
+    00000084 9228                   MOV.W       L1097+2,R2 ; H'012C
+    00000086 D116                   MOV.L       L1097+10,R1; _symtab
+    00000088 6012                   MOV.L       @R1,R0
+    0000008A 302C                   ADD         R2,R0
+    0000008C 3300                   CMP/EQ      R0,R3
+    0000008E 8B31                   BF          L1084
+       arccosh.c    18            if (car(p1) == symbol(COSH)) {
+       arccosh.c    19                    push(cadr(p1));
+    00000090 64E2                   MOV.L       @R14,R4
+    00000092 8448                   MOV.B       @(8,R4),R0
+    00000094 2008                   TST         R0,R0
+    00000096 8B02                   BF          L1088
+    00000098 64E2                   MOV.L       @R14,R4
+    0000009A A004                   BRA         L1090
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:45  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000009C 5441                   MOV.L       @(4,R4),R4
+    0000009E              L1088:                            
+    0000009E 931A                   MOV.W       L1097,R3   ; H'0570
+    000000A0 D10F                   MOV.L       L1097+10,R1; _symtab
+    000000A2 6412                   MOV.L       @R1,R4
+    000000A4 343C                   ADD         R3,R4
+    000000A6              L1090:                            
+    000000A6 8448                   MOV.B       @(8,R4),R0
+    000000A8 2008                   TST         R0,R0
+    000000AA 8B0C                   BF          L1087
+    000000AC 64E2                   MOV.L       @R14,R4
+    000000AE 8448                   MOV.B       @(8,R4),R0
+    000000B0 2008                   TST         R0,R0
+    000000B2 8B02                   BF          L1089
+    000000B4 64E2                   MOV.L       @R14,R4
+    000000B6 A004                   BRA         L1091
+    000000B8 5441                   MOV.L       @(4,R4),R4
+    000000BA              L1089:                            
+    000000BA 930C                   MOV.W       L1097,R3   ; H'0570
+    000000BC D208                   MOV.L       L1097+10,R2; _symtab
+    000000BE 6422                   MOV.L       @R2,R4
+    000000C0 343C                   ADD         R3,R4
+    000000C2              L1091:                            
+    000000C2 A004                   BRA         L1092
+    000000C4 6442                   MOV.L       @R4,R4
+    000000C6              L1087:                            
+    000000C6 9306                   MOV.W       L1097,R3   ; H'0570
+    000000C8 D205                   MOV.L       L1097+10,R2; _symtab
+    000000CA 6422                   MOV.L       @R2,R4
+    000000CC 343C                   ADD         R3,R4
+    000000CE              L1092:                            
+    000000CE 4D0B                   JSR         @R13
+    000000D0 0009                   NOP
+    000000D2 A06F                   BRA         L1070
+    000000D4 0009                   NOP
+    000000D6              L1097:                            
+    000000D6 0570                   .DATA.W     H'0570
+    000000D8 012C                   .DATA.W     H'012C
+    000000DA 0000                   .DATA.W     0
+    000000DC <00000000>             .DATA.L     _p1
+    000000E0 <00000000>             .DATA.L     _symtab
+    000000E4 <00000000>             .DATA.L     _push
+    000000E8 <00000000>             .DATA.L     _eval
+    000000EC <00000000>             .DATA.L     _save
+    000000F0 <00000000>             .DATA.L     _pop
+    000000F4              L1084:                            
+       arccosh.c    20                    restore();
+       arccosh.c    21                    return;
+       arccosh.c    22            }
+       arccosh.c    23            if (isdouble(p1)) {
+    000000F4 8448                   MOV.B       @(8,R4),R0
+    000000F6 600C                   EXTU.B      R0,R0
+    000000F8 8802                   CMP/EQ      #2,R0
+    000000FA 8B49                   BF          L1094
+       arccosh.c    24                    d = p1->u.d;
+    000000FC 6243                   MOV         R4,R2
+    000000FE 63F3                   MOV         R15,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:45  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000100 6122                   MOV.L       @R2,R1
+    00000102 2312                   MOV.L       R1,@R3
+    00000104 5121                   MOV.L       @(4,R2),R1
+    00000106 1311                   MOV.L       R1,@(4,R3)
+       arccosh.c    25                    if (d < 1.0)
+    00000108 50F1                   MOV.L       @(4,R15),R0
+    0000010A E300                   MOV         #0,R3
+    0000010C D22D                   MOV.L       L1098+4,R2 ; __ltd
+    0000010E 2F06                   MOV.L       R0,@-R15
+    00000110 50F1                   MOV.L       @(4,R15),R0
+    00000112 2F06                   MOV.L       R0,@-R15
+    00000114 2F36                   MOV.L       R3,@-R15
+    00000116 D32A                   MOV.L       L1098,R3   ; H'3FF00000
+    00000118 420B                   JSR         @R2
+    0000011A 2F36                   MOV.L       R3,@-R15
+    0000011C 8800                   CMP/EQ      #0,R0
+    0000011E 8903                   BT          L1095
+       arccosh.c    26                            stop("arccosh function argument is less than 1.0");
+    00000120 D429                   MOV.L       L1098+8,R4 ; L1063
+    00000122 D32A                   MOV.L       L1098+12,R3; _stop
+    00000124 430B                   JSR         @R3
+    00000126 0009                   NOP
+    00000128              L1095:                            
+       arccosh.c    27                    d = log(d + sqrt(d * d - 1.0));
+    00000128 D129                   MOV.L       L1098+16,R1; __muld
+    0000012A 7FF8                   ADD         #-8,R15
+    0000012C 52F3                   MOV.L       @(12,R15),R2
+    0000012E 2F26                   MOV.L       R2,@-R15
+    00000130 52F3                   MOV.L       @(12,R15),R2
+    00000132 2F26                   MOV.L       R2,@-R15
+    00000134 7FE8                   ADD         #-24,R15
+    00000136 53FB                   MOV.L       @(44,R15),R3
+    00000138 2F36                   MOV.L       R3,@-R15
+    0000013A 53FB                   MOV.L       @(44,R15),R3
+    0000013C 2F36                   MOV.L       R3,@-R15
+    0000013E 52FD                   MOV.L       @(52,R15),R2
+    00000140 2F26                   MOV.L       R2,@-R15
+    00000142 52FD                   MOV.L       @(52,R15),R2
+    00000144 2F26                   MOV.L       R2,@-R15
+    00000146 63F3                   MOV         R15,R3
+    00000148 7310                   ADD         #16,R3
+    0000014A 410B                   JSR         @R1
+    0000014C 2F36                   MOV.L       R3,@-R15
+    0000014E E200                   MOV         #0,R2
+    00000150 D121                   MOV.L       L1098+24,R1; __addd
+    00000152 2F26                   MOV.L       R2,@-R15
+    00000154 D21F                   MOV.L       L1098+20,R2; H'BFF00000
+    00000156 2F26                   MOV.L       R2,@-R15
+    00000158 63F3                   MOV         R15,R3
+    0000015A 7310                   ADD         #16,R3
+    0000015C 410B                   JSR         @R1
+    0000015E 2F36                   MOV.L       R3,@-R15
+    00000160 D31E                   MOV.L       L1098+28,R3; _sqrt
+    00000162 E208                   MOV         #8,R2
+    00000164 32FC                   ADD         R15,R2
+    00000166 430B                   JSR         @R3
+    00000168 2F26                   MOV.L       R2,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:45  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000016A 7F0C                   ADD         #12,R15
+    0000016C D01A                   MOV.L       L1098+24,R0; __addd
+    0000016E 62F3                   MOV         R15,R2
+    00000170 7210                   ADD         #16,R2
+    00000172 400B                   JSR         @R0
+    00000174 2F26                   MOV.L       R2,@-R15
+    00000176 63F3                   MOV         R15,R3
+    00000178 D119                   MOV.L       L1098+32,R1; _log
+    0000017A 7308                   ADD         #8,R3
+    0000017C 410B                   JSR         @R1
+    0000017E 2F36                   MOV.L       R3,@-R15
+       arccosh.c    28                    push_double(d);
+    00000180 53F4                   MOV.L       @(16,R15),R3
+    00000182 2F36                   MOV.L       R3,@-R15
+    00000184 53F4                   MOV.L       @(16,R15),R3
+    00000186 D217                   MOV.L       L1098+36,R2; _push_double
+    00000188 420B                   JSR         @R2
+    0000018A 2F36                   MOV.L       R3,@-R15
+    0000018C A012                   BRA         L1070
+    0000018E 7F14                   ADD         #20,R15
+    00000190              L1094:                            
+       arccosh.c    29                    restore();
+       arccosh.c    30                    return;
+       arccosh.c    31            }
+       arccosh.c    32            if (isplusone(p1)) {
+    00000190 D315                   MOV.L       L1098+40,R3; _isplusone
+    00000192 430B                   JSR         @R3
+    00000194 0009                   NOP
+    00000196 2008                   TST         R0,R0
+    00000198 8904                   BT          L1096
+       arccosh.c    33                    push(zero);
+    0000019A D314                   MOV.L       L1098+44,R3; _zero
+    0000019C 4D0B                   JSR         @R13
+    0000019E 6432                   MOV.L       @R3,R4
+    000001A0 A008                   BRA         L1070
+    000001A2 0009                   NOP
+    000001A4              L1096:                            
+       arccosh.c    34                    restore();
+       arccosh.c    35                    return;
+       arccosh.c    36            }
+       arccosh.c    37            push_symbol(ARCCOSH);
+    000001A4 D312                   MOV.L       L1098+48,R3; _push_symbol
+    000001A6 430B                   JSR         @R3
+    000001A8 E405                   MOV         #5,R4
+       arccosh.c    38            push(p1);
+    000001AA 4D0B                   JSR         @R13
+    000001AC 64E2                   MOV.L       @R14,R4
+       arccosh.c    39            list(2);
+    000001AE D211                   MOV.L       L1098+52,R2; _list
+    000001B0 420B                   JSR         @R2
+    000001B2 E402                   MOV         #2,R4
+    000001B4              L1070:
+       arccosh.c    40            restore();
+    000001B4 D310                   MOV.L       L1098+56,R3; _restore
+    000001B6 7F08                   ADD         #8,R15
+    000001B8 4F26                   LDS.L       @R15+,PR
+    000001BA 6DF6                   MOV.L       @R15+,R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:45  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001BC 432B                   JMP         @R3
+    000001BE 6EF6                   MOV.L       @R15+,R14
+    000001C0              L1098:                            
+    000001C0 3FF00000               .DATA.L     H'3FF00000
+    000001C4 <00000000>             .DATA.L     __ltd
+    000001C8 <00000000>             .DATA.L     L1063
+    000001CC <00000000>             .DATA.L     _stop
+    000001D0 <00000000>             .DATA.L     __muld
+    000001D4 BFF00000               .DATA.L     H'BFF00000
+    000001D8 <00000000>             .DATA.L     __addd
+    000001DC <00000000>             .DATA.L     _sqrt
+    000001E0 <00000000>             .DATA.L     _log
+    000001E4 <00000000>             .DATA.L     _push_double
+    000001E8 <00000000>             .DATA.L     _isplusone
+    000001EC <00000000>             .DATA.L     _zero
+    000001F0 <00000000>             .DATA.L     _push_symbol
+    000001F4 <00000000>             .DATA.L     _list
+    000001F8 <00000000>             .DATA.L     _restore
+       arccosh.c    41    }
+C   00000000              L1063:
+    00000000 617263636F             .SDATA      "arccosh function argument is less than 1.0"
+             7368206675   
+             6E6374696F   
+             6E20617267   
+             756D656E74   
+             206973206C   
+             6573732074   
+             68616E2031   
+             2E30         
+    0000002A 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:45  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       41
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000001FC Byte(s)
+CONSTANT SECTION (C):                               0000002B Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000227 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           18
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            42
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk2D8C.tmp 
+

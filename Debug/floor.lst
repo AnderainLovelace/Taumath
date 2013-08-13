@@ -1,0 +1,401 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\floor.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         floor.c     1    #include "stdafx.h"
+         floor.c     2    #include "defs.h"
+         floor.c     3    
+         floor.c     4    void
+         floor.c     5    eval_floor(void)
+P   00000000              _eval_floor:                     ; function: eval_floor
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+         floor.c     6    {
+         floor.c     7            push(cadr(p1));
+    00000004 DE39                   MOV.L       L1077+4,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1067
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1069
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1067:                            
+    00000014 9368                   MOV.W       L1077,R3   ; H'0570
+    00000016 D236                   MOV.L       L1077+8,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1069:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1066
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1068
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1070
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1068:                            
+    00000030 935A                   MOV.W       L1077,R3   ; H'0570
+    00000032 D22F                   MOV.L       L1077+8,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1070:                            
+    00000038 A004                   BRA         L1071
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1066:                            
+    0000003C 9354                   MOV.W       L1077,R3   ; H'0570
+    0000003E D22C                   MOV.L       L1077+8,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1071:                            
+    00000044 D32B                   MOV.L       L1077+12,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+         floor.c     8            eval();
+    0000004A D22B                   MOV.L       L1077+16,R2; _eval
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+         floor.c     9            yfloor();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+         floor.c    10    }
+         floor.c    11    
+         floor.c    12    void
+         floor.c    13    yfloor(void)
+    00000054              _yfloor:                         ; function: yfloor
+                                                           ; frame size=4
+    00000054 4F22                   STS.L       PR,@-R15
+         floor.c    14    {
+         floor.c    15            save();
+    00000056 D329                   MOV.L       L1077+20,R3; _save
+    00000058 430B                   JSR         @R3
+    0000005A 0009                   NOP
+         floor.c    16            yyfloor();
+    0000005C B003                   BSR         _yyfloor
+    0000005E 0009                   NOP
+         floor.c    17            restore();
+    00000060 D327                   MOV.L       L1077+24,R3; _restore
+    00000062 432B                   JMP         @R3
+    00000064 4F26                   LDS.L       @R15+,PR
+         floor.c    18    }
+         floor.c    19    
+         floor.c    20    void
+         floor.c    21    yyfloor(void)
+    00000066              _yyfloor:                        ; function: yyfloor
+                                                           ; frame size=48
+    00000066 2FE6                   MOV.L       R14,@-R15
+    00000068 2FD6                   MOV.L       R13,@-R15
+    0000006A 2FC6                   MOV.L       R12,@-R15
+    0000006C 2F86                   MOV.L       R8,@-R15
+    0000006E 4F22                   STS.L       PR,@-R15
+         floor.c    22    {
+         floor.c    23            double d;
+         floor.c    24    
+         floor.c    25            p1 = pop();
+    00000070 DE1E                   MOV.L       L1077+4,R14; _p1
+    00000072 7FF8                   ADD         #-8,R15
+    00000074 D323                   MOV.L       L1077+28,R3; _pop
+    00000076 430B                   JSR         @R3
+    00000078 0009                   NOP
+    0000007A 6D03                   MOV         R0,R13
+    0000007C 2E02                   MOV.L       R0,@R14
+    0000007E DC1D                   MOV.L       L1077+12,R12; _push
+    00000080 84D8                   MOV.B       @(8,R13),R0
+    00000082 600C                   EXTU.B      R0,R0
+    00000084 8801                   CMP/EQ      #1,R0
+    00000086 8D11                   BT/S        L1072
+    00000088 6403                   MOV         R0,R4
+    0000008A 6043                   MOV         R4,R0
+    0000008C 8802                   CMP/EQ      #2,R0
+    0000008E 890D                   BT          L1072
+         floor.c    26    
+         floor.c    27            if (!isnum(p1)) {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         floor.c    28                    push_symbol(FLOOR);
+    00000090 D31D                   MOV.L       L1077+32,R3; _push_symbol
+    00000092 430B                   JSR         @R3
+    00000094 E436                   MOV         #54,R4
+         floor.c    29                    push(p1);
+    00000096 4C0B                   JSR         @R12
+    00000098 64E2                   MOV.L       @R14,R4
+         floor.c    30                    list(2);
+    0000009A E402                   MOV         #2,R4
+    0000009C D21B                   MOV.L       L1077+36,R2; _list
+    0000009E 7F08                   ADD         #8,R15
+    000000A0 4F26                   LDS.L       @R15+,PR
+    000000A2 68F6                   MOV.L       @R15+,R8
+    000000A4 6CF6                   MOV.L       @R15+,R12
+    000000A6 6DF6                   MOV.L       @R15+,R13
+    000000A8 422B                   JMP         @R2
+    000000AA 6EF6                   MOV.L       @R15+,R14
+    000000AC              L1072:                            
+         floor.c    31                    return;
+         floor.c    32            }
+         floor.c    33    
+         floor.c    34            if (isdouble(p1)) {
+    000000AC 84D8                   MOV.B       @(8,R13),R0
+    000000AE 600C                   EXTU.B      R0,R0
+    000000B0 8802                   CMP/EQ      #2,R0
+    000000B2 8B10                   BF          L1074
+         floor.c    35                    d = floor(p1->u.d);
+    000000B4 52D1                   MOV.L       @(4,R13),R2
+    000000B6 2F26                   MOV.L       R2,@-R15
+    000000B8 62D2                   MOV.L       @R13,R2
+    000000BA 2F26                   MOV.L       R2,@-R15
+    000000BC D114                   MOV.L       L1077+40,R1; _floor
+    000000BE 63F3                   MOV         R15,R3
+    000000C0 7308                   ADD         #8,R3
+    000000C2 410B                   JSR         @R1
+    000000C4 2F36                   MOV.L       R3,@-R15
+         floor.c    36                    push_double(d);
+    000000C6 53F4                   MOV.L       @(16,R15),R3
+    000000C8 D212                   MOV.L       L1077+44,R2; _push_double
+    000000CA 2F36                   MOV.L       R3,@-R15
+    000000CC 53F4                   MOV.L       @(16,R15),R3
+    000000CE 420B                   JSR         @R2
+    000000D0 2F36                   MOV.L       R3,@-R15
+         floor.c    37                    return;
+    000000D2 A04B                   BRA         L1073
+    000000D4 7F14                   ADD         #20,R15
+    000000D6              L1074:                            
+         floor.c    38            }
+         floor.c    39    
+         floor.c    40            if (isinteger(p1)) {
+    000000D6 D310                   MOV.L       L1077+48,R3; _isinteger
+    000000D8 430B                   JSR         @R3
+    000000DA 64D3                   MOV         R13,R4
+    000000DC 2008                   TST         R0,R0
+    000000DE 891D                   BT          L1075
+         floor.c    41                    push(p1);
+    000000E0 4C0B                   JSR         @R12
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000E2 64E2                   MOV.L       @R14,R4
+         floor.c    42                    return;
+    000000E4 A042                   BRA         L1073
+    000000E6 0009                   NOP
+    000000E8              L1077:                            
+    000000E8 0570                   .DATA.W     H'0570
+    000000EA 0000                   .DATA.W     0
+    000000EC <00000000>             .DATA.L     _p1
+    000000F0 <00000000>             .DATA.L     _symtab
+    000000F4 <00000000>             .DATA.L     _push
+    000000F8 <00000000>             .DATA.L     _eval
+    000000FC <00000000>             .DATA.L     _save
+    00000100 <00000000>             .DATA.L     _restore
+    00000104 <00000000>             .DATA.L     _pop
+    00000108 <00000000>             .DATA.L     _push_symbol
+    0000010C <00000000>             .DATA.L     _list
+    00000110 <00000000>             .DATA.L     _floor
+    00000114 <00000000>             .DATA.L     _push_double
+    00000118 <00000000>             .DATA.L     _isinteger
+    0000011C              L1075:                            
+         floor.c    43            }
+         floor.c    44    
+         floor.c    45            p3 = alloc();
+    0000011C DD17                   MOV.L       L1078+2,R13; _p3
+    0000011E D318                   MOV.L       L1078+6,R3 ; _alloc
+    00000120 430B                   JSR         @R3
+    00000122 0009                   NOP
+    00000124 2D02                   MOV.L       R0,@R13
+         floor.c    46            p3->k = NUM;
+    00000126 6203                   MOV         R0,R2
+         floor.c    47            p3->u.q.a = mdiv(p1->u.q.a, p1->u.q.b);
+    00000128 D316                   MOV.L       L1078+10,R3; _mdiv
+    0000012A E001                   MOV         #1,R0
+    0000012C 8028                   MOV.B       R0,@(8,R2)
+    0000012E 68D2                   MOV.L       @R13,R8
+    00000130 65E2                   MOV.L       @R14,R5
+    00000132 5551                   MOV.L       @(4,R5),R5
+    00000134 64E2                   MOV.L       @R14,R4
+    00000136 430B                   JSR         @R3
+    00000138 6442                   MOV.L       @R4,R4
+    0000013A 2802                   MOV.L       R0,@R8
+         floor.c    48            p3->u.q.b = mint(1);
+    0000013C 68D2                   MOV.L       @R13,R8
+    0000013E 7804                   ADD         #4,R8
+    00000140 D211                   MOV.L       L1078+14,R2; _mint
+    00000142 420B                   JSR         @R2
+    00000144 E401                   MOV         #1,R4
+    00000146 2802                   MOV.L       R0,@R8
+         floor.c    49            push(p3);
+    00000148 4C0B                   JSR         @R12
+    0000014A 64D2                   MOV.L       @R13,R4
+         floor.c    50    
+         floor.c    51            if (isnegativenumber(p1)) {
+    0000014C D30F                   MOV.L       L1078+18,R3; _isnegativenumber
+    0000014E 430B                   JSR         @R3
+    00000150 64E2                   MOV.L       @R14,R4
+    00000152 2008                   TST         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000154 890A                   BT          L1073
+         floor.c    52                    push_integer(-1);
+    00000156 D30E                   MOV.L       L1078+22,R3; _push_integer
+    00000158 430B                   JSR         @R3
+    0000015A E4FF                   MOV         #-1,R4
+         floor.c    53                    add();
+    0000015C D20D                   MOV.L       L1078+26,R2; _add
+    0000015E 7F08                   ADD         #8,R15
+    00000160 4F26                   LDS.L       @R15+,PR
+    00000162 68F6                   MOV.L       @R15+,R8
+    00000164 6CF6                   MOV.L       @R15+,R12
+    00000166 6DF6                   MOV.L       @R15+,R13
+    00000168 422B                   JMP         @R2
+    0000016A 6EF6                   MOV.L       @R15+,R14
+    0000016C              L1073:                            
+         floor.c    54            }
+         floor.c    55    }
+    0000016C 7F08                   ADD         #8,R15
+    0000016E 4F26                   LDS.L       @R15+,PR
+    00000170 68F6                   MOV.L       @R15+,R8
+    00000172 6CF6                   MOV.L       @R15+,R12
+    00000174 6DF6                   MOV.L       @R15+,R13
+    00000176 000B                   RTS
+    00000178 6EF6                   MOV.L       @R15+,R14
+    0000017A              L1078:                            
+    0000017A 0000                   .DATA.W     0
+    0000017C <00000000>             .DATA.L     _p3
+    00000180 <00000000>             .DATA.L     _alloc
+    00000184 <00000000>             .DATA.L     _mdiv
+    00000188 <00000000>             .DATA.L     _mint
+    0000018C <00000000>             .DATA.L     _isnegativenumber
+    00000190 <00000000>             .DATA.L     _push_integer
+    00000194 <00000000>             .DATA.L     _add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:00  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       55
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000198 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000198 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           19
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            34
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk6B4A.tmp 
+

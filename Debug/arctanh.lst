@@ -1,0 +1,467 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:46  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\arctanh.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       arctanh.c     1    #include "stdafx.h"
+       arctanh.c     2    #include "defs.h"
+       arctanh.c     3    
+       arctanh.c     4    void
+       arctanh.c     5    eval_arctanh(void)
+P   00000000              _eval_arctanh:                   ; function: eval_arctanh
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+       arctanh.c     6    {
+       arctanh.c     7            push(cadr(p1));
+    00000004 DE35                   MOV.L       L1098+6,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1079
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1081
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1079:                            
+    00000014 935F                   MOV.W       L1098,R3   ; H'0570
+    00000016 D232                   MOV.L       L1098+10,R2; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1081:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1078
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1080
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1082
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1080:                            
+    00000030 9351                   MOV.W       L1098,R3   ; H'0570
+    00000032 D22B                   MOV.L       L1098+10,R2; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1082:                            
+    00000038 A004                   BRA         L1083
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1078:                            
+    0000003C 934B                   MOV.W       L1098,R3   ; H'0570
+    0000003E D228                   MOV.L       L1098+10,R2; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1083:                            
+    00000044 D327                   MOV.L       L1098+14,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+       arctanh.c     8            eval();
+    0000004A D227                   MOV.L       L1098+18,R2; _eval
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:46  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+       arctanh.c     9            arctanh();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+       arctanh.c    10    }
+       arctanh.c    11    
+       arctanh.c    12    void
+       arctanh.c    13    arctanh(void)
+    00000054              _arctanh:                        ; function: arctanh
+                                                           ; frame size=72
+                                                           ; used runtime library name:
+                                                           ; __addd, __subdr, __divdr, __gtd, __ltd
+    00000054 2FE6                   MOV.L       R14,@-R15
+    00000056 2FD6                   MOV.L       R13,@-R15
+    00000058 4F22                   STS.L       PR,@-R15
+    0000005A 7FF8                   ADD         #-8,R15
+       arctanh.c    14    {
+       arctanh.c    15            double d;
+       arctanh.c    16            save();
+    0000005C D323                   MOV.L       L1098+22,R3; _save
+    0000005E 430B                   JSR         @R3
+    00000060 0009                   NOP
+       arctanh.c    17            p1 = pop();
+    00000062 DE1E                   MOV.L       L1098+6,R14; _p1
+    00000064 D222                   MOV.L       L1098+26,R2; _pop
+    00000066 420B                   JSR         @R2
+    00000068 0009                   NOP
+    0000006A 6403                   MOV         R0,R4
+    0000006C 2E02                   MOV.L       R0,@R14
+    0000006E DD1D                   MOV.L       L1098+14,R13; _push
+    00000070 8448                   MOV.B       @(8,R4),R0
+    00000072 2008                   TST         R0,R0
+    00000074 8B02                   BF          L1085
+    00000076 62E2                   MOV.L       @R14,R2
+    00000078 A004                   BRA         L1086
+    0000007A 6322                   MOV.L       @R2,R3
+    0000007C              L1085:                            
+    0000007C 922B                   MOV.W       L1098,R2   ; H'0570
+    0000007E D118                   MOV.L       L1098+10,R1; _symtab
+    00000080 6312                   MOV.L       @R1,R3
+    00000082 332C                   ADD         R2,R3
+    00000084              L1086:                            
+    00000084 9228                   MOV.W       L1098+2,R2 ; H'04EC
+    00000086 D116                   MOV.L       L1098+10,R1; _symtab
+    00000088 6012                   MOV.L       @R1,R0
+    0000008A 302C                   ADD         R2,R0
+    0000008C 3300                   CMP/EQ      R0,R3
+    0000008E 8B31                   BF          L1084
+       arctanh.c    18            if (car(p1) == symbol(TANH)) {
+       arctanh.c    19                    push(cadr(p1));
+    00000090 64E2                   MOV.L       @R14,R4
+    00000092 8448                   MOV.B       @(8,R4),R0
+    00000094 2008                   TST         R0,R0
+    00000096 8B02                   BF          L1088
+    00000098 64E2                   MOV.L       @R14,R4
+    0000009A A004                   BRA         L1090
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:46  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000009C 5441                   MOV.L       @(4,R4),R4
+    0000009E              L1088:                            
+    0000009E 931A                   MOV.W       L1098,R3   ; H'0570
+    000000A0 D10F                   MOV.L       L1098+10,R1; _symtab
+    000000A2 6412                   MOV.L       @R1,R4
+    000000A4 343C                   ADD         R3,R4
+    000000A6              L1090:                            
+    000000A6 8448                   MOV.B       @(8,R4),R0
+    000000A8 2008                   TST         R0,R0
+    000000AA 8B0C                   BF          L1087
+    000000AC 64E2                   MOV.L       @R14,R4
+    000000AE 8448                   MOV.B       @(8,R4),R0
+    000000B0 2008                   TST         R0,R0
+    000000B2 8B02                   BF          L1089
+    000000B4 64E2                   MOV.L       @R14,R4
+    000000B6 A004                   BRA         L1091
+    000000B8 5441                   MOV.L       @(4,R4),R4
+    000000BA              L1089:                            
+    000000BA 930C                   MOV.W       L1098,R3   ; H'0570
+    000000BC D208                   MOV.L       L1098+10,R2; _symtab
+    000000BE 6422                   MOV.L       @R2,R4
+    000000C0 343C                   ADD         R3,R4
+    000000C2              L1091:                            
+    000000C2 A004                   BRA         L1092
+    000000C4 6442                   MOV.L       @R4,R4
+    000000C6              L1087:                            
+    000000C6 9306                   MOV.W       L1098,R3   ; H'0570
+    000000C8 D205                   MOV.L       L1098+10,R2; _symtab
+    000000CA 6422                   MOV.L       @R2,R4
+    000000CC 343C                   ADD         R3,R4
+    000000CE              L1092:                            
+    000000CE 4D0B                   JSR         @R13
+    000000D0 0009                   NOP
+    000000D2 A07F                   BRA         L1070
+    000000D4 0009                   NOP
+    000000D6              L1098:                            
+    000000D6 0570                   .DATA.W     H'0570
+    000000D8 04EC                   .DATA.W     H'04EC
+    000000DA 0000                   .DATA.W     0
+    000000DC <00000000>             .DATA.L     _p1
+    000000E0 <00000000>             .DATA.L     _symtab
+    000000E4 <00000000>             .DATA.L     _push
+    000000E8 <00000000>             .DATA.L     _eval
+    000000EC <00000000>             .DATA.L     _save
+    000000F0 <00000000>             .DATA.L     _pop
+    000000F4              L1084:                            
+       arctanh.c    20                    restore();
+       arctanh.c    21                    return;
+       arctanh.c    22            }
+       arctanh.c    23            if (isdouble(p1)) {
+    000000F4 8448                   MOV.B       @(8,R4),R0
+    000000F6 600C                   EXTU.B      R0,R0
+    000000F8 8802                   CMP/EQ      #2,R0
+    000000FA 8B59                   BF          L1094
+       arctanh.c    24                    d = p1->u.d;
+    000000FC 6243                   MOV         R4,R2
+    000000FE 63F3                   MOV         R15,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:46  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000100 6122                   MOV.L       @R2,R1
+    00000102 2312                   MOV.L       R1,@R3
+    00000104 5121                   MOV.L       @(4,R2),R1
+    00000106 1311                   MOV.L       R1,@(4,R3)
+       arctanh.c    25                    if (d < -1.0 || d > 1.0)
+    00000108 50F1                   MOV.L       @(4,R15),R0
+    0000010A E300                   MOV         #0,R3
+    0000010C D235                   MOV.L       L1099+4,R2 ; __ltd
+    0000010E 2F06                   MOV.L       R0,@-R15
+    00000110 50F1                   MOV.L       @(4,R15),R0
+    00000112 2F06                   MOV.L       R0,@-R15
+    00000114 2F36                   MOV.L       R3,@-R15
+    00000116 D332                   MOV.L       L1099,R3   ; H'BFF00000
+    00000118 420B                   JSR         @R2
+    0000011A 2F36                   MOV.L       R3,@-R15
+    0000011C 8800                   CMP/EQ      #0,R0
+    0000011E 8B0B                   BF          L1096
+    00000120 53F1                   MOV.L       @(4,R15),R3
+    00000122 E200                   MOV         #0,R2
+    00000124 2F36                   MOV.L       R3,@-R15
+    00000126 53F1                   MOV.L       @(4,R15),R3
+    00000128 2F36                   MOV.L       R3,@-R15
+    0000012A 2F26                   MOV.L       R2,@-R15
+    0000012C D22E                   MOV.L       L1099+8,R2 ; H'3FF00000
+    0000012E D32F                   MOV.L       L1099+12,R3; __gtd
+    00000130 430B                   JSR         @R3
+    00000132 2F26                   MOV.L       R2,@-R15
+    00000134 8800                   CMP/EQ      #0,R0
+    00000136 8903                   BT          L1095
+    00000138              L1096:                            
+       arctanh.c    26                            stop("arctanh function argument is not in the interval [-1,1]");
+    00000138 D42D                   MOV.L       L1099+16,R4; L1063
+    0000013A D22E                   MOV.L       L1099+20,R2; _stop
+    0000013C 420B                   JSR         @R2
+    0000013E 0009                   NOP
+    00000140              L1095:                            
+       arctanh.c    27                    d = log((1.0 + d) / (1.0 - d)) / 2.0;
+    00000140 D12D                   MOV.L       L1099+24,R1; __addd
+    00000142 7FE8                   ADD         #-24,R15
+    00000144 53F7                   MOV.L       @(28,R15),R3
+    00000146 E200                   MOV         #0,R2
+    00000148 2F36                   MOV.L       R3,@-R15
+    0000014A 53F7                   MOV.L       @(28,R15),R3
+    0000014C 2F36                   MOV.L       R3,@-R15
+    0000014E 2F26                   MOV.L       R2,@-R15
+    00000150 D225                   MOV.L       L1099+8,R2 ; H'3FF00000
+    00000152 2F26                   MOV.L       R2,@-R15
+    00000154 63F3                   MOV         R15,R3
+    00000156 7310                   ADD         #16,R3
+    00000158 410B                   JSR         @R1
+    0000015A 2F36                   MOV.L       R3,@-R15
+    0000015C D127                   MOV.L       L1099+28,R1; __subdr
+    0000015E 7FF8                   ADD         #-8,R15
+    00000160 E200                   MOV         #0,R2
+    00000162 2F26                   MOV.L       R2,@-R15
+    00000164 D220                   MOV.L       L1099+8,R2 ; H'3FF00000
+    00000166 2F26                   MOV.L       R2,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:46  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000168 53FB                   MOV.L       @(44,R15),R3
+    0000016A 2F36                   MOV.L       R3,@-R15
+    0000016C 53FB                   MOV.L       @(44,R15),R3
+    0000016E 2F36                   MOV.L       R3,@-R15
+    00000170 62F3                   MOV         R15,R2
+    00000172 7210                   ADD         #16,R2
+    00000174 410B                   JSR         @R1
+    00000176 2F26                   MOV.L       R2,@-R15
+    00000178 D021                   MOV.L       L1099+32,R0; __divdr
+    0000017A 63F3                   MOV         R15,R3
+    0000017C 7310                   ADD         #16,R3
+    0000017E 400B                   JSR         @R0
+    00000180 2F36                   MOV.L       R3,@-R15
+    00000182 E208                   MOV         #8,R2
+    00000184 D11F                   MOV.L       L1099+36,R1; _log
+    00000186 32FC                   ADD         R15,R2
+    00000188 410B                   JSR         @R1
+    0000018A 2F26                   MOV.L       R2,@-R15
+    0000018C D31C                   MOV.L       L1099+32,R3; __divdr
+    0000018E 7F0C                   ADD         #12,R15
+    00000190 E200                   MOV         #0,R2
+    00000192 2F26                   MOV.L       R2,@-R15
+    00000194 D21C                   MOV.L       L1099+40,R2; H'40000000
+    00000196 2F26                   MOV.L       R2,@-R15
+    00000198 61F3                   MOV         R15,R1
+    0000019A 7110                   ADD         #16,R1
+    0000019C 430B                   JSR         @R3
+    0000019E 2F16                   MOV.L       R1,@-R15
+       arctanh.c    28                    push_double(d);
+    000001A0 52F1                   MOV.L       @(4,R15),R2
+    000001A2 2F26                   MOV.L       R2,@-R15
+    000001A4 52F1                   MOV.L       @(4,R15),R2
+    000001A6 D319                   MOV.L       L1099+44,R3; _push_double
+    000001A8 430B                   JSR         @R3
+    000001AA 2F26                   MOV.L       R2,@-R15
+    000001AC A012                   BRA         L1070
+    000001AE 7F08                   ADD         #8,R15
+    000001B0              L1094:                            
+       arctanh.c    29                    restore();
+       arctanh.c    30                    return;
+       arctanh.c    31            }
+       arctanh.c    32            if (iszero(p1)) {
+    000001B0 D217                   MOV.L       L1099+48,R2; _iszero
+    000001B2 420B                   JSR         @R2
+    000001B4 0009                   NOP
+    000001B6 2008                   TST         R0,R0
+    000001B8 8904                   BT          L1097
+       arctanh.c    33                    push(zero);
+    000001BA D216                   MOV.L       L1099+52,R2; _zero
+    000001BC 4D0B                   JSR         @R13
+    000001BE 6422                   MOV.L       @R2,R4
+    000001C0 A008                   BRA         L1070
+    000001C2 0009                   NOP
+    000001C4              L1097:                            
+       arctanh.c    34                    restore();
+       arctanh.c    35                    return;
+       arctanh.c    36            }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:46  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       arctanh.c    37            push_symbol(ARCTANH);
+    000001C4 D214                   MOV.L       L1099+56,R2; _push_symbol
+    000001C6 420B                   JSR         @R2
+    000001C8 E409                   MOV         #9,R4
+       arctanh.c    38            push(p1);
+    000001CA 4D0B                   JSR         @R13
+    000001CC 64E2                   MOV.L       @R14,R4
+       arctanh.c    39            list(2);
+    000001CE D313                   MOV.L       L1099+60,R3; _list
+    000001D0 430B                   JSR         @R3
+    000001D2 E402                   MOV         #2,R4
+    000001D4              L1070:
+       arctanh.c    40            restore();
+    000001D4 D212                   MOV.L       L1099+64,R2; _restore
+    000001D6 7F08                   ADD         #8,R15
+    000001D8 4F26                   LDS.L       @R15+,PR
+    000001DA 6DF6                   MOV.L       @R15+,R13
+    000001DC 422B                   JMP         @R2
+    000001DE 6EF6                   MOV.L       @R15+,R14
+    000001E0              L1099:                            
+    000001E0 BFF00000               .DATA.L     H'BFF00000
+    000001E4 <00000000>             .DATA.L     __ltd
+    000001E8 3FF00000               .DATA.L     H'3FF00000
+    000001EC <00000000>             .DATA.L     __gtd
+    000001F0 <00000000>             .DATA.L     L1063
+    000001F4 <00000000>             .DATA.L     _stop
+    000001F8 <00000000>             .DATA.L     __addd
+    000001FC <00000000>             .DATA.L     __subdr
+    00000200 <00000000>             .DATA.L     __divdr
+    00000204 <00000000>             .DATA.L     _log
+    00000208 40000000               .DATA.L     H'40000000
+    0000020C <00000000>             .DATA.L     _push_double
+    00000210 <00000000>             .DATA.L     _iszero
+    00000214 <00000000>             .DATA.L     _zero
+    00000218 <00000000>             .DATA.L     _push_symbol
+    0000021C <00000000>             .DATA.L     _list
+    00000220 <00000000>             .DATA.L     _restore
+       arctanh.c    41    }
+C   00000000              L1063:
+    00000000 6172637461             .SDATA      "arctanh function argument is not in the interval [-1,1]"
+             6E68206675   
+             6E6374696F   
+             6E20617267   
+             756D656E74   
+             206973206E   
+             6F7420696E   
+             2074686520   
+             696E746572   
+             76616C205B   
+             2D312C315D   
+    00000037 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:46  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       41
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000224 Byte(s)
+CONSTANT SECTION (C):                               00000038 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 0000025C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           19
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            44
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk3251.tmp 
+

@@ -1,0 +1,929 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\distill.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       distill.c     1    #include "stdafx.h"
+       distill.c     2    
+       distill.c     3    #include "defs.h"
+       distill.c     4    
+       distill.c     5    static void _distill(void);
+       distill.c     6    
+       distill.c     7    //      take expr and push all constant subexpr
+       distill.c     8    
+       distill.c     9    //      p1      expr
+       distill.c    10    
+       distill.c    11    //      p2      independent variable (like x)
+       distill.c    12    
+       distill.c    13    void
+       distill.c    14    distill(void)
+P   00000000              _distill:                        ; function: distill
+                                                           ; frame size=4
+    00000000 4F22                   STS.L       PR,@-R15
+       distill.c    15    {
+       distill.c    16            save();
+    00000002 D337                   MOV.L       L1140+4,R3 ; _save
+    00000004 430B                   JSR         @R3
+    00000006 0009                   NOP
+       distill.c    17            _distill();
+    00000008 B003                   BSR         __$_distill
+    0000000A 0009                   NOP
+       distill.c    18            restore();
+    0000000C D335                   MOV.L       L1140+8,R3 ; _restore
+    0000000E 432B                   JMP         @R3
+    00000010 4F26                   LDS.L       @R15+,PR
+       distill.c    19    }
+       distill.c    20    
+       distill.c    21    static void
+       distill.c    22    _distill(void)
+    00000012              __$_distill:                     ; function: _distill
+                                                           ; frame size=20
+    00000012 2FE6                   MOV.L       R14,@-R15
+    00000014 2FD6                   MOV.L       R13,@-R15
+    00000016 2FC6                   MOV.L       R12,@-R15
+    00000018 2FB6                   MOV.L       R11,@-R15
+    0000001A 4F22                   STS.L       PR,@-R15
+       distill.c    23    {
+       distill.c    24            p2 = pop();
+    0000001C DB32                   MOV.L       L1140+12,R11; _p2
+    0000001E D333                   MOV.L       L1140+16,R3; _pop
+    00000020 430B                   JSR         @R3
+    00000022 0009                   NOP
+       distill.c    25            p1 = pop();
+    00000024 DC32                   MOV.L       L1140+20,R12; _p1
+    00000026 D231                   MOV.L       L1140+16,R2; _pop
+    00000028 420B                   JSR         @R2
+    0000002A 2B02                   MOV.L       R0,@R11
+    0000002C 2C02                   MOV.L       R0,@R12
+       distill.c    26    
+       distill.c    27            // is the entire expression constant?
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       distill.c    28    
+       distill.c    29            if (find(p1, p2) == 0) {
+    0000002E DD31                   MOV.L       L1140+24,R13; _push
+    00000030 65B2                   MOV.L       @R11,R5
+    00000032 D331                   MOV.L       L1140+28,R3; _find
+    00000034 430B                   JSR         @R3
+    00000036 6403                   MOV         R0,R4
+    00000038 2008                   TST         R0,R0
+    0000003A 8B03                   BF          L1078
+       distill.c    30                    push(p1);
+    0000003C 4D0B                   JSR         @R13
+    0000003E 64C2                   MOV.L       @R12,R4
+       distill.c    31                    //push(p1);     // may need later for pushing both +a, -a
+       distill.c    32                    //negate();
+       distill.c    33                    return;
+    00000040 A069                   BRA         L1079
+    00000042 0009                   NOP
+    00000044              L1078:                            
+    00000044 D62D                   MOV.L       L1140+32,R6; _symtab
+    00000046 64C2                   MOV.L       @R12,R4
+    00000048 8448                   MOV.B       @(8,R4),R0
+    0000004A 2008                   TST         R0,R0
+    0000004C 8F02                   BF/S        L1081
+    0000004E 6562                   MOV.L       @R6,R5
+    00000050 A003                   BRA         L1082
+    00000052 6342                   MOV.L       @R4,R3
+    00000054              L1081:                            
+    00000054 9242                   MOV.W       L1140,R2   ; H'0570
+    00000056 6362                   MOV.L       @R6,R3
+    00000058 332C                   ADD         R2,R3
+    0000005A              L1082:                            
+    0000005A 6053                   MOV         R5,R0
+    0000005C 700C                   ADD         #12,R0
+    0000005E 3300                   CMP/EQ      R0,R3
+    00000060 8B05                   BF          L1080
+       distill.c    34            }
+       distill.c    35    
+       distill.c    36            // sum?
+       distill.c    37    
+       distill.c    38            if (isadd(p1)) {
+       distill.c    39                    distill_sum();
+    00000062 4F26                   LDS.L       @R15+,PR
+    00000064 6BF6                   MOV.L       @R15+,R11
+    00000066 6CF6                   MOV.L       @R15+,R12
+    00000068 6DF6                   MOV.L       @R15+,R13
+    0000006A A05A                   BRA         _distill_sum
+    0000006C 6EF6                   MOV.L       @R15+,R14
+    0000006E              L1080:                            
+       distill.c    40                    return;
+       distill.c    41            }
+       distill.c    42    
+       distill.c    43            // product?
+       distill.c    44    
+       distill.c    45            if (car(p1) == symbol(MULTIPLY)) {
+    0000006E 8448                   MOV.B       @(8,R4),R0
+    00000070 2008                   TST         R0,R0
+    00000072 8B01                   BF          L1084
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000074 A002                   BRA         L1085
+    00000076 6342                   MOV.L       @R4,R3
+    00000078              L1084:                            
+    00000078 9330                   MOV.W       L1140,R3   ; H'0570
+    0000007A 335C                   ADD         R5,R3
+    0000007C              L1085:                            
+    0000007C 912F                   MOV.W       L1140+2,R1 ; H'0384
+    0000007E 315C                   ADD         R5,R1
+    00000080 3310                   CMP/EQ      R1,R3
+    00000082 8B05                   BF          L1083
+       distill.c    46                    distill_product();
+    00000084 4F26                   LDS.L       @R15+,PR
+    00000086 6BF6                   MOV.L       @R15+,R11
+    00000088 6CF6                   MOV.L       @R15+,R12
+    0000008A 6DF6                   MOV.L       @R15+,R13
+    0000008C A103                   BRA         _distill_product
+    0000008E 6EF6                   MOV.L       @R15+,R14
+    00000090              L1083:                            
+       distill.c    47                    return;
+       distill.c    48            }
+       distill.c    49    
+       distill.c    50            // naive distill if not sum or product
+       distill.c    51    
+       distill.c    52            p3 = cdr(p1);
+    00000090 DE1B                   MOV.L       L1140+36,R14; _p3
+    00000092 62C2                   MOV.L       @R12,R2
+    00000094 8428                   MOV.B       @(8,R2),R0
+    00000096 2008                   TST         R0,R0
+    00000098 8B02                   BF          L1086
+    0000009A 62C2                   MOV.L       @R12,R2
+    0000009C A004                   BRA         L1087
+    0000009E 5321                   MOV.L       @(4,R2),R3
+    000000A0              L1086:                            
+    000000A0 921C                   MOV.W       L1140,R2   ; H'0570
+    000000A2 D116                   MOV.L       L1140+32,R1; _symtab
+    000000A4 6312                   MOV.L       @R1,R3
+    000000A6 332C                   ADD         R2,R3
+    000000A8              L1087:                            
+       distill.c    53            while (iscons(p3)) {
+    000000A8 A031                   BRA         L1088
+    000000AA 2E32                   MOV.L       R3,@R14
+    000000AC              L1089:                            
+       distill.c    54                    push(car(p3));
+    000000AC 64E2                   MOV.L       @R14,R4
+    000000AE 8448                   MOV.B       @(8,R4),R0
+    000000B0 2008                   TST         R0,R0
+    000000B2 8B02                   BF          L1090
+    000000B4 64E2                   MOV.L       @R14,R4
+    000000B6 A004                   BRA         L1091
+    000000B8 6442                   MOV.L       @R4,R4
+    000000BA              L1090:                            
+    000000BA 930F                   MOV.W       L1140,R3   ; H'0570
+    000000BC D20F                   MOV.L       L1140+32,R2; _symtab
+    000000BE 6422                   MOV.L       @R2,R4
+    000000C0 343C                   ADD         R3,R4
+    000000C2              L1091:                            
+    000000C2 4D0B                   JSR         @R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000C4 0009                   NOP
+       distill.c    55                    push(p2);
+    000000C6 4D0B                   JSR         @R13
+    000000C8 64B2                   MOV.L       @R11,R4
+       distill.c    56                    distill();
+    000000CA BF99                   BSR         _distill
+    000000CC 0009                   NOP
+       distill.c    57                    p3 = cdr(p3);
+    000000CE 63E2                   MOV.L       @R14,R3
+    000000D0 8438                   MOV.B       @(8,R3),R0
+    000000D2 2008                   TST         R0,R0
+    000000D4 8B16                   BF          L1092
+    000000D6 62E2                   MOV.L       @R14,R2
+    000000D8 A018                   BRA         L1093
+    000000DA 5221                   MOV.L       @(4,R2),R2
+    000000DC              L1140:                            
+    000000DC 0570                   .DATA.W     H'0570
+    000000DE 0384                   .DATA.W     H'0384
+    000000E0 <00000000>             .DATA.L     _save
+    000000E4 <00000000>             .DATA.L     _restore
+    000000E8 <00000000>             .DATA.L     _p2
+    000000EC <00000000>             .DATA.L     _pop
+    000000F0 <00000000>             .DATA.L     _p1
+    000000F4 <00000000>             .DATA.L     _push
+    000000F8 <00000000>             .DATA.L     _find
+    000000FC <00000000>             .DATA.L     _symtab
+    00000100 <00000000>             .DATA.L     _p3
+    00000104              L1092:                            
+    00000104 9370                   MOV.W       L1141,R3   ; H'0570
+    00000106 D139                   MOV.L       L1141+4,R1 ; _symtab
+    00000108 6212                   MOV.L       @R1,R2
+    0000010A 323C                   ADD         R3,R2
+    0000010C              L1093:                            
+    0000010C 2E22                   MOV.L       R2,@R14
+    0000010E              L1088:                            
+    0000010E 63E2                   MOV.L       @R14,R3
+    00000110 8438                   MOV.B       @(8,R3),R0
+    00000112 2008                   TST         R0,R0
+    00000114 89CA                   BT          L1089
+    00000116              L1079:                            
+       distill.c    58            }
+       distill.c    59    }
+    00000116 4F26                   LDS.L       @R15+,PR
+    00000118 6BF6                   MOV.L       @R15+,R11
+    0000011A 6CF6                   MOV.L       @R15+,R12
+    0000011C 6DF6                   MOV.L       @R15+,R13
+    0000011E 000B                   RTS
+    00000120 6EF6                   MOV.L       @R15+,R14
+       distill.c    60    
+       distill.c    61    void
+       distill.c    62    distill_sum(void)
+    00000122              _distill_sum:                    ; function: distill_sum
+                                                           ; frame size=28
+    00000122 2FE6                   MOV.L       R14,@-R15
+    00000124 2FD6                   MOV.L       R13,@-R15
+    00000126 2FC6                   MOV.L       R12,@-R15
+    00000128 2FB6                   MOV.L       R11,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000012A 2FA6                   MOV.L       R10,@-R15
+    0000012C 4F22                   STS.L       PR,@-R15
+    0000012E 7FFC                   ADD         #-4,R15
+       distill.c    63    {
+       distill.c    64            int h;
+       distill.c    65    
+       distill.c    66            // distill terms involving x
+       distill.c    67    
+       distill.c    68            p3 = cdr(p1);
+    00000130 DA2F                   MOV.L       L1141+8,R10; _p1
+    00000132 DE30                   MOV.L       L1141+12,R14; _p3
+    00000134 62A2                   MOV.L       @R10,R2
+    00000136 8428                   MOV.B       @(8,R2),R0
+    00000138 2008                   TST         R0,R0
+    0000013A 8B02                   BF          L1094
+    0000013C 62A2                   MOV.L       @R10,R2
+    0000013E A004                   BRA         L1095
+    00000140 5321                   MOV.L       @(4,R2),R3
+    00000142              L1094:                            
+    00000142 9251                   MOV.W       L1141,R2   ; H'0570
+    00000144 D129                   MOV.L       L1141+4,R1 ; _symtab
+    00000146 6312                   MOV.L       @R1,R3
+    00000148 332C                   ADD         R2,R3
+    0000014A              L1095:                            
+    0000014A 2E32                   MOV.L       R3,@R14
+    0000014C DB2A                   MOV.L       L1141+16,R11; _find
+    0000014E DC2B                   MOV.L       L1141+20,R12; _p2
+    00000150 DD2B                   MOV.L       L1141+24,R13; _push
+       distill.c    69    
+       distill.c    70            while (iscons(p3)) {
+    00000152 A02D                   BRA         L1096
+    00000154 0009                   NOP
+    00000156              L1097:                            
+       distill.c    71                    if (find(car(p3), p2)) {
+    00000156 64E2                   MOV.L       @R14,R4
+    00000158 8448                   MOV.B       @(8,R4),R0
+    0000015A 2008                   TST         R0,R0
+    0000015C 8F03                   BF/S        L1099
+    0000015E 65C2                   MOV.L       @R12,R5
+    00000160 64E2                   MOV.L       @R14,R4
+    00000162 A004                   BRA         L1100
+    00000164 6442                   MOV.L       @R4,R4
+    00000166              L1099:                            
+    00000166 933F                   MOV.W       L1141,R3   ; H'0570
+    00000168 D220                   MOV.L       L1141+4,R2 ; _symtab
+    0000016A 6422                   MOV.L       @R2,R4
+    0000016C 343C                   ADD         R3,R4
+    0000016E              L1100:                            
+    0000016E 4B0B                   JSR         @R11
+    00000170 0009                   NOP
+    00000172 2008                   TST         R0,R0
+    00000174 8910                   BT          L1098
+       distill.c    72                            push(car(p3));
+    00000176 64E2                   MOV.L       @R14,R4
+    00000178 8448                   MOV.B       @(8,R4),R0
+    0000017A 2008                   TST         R0,R0
+    0000017C 8B02                   BF          L1101
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000017E 64E2                   MOV.L       @R14,R4
+    00000180 A004                   BRA         L1102
+    00000182 6442                   MOV.L       @R4,R4
+    00000184              L1101:                            
+    00000184 9330                   MOV.W       L1141,R3   ; H'0570
+    00000186 D219                   MOV.L       L1141+4,R2 ; _symtab
+    00000188 6422                   MOV.L       @R2,R4
+    0000018A 343C                   ADD         R3,R4
+    0000018C              L1102:                            
+    0000018C 4D0B                   JSR         @R13
+    0000018E 0009                   NOP
+       distill.c    73                            push(p2);
+    00000190 4D0B                   JSR         @R13
+    00000192 64C2                   MOV.L       @R12,R4
+       distill.c    74                            distill();
+    00000194 BF34                   BSR         _distill
+    00000196 0009                   NOP
+    00000198              L1098:                            
+       distill.c    75                    }
+       distill.c    76                    p3 = cdr(p3);
+    00000198 63E2                   MOV.L       @R14,R3
+    0000019A 8438                   MOV.B       @(8,R3),R0
+    0000019C 2008                   TST         R0,R0
+    0000019E 8B02                   BF          L1103
+    000001A0 62E2                   MOV.L       @R14,R2
+    000001A2 A004                   BRA         L1104
+    000001A4 5221                   MOV.L       @(4,R2),R2
+    000001A6              L1103:                            
+    000001A6 931F                   MOV.W       L1141,R3   ; H'0570
+    000001A8 D110                   MOV.L       L1141+4,R1 ; _symtab
+    000001AA 6212                   MOV.L       @R1,R2
+    000001AC 323C                   ADD         R3,R2
+    000001AE              L1104:                            
+    000001AE 2E22                   MOV.L       R2,@R14
+    000001B0              L1096:                            
+    000001B0 63E2                   MOV.L       @R14,R3
+    000001B2 8438                   MOV.B       @(8,R3),R0
+    000001B4 2008                   TST         R0,R0
+    000001B6 89CE                   BT          L1097
+       distill.c    77            }
+       distill.c    78    
+       distill.c    79            // add together all constant terms
+       distill.c    80    
+       distill.c    81            h = tos;
+    000001B8 D312                   MOV.L       L1141+28,R3; _tos
+    000001BA 6232                   MOV.L       @R3,R2
+    000001BC 2F22                   MOV.L       R2,@R15
+       distill.c    82    
+       distill.c    83            p3 = cdr(p1);
+    000001BE 62A2                   MOV.L       @R10,R2
+    000001C0 8428                   MOV.B       @(8,R2),R0
+    000001C2 2008                   TST         R0,R0
+    000001C4 8B02                   BF          L1105
+    000001C6 61A2                   MOV.L       @R10,R1
+    000001C8 A004                   BRA         L1106
+    000001CA 5111                   MOV.L       @(4,R1),R1
+    000001CC              L1105:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001CC 920C                   MOV.W       L1141,R2   ; H'0570
+    000001CE D007                   MOV.L       L1141+4,R0 ; _symtab
+    000001D0 6102                   MOV.L       @R0,R1
+    000001D2 312C                   ADD         R2,R1
+    000001D4              L1106:                            
+       distill.c    84    
+       distill.c    85            while (iscons(p3)) {
+    000001D4 A039                   BRA         L1107
+    000001D6 2E12                   MOV.L       R1,@R14
+    000001D8              L1108:                            
+       distill.c    86                    if (find(car(p3), p2) == 0)
+    000001D8 64E2                   MOV.L       @R14,R4
+    000001DA 8448                   MOV.B       @(8,R4),R0
+    000001DC 2008                   TST         R0,R0
+    000001DE 8F13                   BF/S        L1110
+    000001E0 65C2                   MOV.L       @R12,R5
+    000001E2 64E2                   MOV.L       @R14,R4
+    000001E4 A014                   BRA         L1111
+    000001E6 6442                   MOV.L       @R4,R4
+    000001E8              L1141:                            
+    000001E8 0570                   .DATA.W     H'0570
+    000001EA 0000                   .DATA.W     0
+    000001EC <00000000>             .DATA.L     _symtab
+    000001F0 <00000000>             .DATA.L     _p1
+    000001F4 <00000000>             .DATA.L     _p3
+    000001F8 <00000000>             .DATA.L     _find
+    000001FC <00000000>             .DATA.L     _p2
+    00000200 <00000000>             .DATA.L     _push
+    00000204 <00000000>             .DATA.L     _tos
+    00000208              L1110:                            
+    00000208 9376                   MOV.W       L1142,R3   ; H'0570
+    0000020A D23C                   MOV.L       L1142+4,R2 ; _symtab
+    0000020C 6422                   MOV.L       @R2,R4
+    0000020E 343C                   ADD         R3,R4
+    00000210              L1111:                            
+    00000210 4B0B                   JSR         @R11
+    00000212 0009                   NOP
+    00000214 2008                   TST         R0,R0
+    00000216 8B0C                   BF          L1109
+       distill.c    87                            push(car(p3));
+    00000218 64E2                   MOV.L       @R14,R4
+    0000021A 8448                   MOV.B       @(8,R4),R0
+    0000021C 2008                   TST         R0,R0
+    0000021E 8B02                   BF          L1112
+    00000220 64E2                   MOV.L       @R14,R4
+    00000222 A004                   BRA         L1113
+    00000224 6442                   MOV.L       @R4,R4
+    00000226              L1112:                            
+    00000226 9367                   MOV.W       L1142,R3   ; H'0570
+    00000228 D234                   MOV.L       L1142+4,R2 ; _symtab
+    0000022A 6422                   MOV.L       @R2,R4
+    0000022C 343C                   ADD         R3,R4
+    0000022E              L1113:                            
+    0000022E 4D0B                   JSR         @R13
+    00000230 0009                   NOP
+    00000232              L1109:                            
+       distill.c    88                    p3 = cdr(p3);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000232 62E2                   MOV.L       @R14,R2
+    00000234 8428                   MOV.B       @(8,R2),R0
+    00000236 2008                   TST         R0,R0
+    00000238 8B02                   BF          L1114
+    0000023A 62E2                   MOV.L       @R14,R2
+    0000023C A004                   BRA         L1115
+    0000023E 5321                   MOV.L       @(4,R2),R3
+    00000240              L1114:                            
+    00000240 925A                   MOV.W       L1142,R2   ; H'0570
+    00000242 D12E                   MOV.L       L1142+4,R1 ; _symtab
+    00000244 6312                   MOV.L       @R1,R3
+    00000246 332C                   ADD         R2,R3
+    00000248              L1115:                            
+    00000248 2E32                   MOV.L       R3,@R14
+    0000024A              L1107:                            
+    0000024A 62E2                   MOV.L       @R14,R2
+    0000024C 8428                   MOV.B       @(8,R2),R0
+    0000024E 2008                   TST         R0,R0
+    00000250 89C2                   BT          L1108
+    00000252 63F2                   MOV.L       @R15,R3
+    00000254 D22A                   MOV.L       L1142+8,R2 ; _tos
+    00000256 6422                   MOV.L       @R2,R4
+    00000258 3438                   SUB         R3,R4
+    0000025A 2448                   TST         R4,R4
+    0000025C 8913                   BT          L1116
+       distill.c    89            }
+       distill.c    90    
+       distill.c    91            if (tos - h) {
+       distill.c    92                    add_all(tos - h);
+    0000025E D229                   MOV.L       L1142+12,R2; _add_all
+    00000260 420B                   JSR         @R2
+    00000262 0009                   NOP
+       distill.c    93                    p3 = pop();
+    00000264 D328                   MOV.L       L1142+16,R3; _pop
+    00000266 430B                   JSR         @R3
+    00000268 0009                   NOP
+    0000026A 2E02                   MOV.L       R0,@R14
+       distill.c    94                    push(p3);
+    0000026C 4D0B                   JSR         @R13
+    0000026E 6403                   MOV         R0,R4
+       distill.c    95                    push(p3);
+    00000270 4D0B                   JSR         @R13
+    00000272 64E2                   MOV.L       @R14,R4
+       distill.c    96                    negate();       // need both +a, -a for some integrals
+    00000274 D225                   MOV.L       L1142+20,R2; _negate
+    00000276 7F04                   ADD         #4,R15
+    00000278 4F26                   LDS.L       @R15+,PR
+    0000027A 6AF6                   MOV.L       @R15+,R10
+    0000027C 6BF6                   MOV.L       @R15+,R11
+    0000027E 6CF6                   MOV.L       @R15+,R12
+    00000280 6DF6                   MOV.L       @R15+,R13
+    00000282 422B                   JMP         @R2
+    00000284 6EF6                   MOV.L       @R15+,R14
+    00000286              L1116:                            
+       distill.c    97            }
+       distill.c    98    }
+    00000286 7F04                   ADD         #4,R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000288 4F26                   LDS.L       @R15+,PR
+    0000028A 6AF6                   MOV.L       @R15+,R10
+    0000028C 6BF6                   MOV.L       @R15+,R11
+    0000028E 6CF6                   MOV.L       @R15+,R12
+    00000290 6DF6                   MOV.L       @R15+,R13
+    00000292 000B                   RTS
+    00000294 6EF6                   MOV.L       @R15+,R14
+       distill.c    99    
+       distill.c   100    void
+       distill.c   101    distill_product(void)
+    00000296              _distill_product:                ; function: distill_product
+                                                           ; frame size=28
+    00000296 2FE6                   MOV.L       R14,@-R15
+    00000298 2FD6                   MOV.L       R13,@-R15
+    0000029A 2FC6                   MOV.L       R12,@-R15
+    0000029C 2FB6                   MOV.L       R11,@-R15
+    0000029E 2FA6                   MOV.L       R10,@-R15
+    000002A0 4F22                   STS.L       PR,@-R15
+    000002A2 7FFC                   ADD         #-4,R15
+       distill.c   102    {
+       distill.c   103            int h;
+       distill.c   104    
+       distill.c   105            // distill factors involving x
+       distill.c   106    
+       distill.c   107            p3 = cdr(p1);
+    000002A4 DA1A                   MOV.L       L1142+24,R10; _p1
+    000002A6 DE1B                   MOV.L       L1142+28,R14; _p3
+    000002A8 62A2                   MOV.L       @R10,R2
+    000002AA 8428                   MOV.B       @(8,R2),R0
+    000002AC 2008                   TST         R0,R0
+    000002AE 8B02                   BF          L1117
+    000002B0 62A2                   MOV.L       @R10,R2
+    000002B2 A004                   BRA         L1118
+    000002B4 5321                   MOV.L       @(4,R2),R3
+    000002B6              L1117:                            
+    000002B6 921F                   MOV.W       L1142,R2   ; H'0570
+    000002B8 D110                   MOV.L       L1142+4,R1 ; _symtab
+    000002BA 6312                   MOV.L       @R1,R3
+    000002BC 332C                   ADD         R2,R3
+    000002BE              L1118:                            
+    000002BE 2E32                   MOV.L       R3,@R14
+    000002C0 DB15                   MOV.L       L1142+32,R11; _find
+    000002C2 DC16                   MOV.L       L1142+36,R12; _push
+    000002C4 DD16                   MOV.L       L1142+40,R13; _p2
+       distill.c   108    
+       distill.c   109            while (iscons(p3)) {
+    000002C6 A043                   BRA         L1119
+    000002C8 0009                   NOP
+    000002CA              L1120:                            
+       distill.c   110                    if (find(car(p3), p2)) {
+    000002CA 64E2                   MOV.L       @R14,R4
+    000002CC 8448                   MOV.B       @(8,R4),R0
+    000002CE 2008                   TST         R0,R0
+    000002D0 8F03                   BF/S        L1122
+    000002D2 65D2                   MOV.L       @R13,R5
+    000002D4 64E2                   MOV.L       @R14,R4
+    000002D6 A004                   BRA         L1123
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002D8 6442                   MOV.L       @R4,R4
+    000002DA              L1122:                            
+    000002DA 930D                   MOV.W       L1142,R3   ; H'0570
+    000002DC D207                   MOV.L       L1142+4,R2 ; _symtab
+    000002DE 6422                   MOV.L       @R2,R4
+    000002E0 343C                   ADD         R3,R4
+    000002E2              L1123:                            
+    000002E2 4B0B                   JSR         @R11
+    000002E4 0009                   NOP
+    000002E6 2008                   TST         R0,R0
+    000002E8 8926                   BT          L1121
+       distill.c   111                            push(car(p3));
+    000002EA 64E2                   MOV.L       @R14,R4
+    000002EC 8448                   MOV.B       @(8,R4),R0
+    000002EE 2008                   TST         R0,R0
+    000002F0 8B18                   BF          L1124
+    000002F2 64E2                   MOV.L       @R14,R4
+    000002F4 A01A                   BRA         L1125
+    000002F6 6442                   MOV.L       @R4,R4
+    000002F8              L1142:                            
+    000002F8 0570                   .DATA.W     H'0570
+    000002FA 0000                   .DATA.W     0
+    000002FC <00000000>             .DATA.L     _symtab
+    00000300 <00000000>             .DATA.L     _tos
+    00000304 <00000000>             .DATA.L     _add_all
+    00000308 <00000000>             .DATA.L     _pop
+    0000030C <00000000>             .DATA.L     _negate
+    00000310 <00000000>             .DATA.L     _p1
+    00000314 <00000000>             .DATA.L     _p3
+    00000318 <00000000>             .DATA.L     _find
+    0000031C <00000000>             .DATA.L     _push
+    00000320 <00000000>             .DATA.L     _p2
+    00000324              L1124:                            
+    00000324 936C                   MOV.W       L1143,R3   ; H'0570
+    00000326 D237                   MOV.L       L1143+4,R2 ; _symtab
+    00000328 6422                   MOV.L       @R2,R4
+    0000032A 343C                   ADD         R3,R4
+    0000032C              L1125:                            
+    0000032C 4C0B                   JSR         @R12
+    0000032E 0009                   NOP
+       distill.c   112                            push(p2);
+    00000330 4C0B                   JSR         @R12
+    00000332 64D2                   MOV.L       @R13,R4
+       distill.c   113                            distill();
+    00000334 BE64                   BSR         _distill
+    00000336 0009                   NOP
+    00000338              L1121:                            
+       distill.c   114                    }
+       distill.c   115                    p3 = cdr(p3);
+    00000338 63E2                   MOV.L       @R14,R3
+    0000033A 8438                   MOV.B       @(8,R3),R0
+    0000033C 2008                   TST         R0,R0
+    0000033E 8B02                   BF          L1126
+    00000340 62E2                   MOV.L       @R14,R2
+    00000342 A004                   BRA         L1127
+    00000344 5221                   MOV.L       @(4,R2),R2
+    00000346              L1126:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000346 935B                   MOV.W       L1143,R3   ; H'0570
+    00000348 D12E                   MOV.L       L1143+4,R1 ; _symtab
+    0000034A 6212                   MOV.L       @R1,R2
+    0000034C 323C                   ADD         R3,R2
+    0000034E              L1127:                            
+    0000034E 2E22                   MOV.L       R2,@R14
+    00000350              L1119:                            
+    00000350 63E2                   MOV.L       @R14,R3
+    00000352 8438                   MOV.B       @(8,R3),R0
+    00000354 2008                   TST         R0,R0
+    00000356 89B8                   BT          L1120
+       distill.c   116            }
+       distill.c   117    
+       distill.c   118            // multiply together all constant factors
+       distill.c   119    
+       distill.c   120            h = tos;
+    00000358 D32B                   MOV.L       L1143+8,R3 ; _tos
+    0000035A 6232                   MOV.L       @R3,R2
+    0000035C 2F22                   MOV.L       R2,@R15
+       distill.c   121    
+       distill.c   122            p3 = cdr(p1);
+    0000035E 62A2                   MOV.L       @R10,R2
+    00000360 8428                   MOV.B       @(8,R2),R0
+    00000362 2008                   TST         R0,R0
+    00000364 8B02                   BF          L1128
+    00000366 61A2                   MOV.L       @R10,R1
+    00000368 A004                   BRA         L1129
+    0000036A 5111                   MOV.L       @(4,R1),R1
+    0000036C              L1128:                            
+    0000036C 9248                   MOV.W       L1143,R2   ; H'0570
+    0000036E D025                   MOV.L       L1143+4,R0 ; _symtab
+    00000370 6102                   MOV.L       @R0,R1
+    00000372 312C                   ADD         R2,R1
+    00000374              L1129:                            
+       distill.c   123    
+       distill.c   124            while (iscons(p3)) {
+    00000374 A029                   BRA         L1130
+    00000376 2E12                   MOV.L       R1,@R14
+    00000378              L1131:                            
+       distill.c   125                    if (find(car(p3), p2) == 0)
+    00000378 64E2                   MOV.L       @R14,R4
+    0000037A 8448                   MOV.B       @(8,R4),R0
+    0000037C 2008                   TST         R0,R0
+    0000037E 8F03                   BF/S        L1133
+    00000380 65D2                   MOV.L       @R13,R5
+    00000382 64E2                   MOV.L       @R14,R4
+    00000384 A004                   BRA         L1134
+    00000386 6442                   MOV.L       @R4,R4
+    00000388              L1133:                            
+    00000388 933A                   MOV.W       L1143,R3   ; H'0570
+    0000038A D21E                   MOV.L       L1143+4,R2 ; _symtab
+    0000038C 6422                   MOV.L       @R2,R4
+    0000038E 343C                   ADD         R3,R4
+    00000390              L1134:                            
+    00000390 4B0B                   JSR         @R11
+    00000392 0009                   NOP
+    00000394 2008                   TST         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000396 8B0C                   BF          L1132
+       distill.c   126                            push(car(p3));
+    00000398 64E2                   MOV.L       @R14,R4
+    0000039A 8448                   MOV.B       @(8,R4),R0
+    0000039C 2008                   TST         R0,R0
+    0000039E 8B02                   BF          L1135
+    000003A0 64E2                   MOV.L       @R14,R4
+    000003A2 A004                   BRA         L1136
+    000003A4 6442                   MOV.L       @R4,R4
+    000003A6              L1135:                            
+    000003A6 932B                   MOV.W       L1143,R3   ; H'0570
+    000003A8 D216                   MOV.L       L1143+4,R2 ; _symtab
+    000003AA 6422                   MOV.L       @R2,R4
+    000003AC 343C                   ADD         R3,R4
+    000003AE              L1136:                            
+    000003AE 4C0B                   JSR         @R12
+    000003B0 0009                   NOP
+    000003B2              L1132:                            
+       distill.c   127                    p3 = cdr(p3);
+    000003B2 62E2                   MOV.L       @R14,R2
+    000003B4 8428                   MOV.B       @(8,R2),R0
+    000003B6 2008                   TST         R0,R0
+    000003B8 8B02                   BF          L1137
+    000003BA 62E2                   MOV.L       @R14,R2
+    000003BC A004                   BRA         L1138
+    000003BE 5321                   MOV.L       @(4,R2),R3
+    000003C0              L1137:                            
+    000003C0 921E                   MOV.W       L1143,R2   ; H'0570
+    000003C2 D110                   MOV.L       L1143+4,R1 ; _symtab
+    000003C4 6312                   MOV.L       @R1,R3
+    000003C6 332C                   ADD         R2,R3
+    000003C8              L1138:                            
+    000003C8 2E32                   MOV.L       R3,@R14
+    000003CA              L1130:                            
+    000003CA 62E2                   MOV.L       @R14,R2
+    000003CC 8428                   MOV.B       @(8,R2),R0
+    000003CE 2008                   TST         R0,R0
+    000003D0 89D2                   BT          L1131
+    000003D2 63F2                   MOV.L       @R15,R3
+    000003D4 D20C                   MOV.L       L1143+8,R2 ; _tos
+    000003D6 6422                   MOV.L       @R2,R4
+    000003D8 3438                   SUB         R3,R4
+    000003DA 2448                   TST         R4,R4
+    000003DC 8908                   BT          L1139
+       distill.c   128            }
+       distill.c   129    
+       distill.c   130            if (tos - h) {
+       distill.c   131                    multiply_all(tos - h);
+    000003DE 7F04                   ADD         #4,R15
+    000003E0 D20A                   MOV.L       L1143+12,R2; _multiply_all
+    000003E2 4F26                   LDS.L       @R15+,PR
+    000003E4 6AF6                   MOV.L       @R15+,R10
+    000003E6 6BF6                   MOV.L       @R15+,R11
+    000003E8 6CF6                   MOV.L       @R15+,R12
+    000003EA 6DF6                   MOV.L       @R15+,R13
+    000003EC 422B                   JMP         @R2
+    000003EE 6EF6                   MOV.L       @R15+,R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003F0              L1139:                            
+       distill.c   132                    //p3 = pop();   // may need later for pushing both +a, -a
+       distill.c   133                    //push(p3);
+       distill.c   134                    //push(p3);
+       distill.c   135                    //negate();
+       distill.c   136            }
+       distill.c   137    }
+    000003F0 7F04                   ADD         #4,R15
+    000003F2 4F26                   LDS.L       @R15+,PR
+    000003F4 6AF6                   MOV.L       @R15+,R10
+    000003F6 6BF6                   MOV.L       @R15+,R11
+    000003F8 6CF6                   MOV.L       @R15+,R12
+    000003FA 6DF6                   MOV.L       @R15+,R13
+    000003FC 000B                   RTS
+    000003FE 6EF6                   MOV.L       @R15+,R14
+    00000400              L1143:                            
+    00000400 0570                   .DATA.W     H'0570
+    00000402 0000                   .DATA.W     0
+    00000404 <00000000>             .DATA.L     _symtab
+    00000408 <00000000>             .DATA.L     _tos
+    0000040C <00000000>             .DATA.L     _multiply_all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:55  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      137
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000410 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000410 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           13
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            82
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk54CC.tmp 
+

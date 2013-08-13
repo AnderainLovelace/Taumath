@@ -1,0 +1,995 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\pollard.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       pollard.c     1    // Factor using the Pollard rho method
+       pollard.c     2    
+       pollard.c     3    #include "stdafx.h"
+       pollard.c     4    #include "defs.h"
+       pollard.c     5    
+       pollard.c     6    static unsigned int *n;
+       pollard.c     7    
+       pollard.c     8    void
+       pollard.c     9    factor_number(void)
+P   00000000              _factor_number:                  ; function: factor_number
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 4F22                   STS.L       PR,@-R15
+       pollard.c    10    {
+       pollard.c    11            int h;
+       pollard.c    12    
+       pollard.c    13            save();
+    00000006 D338                   MOV.L       L1136+2,R3 ; _save
+    00000008 430B                   JSR         @R3
+    0000000A 0009                   NOP
+       pollard.c    14    
+       pollard.c    15            p1 = pop();
+    0000000C DE37                   MOV.L       L1136+6,R14; _p1
+    0000000E D238                   MOV.L       L1136+10,R2; _pop
+    00000010 420B                   JSR         @R2
+    00000012 0009                   NOP
+    00000014 2E02                   MOV.L       R0,@R14
+       pollard.c    16    
+       pollard.c    17            // 0 or 1?
+       pollard.c    18    
+       pollard.c    19            if (equaln(p1, 0) || equaln(p1, 1) || equaln(p1, -1)) {
+    00000016 E500                   MOV         #0,R5
+    00000018 DD36                   MOV.L       L1136+14,R13; _equaln
+    0000001A 4D0B                   JSR         @R13
+    0000001C 6403                   MOV         R0,R4
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0B                   BF          L1104
+    00000022 E501                   MOV         #1,R5
+    00000024 D231                   MOV.L       L1136+6,R2 ; _p1
+    00000026 4D0B                   JSR         @R13
+    00000028 6422                   MOV.L       @R2,R4
+    0000002A 2008                   TST         R0,R0
+    0000002C 8B05                   BF          L1104
+    0000002E E5FF                   MOV         #-1,R5
+    00000030 D22E                   MOV.L       L1136+6,R2 ; _p1
+    00000032 4D0B                   JSR         @R13
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 2008                   TST         R0,R0
+    00000038 8904                   BT          L1103
+    0000003A              L1104:                            
+       pollard.c    20                    push(p1);
+    0000003A D22F                   MOV.L       L1136+18,R2; _push
+    0000003C 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003E 64E2                   MOV.L       @R14,R4
+    00000040 A01B                   BRA         L1099
+    00000042 0009                   NOP
+    00000044              L1103:                            
+       pollard.c    21                    restore();
+       pollard.c    22                    return;
+       pollard.c    23            }
+       pollard.c    24    
+       pollard.c    25            n = mcopy(p1->u.q.a);
+    00000044 64E2                   MOV.L       @R14,R4
+    00000046 D32D                   MOV.L       L1136+22,R3; _mcopy
+    00000048 430B                   JSR         @R3
+    0000004A 6442                   MOV.L       @R4,R4
+    0000004C D22C                   MOV.L       L1136+26,R2; __$n
+    0000004E 2202                   MOV.L       R0,@R2
+       pollard.c    26    
+       pollard.c    27            h = tos;
+    00000050 DD2C                   MOV.L       L1136+30,R13; _tos
+       pollard.c    28    
+       pollard.c    29            factor_a();
+    00000052 B017                   BSR         _factor_a
+    00000054 6ED2                   MOV.L       @R13,R14
+       pollard.c    30    
+       pollard.c    31            if (tos - h > 1) {
+    00000056 E301                   MOV         #1,R3
+    00000058 62D2                   MOV.L       @R13,R2
+    0000005A 32E8                   SUB         R14,R2
+    0000005C 3237                   CMP/GT      R3,R2
+    0000005E 8B0C                   BF          L1099
+       pollard.c    32                    list(tos - h);
+    00000060 64D2                   MOV.L       @R13,R4
+    00000062 D129                   MOV.L       L1136+34,R1; _list
+    00000064 410B                   JSR         @R1
+    00000066 34E8                   SUB         R14,R4
+       pollard.c    33                    push_symbol(MULTIPLY);
+    00000068 D328                   MOV.L       L1136+38,R3; _push_symbol
+    0000006A 430B                   JSR         @R3
+    0000006C E44B                   MOV         #75,R4
+       pollard.c    34                    swap();
+    0000006E D228                   MOV.L       L1136+42,R2; _swap
+    00000070 420B                   JSR         @R2
+    00000072 0009                   NOP
+       pollard.c    35                    cons();
+    00000074 D327                   MOV.L       L1136+46,R3; _cons
+    00000076 430B                   JSR         @R3
+    00000078 0009                   NOP
+    0000007A              L1099:
+       pollard.c    36            }
+       pollard.c    37    
+       pollard.c    38            restore();
+    0000007A 4F26                   LDS.L       @R15+,PR
+    0000007C D226                   MOV.L       L1136+50,R2; _restore
+    0000007E 6DF6                   MOV.L       @R15+,R13
+    00000080 422B                   JMP         @R2
+    00000082 6EF6                   MOV.L       @R15+,R14
+       pollard.c    39    }
+       pollard.c    40    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       pollard.c    41    // factor using table look-up, then switch to rho method if necessary
+       pollard.c    42    
+       pollard.c    43    // From TAOCP Vol. 2 by Knuth, p. 380 (Algorithm A)
+       pollard.c    44    
+       pollard.c    45    void
+       pollard.c    46    factor_a(void)
+    00000084              _factor_a:                       ; function: factor_a
+                                                           ; frame size=20
+    00000084 2FE6                   MOV.L       R14,@-R15
+    00000086 2FD6                   MOV.L       R13,@-R15
+    00000088 2FC6                   MOV.L       R12,@-R15
+    0000008A 2FB6                   MOV.L       R11,@-R15
+    0000008C 4F22                   STS.L       PR,@-R15
+    0000008E DE1C                   MOV.L       L1136+26,R14; __$n
+    00000090 64E2                   MOV.L       @R14,R4
+    00000092 74F8                   ADD         #-8,R4
+    00000094 6042                   MOV.L       @R4,R0
+    00000096 88FF                   CMP/EQ      #-1,R0
+    00000098 8B04                   BF          L1107
+       pollard.c    47    {
+       pollard.c    48            int k;
+       pollard.c    49    
+       pollard.c    50            if (MSIGN(n) == -1) {
+       pollard.c    51                    MSIGN(n) = 1;
+    0000009A E201                   MOV         #1,R2
+       pollard.c    52                    push_integer(-1);
+    0000009C D31F                   MOV.L       L1136+54,R3; _push_integer
+    0000009E 2422                   MOV.L       R2,@R4
+    000000A0 430B                   JSR         @R3
+    000000A2 E4FF                   MOV         #-1,R4
+    000000A4              L1107:                            
+       pollard.c    53            }
+       pollard.c    54    
+       pollard.c    55            for (k = 0; k < 10000; k++) {
+    000000A4 DB1E                   MOV.L       L1136+58,R11; _mfree
+    000000A6 ED00                   MOV         #0,R13
+    000000A8 9C1D                   MOV.W       L1136,R12  ; H'2710
+    000000AA              L1109:                            
+       pollard.c    56    
+       pollard.c    57                    try_kth_prime(k);
+    000000AA B03B                   BSR         _try_kth_prime
+    000000AC 64D3                   MOV         R13,R4
+       pollard.c    58    
+       pollard.c    59                    // if n is 1 then we're done
+       pollard.c    60    
+       pollard.c    61                    if (MLENGTH(n) == 1 && n[0] == 1) {
+    000000AE E0FC                   MOV         #-4,R0
+    000000B0 63E2                   MOV.L       @R14,R3
+    000000B2 003E                   MOV.L       @(R0,R3),R0
+    000000B4 8801                   CMP/EQ      #1,R0
+    000000B6 8B07                   BF          L1110
+    000000B8 60E2                   MOV.L       @R14,R0
+    000000BA 6002                   MOV.L       @R0,R0
+    000000BC 8801                   CMP/EQ      #1,R0
+    000000BE 8B03                   BF          L1110
+       pollard.c    62                            mfree(n);
+    000000C0 4B0B                   JSR         @R11
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000C2 64E2                   MOV.L       @R14,R4
+       pollard.c    63                            return;
+    000000C4 A009                   BRA         L1111
+    000000C6 0009                   NOP
+    000000C8              L1110:                            
+    000000C8 7D01                   ADD         #1,R13
+    000000CA 3DC3                   CMP/GE      R12,R13
+    000000CC 8BED                   BF          L1109
+       pollard.c    64                    }
+       pollard.c    65            }
+       pollard.c    66    
+       pollard.c    67            factor_b();
+    000000CE 4F26                   LDS.L       @R15+,PR
+    000000D0 6BF6                   MOV.L       @R15+,R11
+    000000D2 6CF6                   MOV.L       @R15+,R12
+    000000D4 6DF6                   MOV.L       @R15+,R13
+    000000D6 A083                   BRA         _factor_b
+    000000D8 6EF6                   MOV.L       @R15+,R14
+    000000DA              L1111:                            
+       pollard.c    68    }
+    000000DA 4F26                   LDS.L       @R15+,PR
+    000000DC 6BF6                   MOV.L       @R15+,R11
+    000000DE 6CF6                   MOV.L       @R15+,R12
+    000000E0 6DF6                   MOV.L       @R15+,R13
+    000000E2 000B                   RTS
+    000000E4 6EF6                   MOV.L       @R15+,R14
+    000000E6              L1136:                            
+    000000E6 2710                   .DATA.W     H'2710
+    000000E8 <00000000>             .DATA.L     _save
+    000000EC <00000000>             .DATA.L     _p1
+    000000F0 <00000000>             .DATA.L     _pop
+    000000F4 <00000000>             .DATA.L     _equaln
+    000000F8 <00000000>             .DATA.L     _push
+    000000FC <00000000>             .DATA.L     _mcopy
+    00000100 <00000000>             .DATA.L     __$n
+    00000104 <00000000>             .DATA.L     _tos
+    00000108 <00000000>             .DATA.L     _list
+    0000010C <00000000>             .DATA.L     _push_symbol
+    00000110 <00000000>             .DATA.L     _swap
+    00000114 <00000000>             .DATA.L     _cons
+    00000118 <00000000>             .DATA.L     _restore
+    0000011C <00000000>             .DATA.L     _push_integer
+    00000120 <00000000>             .DATA.L     _mfree
+       pollard.c    69    
+       pollard.c    70    void
+       pollard.c    71    try_kth_prime(int k)
+    00000124              _try_kth_prime:                  ; function: try_kth_prime
+                                                           ; frame size=36
+    00000124 2FE6                   MOV.L       R14,@-R15
+    00000126 2FD6                   MOV.L       R13,@-R15
+    00000128 2FC6                   MOV.L       R12,@-R15
+    0000012A 2FB6                   MOV.L       R11,@-R15
+    0000012C 2FA6                   MOV.L       R10,@-R15
+    0000012E 4F22                   STS.L       PR,@-R15
+       pollard.c    72    {
+       pollard.c    73            int count;
+       pollard.c    74            unsigned int *d, *q, *r;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       pollard.c    75    
+       pollard.c    76            d = mint(primetab[k]);
+    00000130 D085                   MOV.L       L1137,R0   ; _primetab
+    00000132 7FF4                   ADD         #-12,R15
+    00000134 D385                   MOV.L       L1137+4,R3 ; _mint
+    00000136 1F42                   MOV.L       R4,@(8,R15)
+    00000138 4408                   SHLL2       R4
+    0000013A 430B                   JSR         @R3
+    0000013C 044E                   MOV.L       @(R0,R4),R4
+    0000013E 6B03                   MOV         R0,R11
+    00000140 DA83                   MOV.L       L1137+8,R10; _mdivrem
+       pollard.c    77    
+       pollard.c    78            count = 0;
+    00000142 EC00                   MOV         #0,R12
+    00000144 DD83                   MOV.L       L1137+12,R13; _mfree
+    00000146 DE84                   MOV.L       L1137+16,R14; __$n
+       pollard.c    79    
+       pollard.c    80            while (1) {
+    00000148              L1113:                            
+       pollard.c    81    
+       pollard.c    82                    // if n is 1 then we're done
+       pollard.c    83    
+       pollard.c    84                    if (MLENGTH(n) == 1 && n[0] == 1) {
+    00000148 63E2                   MOV.L       @R14,R3
+    0000014A E0FC                   MOV         #-4,R0
+    0000014C 003E                   MOV.L       @(R0,R3),R0
+    0000014E 8801                   CMP/EQ      #1,R0
+    00000150 8B0E                   BF          L1114
+    00000152 60E2                   MOV.L       @R14,R0
+    00000154 6002                   MOV.L       @R0,R0
+    00000156 8801                   CMP/EQ      #1,R0
+    00000158 8B0A                   BF          L1114
+       pollard.c    85                            if (count)
+    0000015A 2CC8                   TST         R12,R12
+    0000015C 8904                   BT          L1115
+       pollard.c    86                                    push_factor(d, count);
+    0000015E 65C3                   MOV         R12,R5
+    00000160 B114                   BSR         _push_factor
+    00000162 64B3                   MOV         R11,R4
+    00000164 A034                   BRA         L1117
+    00000166 0009                   NOP
+    00000168              L1115:                            
+       pollard.c    87                            else
+       pollard.c    88                                    mfree(d);
+    00000168 4D0B                   JSR         @R13
+    0000016A 64B3                   MOV         R11,R4
+       pollard.c    89                            return;
+    0000016C A030                   BRA         L1117
+    0000016E 0009                   NOP
+    00000170              L1114:                            
+       pollard.c    90                    }
+       pollard.c    91    
+       pollard.c    92                    mdivrem(&q, &r, n, d);
+    00000170 66E2                   MOV.L       @R14,R6
+    00000172 65F3                   MOV         R15,R5
+    00000174 67B3                   MOV         R11,R7
+    00000176 64F3                   MOV         R15,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000178 4A0B                   JSR         @R10
+    0000017A 7404                   ADD         #4,R4
+       pollard.c    93    
+       pollard.c    94                    // continue looping while remainder is zero
+       pollard.c    95    
+       pollard.c    96                    if (MLENGTH(r) == 1 && r[0] == 0) {
+    0000017C 63F2                   MOV.L       @R15,R3
+    0000017E E0FC                   MOV         #-4,R0
+    00000180 003E                   MOV.L       @(R0,R3),R0
+    00000182 8801                   CMP/EQ      #1,R0
+    00000184 8B0A                   BF          L1118
+    00000186 6132                   MOV.L       @R3,R1
+    00000188 2118                   TST         R1,R1
+    0000018A 8B07                   BF          L1118
+       pollard.c    97                            count++;
+    0000018C 7C01                   ADD         #1,R12
+       pollard.c    98                            mfree(r);
+    0000018E 4D0B                   JSR         @R13
+    00000190 64F2                   MOV.L       @R15,R4
+       pollard.c    99                            mfree(n);
+    00000192 4D0B                   JSR         @R13
+    00000194 64E2                   MOV.L       @R14,R4
+       pollard.c   100                            n = q;
+    00000196 53F1                   MOV.L       @(4,R15),R3
+    00000198 AFD6                   BRA         L1113
+    0000019A 2E32                   MOV.L       R3,@R14
+    0000019C              L1118:                            
+       pollard.c   101                    } else {
+       pollard.c   102                            mfree(r);
+    0000019C 4D0B                   JSR         @R13
+    0000019E 64F2                   MOV.L       @R15,R4
+       pollard.c   103                            break;
+       pollard.c   104                    }
+       pollard.c   105            }
+       pollard.c   106    
+       pollard.c   107            if (count)
+    000001A0 2CC8                   TST         R12,R12
+    000001A2 8902                   BT          L1121
+       pollard.c   108                    push_factor(d, count);
+    000001A4 65C3                   MOV         R12,R5
+    000001A6 B0F1                   BSR         _push_factor
+    000001A8 64B3                   MOV         R11,R4
+    000001AA              L1121:                            
+       pollard.c   109    
+       pollard.c   110            // q = n/d, hence if q < d then n < d^2 so n is prime
+       pollard.c   111    
+       pollard.c   112            if (mcmp(q, d) == -1) {
+    000001AA 65B3                   MOV         R11,R5
+    000001AC D36B                   MOV.L       L1137+20,R3; _mcmp
+    000001AE 430B                   JSR         @R3
+    000001B0 54F1                   MOV.L       @(4,R15),R4
+    000001B2 88FF                   CMP/EQ      #-1,R0
+    000001B4 8B06                   BF          L1122
+       pollard.c   113                    push_factor(n, 1);
+    000001B6 E501                   MOV         #1,R5
+    000001B8 B0E8                   BSR         _push_factor
+    000001BA 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       pollard.c   114                    n = mint(1);
+    000001BC D263                   MOV.L       L1137+4,R2 ; _mint
+    000001BE 420B                   JSR         @R2
+    000001C0 E401                   MOV         #1,R4
+    000001C2 2E02                   MOV.L       R0,@R14
+    000001C4              L1122:                            
+       pollard.c   115            }
+       pollard.c   116    
+       pollard.c   117            if (count == 0)
+    000001C4 2CC8                   TST         R12,R12
+    000001C6 8B01                   BF          L1123
+       pollard.c   118                    mfree(d);
+    000001C8 4D0B                   JSR         @R13
+    000001CA 64B3                   MOV         R11,R4
+    000001CC              L1123:                            
+       pollard.c   119    
+       pollard.c   120            mfree(q);
+    000001CC 4D0B                   JSR         @R13
+    000001CE 54F1                   MOV.L       @(4,R15),R4
+       pollard.c   121    }
+    000001D0              L1117:                            
+    000001D0 7F0C                   ADD         #12,R15
+    000001D2 4F26                   LDS.L       @R15+,PR
+    000001D4 6AF6                   MOV.L       @R15+,R10
+    000001D6 6BF6                   MOV.L       @R15+,R11
+    000001D8 6CF6                   MOV.L       @R15+,R12
+    000001DA 6DF6                   MOV.L       @R15+,R13
+    000001DC 000B                   RTS
+    000001DE 6EF6                   MOV.L       @R15+,R14
+       pollard.c   122    
+       pollard.c   123    // From TAOCP Vol. 2 by Knuth, p. 385 (Algorithm B)
+       pollard.c   124    
+       pollard.c   125    int
+       pollard.c   126    factor_b(void)
+    000001E0              _factor_b:                       ; function: factor_b
+                                                           ; frame size=48
+    000001E0 2FE6                   MOV.L       R14,@-R15
+    000001E2 2FD6                   MOV.L       R13,@-R15
+    000001E4 2FC6                   MOV.L       R12,@-R15
+    000001E6 2FB6                   MOV.L       R11,@-R15
+    000001E8 2FA6                   MOV.L       R10,@-R15
+    000001EA 2F96                   MOV.L       R9,@-R15
+    000001EC 2F86                   MOV.L       R8,@-R15
+    000001EE 4F22                   STS.L       PR,@-R15
+    000001F0 4F12                   STS.L       MACL,@-R15
+    000001F2 7FF4                   ADD         #-12,R15
+       pollard.c   127    {
+       pollard.c   128            int k, l;
+       pollard.c   129            unsigned int *g, *one, *t, *x, *xprime;
+       pollard.c   130    
+       pollard.c   131            one = mint(1);
+    000001F4 DE55                   MOV.L       L1137+4,R14; _mint
+    000001F6 4E0B                   JSR         @R14
+    000001F8 E401                   MOV         #1,R4
+    000001FA 6903                   MOV         R0,R9
+       pollard.c   132            x = mint(5);
+    000001FC 4E0B                   JSR         @R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001FE E405                   MOV         #5,R4
+    00000200 6C03                   MOV         R0,R12
+       pollard.c   133            xprime = mint(2);
+    00000202 4E0B                   JSR         @R14
+    00000204 E402                   MOV         #2,R4
+    00000206 6B03                   MOV         R0,R11
+    00000208 D855                   MOV.L       L1137+24,R8; _mmod
+       pollard.c   134    
+       pollard.c   135            k = 1;
+    0000020A E301                   MOV         #1,R3
+    0000020C DD52                   MOV.L       L1137+16,R13; __$n
+       pollard.c   136            l = 1;
+    0000020E 6233                   MOV         R3,R2
+    00000210 DE50                   MOV.L       L1137+12,R14; _mfree
+    00000212 1F32                   MOV.L       R3,@(8,R15)
+    00000214 1F21                   MOV.L       R2,@(4,R15)
+       pollard.c   137    
+       pollard.c   138            while (1) {
+    00000216              L1125:                            
+       pollard.c   139    
+       pollard.c   140                    if (mprime(n)) {
+    00000216 D253                   MOV.L       L1137+28,R2; _mprime
+    00000218 420B                   JSR         @R2
+    0000021A 64D2                   MOV.L       @R13,R4
+    0000021C 2008                   TST         R0,R0
+    0000021E 890A                   BT          L1129
+       pollard.c   141                            push_factor(n, 1);
+    00000220 E501                   MOV         #1,R5
+    00000222 B0B3                   BSR         _push_factor
+    00000224 64D2                   MOV.L       @R13,R4
+       pollard.c   142                            mfree(one);
+    00000226 4E0B                   JSR         @R14
+    00000228 6493                   MOV         R9,R4
+       pollard.c   143                            mfree(x);
+    0000022A 4E0B                   JSR         @R14
+    0000022C 64C3                   MOV         R12,R4
+       pollard.c   144                            mfree(xprime);
+    0000022E 4E0B                   JSR         @R14
+    00000230 64B3                   MOV         R11,R4
+       pollard.c   145                            return 0;
+    00000232 A07E                   BRA         L1127
+    00000234 E000                   MOV         #0,R0
+    00000236              L1129:                            
+       pollard.c   146                    }
+       pollard.c   147    
+       pollard.c   148                    while (1) {
+       pollard.c   149    
+       pollard.c   150                            if (esc_flag) {
+    00000236 D34C                   MOV.L       L1137+32,R3; _esc_flag
+    00000238 6232                   MOV.L       @R3,R2
+    0000023A 2228                   TST         R2,R2
+    0000023C 890B                   BT          L1130
+       pollard.c   151                                    mfree(one);
+    0000023E 4E0B                   JSR         @R14
+    00000240 6493                   MOV         R9,R4
+       pollard.c   152                                    mfree(n);
+    00000242 4E0B                   JSR         @R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000244 64D2                   MOV.L       @R13,R4
+       pollard.c   153                                    mfree(x);
+    00000246 4E0B                   JSR         @R14
+    00000248 64C3                   MOV         R12,R4
+       pollard.c   154                                    mfree(xprime);
+    0000024A 4E0B                   JSR         @R14
+    0000024C 64B3                   MOV         R11,R4
+       pollard.c   155                                    stop("esc");
+    0000024E D447                   MOV.L       L1137+36,R4; L1091
+    00000250 D247                   MOV.L       L1137+40,R2; _stop
+    00000252 420B                   JSR         @R2
+    00000254 0009                   NOP
+    00000256              L1130:                            
+       pollard.c   156                            }
+       pollard.c   157    
+       pollard.c   158                            // g = gcd(x' - x, n)
+       pollard.c   159    
+       pollard.c   160                            t = msub(xprime, x);
+    00000256 65C3                   MOV         R12,R5
+    00000258 D346                   MOV.L       L1137+44,R3; _msub
+    0000025A 430B                   JSR         @R3
+    0000025C 64B3                   MOV         R11,R4
+       pollard.c   161                            MSIGN(t) = 1;
+    0000025E E301                   MOV         #1,R3
+    00000260 2F02                   MOV.L       R0,@R15
+    00000262 70F8                   ADD         #-8,R0
+    00000264 2032                   MOV.L       R3,@R0
+       pollard.c   162                            g = mgcd(t, n);
+    00000266 65D2                   MOV.L       @R13,R5
+    00000268 D343                   MOV.L       L1137+48,R3; _mgcd
+    0000026A 430B                   JSR         @R3
+    0000026C 64F2                   MOV.L       @R15,R4
+    0000026E 6A03                   MOV         R0,R10
+       pollard.c   163                            mfree(t);
+    00000270 4E0B                   JSR         @R14
+    00000272 64F2                   MOV.L       @R15,R4
+       pollard.c   164    
+       pollard.c   165                            if (MEQUAL(g, 1)) {
+    00000274 60A3                   MOV         R10,R0
+    00000276 70FC                   ADD         #-4,R0
+    00000278 6002                   MOV.L       @R0,R0
+    0000027A 8801                   CMP/EQ      #1,R0
+    0000027C 8B2F                   BF          L1131
+    0000027E 60A3                   MOV         R10,R0
+    00000280 63A2                   MOV.L       @R10,R3
+    00000282 70F8                   ADD         #-8,R0
+    00000284 6202                   MOV.L       @R0,R2
+    00000286 0237                   MUL.L       R3,R2
+    00000288 001A                   STS         MACL,R0
+    0000028A 8801                   CMP/EQ      #1,R0
+    0000028C 8B27                   BF          L1131
+       pollard.c   166                                    mfree(g);
+    0000028E 4E0B                   JSR         @R14
+    00000290 64A3                   MOV         R10,R4
+       pollard.c   167                                    if (--k == 0) {
+    00000292 52F2                   MOV.L       @(8,R15),R2
+    00000294 72FF                   ADD         #-1,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000296 2228                   TST         R2,R2
+    00000298 8F0B                   BF/S        L1132
+    0000029A 1F22                   MOV.L       R2,@(8,R15)
+       pollard.c   168                                            mfree(xprime);
+    0000029C 4E0B                   JSR         @R14
+    0000029E 64B3                   MOV         R11,R4
+       pollard.c   169                                            xprime = mcopy(x);
+    000002A0 D236                   MOV.L       L1137+52,R2; _mcopy
+    000002A2 420B                   JSR         @R2
+    000002A4 64C3                   MOV         R12,R4
+    000002A6 6B03                   MOV         R0,R11
+       pollard.c   170                                            l *= 2;
+    000002A8 53F1                   MOV.L       @(4,R15),R3
+    000002AA 6233                   MOV         R3,R2
+    000002AC 323C                   ADD         R3,R2
+    000002AE 1F21                   MOV.L       R2,@(4,R15)
+       pollard.c   171                                            k = l;
+    000002B0 1F22                   MOV.L       R2,@(8,R15)
+    000002B2              L1132:                            
+       pollard.c   172                                    }
+       pollard.c   173    
+       pollard.c   174                                    // x = (x ^ 2 + 1) mod n
+       pollard.c   175    
+       pollard.c   176                                    t = mmul(x, x);
+    000002B2 65C3                   MOV         R12,R5
+    000002B4 D332                   MOV.L       L1137+56,R3; _mmul
+    000002B6 430B                   JSR         @R3
+    000002B8 64C3                   MOV         R12,R4
+    000002BA 2F02                   MOV.L       R0,@R15
+       pollard.c   177                                    mfree(x);
+    000002BC 4E0B                   JSR         @R14
+    000002BE 64C3                   MOV         R12,R4
+       pollard.c   178                                    x = madd(t, one);
+    000002C0 D330                   MOV.L       L1137+60,R3; _madd
+    000002C2 6593                   MOV         R9,R5
+    000002C4 430B                   JSR         @R3
+    000002C6 64F2                   MOV.L       @R15,R4
+    000002C8 6A03                   MOV         R0,R10
+       pollard.c   179                                    mfree(t);
+    000002CA 4E0B                   JSR         @R14
+    000002CC 64F2                   MOV.L       @R15,R4
+       pollard.c   180                                    t = mmod(x, n);
+    000002CE 65D2                   MOV.L       @R13,R5
+    000002D0 480B                   JSR         @R8
+    000002D2 64A3                   MOV         R10,R4
+    000002D4 2F02                   MOV.L       R0,@R15
+       pollard.c   181                                    mfree(x);
+    000002D6 4E0B                   JSR         @R14
+    000002D8 64A3                   MOV         R10,R4
+       pollard.c   182                                    x = t;
+       pollard.c   183    
+       pollard.c   184                                    continue;
+    000002DA AFAC                   BRA         L1129
+    000002DC 6CF2                   MOV.L       @R15,R12
+    000002DE              L1131:                            
+       pollard.c   185                            }
+       pollard.c   186    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       pollard.c   187                            push_factor(g, 1);
+    000002DE E501                   MOV         #1,R5
+    000002E0 B054                   BSR         _push_factor
+    000002E2 64A3                   MOV         R10,R4
+       pollard.c   188    
+       pollard.c   189                            if (mcmp(g, n) == 0) {
+    000002E4 65D2                   MOV.L       @R13,R5
+    000002E6 D31D                   MOV.L       L1137+20,R3; _mcmp
+    000002E8 430B                   JSR         @R3
+    000002EA 64A3                   MOV         R10,R4
+    000002EC 2008                   TST         R0,R0
+    000002EE 8B09                   BF          L1133
+       pollard.c   190                                    mfree(one);
+    000002F0 4E0B                   JSR         @R14
+    000002F2 6493                   MOV         R9,R4
+       pollard.c   191                                    mfree(n);
+    000002F4 4E0B                   JSR         @R14
+    000002F6 64D2                   MOV.L       @R13,R4
+       pollard.c   192                                    mfree(x);
+    000002F8 4E0B                   JSR         @R14
+    000002FA 64C3                   MOV         R12,R4
+       pollard.c   193                                    mfree(xprime);
+    000002FC 4E0B                   JSR         @R14
+    000002FE 64B3                   MOV         R11,R4
+       pollard.c   194                                    return -1;
+    00000300 A017                   BRA         L1127
+    00000302 E0FF                   MOV         #-1,R0
+    00000304              L1133:                            
+       pollard.c   195                            }
+       pollard.c   196    
+       pollard.c   197                            // n = n / g
+       pollard.c   198    
+       pollard.c   199                            t = mdiv(n, g);
+    00000304 D320                   MOV.L       L1137+64,R3; _mdiv
+    00000306 65A3                   MOV         R10,R5
+    00000308 430B                   JSR         @R3
+    0000030A 64D2                   MOV.L       @R13,R4
+    0000030C 6A03                   MOV         R0,R10
+       pollard.c   200                            mfree(n);
+    0000030E 4E0B                   JSR         @R14
+    00000310 64D2                   MOV.L       @R13,R4
+       pollard.c   201                            n = t;
+       pollard.c   202    
+       pollard.c   203                            // x = x mod n
+       pollard.c   204    
+       pollard.c   205                            t = mmod(x, n);
+    00000312 65A3                   MOV         R10,R5
+    00000314 2DA2                   MOV.L       R10,@R13
+    00000316 480B                   JSR         @R8
+    00000318 64C3                   MOV         R12,R4
+    0000031A 6A03                   MOV         R0,R10
+       pollard.c   206                            mfree(x);
+    0000031C 4E0B                   JSR         @R14
+    0000031E 64C3                   MOV         R12,R4
+       pollard.c   207                            x = t;
+       pollard.c   208    
+       pollard.c   209                            // xprime = xprime mod n
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       pollard.c   210    
+       pollard.c   211                            t = mmod(xprime, n);
+    00000320 65D2                   MOV.L       @R13,R5
+    00000322 6CA3                   MOV         R10,R12
+    00000324 480B                   JSR         @R8
+    00000326 64B3                   MOV         R11,R4
+    00000328 6A03                   MOV         R0,R10
+       pollard.c   212                            mfree(xprime);
+    0000032A 4E0B                   JSR         @R14
+    0000032C 64B3                   MOV         R11,R4
+       pollard.c   213                            xprime = t;
+       pollard.c   214    
+       pollard.c   215                            break;
+    0000032E AF72                   BRA         L1125
+    00000330 6BA3                   MOV         R10,R11
+    00000332              L1127:                            
+       pollard.c   216                    }
+       pollard.c   217            }
+       pollard.c   218    }
+    00000332 7F0C                   ADD         #12,R15
+    00000334 4F16                   LDS.L       @R15+,MACL
+    00000336 4F26                   LDS.L       @R15+,PR
+    00000338 68F6                   MOV.L       @R15+,R8
+    0000033A 69F6                   MOV.L       @R15+,R9
+    0000033C 6AF6                   MOV.L       @R15+,R10
+    0000033E 6BF6                   MOV.L       @R15+,R11
+    00000340 6CF6                   MOV.L       @R15+,R12
+    00000342 6DF6                   MOV.L       @R15+,R13
+    00000344 000B                   RTS
+    00000346 6EF6                   MOV.L       @R15+,R14
+    00000348              L1137:                            
+    00000348 <00000000>             .DATA.L     _primetab
+    0000034C <00000000>             .DATA.L     _mint
+    00000350 <00000000>             .DATA.L     _mdivrem
+    00000354 <00000000>             .DATA.L     _mfree
+    00000358 <00000000>             .DATA.L     __$n
+    0000035C <00000000>             .DATA.L     _mcmp
+    00000360 <00000000>             .DATA.L     _mmod
+    00000364 <00000000>             .DATA.L     _mprime
+    00000368 <00000000>             .DATA.L     _esc_flag
+    0000036C <00000000>             .DATA.L     L1091
+    00000370 <00000000>             .DATA.L     _stop
+    00000374 <00000000>             .DATA.L     _msub
+    00000378 <00000000>             .DATA.L     _mgcd
+    0000037C <00000000>             .DATA.L     _mcopy
+    00000380 <00000000>             .DATA.L     _mmul
+    00000384 <00000000>             .DATA.L     _madd
+    00000388 <00000000>             .DATA.L     _mdiv
+       pollard.c   219    
+       pollard.c   220    void
+       pollard.c   221    push_factor(unsigned int *d, int count)
+    0000038C              _push_factor:                    ; function: push_factor
+                                                           ; frame size=24
+    0000038C 2FE6                   MOV.L       R14,@-R15
+    0000038E 2FD6                   MOV.L       R13,@-R15
+    00000390 2F86                   MOV.L       R8,@-R15
+    00000392 4F22                   STS.L       PR,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       pollard.c   222    {
+       pollard.c   223            p1 = alloc();
+    00000394 DE20                   MOV.L       L1138+2,R14; _p1
+    00000396 7FF8                   ADD         #-8,R15
+    00000398 D320                   MOV.L       L1138+6,R3 ; _alloc
+    0000039A 1F41                   MOV.L       R4,@(4,R15)
+    0000039C 430B                   JSR         @R3
+    0000039E 2F52                   MOV.L       R5,@R15
+    000003A0 2E02                   MOV.L       R0,@R14
+       pollard.c   224            p1->k = NUM;
+    000003A2 6203                   MOV         R0,R2
+       pollard.c   225            p1->u.q.a = d;
+       pollard.c   226            p1->u.q.b = mint(1);
+    000003A4 DD1E                   MOV.L       L1138+10,R13; _mint
+    000003A6 E001                   MOV         #1,R0
+    000003A8 8028                   MOV.B       R0,@(8,R2)
+    000003AA 63E2                   MOV.L       @R14,R3
+    000003AC 52F1                   MOV.L       @(4,R15),R2
+    000003AE 2322                   MOV.L       R2,@R3
+    000003B0 68E2                   MOV.L       @R14,R8
+    000003B2 7804                   ADD         #4,R8
+    000003B4 4D0B                   JSR         @R13
+    000003B6 E401                   MOV         #1,R4
+    000003B8 2802                   MOV.L       R0,@R8
+       pollard.c   227            push(p1);
+    000003BA D31A                   MOV.L       L1138+14,R3; _push
+    000003BC 430B                   JSR         @R3
+    000003BE 64E2                   MOV.L       @R14,R4
+       pollard.c   228            if (count > 1) {
+    000003C0 63F2                   MOV.L       @R15,R3
+    000003C2 E201                   MOV         #1,R2
+    000003C4 3327                   CMP/GT      R2,R3
+    000003C6 8B20                   BF          L1135
+       pollard.c   229                    push_symbol(POWER);
+    000003C8 D317                   MOV.L       L1138+18,R3; _push_symbol
+    000003CA 430B                   JSR         @R3
+    000003CC E454                   MOV         #84,R4
+       pollard.c   230                    swap();
+    000003CE D217                   MOV.L       L1138+22,R2; _swap
+    000003D0 420B                   JSR         @R2
+    000003D2 0009                   NOP
+       pollard.c   231                    p1 = alloc();
+    000003D4 D311                   MOV.L       L1138+6,R3 ; _alloc
+    000003D6 430B                   JSR         @R3
+    000003D8 0009                   NOP
+       pollard.c   232                    p1->k = NUM;
+    000003DA 6203                   MOV         R0,R2
+    000003DC 2E02                   MOV.L       R0,@R14
+    000003DE E001                   MOV         #1,R0
+    000003E0 8028                   MOV.B       R0,@(8,R2)
+       pollard.c   233                    p1->u.q.a = mint(count);
+    000003E2 68E2                   MOV.L       @R14,R8
+    000003E4 4D0B                   JSR         @R13
+    000003E6 64F2                   MOV.L       @R15,R4
+    000003E8 2802                   MOV.L       R0,@R8
+       pollard.c   234                    p1->u.q.b = mint(1);
+    000003EA 68E2                   MOV.L       @R14,R8
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003EC 7804                   ADD         #4,R8
+    000003EE 4D0B                   JSR         @R13
+    000003F0 E401                   MOV         #1,R4
+    000003F2 2802                   MOV.L       R0,@R8
+       pollard.c   235                    push(p1);
+    000003F4 D30B                   MOV.L       L1138+14,R3; _push
+    000003F6 430B                   JSR         @R3
+    000003F8 64E2                   MOV.L       @R14,R4
+       pollard.c   236                    list(3);
+    000003FA E403                   MOV         #3,R4
+    000003FC D20C                   MOV.L       L1138+26,R2; _list
+    000003FE 7F08                   ADD         #8,R15
+    00000400 4F26                   LDS.L       @R15+,PR
+    00000402 68F6                   MOV.L       @R15+,R8
+    00000404 6DF6                   MOV.L       @R15+,R13
+    00000406 422B                   JMP         @R2
+    00000408 6EF6                   MOV.L       @R15+,R14
+    0000040A              L1135:                            
+       pollard.c   237            }
+       pollard.c   238    }
+    0000040A 7F08                   ADD         #8,R15
+    0000040C 4F26                   LDS.L       @R15+,PR
+    0000040E 68F6                   MOV.L       @R15+,R8
+    00000410 6DF6                   MOV.L       @R15+,R13
+    00000412 000B                   RTS
+    00000414 6EF6                   MOV.L       @R15+,R14
+    00000416              L1138:                            
+    00000416 0000                   .DATA.W     0
+    00000418 <00000000>             .DATA.L     _p1
+    0000041C <00000000>             .DATA.L     _alloc
+    00000420 <00000000>             .DATA.L     _mint
+    00000424 <00000000>             .DATA.L     _push
+    00000428 <00000000>             .DATA.L     _push_symbol
+    0000042C <00000000>             .DATA.L     _swap
+    00000430 <00000000>             .DATA.L     _list
+C   00000000              L1091:
+    00000000 657363                 .SDATA      "esc"
+    00000003 00                     .DATA.B     H'00
+B   00000000              __$n:                            ; static: n
+    00000000 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:22  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      238
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000434 Byte(s)
+CONSTANT SECTION (C):                               00000004 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000004 Byte(s)
+
+ TOTAL PROGRAM SIZE: 0000043C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           28
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           5
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            60
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkBF43.tmp 
+

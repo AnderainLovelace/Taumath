@@ -1,0 +1,401 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:18  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\mroot.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         mroot.c     1    //-----------------------------------------------------------------------------
+         mroot.c     2    //
+         mroot.c     3    //      Bignum root
+         mroot.c     4    //
+         mroot.c     5    //      Returns null pointer if not perfect root.
+         mroot.c     6    //
+         mroot.c     7    //      The sign of the radicand is ignored.
+         mroot.c     8    //
+         mroot.c     9    //-----------------------------------------------------------------------------
+         mroot.c    10    
+         mroot.c    11    #include "stdafx.h"
+         mroot.c    12    #include "defs.h"
+         mroot.c    13    
+         mroot.c    14    unsigned int *
+         mroot.c    15    mroot(unsigned int *n, unsigned int index)
+P   00000000              _mroot:                          ; function: mroot
+                                                           ; frame size=32
+                                                           ; used runtime library name:
+                                                           ; __divlu
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 6A53                   MOV         R5,R10
+    0000000C 2F96                   MOV.L       R9,@-R15
+         mroot.c    16    {
+         mroot.c    17            int i, j, k;
+         mroot.c    18            unsigned int m, *x, *y;
+         mroot.c    19    
+         mroot.c    20            if (index == 0)
+    0000000E 2AA8                   TST         R10,R10
+    00000010 2F86                   MOV.L       R8,@-R15
+    00000012 4F22                   STS.L       PR,@-R15
+    00000014 8F04                   BF/S        L1075
+    00000016 6943                   MOV         R4,R9
+         mroot.c    21                    stop("root index is zero");
+    00000018 D439                   MOV.L       L1086,R4   ; L1067
+    0000001A D23A                   MOV.L       L1086+4,R2 ; _stop
+    0000001C 420B                   JSR         @R2
+    0000001E 0009                   NOP
+    00000020              L1075:                            
+         mroot.c    22    
+         mroot.c    23            // count number of bits
+         mroot.c    24    
+         mroot.c    25            k = 32 * (MLENGTH(n) - 1);
+    00000020 6693                   MOV         R9,R6
+    00000022 76FC                   ADD         #-4,R6
+    00000024 6662                   MOV.L       @R6,R6
+    00000026 76FF                   ADD         #-1,R6
+    00000028 6463                   MOV         R6,R4
+    0000002A 4408                   SHLL2       R4
+    0000002C 4408                   SHLL2       R4
+    0000002E 4400                   SHLL        R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:18  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         mroot.c    26    
+         mroot.c    27            m = n[MLENGTH(n) - 1];
+    00000030 6063                   MOV         R6,R0
+    00000032 4008                   SHLL2       R0
+         mroot.c    28    
+         mroot.c    29            while (m) {
+    00000034 A002                   BRA         L1076
+    00000036 059E                   MOV.L       @(R0,R9),R5
+    00000038              L1077:                            
+         mroot.c    30                    m >>= 1;
+    00000038 4501                   SHLR        R5
+         mroot.c    31                    k++;
+    0000003A 7401                   ADD         #1,R4
+    0000003C              L1076:                            
+    0000003C 2558                   TST         R5,R5
+    0000003E 8BFB                   BF          L1077
+         mroot.c    32            }
+         mroot.c    33    
+         mroot.c    34            if (k == 0)
+    00000040 2448                   TST         R4,R4
+    00000042 8B0A                   BF          L1078
+         mroot.c    35                    return mint(0);
+    00000044 4F26                   LDS.L       @R15+,PR
+    00000046 E400                   MOV         #0,R4
+    00000048 D32F                   MOV.L       L1086+8,R3 ; _mint
+    0000004A 68F6                   MOV.L       @R15+,R8
+    0000004C 69F6                   MOV.L       @R15+,R9
+    0000004E 6AF6                   MOV.L       @R15+,R10
+    00000050 6BF6                   MOV.L       @R15+,R11
+    00000052 6CF6                   MOV.L       @R15+,R12
+    00000054 6DF6                   MOV.L       @R15+,R13
+    00000056 432B                   JMP         @R3
+    00000058 6EF6                   MOV.L       @R15+,R14
+    0000005A              L1078:                            
+         mroot.c    36    
+         mroot.c    37            // initial guess
+         mroot.c    38    
+         mroot.c    39            k = (k - 1) / index;
+    0000005A 6143                   MOV         R4,R1
+    0000005C D32B                   MOV.L       L1086+12,R3; __divlu
+    0000005E 71FF                   ADD         #-1,R1
+    00000060 430B                   JSR         @R3
+    00000062 60A3                   MOV         R10,R0
+         mroot.c    40    
+         mroot.c    41            j = k / 32 + 1;
+    00000064 6C03                   MOV         R0,R12
+    00000066 4C11                   CMP/PZ      R12
+    00000068 8D01                   BT/S        L1080
+    0000006A 6D03                   MOV         R0,R13
+    0000006C 7C1F                   ADD         #31,R12
+    0000006E              L1080:                            
+    0000006E E3FB                   MOV         #-5,R3
+         mroot.c    42            x = mnew(j);
+    00000070 D227                   MOV.L       L1086+16,R2; _mnew
+    00000072 4C3C                   SHAD        R3,R12
+    00000074 7C01                   ADD         #1,R12
+    00000076 420B                   JSR         @R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:18  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000078 64C3                   MOV         R12,R4
+    0000007A 6E03                   MOV         R0,R14
+         mroot.c    43            MSIGN(x) = 1;
+    0000007C 6303                   MOV         R0,R3
+    0000007E 73F8                   ADD         #-8,R3
+    00000080 E201                   MOV         #1,R2
+         mroot.c    44            MLENGTH(x) = j;
+         mroot.c    45            for (i = 0; i < j; i++)
+    00000082 E600                   MOV         #0,R6
+    00000084 2322                   MOV.L       R2,@R3
+    00000086 E400                   MOV         #0,R4
+    00000088 63E3                   MOV         R14,R3
+    0000008A 6563                   MOV         R6,R5
+    0000008C 23C6                   MOV.L       R12,@-R3
+    0000008E 4C15                   CMP/PL      R12
+    00000090 8F05                   BF/S        L1081
+    00000092 34EC                   ADD         R14,R4
+    00000094              L1082:                            
+         mroot.c    46                    x[i] = 0;
+    00000094 2462                   MOV.L       R6,@R4
+    00000096 7501                   ADD         #1,R5
+    00000098 35C3                   CMP/GE      R12,R5
+    0000009A 8FFB                   BF/S        L1082
+    0000009C 7404                   ADD         #4,R4
+    0000009E              L1081:                            
+         mroot.c    47    
+         mroot.c    48            while (k >= 0) {
+    0000009E 4D11                   CMP/PZ      R13
+    000000A0 D81C                   MOV.L       L1086+20,R8; _mp_set_bit
+    000000A2 DB1D                   MOV.L       L1086+24,R11; _mfree
+    000000A4 8B20                   BF          L1083
+    000000A6              L1084:                            
+         mroot.c    49                    mp_set_bit(x, k);
+    000000A6 65D3                   MOV         R13,R5
+    000000A8 480B                   JSR         @R8
+    000000AA 64E3                   MOV         R14,R4
+         mroot.c    50                    y = mpow(x, index);
+    000000AC D31B                   MOV.L       L1086+28,R3; _mpow
+    000000AE 65A3                   MOV         R10,R5
+    000000B0 430B                   JSR         @R3
+    000000B2 64E3                   MOV         R14,R4
+         mroot.c    51                    switch (mcmp(y, n)) {
+    000000B4 D21A                   MOV.L       L1086+32,R2; _mcmp
+    000000B6 6C03                   MOV         R0,R12
+    000000B8 6593                   MOV         R9,R5
+    000000BA 420B                   JSR         @R2
+    000000BC 6403                   MOV         R0,R4
+    000000BE 88FF                   CMP/EQ      #-1,R0
+    000000C0 890D                   BT          L1085
+    000000C2 8800                   CMP/EQ      #0,R0
+    000000C4 8903                   BT          L1073
+    000000C6 8801                   CMP/EQ      #1,R0
+    000000C8 8905                   BT          L1074
+    000000CA A008                   BRA         L1085
+    000000CC 0009                   NOP
+    000000CE              L1073:                           ; case label 
+         mroot.c    52                    case -1:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:18  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         mroot.c    53                            break;
+         mroot.c    54                    case 0:
+         mroot.c    55                            mfree(y);
+    000000CE 4B0B                   JSR         @R11
+    000000D0 64C3                   MOV         R12,R4
+         mroot.c    56                            return x;
+    000000D2 A00C                   BRA         L1079
+    000000D4 60E3                   MOV         R14,R0
+    000000D6              L1074:                           ; case label 
+         mroot.c    57                    case 1:
+         mroot.c    58                            mp_clr_bit(x, k);
+    000000D6 65D3                   MOV         R13,R5
+    000000D8 D212                   MOV.L       L1086+36,R2; _mp_clr_bit
+    000000DA 420B                   JSR         @R2
+    000000DC 64E3                   MOV         R14,R4
+         mroot.c    59                            break;
+    000000DE              L1085:                            
+         mroot.c    60                    }
+         mroot.c    61                    mfree(y);
+    000000DE 4B0B                   JSR         @R11
+    000000E0 64C3                   MOV         R12,R4
+         mroot.c    62                    k--;
+    000000E2 7DFF                   ADD         #-1,R13
+    000000E4 4D11                   CMP/PZ      R13
+    000000E6 89DE                   BT          L1084
+    000000E8              L1083:                            
+         mroot.c    63            }
+         mroot.c    64    
+         mroot.c    65            mfree(x);
+    000000E8 4B0B                   JSR         @R11
+    000000EA 64E3                   MOV         R14,R4
+         mroot.c    66    
+         mroot.c    67            return 0;
+    000000EC E000                   MOV         #0,R0
+         mroot.c    68    }
+    000000EE              L1079:                            
+    000000EE 4F26                   LDS.L       @R15+,PR
+    000000F0 68F6                   MOV.L       @R15+,R8
+    000000F2 69F6                   MOV.L       @R15+,R9
+    000000F4 6AF6                   MOV.L       @R15+,R10
+    000000F6 6BF6                   MOV.L       @R15+,R11
+    000000F8 6CF6                   MOV.L       @R15+,R12
+    000000FA 6DF6                   MOV.L       @R15+,R13
+    000000FC 000B                   RTS
+    000000FE 6EF6                   MOV.L       @R15+,R14
+    00000100              L1086:                            
+    00000100 <00000000>             .DATA.L     L1067
+    00000104 <00000000>             .DATA.L     _stop
+    00000108 <00000000>             .DATA.L     _mint
+    0000010C <00000000>             .DATA.L     __divlu
+    00000110 <00000000>             .DATA.L     _mnew
+    00000114 <00000000>             .DATA.L     _mp_set_bit
+    00000118 <00000000>             .DATA.L     _mfree
+    0000011C <00000000>             .DATA.L     _mpow
+    00000120 <00000000>             .DATA.L     _mcmp
+    00000124 <00000000>             .DATA.L     _mp_clr_bit
+C   00000000              L1067:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:18  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000000 726F6F7420             .SDATA      "root index is zero"
+             696E646578   
+             206973207A   
+             65726F       
+    00000012 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:18  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       68
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000128 Byte(s)
+CONSTANT SECTION (C):                               00000013 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 0000013B Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            9
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            25
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkB107.tmp 
+

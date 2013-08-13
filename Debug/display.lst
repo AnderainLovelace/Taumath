@@ -1,0 +1,137 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\display.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       display.c     1    #include "stdafx.h"
+       display.c     2    #include "defs.h"
+       display.c     3    
+       display.c     4    
+       display.c     5    void
+       display.c     6    display(U *p)
+P   00000000              _display:                        ; function: display
+                                                           ; frame size=8
+    00000000 4F22                   STS.L       PR,@-R15
+       display.c     7    {
+       display.c     8            save();
+    00000002 D305                   MOV.L       L1060+2,R3 ; _save
+    00000004 430B                   JSR         @R3
+    00000006 2F46                   MOV.L       R4,@-R15
+       display.c     9    
+       display.c    10            printline(p);
+    00000008 D304                   MOV.L       L1060+6,R3 ; _printline
+    0000000A 430B                   JSR         @R3
+    0000000C 64F2                   MOV.L       @R15,R4
+       display.c    11    
+       display.c    12            restore();
+    0000000E 7F04                   ADD         #4,R15
+    00000010 D203                   MOV.L       L1060+10,R2; _restore
+    00000012 422B                   JMP         @R2
+    00000014 4F26                   LDS.L       @R15+,PR
+    00000016              L1060:                            
+    00000016 0000                   .DATA.W     0
+    00000018 <00000000>             .DATA.L     _save
+    0000001C <00000000>             .DATA.L     _printline
+    00000020 <00000000>             .DATA.L     _restore
+       display.c    13    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:54  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       13
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000024 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000024 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            3
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk5393.tmp 
+

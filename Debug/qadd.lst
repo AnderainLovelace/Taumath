@@ -1,0 +1,335 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:24  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\qadd.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          qadd.c     1    //      Add rational numbers
+          qadd.c     2    //
+          qadd.c     3    //      Input:          tos-2           addend
+          qadd.c     4    //
+          qadd.c     5    //                      tos-1           addend
+          qadd.c     6    //
+          qadd.c     7    //      Output:         sum on stack
+          qadd.c     8    
+          qadd.c     9    #include "stdafx.h"
+          qadd.c    10    #include "defs.h"
+          qadd.c    11    
+          qadd.c    12    void
+          qadd.c    13    qadd(void)
+P   00000000              _qadd:                           ; function: qadd
+                                                           ; frame size=36
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+          qadd.c    14    {
+          qadd.c    15            unsigned int *a, *ab, *b, *ba, *c;
+          qadd.c    16    
+          qadd.c    17            save();
+    00000010 D337                   MOV.L       L1069+2,R3 ; _save
+    00000012 430B                   JSR         @R3
+    00000014 0009                   NOP
+          qadd.c    18    
+          qadd.c    19            p2 = pop();
+    00000016 DB37                   MOV.L       L1069+6,R11; _p2
+    00000018 D237                   MOV.L       L1069+10,R2; _pop
+    0000001A 420B                   JSR         @R2
+    0000001C 0009                   NOP
+          qadd.c    20            p1 = pop();
+    0000001E DE37                   MOV.L       L1069+14,R14; _p1
+    00000020 D335                   MOV.L       L1069+10,R3; _pop
+    00000022 430B                   JSR         @R3
+    00000024 2B02                   MOV.L       R0,@R11
+          qadd.c    21    
+          qadd.c    22            ab = mmul(p1->u.q.a, p2->u.q.b);
+    00000026 6403                   MOV         R0,R4
+    00000028 2E02                   MOV.L       R0,@R14
+    0000002A DA35                   MOV.L       L1069+18,R10; _mmul
+    0000002C 65B2                   MOV.L       @R11,R5
+    0000002E 5551                   MOV.L       @(4,R5),R5
+    00000030 4A0B                   JSR         @R10
+    00000032 6442                   MOV.L       @R4,R4
+          qadd.c    23            ba = mmul(p1->u.q.b, p2->u.q.a);
+    00000034 65B2                   MOV.L       @R11,R5
+    00000036 6803                   MOV         R0,R8
+    00000038 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:24  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003A 6552                   MOV.L       @R5,R5
+    0000003C 4A0B                   JSR         @R10
+    0000003E 5441                   MOV.L       @(4,R4),R4
+          qadd.c    24    
+          qadd.c    25            a = madd(ab, ba);
+    00000040 D330                   MOV.L       L1069+22,R3; _madd
+    00000042 6903                   MOV         R0,R9
+    00000044 6503                   MOV         R0,R5
+    00000046 430B                   JSR         @R3
+    00000048 6483                   MOV         R8,R4
+    0000004A 6D03                   MOV         R0,R13
+          qadd.c    26    
+          qadd.c    27            mfree(ab);
+    0000004C DC2E                   MOV.L       L1069+26,R12; _mfree
+    0000004E 4C0B                   JSR         @R12
+    00000050 6483                   MOV         R8,R4
+          qadd.c    28            mfree(ba);
+    00000052 4C0B                   JSR         @R12
+    00000054 6493                   MOV         R9,R4
+          qadd.c    29    
+          qadd.c    30            // zero?
+          qadd.c    31    
+          qadd.c    32            if (MZERO(a)) {
+    00000056 60D3                   MOV         R13,R0
+    00000058 70FC                   ADD         #-4,R0
+    0000005A 6002                   MOV.L       @R0,R0
+    0000005C 8801                   CMP/EQ      #1,R0
+    0000005E 8B0A                   BF          L1067
+    00000060 62D2                   MOV.L       @R13,R2
+    00000062 2228                   TST         R2,R2
+    00000064 8B07                   BF          L1067
+          qadd.c    33                    mfree(a);
+    00000066 4C0B                   JSR         @R12
+    00000068 64D3                   MOV         R13,R4
+          qadd.c    34                    push(zero);
+    0000006A D328                   MOV.L       L1069+30,R3; _zero
+    0000006C D228                   MOV.L       L1069+34,R2; _push
+    0000006E 420B                   JSR         @R2
+    00000070 6432                   MOV.L       @R3,R4
+    00000072 A032                   BRA         L1065
+    00000074 0009                   NOP
+    00000076              L1067:                            
+          qadd.c    35                    restore();
+          qadd.c    36                    return;
+          qadd.c    37            }
+          qadd.c    38    
+          qadd.c    39            b = mmul(p1->u.q.b, p2->u.q.b);
+    00000076 65B2                   MOV.L       @R11,R5
+    00000078 64E2                   MOV.L       @R14,R4
+    0000007A 5551                   MOV.L       @(4,R5),R5
+    0000007C 4A0B                   JSR         @R10
+    0000007E 5441                   MOV.L       @(4,R4),R4
+          qadd.c    40    
+          qadd.c    41            c = mgcd(a, b);
+    00000080 D324                   MOV.L       L1069+38,R3; _mgcd
+    00000082 6B03                   MOV         R0,R11
+    00000084 6503                   MOV         R0,R5
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:24  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000086 430B                   JSR         @R3
+    00000088 64D3                   MOV         R13,R4
+    0000008A 6A03                   MOV         R0,R10
+          qadd.c    42    
+          qadd.c    43            MSIGN(c) = MSIGN(b);
+    0000008C 6203                   MOV         R0,R2
+    0000008E 72F8                   ADD         #-8,R2
+    00000090 63B3                   MOV         R11,R3
+    00000092 73F8                   ADD         #-8,R3
+    00000094 6132                   MOV.L       @R3,R1
+          qadd.c    44    
+          qadd.c    45            p1 = alloc();
+    00000096 D320                   MOV.L       L1069+42,R3; _alloc
+    00000098 430B                   JSR         @R3
+    0000009A 2212                   MOV.L       R1,@R2
+    0000009C 2E02                   MOV.L       R0,@R14
+          qadd.c    46    
+          qadd.c    47            p1->k = NUM;
+    0000009E 6203                   MOV         R0,R2
+    000000A0 E001                   MOV         #1,R0
+          qadd.c    48    
+          qadd.c    49            p1->u.q.a = mdiv(a, c);
+    000000A2 65A3                   MOV         R10,R5
+    000000A4 8028                   MOV.B       R0,@(8,R2)
+    000000A6 63E2                   MOV.L       @R14,R3
+    000000A8 D21C                   MOV.L       L1069+46,R2; _mdiv
+    000000AA 2F36                   MOV.L       R3,@-R15
+    000000AC 420B                   JSR         @R2
+    000000AE 64D3                   MOV         R13,R4
+    000000B0 61F6                   MOV.L       @R15+,R1
+          qadd.c    50            p1->u.q.b = mdiv(b, c);
+    000000B2 65A3                   MOV         R10,R5
+    000000B4 D219                   MOV.L       L1069+46,R2; _mdiv
+    000000B6 2102                   MOV.L       R0,@R1
+    000000B8 63E2                   MOV.L       @R14,R3
+    000000BA E104                   MOV         #4,R1
+    000000BC 313C                   ADD         R3,R1
+    000000BE 2F16                   MOV.L       R1,@-R15
+    000000C0 420B                   JSR         @R2
+    000000C2 64B3                   MOV         R11,R4
+    000000C4 62F6                   MOV.L       @R15+,R2
+    000000C6 2202                   MOV.L       R0,@R2
+          qadd.c    51    
+          qadd.c    52            mfree(a);
+    000000C8 4C0B                   JSR         @R12
+    000000CA 64D3                   MOV         R13,R4
+          qadd.c    53            mfree(b);
+    000000CC 4C0B                   JSR         @R12
+    000000CE 64B3                   MOV         R11,R4
+          qadd.c    54            mfree(c);
+    000000D0 4C0B                   JSR         @R12
+    000000D2 64A3                   MOV         R10,R4
+          qadd.c    55    
+          qadd.c    56            push(p1);
+    000000D4 D30E                   MOV.L       L1069+34,R3; _push
+    000000D6 430B                   JSR         @R3
+    000000D8 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:24  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000DA              L1065:
+          qadd.c    57    
+          qadd.c    58            restore();
+    000000DA 4F26                   LDS.L       @R15+,PR
+    000000DC D210                   MOV.L       L1069+50,R2; _restore
+    000000DE 68F6                   MOV.L       @R15+,R8
+    000000E0 69F6                   MOV.L       @R15+,R9
+    000000E2 6AF6                   MOV.L       @R15+,R10
+    000000E4 6BF6                   MOV.L       @R15+,R11
+    000000E6 6CF6                   MOV.L       @R15+,R12
+    000000E8 6DF6                   MOV.L       @R15+,R13
+    000000EA 422B                   JMP         @R2
+    000000EC 6EF6                   MOV.L       @R15+,R14
+    000000EE              L1069:                            
+    000000EE 0000                   .DATA.W     0
+    000000F0 <00000000>             .DATA.L     _save
+    000000F4 <00000000>             .DATA.L     _p2
+    000000F8 <00000000>             .DATA.L     _pop
+    000000FC <00000000>             .DATA.L     _p1
+    00000100 <00000000>             .DATA.L     _mmul
+    00000104 <00000000>             .DATA.L     _madd
+    00000108 <00000000>             .DATA.L     _mfree
+    0000010C <00000000>             .DATA.L     _zero
+    00000110 <00000000>             .DATA.L     _push
+    00000114 <00000000>             .DATA.L     _mgcd
+    00000118 <00000000>             .DATA.L     _alloc
+    0000011C <00000000>             .DATA.L     _mdiv
+    00000120 <00000000>             .DATA.L     _restore
+          qadd.c    59    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:24  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       59
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000124 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000124 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           13
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkC7B1.tmp 
+

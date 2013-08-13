@@ -1,0 +1,401 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\rewrite.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       rewrite.c     1    // Rewrite by expanding all symbols
+       rewrite.c     2    
+       rewrite.c     3    #include "stdafx.h"
+       rewrite.c     4    #include "defs.h"
+       rewrite.c     5    
+       rewrite.c     6    void
+       rewrite.c     7    rewrite(void)
+P   00000000              _rewrite:                        ; function: rewrite
+                                                           ; frame size=20
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 4F22                   STS.L       PR,@-R15
+       rewrite.c     8    {
+       rewrite.c     9            int h;
+       rewrite.c    10            save();
+    00000008 D330                   MOV.L       L1097+2,R3 ; _save
+    0000000A 7FFC                   ADD         #-4,R15
+    0000000C 430B                   JSR         @R3
+    0000000E 0009                   NOP
+       rewrite.c    11    
+       rewrite.c    12            p1 = pop();
+    00000010 DE2F                   MOV.L       L1097+6,R14; _p1
+    00000012 D230                   MOV.L       L1097+10,R2; _pop
+    00000014 420B                   JSR         @R2
+    00000016 0009                   NOP
+    00000018 2E02                   MOV.L       R0,@R14
+    0000001A 6403                   MOV         R0,R4
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 600C                   EXTU.B      R0,R0
+    00000020 8804                   CMP/EQ      #4,R0
+    00000022 8B03                   BF          L1079
+       rewrite.c    13    
+       rewrite.c    14            if (istensor(p1)) {
+       rewrite.c    15                    rewrite_tensor();
+    00000024 B074                   BSR         _rewrite_tensor
+    00000026 0009                   NOP
+    00000028 A06B                   BRA         L1072
+    0000002A 0009                   NOP
+    0000002C              L1079:                            
+       rewrite.c    16                    restore();
+       rewrite.c    17                    return;
+       rewrite.c    18            }
+       rewrite.c    19    
+       rewrite.c    20            if (iscons(p1)) {
+    0000002C DD2A                   MOV.L       L1097+14,R13; _push
+    0000002E 8448                   MOV.B       @(8,R4),R0
+    00000030 2008                   TST         R0,R0
+    00000032 8B43                   BF          L1081
+       rewrite.c    21                    h = tos;
+    00000034 D329                   MOV.L       L1097+18,R3; _tos
+    00000036 6232                   MOV.L       @R3,R2
+    00000038 2F22                   MOV.L       R2,@R15
+       rewrite.c    22                    push(car(p1)); // Do not rewrite function name
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003A 64E2                   MOV.L       @R14,R4
+    0000003C 8448                   MOV.B       @(8,R4),R0
+    0000003E 2008                   TST         R0,R0
+    00000040 8B02                   BF          L1082
+    00000042 64E2                   MOV.L       @R14,R4
+    00000044 A004                   BRA         L1083
+    00000046 6442                   MOV.L       @R4,R4
+    00000048              L1082:                            
+    00000048 923F                   MOV.W       L1097,R2   ; H'0570
+    0000004A D125                   MOV.L       L1097+22,R1; _symtab
+    0000004C 6412                   MOV.L       @R1,R4
+    0000004E 342C                   ADD         R2,R4
+    00000050              L1083:                            
+    00000050 4D0B                   JSR         @R13
+    00000052 0009                   NOP
+       rewrite.c    23                    p1 = cdr(p1);
+    00000054 63E2                   MOV.L       @R14,R3
+    00000056 8438                   MOV.B       @(8,R3),R0
+    00000058 2008                   TST         R0,R0
+    0000005A 8B02                   BF          L1084
+    0000005C 62E2                   MOV.L       @R14,R2
+    0000005E A020                   BRA         L1096
+    00000060 5221                   MOV.L       @(4,R2),R2
+    00000062              L1084:                            
+    00000062 9332                   MOV.W       L1097,R3   ; H'0570
+    00000064 D11E                   MOV.L       L1097+22,R1; _symtab
+    00000066 6212                   MOV.L       @R1,R2
+    00000068 323C                   ADD         R3,R2
+       rewrite.c    24                    while (iscons(p1)) {
+    0000006A A01A                   BRA         L1096
+    0000006C 0009                   NOP
+    0000006E              L1087:                            
+       rewrite.c    25                            push(car(p1));
+    0000006E 64E2                   MOV.L       @R14,R4
+    00000070 8448                   MOV.B       @(8,R4),R0
+    00000072 2008                   TST         R0,R0
+    00000074 8B02                   BF          L1088
+    00000076 64E2                   MOV.L       @R14,R4
+    00000078 A004                   BRA         L1089
+    0000007A 6442                   MOV.L       @R4,R4
+    0000007C              L1088:                            
+    0000007C 9325                   MOV.W       L1097,R3   ; H'0570
+    0000007E D218                   MOV.L       L1097+22,R2; _symtab
+    00000080 6422                   MOV.L       @R2,R4
+    00000082 343C                   ADD         R3,R4
+    00000084              L1089:                            
+    00000084 4D0B                   JSR         @R13
+    00000086 0009                   NOP
+       rewrite.c    26                            rewrite();
+    00000088 BFBA                   BSR         _rewrite
+    0000008A 0009                   NOP
+       rewrite.c    27                            p1 = cdr(p1);
+    0000008C 63E2                   MOV.L       @R14,R3
+    0000008E 8438                   MOV.B       @(8,R3),R0
+    00000090 2008                   TST         R0,R0
+    00000092 8B02                   BF          L1090
+    00000094 62E2                   MOV.L       @R14,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000096 A004                   BRA         L1096
+    00000098 5221                   MOV.L       @(4,R2),R2
+    0000009A              L1090:                            
+    0000009A 9316                   MOV.W       L1097,R3   ; H'0570
+    0000009C D110                   MOV.L       L1097+22,R1; _symtab
+    0000009E 6212                   MOV.L       @R1,R2
+    000000A0 323C                   ADD         R3,R2
+    000000A2              L1096:                            
+    000000A2 6323                   MOV         R2,R3
+    000000A4 2E22                   MOV.L       R2,@R14
+    000000A6 8438                   MOV.B       @(8,R3),R0
+    000000A8 2008                   TST         R0,R0
+    000000AA 89E0                   BT          L1087
+       rewrite.c    28                    }
+       rewrite.c    29                    list(tos - h);
+    000000AC 63F2                   MOV.L       @R15,R3
+    000000AE D20B                   MOV.L       L1097+18,R2; _tos
+    000000B0 D10C                   MOV.L       L1097+26,R1; _list
+    000000B2 6422                   MOV.L       @R2,R4
+    000000B4 410B                   JSR         @R1
+    000000B6 3438                   SUB         R3,R4
+    000000B8 A023                   BRA         L1072
+    000000BA 0009                   NOP
+    000000BC              L1081:                            
+       rewrite.c    30                    restore();
+       rewrite.c    31                    return;
+       rewrite.c    32            }
+       rewrite.c    33    
+       rewrite.c    34            // If not a symbol then done
+       rewrite.c    35    
+       rewrite.c    36            if (!issymbol(p1)) {
+    000000BC 600C                   EXTU.B      R0,R0
+    000000BE 8805                   CMP/EQ      #5,R0
+    000000C0 8912                   BT          L1092
+       rewrite.c    37                    push(p1);
+    000000C2 4D0B                   JSR         @R13
+    000000C4 0009                   NOP
+    000000C6 A01C                   BRA         L1072
+    000000C8 0009                   NOP
+    000000CA              L1097:                            
+    000000CA 0570                   .DATA.W     H'0570
+    000000CC <00000000>             .DATA.L     _save
+    000000D0 <00000000>             .DATA.L     _p1
+    000000D4 <00000000>             .DATA.L     _pop
+    000000D8 <00000000>             .DATA.L     _push
+    000000DC <00000000>             .DATA.L     _tos
+    000000E0 <00000000>             .DATA.L     _symtab
+    000000E4 <00000000>             .DATA.L     _list
+    000000E8              L1092:                            
+       rewrite.c    38                    restore();
+       rewrite.c    39                    return;
+       rewrite.c    40            }
+       rewrite.c    41    
+       rewrite.c    42            // Get the symbol's binding, try again
+       rewrite.c    43    
+       rewrite.c    44            p2 = get_binding(p1);
+    000000E8 DC23                   MOV.L       L1098+2,R12; _p2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000EA D324                   MOV.L       L1098+6,R3 ; _get_binding
+    000000EC 430B                   JSR         @R3
+    000000EE 0009                   NOP
+    000000F0 2C02                   MOV.L       R0,@R12
+       rewrite.c    45            push(p2);
+    000000F2 4D0B                   JSR         @R13
+    000000F4 6403                   MOV         R0,R4
+       rewrite.c    46            if (p1 != p2)
+    000000F6 62C2                   MOV.L       @R12,R2
+    000000F8 63E2                   MOV.L       @R14,R3
+    000000FA 3320                   CMP/EQ      R2,R3
+    000000FC 8901                   BT          L1072
+       rewrite.c    47                    rewrite();
+    000000FE BF7F                   BSR         _rewrite
+    00000100 0009                   NOP
+    00000102              L1072:
+       rewrite.c    48    
+       rewrite.c    49            restore();
+    00000102 7F04                   ADD         #4,R15
+    00000104 D11E                   MOV.L       L1098+10,R1; _restore
+    00000106 4F26                   LDS.L       @R15+,PR
+    00000108 6CF6                   MOV.L       @R15+,R12
+    0000010A 6DF6                   MOV.L       @R15+,R13
+    0000010C 412B                   JMP         @R1
+    0000010E 6EF6                   MOV.L       @R15+,R14
+       rewrite.c    50    }
+       rewrite.c    51    
+       rewrite.c    52    void
+       rewrite.c    53    rewrite_tensor(void)
+    00000110              _rewrite_tensor:                 ; function: rewrite_tensor
+                                                           ; frame size=24
+    00000110 2FE6                   MOV.L       R14,@-R15
+    00000112 2FD6                   MOV.L       R13,@-R15
+    00000114 2FC6                   MOV.L       R12,@-R15
+    00000116 2FB6                   MOV.L       R11,@-R15
+    00000118 2FA6                   MOV.L       R10,@-R15
+    0000011A 4F22                   STS.L       PR,@-R15
+       rewrite.c    54    {
+       rewrite.c    55            int i;
+       rewrite.c    56            push(p1);
+    0000011C DC19                   MOV.L       L1098+14,R12; _push
+    0000011E DE1A                   MOV.L       L1098+18,R14; _p1
+    00000120 4C0B                   JSR         @R12
+    00000122 64E2                   MOV.L       @R14,R4
+       rewrite.c    57            copy_tensor();
+    00000124 D319                   MOV.L       L1098+22,R3; _copy_tensor
+    00000126 430B                   JSR         @R3
+    00000128 0009                   NOP
+       rewrite.c    58            p1 = pop();
+    0000012A DA19                   MOV.L       L1098+26,R10; _pop
+    0000012C 4A0B                   JSR         @R10
+    0000012E 0009                   NOP
+    00000130 2E02                   MOV.L       R0,@R14
+       rewrite.c    59            for (i = 0; i < p1->u.tensor->nelem; i++) {
+    00000132 A011                   BRA         L1094
+    00000134 ED00                   MOV         #0,R13
+    00000136              L1095:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       rewrite.c    60                    push(p1->u.tensor->elem[i]);
+    00000136 6BD3                   MOV         R13,R11
+    00000138 60E2                   MOV.L       @R14,R0
+    0000013A 4B08                   SHLL2       R11
+    0000013C 6402                   MOV.L       @R0,R4
+    0000013E 7468                   ADD         #104,R4
+    00000140 34BC                   ADD         R11,R4
+    00000142 4C0B                   JSR         @R12
+    00000144 6442                   MOV.L       @R4,R4
+       rewrite.c    61                    rewrite();
+    00000146 BF5B                   BSR         _rewrite
+    00000148 0009                   NOP
+       rewrite.c    62                    p1->u.tensor->elem[i] = pop();
+    0000014A 62E2                   MOV.L       @R14,R2
+    0000014C 6122                   MOV.L       @R2,R1
+    0000014E 7168                   ADD         #104,R1
+    00000150 4A0B                   JSR         @R10
+    00000152 3B1C                   ADD         R1,R11
+    00000154 2B02                   MOV.L       R0,@R11
+    00000156 7D01                   ADD         #1,R13
+    00000158              L1094:                            
+    00000158 63E2                   MOV.L       @R14,R3
+    0000015A E064                   MOV         #100,R0
+    0000015C 6232                   MOV.L       @R3,R2
+    0000015E 012E                   MOV.L       @(R0,R2),R1
+    00000160 3D13                   CMP/GE      R1,R13
+    00000162 8BE8                   BF          L1095
+       rewrite.c    63            }
+       rewrite.c    64            push(p1);
+    00000164 4C0B                   JSR         @R12
+    00000166 64E2                   MOV.L       @R14,R4
+       rewrite.c    65    }
+    00000168 4F26                   LDS.L       @R15+,PR
+    0000016A 6AF6                   MOV.L       @R15+,R10
+    0000016C 6BF6                   MOV.L       @R15+,R11
+    0000016E 6CF6                   MOV.L       @R15+,R12
+    00000170 6DF6                   MOV.L       @R15+,R13
+    00000172 000B                   RTS
+    00000174 6EF6                   MOV.L       @R15+,R14
+    00000176              L1098:                            
+    00000176 0000                   .DATA.W     0
+    00000178 <00000000>             .DATA.L     _p2
+    0000017C <00000000>             .DATA.L     _get_binding
+    00000180 <00000000>             .DATA.L     _restore
+    00000184 <00000000>             .DATA.L     _push
+    00000188 <00000000>             .DATA.L     _p1
+    0000018C <00000000>             .DATA.L     _copy_tensor
+    00000190 <00000000>             .DATA.L     _pop
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:27  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       65
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000194 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000194 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           11
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            29
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkD4B6.tmp 
+

@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:15  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\mmodpow.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       mmodpow.c     1    // Bignum modular power (x^n mod m)
+       mmodpow.c     2    
+       mmodpow.c     3    #include "stdafx.h"
+       mmodpow.c     4    #include "defs.h"
+       mmodpow.c     5    
+       mmodpow.c     6    // could do indexed bit test instead of shift right
+       mmodpow.c     7    
+       mmodpow.c     8    unsigned int *
+       mmodpow.c     9    mmodpow(unsigned int *x, unsigned int *n, unsigned int *m)
+P   00000000              _mmodpow:                        ; function: mmodpow
+                                                           ; frame size=40
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+       mmodpow.c    10    {
+       mmodpow.c    11            unsigned int *y, *z;
+       mmodpow.c    12            x = mcopy(x);
+    00000010 D324                   MOV.L       L1072,R3   ; _mcopy
+    00000012 7FF8                   ADD         #-8,R15
+    00000014 1F51                   MOV.L       R5,@(4,R15)
+    00000016 430B                   JSR         @R3
+    00000018 2F62                   MOV.L       R6,@R15
+    0000001A 6D03                   MOV         R0,R13
+       mmodpow.c    13            n = mcopy(n);
+    0000001C D321                   MOV.L       L1072,R3   ; _mcopy
+    0000001E 430B                   JSR         @R3
+    00000020 54F1                   MOV.L       @(4,R15),R4
+    00000022 6C03                   MOV         R0,R12
+       mmodpow.c    14            y = mint(1);
+    00000024 D220                   MOV.L       L1072+4,R2 ; _mint
+    00000026 420B                   JSR         @R2
+    00000028 E401                   MOV         #1,R4
+    0000002A 6B03                   MOV         R0,R11
+    0000002C D81F                   MOV.L       L1072+8,R8 ; _mmul
+    0000002E 63C3                   MOV         R12,R3
+    00000030 D91F                   MOV.L       L1072+12,R9; _mmod
+    00000032 73FC                   ADD         #-4,R3
+    00000034 DE1F                   MOV.L       L1072+16,R14; _mfree
+    00000036 1F31                   MOV.L       R3,@(4,R15)
+       mmodpow.c    15            while (1) {
+    00000038              L1067:                            
+       mmodpow.c    16                    if (n[0] & 1) {
+    00000038 60C2                   MOV.L       @R12,R0
+    0000003A C801                   TST         #1,R0
+    0000003C 890B                   BT          L1068
+       mmodpow.c    17                            z = mmul(y, x);
+    0000003E 65D3                   MOV         R13,R5
+    00000040 480B                   JSR         @R8
+    00000042 64B3                   MOV         R11,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:15  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000044 6A03                   MOV         R0,R10
+       mmodpow.c    18                            mfree(y);
+    00000046 4E0B                   JSR         @R14
+    00000048 64B3                   MOV         R11,R4
+       mmodpow.c    19                            y = mmod(z, m);
+    0000004A 65F2                   MOV.L       @R15,R5
+    0000004C 490B                   JSR         @R9
+    0000004E 64A3                   MOV         R10,R4
+    00000050 6B03                   MOV         R0,R11
+       mmodpow.c    20                            mfree(z);
+    00000052 4E0B                   JSR         @R14
+    00000054 64A3                   MOV         R10,R4
+    00000056              L1068:                            
+       mmodpow.c    21                    }
+       mmodpow.c    22                    mshiftright(n);
+    00000056 D318                   MOV.L       L1072+20,R3; _mshiftright
+    00000058 430B                   JSR         @R3
+    0000005A 64C3                   MOV         R12,R4
+       mmodpow.c    23                    if (MZERO(n))
+    0000005C 50F1                   MOV.L       @(4,R15),R0
+    0000005E 6002                   MOV.L       @R0,R0
+    00000060 8801                   CMP/EQ      #1,R0
+    00000062 8B02                   BF          L1069
+    00000064 62C2                   MOV.L       @R12,R2
+    00000066 2228                   TST         R2,R2
+    00000068 890D                   BT          L1070
+    0000006A              L1069:                            
+       mmodpow.c    24                            break;
+       mmodpow.c    25                    z = mmul(x, x);
+    0000006A 65D3                   MOV         R13,R5
+    0000006C 480B                   JSR         @R8
+    0000006E 64D3                   MOV         R13,R4
+    00000070 6A03                   MOV         R0,R10
+       mmodpow.c    26                    mfree(x);
+    00000072 4E0B                   JSR         @R14
+    00000074 64D3                   MOV         R13,R4
+       mmodpow.c    27                    x = mmod(z, m);
+    00000076 65F2                   MOV.L       @R15,R5
+    00000078 490B                   JSR         @R9
+    0000007A 64A3                   MOV         R10,R4
+    0000007C 6D03                   MOV         R0,R13
+       mmodpow.c    28                    mfree(z);
+    0000007E 4E0B                   JSR         @R14
+    00000080 64A3                   MOV         R10,R4
+    00000082 AFD9                   BRA         L1067
+    00000084 0009                   NOP
+    00000086              L1070:                            
+       mmodpow.c    29            }
+       mmodpow.c    30            mfree(x);
+    00000086 4E0B                   JSR         @R14
+    00000088 64D3                   MOV         R13,R4
+       mmodpow.c    31            mfree(n);
+    0000008A 4E0B                   JSR         @R14
+    0000008C 64C3                   MOV         R12,R4
+       mmodpow.c    32            return y;
+    0000008E 60B3                   MOV         R11,R0
+       mmodpow.c    33    }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:15  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000090 7F08                   ADD         #8,R15
+    00000092 4F26                   LDS.L       @R15+,PR
+    00000094 68F6                   MOV.L       @R15+,R8
+    00000096 69F6                   MOV.L       @R15+,R9
+    00000098 6AF6                   MOV.L       @R15+,R10
+    0000009A 6BF6                   MOV.L       @R15+,R11
+    0000009C 6CF6                   MOV.L       @R15+,R12
+    0000009E 6DF6                   MOV.L       @R15+,R13
+    000000A0 000B                   RTS
+    000000A2 6EF6                   MOV.L       @R15+,R14
+    000000A4              L1072:                            
+    000000A4 <00000000>             .DATA.L     _mcopy
+    000000A8 <00000000>             .DATA.L     _mint
+    000000AC <00000000>             .DATA.L     _mmul
+    000000B0 <00000000>             .DATA.L     _mmod
+    000000B4 <00000000>             .DATA.L     _mfree
+    000000B8 <00000000>             .DATA.L     _mshiftright
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:15  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       33
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000BC Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000BC Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            6
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkA37A.tmp 
+

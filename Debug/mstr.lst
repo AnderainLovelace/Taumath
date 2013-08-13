@@ -1,0 +1,533 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\mstr.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          mstr.c     1    // Convert bignum to string
+          mstr.c     2    
+          mstr.c     3    #include "stdafx.h"
+          mstr.c     4    #include "defs.h"
+          mstr.c     5    
+          mstr.c     6    static int divby1billion(unsigned int *);
+          mstr.c     7    
+          mstr.c     8    static char *str;
+          mstr.c     9    static int len;
+          mstr.c    10    
+          mstr.c    11    char *
+          mstr.c    12    mstr(unsigned int *a)
+P   00000000              _mstr:                           ; function: mstr
+                                                           ; frame size=44
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+          mstr.c    13    {
+          mstr.c    14            int k, n, r, sign;
+          mstr.c    15            char c;
+          mstr.c    16    
+          mstr.c    17            if (str == NULL) {
+    00000010 DD35                   MOV.L       L1100+2,R13; __$len
+    00000012 7FFC                   ADD         #-4,R15
+    00000014 DE35                   MOV.L       L1100+6,R14; __$str
+    00000016 63E2                   MOV.L       @R14,R3
+    00000018 2338                   TST         R3,R3
+    0000001A 8F07                   BF/S        L1082
+    0000001C 6C43                   MOV         R4,R12
+          mstr.c    18                    str = (char *) malloc(1000);
+    0000001E 9462                   MOV.W       L1100,R4   ; H'03E8
+    00000020 D333                   MOV.L       L1100+10,R3; _malloc
+    00000022 430B                   JSR         @R3
+    00000024 0009                   NOP
+    00000026 2E02                   MOV.L       R0,@R14
+          mstr.c    19                    len = 1000;
+    00000028 925D                   MOV.W       L1100,R2   ; H'03E8
+    0000002A 2D22                   MOV.L       R2,@R13
+    0000002C              L1082:                            
+          mstr.c    20            }
+          mstr.c    21    
+          mstr.c    22            // estimate string size
+          mstr.c    23    
+          mstr.c    24            n = 10 * MLENGTH(a) + 2;
+          mstr.c    25    
+          mstr.c    26            if (n > len) {
+    0000002C 62D2                   MOV.L       @R13,R2
+    0000002E 6BC3                   MOV         R12,R11
+    00000030 7BFC                   ADD         #-4,R11
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000032 6BB2                   MOV.L       @R11,R11
+    00000034 63B3                   MOV         R11,R3
+    00000036 4B08                   SHLL2       R11
+    00000038 3B3C                   ADD         R3,R11
+    0000003A 4B00                   SHLL        R11
+    0000003C 7B02                   ADD         #2,R11
+    0000003E 3B27                   CMP/GT      R2,R11
+    00000040 8B07                   BF          L1083
+          mstr.c    27                    free(str);
+    00000042 D22C                   MOV.L       L1100+14,R2; _free
+    00000044 420B                   JSR         @R2
+    00000046 64E2                   MOV.L       @R14,R4
+          mstr.c    28                    str = (char *) malloc(n);
+    00000048 D329                   MOV.L       L1100+10,R3; _malloc
+    0000004A 430B                   JSR         @R3
+    0000004C 64B3                   MOV         R11,R4
+    0000004E 2E02                   MOV.L       R0,@R14
+          mstr.c    29                    len = n;
+    00000050 2DB2                   MOV.L       R11,@R13
+    00000052              L1083:                            
+          mstr.c    30            }
+          mstr.c    31    
+          mstr.c    32            sign = MSIGN(a);
+    00000052 62C3                   MOV         R12,R2
+    00000054 72F8                   ADD         #-8,R2
+    00000056 6322                   MOV.L       @R2,R3
+    00000058 2F32                   MOV.L       R3,@R15
+          mstr.c    33    
+          mstr.c    34            a = mcopy(a);
+    0000005A D327                   MOV.L       L1100+18,R3; _mcopy
+    0000005C 430B                   JSR         @R3
+    0000005E 64C3                   MOV         R12,R4
+          mstr.c    35    
+          mstr.c    36            k = len - 1;
+    00000060 6DD2                   MOV.L       @R13,R13
+          mstr.c    37    
+          mstr.c    38            str[k] = 0;
+    00000062 E200                   MOV         #0,R2
+    00000064 D825                   MOV.L       L1100+22,R8; L1071
+    00000066 6C03                   MOV         R0,R12
+    00000068 D925                   MOV.L       L1100+26,R9; _sprintf
+    0000006A 7DFF                   ADD         #-1,R13
+    0000006C 60E2                   MOV.L       @R14,R0
+    0000006E 6AC3                   MOV         R12,R10
+    00000070 0D24                   MOV.B       R2,@(R0,R13)
+    00000072 7AFC                   ADD         #-4,R10
+          mstr.c    39    
+          mstr.c    40            for (;;) {
+    00000074              L1085:                            
+          mstr.c    41                    k -= 9;
+    00000074 7DF7                   ADD         #-9,R13
+          mstr.c    42                    r = divby1billion(a);
+    00000076 B047                   BSR         __$divby1billion
+    00000078 64C3                   MOV         R12,R4
+    0000007A 6503                   MOV         R0,R5
+          mstr.c    43                    c = str[k + 9];
+    0000007C 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000007E 34DC                   ADD         R13,R4
+    00000080 8449                   MOV.B       @(9,R4),R0
+    00000082 6B03                   MOV         R0,R11
+          mstr.c    44                    sprintf(str + k, "%09d", r);
+    00000084 2F56                   MOV.L       R5,@-R15
+    00000086 490B                   JSR         @R9
+    00000088 2F86                   MOV.L       R8,@-R15
+          mstr.c    45                    str[k + 9] = c;
+    0000008A 60B3                   MOV         R11,R0
+    0000008C 63E2                   MOV.L       @R14,R3
+    0000008E 33DC                   ADD         R13,R3
+    00000090 8039                   MOV.B       R0,@(9,R3)
+          mstr.c    46                    if (MZERO(a))
+    00000092 60A2                   MOV.L       @R10,R0
+    00000094 8801                   CMP/EQ      #1,R0
+    00000096 8FED                   BF/S        L1085
+    00000098 7F08                   ADD         #8,R15
+    0000009A 62C2                   MOV.L       @R12,R2
+    0000009C 2228                   TST         R2,R2
+    0000009E 8902                   BT          L1088
+          mstr.c    47                            break;
+    000000A0 AFE8                   BRA         L1085
+    000000A2 0009                   NOP
+    000000A4              L1089:                            
+          mstr.c    48            }
+          mstr.c    49    
+          mstr.c    50            // remove leading zeroes
+          mstr.c    51    
+          mstr.c    52            while (str[k] == '0')
+          mstr.c    53                    k++;
+    000000A4 7D01                   ADD         #1,R13
+    000000A6              L1088:                            
+    000000A6 60E2                   MOV.L       @R14,R0
+    000000A8 00DC                   MOV.B       @(R0,R13),R0
+    000000AA 8830                   CMP/EQ      #48,R0
+    000000AC 89FA                   BT          L1089
+          mstr.c    54    
+          mstr.c    55            if (str[k] == 0)
+    000000AE 60E2                   MOV.L       @R14,R0
+    000000B0 02DC                   MOV.B       @(R0,R13),R2
+    000000B2 2228                   TST         R2,R2
+    000000B4 8B00                   BF          L1090
+          mstr.c    56                    k--;
+    000000B6 7DFF                   ADD         #-1,R13
+    000000B8              L1090:                            
+          mstr.c    57    
+          mstr.c    58            // sign
+          mstr.c    59    
+          mstr.c    60            if (sign == -1) {
+    000000B8 60F2                   MOV.L       @R15,R0
+    000000BA 88FF                   CMP/EQ      #-1,R0
+    000000BC 8F04                   BF/S        L1091
+          mstr.c    61                    k--;
+          mstr.c    62                    str[k] = '-';
+          mstr.c    63            }
+          mstr.c    64    
+          mstr.c    65            mfree(a);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000BE 64C3                   MOV         R12,R4
+    000000C0 60E2                   MOV.L       @R14,R0
+    000000C2 E22D                   MOV         #45,R2
+    000000C4 7DFF                   ADD         #-1,R13
+    000000C6 0D24                   MOV.B       R2,@(R0,R13)
+    000000C8              L1091:                            
+    000000C8 D30E                   MOV.L       L1100+30,R3; _mfree
+    000000CA 430B                   JSR         @R3
+    000000CC 0009                   NOP
+          mstr.c    66    
+          mstr.c    67            return str + k;
+    000000CE 60E2                   MOV.L       @R14,R0
+    000000D0 30DC                   ADD         R13,R0
+          mstr.c    68    }
+    000000D2 7F04                   ADD         #4,R15
+    000000D4 4F26                   LDS.L       @R15+,PR
+    000000D6 68F6                   MOV.L       @R15+,R8
+    000000D8 69F6                   MOV.L       @R15+,R9
+    000000DA 6AF6                   MOV.L       @R15+,R10
+    000000DC 6BF6                   MOV.L       @R15+,R11
+    000000DE 6CF6                   MOV.L       @R15+,R12
+    000000E0 6DF6                   MOV.L       @R15+,R13
+    000000E2 000B                   RTS
+    000000E4 6EF6                   MOV.L       @R15+,R14
+    000000E6              L1100:                            
+    000000E6 03E8                   .DATA.W     H'03E8
+    000000E8 <00000000>             .DATA.L     __$len
+    000000EC <00000000>             .DATA.L     __$str
+    000000F0 <00000000>             .DATA.L     _malloc
+    000000F4 <00000000>             .DATA.L     _free
+    000000F8 <00000000>             .DATA.L     _mcopy
+    000000FC <00000000>             .DATA.L     L1071
+    00000100 <00000000>             .DATA.L     _sprintf
+    00000104 <00000000>             .DATA.L     _mfree
+          mstr.c    69    
+          mstr.c    70    // Returns remainder as function value, quotient returned in a.
+          mstr.c    71    
+          mstr.c    72    static int
+          mstr.c    73    divby1billion(unsigned int *a)
+    00000108              __$divby1billion:                ; function: divby1billion
+                                                           ; frame size=48
+                                                           ; used runtime library name:
+                                                           ; __subdr, __muld, __divdr, __dtoi, __utod
+    00000108 4F22                   STS.L       PR,@-R15
+          mstr.c    74    {
+          mstr.c    75            int i;
+          mstr.c    76            ULONGLONG kk;
+          mstr.c    77    
+          mstr.c    78            kk = 0;
+    0000010A E200                   MOV         #0,R2
+    0000010C 7FF8                   ADD         #-8,R15
+    0000010E 63F3                   MOV         R15,R3
+    00000110 2322                   MOV.L       R2,@R3
+          mstr.c    79    
+          mstr.c    80            for (i = MLENGTH(a) - 1; i >= 0; i--) {
+    00000112 6743                   MOV         R4,R7
+    00000114 1321                   MOV.L       R2,@(4,R3)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000116 6643                   MOV         R4,R6
+    00000118 77FC                   ADD         #-4,R7
+    0000011A 7604                   ADD         #4,R6
+    0000011C 6572                   MOV.L       @R7,R5
+    0000011E 75FF                   ADD         #-1,R5
+    00000120 4508                   SHLL2       R5
+    00000122 354C                   ADD         R4,R5
+    00000124 7504                   ADD         #4,R5
+    00000126 3562                   CMP/HS      R6,R5
+    00000128 8B30                   BF          L1093
+    0000012A              L1094:                            
+          mstr.c    81    
+          mstr.c    82                    kk = *a;
+    0000012A 63F3                   MOV         R15,R3
+    0000012C D223                   MOV.L       L1101,R2   ; __utod
+    0000012E 2F36                   MOV.L       R3,@-R15
+    00000130 420B                   JSR         @R2
+    00000132 6042                   MOV.L       @R4,R0
+          mstr.c    83    
+          mstr.c    84                    a[i] = (int) (kk / 1000000000);
+    00000134 D123                   MOV.L       L1101+8,R1 ; __divdr
+    00000136 7FF8                   ADD         #-8,R15
+    00000138 52F3                   MOV.L       @(12,R15),R2
+    0000013A E300                   MOV         #0,R3
+    0000013C 2F26                   MOV.L       R2,@-R15
+    0000013E 52F3                   MOV.L       @(12,R15),R2
+    00000140 2F26                   MOV.L       R2,@-R15
+    00000142 2F36                   MOV.L       R3,@-R15
+    00000144 D31E                   MOV.L       L1101+4,R3 ; H'41CDCD65
+    00000146 2F36                   MOV.L       R3,@-R15
+    00000148 62F3                   MOV         R15,R2
+    0000014A 7210                   ADD         #16,R2
+    0000014C 410B                   JSR         @R1
+    0000014E 2F26                   MOV.L       R2,@-R15
+    00000150 D31D                   MOV.L       L1101+12,R3; __dtoi
+    00000152 430B                   JSR         @R3
+    00000154 0009                   NOP
+    00000156 2506                   MOV.L       R0,@-R5
+          mstr.c    85    
+          mstr.c    86                    kk -= (ULONGLONG) 1000000000 * a[i];
+    00000158 52F1                   MOV.L       @(4,R15),R2
+    0000015A 2F26                   MOV.L       R2,@-R15
+    0000015C 52F1                   MOV.L       @(4,R15),R2
+    0000015E 2F26                   MOV.L       R2,@-R15
+    00000160 6052                   MOV.L       @R5,R0
+    00000162 7FF0                   ADD         #-16,R15
+    00000164 D315                   MOV.L       L1101,R3   ; __utod
+    00000166 430B                   JSR         @R3
+    00000168 2FF6                   MOV.L       R15,@-R15
+    0000016A E200                   MOV         #0,R2
+    0000016C D117                   MOV.L       L1101+16,R1; __muld
+    0000016E 2F26                   MOV.L       R2,@-R15
+    00000170 D213                   MOV.L       L1101+4,R2 ; H'41CDCD65
+    00000172 2F26                   MOV.L       R2,@-R15
+    00000174 63F3                   MOV         R15,R3
+    00000176 7310                   ADD         #16,R3
+    00000178 410B                   JSR         @R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000017A 2F36                   MOV.L       R3,@-R15
+    0000017C 62F3                   MOV         R15,R2
+    0000017E 7210                   ADD         #16,R2
+    00000180 2F26                   MOV.L       R2,@-R15
+    00000182 D213                   MOV.L       L1101+20,R2; __subdr
+    00000184 420B                   JSR         @R2
+    00000186 0009                   NOP
+    00000188 3562                   CMP/HS      R6,R5
+    0000018A 89CE                   BT          L1094
+    0000018C              L1093:                            
+          mstr.c    87            }
+          mstr.c    88    
+          mstr.c    89            // length of quotient
+          mstr.c    90    
+          mstr.c    91            for (i = MLENGTH(a) - 1; i > 0; i--)
+    0000018C 6572                   MOV.L       @R7,R5
+    0000018E 75FF                   ADD         #-1,R5
+    00000190 4515                   CMP/PL      R5
+    00000192 8B07                   BF          L1095
+    00000194              L1096:                            
+          mstr.c    92                    if (a[i])
+    00000194 6053                   MOV         R5,R0
+    00000196 4008                   SHLL2       R0
+    00000198 034E                   MOV.L       @(R0,R4),R3
+    0000019A 2338                   TST         R3,R3
+    0000019C 8B02                   BF          L1095
+    0000019E 75FF                   ADD         #-1,R5
+    000001A0 4515                   CMP/PL      R5
+    000001A2 89F7                   BT          L1096
+    000001A4              L1095:                            
+          mstr.c    93                            break;
+          mstr.c    94    
+          mstr.c    95            MLENGTH(a) = i + 1;
+          mstr.c    96    
+          mstr.c    97    
+          mstr.c    98            return kk;
+    000001A4 D308                   MOV.L       L1101+12,R3; __dtoi
+    000001A6 7501                   ADD         #1,R5
+    000001A8 2752                   MOV.L       R5,@R7
+    000001AA 52F1                   MOV.L       @(4,R15),R2
+    000001AC 2F26                   MOV.L       R2,@-R15
+    000001AE 52F1                   MOV.L       @(4,R15),R2
+    000001B0 430B                   JSR         @R3
+    000001B2 2F26                   MOV.L       R2,@-R15
+          mstr.c    99    }
+    000001B4 7F08                   ADD         #8,R15
+    000001B6 4F26                   LDS.L       @R15+,PR
+    000001B8 000B                   RTS
+    000001BA 0009                   NOP
+    000001BC              L1101:                            
+    000001BC <00000000>             .DATA.L     __utod
+    000001C0 41CDCD65               .DATA.L     H'41CDCD65
+    000001C4 <00000000>             .DATA.L     __divdr
+    000001C8 <00000000>             .DATA.L     __dtoi
+    000001CC <00000000>             .DATA.L     __muld
+    000001D0 <00000000>             .DATA.L     __subdr
+C   00000000              L1071:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000000 25303964               .SDATA      "%09d"
+    00000004 00                     .DATA.B     H'00
+B   00000000              __$str:                          ; static: str
+    00000000 00000004               .RES.L      1
+    00000004              __$len:                          ; static: len
+    00000004 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:19  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       99
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000001D4 Byte(s)
+CONSTANT SECTION (C):                               00000005 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000008 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000001E1 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           10
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            25
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkB472.tmp 
+

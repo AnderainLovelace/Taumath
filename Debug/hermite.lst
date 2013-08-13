@@ -1,0 +1,401 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:02  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\hermite.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       hermite.c     1    //-----------------------------------------------------------------------------
+       hermite.c     2    //
+       hermite.c     3    //      Hermite polynomial
+       hermite.c     4    //
+       hermite.c     5    //      Input:          tos-2           x       (can be a symbol or expr)
+       hermite.c     6    //
+       hermite.c     7    //                      tos-1           n
+       hermite.c     8    //
+       hermite.c     9    //      Output:         Result on stack
+       hermite.c    10    //
+       hermite.c    11    //-----------------------------------------------------------------------------
+       hermite.c    12    
+       hermite.c    13    #include "stdafx.h"
+       hermite.c    14    #include "defs.h"
+       hermite.c    15    
+       hermite.c    16    void
+       hermite.c    17    hermite(void)
+P   00000000              _hermite:                        ; function: hermite
+                                                           ; frame size=4
+    00000000 4F22                   STS.L       PR,@-R15
+       hermite.c    18    {
+       hermite.c    19            save();
+    00000002 D349                   MOV.L       L1073+2,R3 ; _save
+    00000004 430B                   JSR         @R3
+    00000006 0009                   NOP
+       hermite.c    20            yyhermite();
+    00000008 B003                   BSR         _yyhermite
+    0000000A 0009                   NOP
+       hermite.c    21            restore();
+    0000000C D347                   MOV.L       L1073+6,R3 ; _restore
+    0000000E 432B                   JMP         @R3
+    00000010 4F26                   LDS.L       @R15+,PR
+       hermite.c    22    }
+       hermite.c    23    
+       hermite.c    24    // uses the recurrence relation H(x,n+1)=2*x*H(x,n)-2*n*H(x,n-1)
+       hermite.c    25    
+       hermite.c    26    #define X p1
+       hermite.c    27    #define N p2
+       hermite.c    28    #define Y p3
+       hermite.c    29    #define Y1 p4
+       hermite.c    30    #define Y0 p5
+       hermite.c    31    
+       hermite.c    32    void
+       hermite.c    33    yyhermite(void)
+    00000012              _yyhermite:                      ; function: yyhermite
+                                                           ; frame size=16
+    00000012 2FE6                   MOV.L       R14,@-R15
+    00000014 2FD6                   MOV.L       R13,@-R15
+    00000016 2FC6                   MOV.L       R12,@-R15
+    00000018 4F22                   STS.L       PR,@-R15
+       hermite.c    34    {
+       hermite.c    35            int n;
+       hermite.c    36    
+       hermite.c    37            N = pop();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:02  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000001A DC45                   MOV.L       L1073+10,R12; _p2
+    0000001C D345                   MOV.L       L1073+14,R3; _pop
+    0000001E 430B                   JSR         @R3
+    00000020 0009                   NOP
+       hermite.c    38            X = pop();
+    00000022 DE45                   MOV.L       L1073+18,R14; _p1
+    00000024 D243                   MOV.L       L1073+14,R2; _pop
+    00000026 420B                   JSR         @R2
+    00000028 2C02                   MOV.L       R0,@R12
+    0000002A 2E02                   MOV.L       R0,@R14
+       hermite.c    39    
+       hermite.c    40            push(N);
+    0000002C DD43                   MOV.L       L1073+22,R13; _push
+    0000002E 4D0B                   JSR         @R13
+    00000030 64C2                   MOV.L       @R12,R4
+       hermite.c    41            n = pop_integer();
+    00000032 D343                   MOV.L       L1073+26,R3; _pop_integer
+    00000034 430B                   JSR         @R3
+    00000036 0009                   NOP
+    00000038 6403                   MOV         R0,R4
+       hermite.c    42    
+       hermite.c    43            if (n < 0) {
+    0000003A 4411                   CMP/PZ      R4
+    0000003C 890D                   BT          L1067
+       hermite.c    44                    push_symbol(HERMITE);
+    0000003E D341                   MOV.L       L1073+30,R3; _push_symbol
+    00000040 430B                   JSR         @R3
+    00000042 E43A                   MOV         #58,R4
+       hermite.c    45                    push(X);
+    00000044 4D0B                   JSR         @R13
+    00000046 64E2                   MOV.L       @R14,R4
+       hermite.c    46                    push(N);
+    00000048 4D0B                   JSR         @R13
+    0000004A 64C2                   MOV.L       @R12,R4
+       hermite.c    47                    list(3);
+    0000004C 4F26                   LDS.L       @R15+,PR
+    0000004E E403                   MOV         #3,R4
+    00000050 D23D                   MOV.L       L1073+34,R2; _list
+    00000052 6CF6                   MOV.L       @R15+,R12
+    00000054 6DF6                   MOV.L       @R15+,R13
+    00000056 422B                   JMP         @R2
+    00000058 6EF6                   MOV.L       @R15+,R14
+    0000005A              L1067:                            
+    0000005A 65E2                   MOV.L       @R14,R5
+    0000005C 8458                   MOV.B       @(8,R5),R0
+    0000005E 600C                   EXTU.B      R0,R0
+    00000060 8805                   CMP/EQ      #5,R0
+    00000062 8B04                   BF          L1069
+       hermite.c    48                    return;
+       hermite.c    49            }
+       hermite.c    50    
+       hermite.c    51            if (issymbol(X))
+       hermite.c    52                    yyhermite2(n);
+    00000064 4F26                   LDS.L       @R15+,PR
+    00000066 6CF6                   MOV.L       @R15+,R12
+    00000068 6DF6                   MOV.L       @R15+,R13
+    0000006A A01B                   BRA         _yyhermite2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:02  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000006C 6EF6                   MOV.L       @R15+,R14
+    0000006E              L1069:                            
+       hermite.c    53            else {
+       hermite.c    54                    Y = X;                  // do this when X is an expr
+    0000006E D237                   MOV.L       L1073+38,R2; _p3
+       hermite.c    55                    X = symbol(SECRETX);
+    00000070 9359                   MOV.W       L1073,R3   ; H'05E8
+    00000072 2252                   MOV.L       R5,@R2
+    00000074 D036                   MOV.L       L1073+42,R0; _symtab
+    00000076 6102                   MOV.L       @R0,R1
+    00000078 313C                   ADD         R3,R1
+       hermite.c    56                    yyhermite2(n);
+    0000007A B013                   BSR         _yyhermite2
+    0000007C 2E12                   MOV.L       R1,@R14
+       hermite.c    57                    X = Y;
+    0000007E D233                   MOV.L       L1073+38,R2; _p3
+       hermite.c    58                    push(symbol(SECRETX));
+    00000080 D133                   MOV.L       L1073+42,R1; _symtab
+    00000082 6322                   MOV.L       @R2,R3
+    00000084 2E32                   MOV.L       R3,@R14
+    00000086 934E                   MOV.W       L1073,R3   ; H'05E8
+    00000088 6412                   MOV.L       @R1,R4
+    0000008A 4D0B                   JSR         @R13
+    0000008C 343C                   ADD         R3,R4
+       hermite.c    59                    push(X);
+    0000008E 4D0B                   JSR         @R13
+    00000090 64E2                   MOV.L       @R14,R4
+       hermite.c    60                    subst();
+    00000092 D330                   MOV.L       L1073+46,R3; _subst
+    00000094 430B                   JSR         @R3
+    00000096 0009                   NOP
+       hermite.c    61                    eval();
+    00000098 4F26                   LDS.L       @R15+,PR
+    0000009A 6CF6                   MOV.L       @R15+,R12
+    0000009C D22E                   MOV.L       L1073+50,R2; _eval
+    0000009E 6DF6                   MOV.L       @R15+,R13
+    000000A0 422B                   JMP         @R2
+    000000A2 6EF6                   MOV.L       @R15+,R14
+       hermite.c    62            }
+       hermite.c    63    }
+       hermite.c    64    
+       hermite.c    65    void
+       hermite.c    66    yyhermite2(int n)
+    000000A4              _yyhermite2:                     ; function: yyhermite2
+                                                           ; frame size=36
+    000000A4 2FE6                   MOV.L       R14,@-R15
+    000000A6 2FD6                   MOV.L       R13,@-R15
+    000000A8 2FC6                   MOV.L       R12,@-R15
+    000000AA 2FB6                   MOV.L       R11,@-R15
+    000000AC 2FA6                   MOV.L       R10,@-R15
+    000000AE 2F96                   MOV.L       R9,@-R15
+    000000B0 2F86                   MOV.L       R8,@-R15
+    000000B2 4F22                   STS.L       PR,@-R15
+       hermite.c    67    {
+       hermite.c    68            int i;
+       hermite.c    69    
+       hermite.c    70            push_integer(1);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:02  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000B4 DB29                   MOV.L       L1073+54,R11; _push_integer
+    000000B6 7FFC                   ADD         #-4,R15
+    000000B8 2F42                   MOV.L       R4,@R15
+    000000BA 4B0B                   JSR         @R11
+    000000BC E401                   MOV         #1,R4
+       hermite.c    71            push_integer(0);
+    000000BE 4B0B                   JSR         @R11
+    000000C0 E400                   MOV         #0,R4
+       hermite.c    72    
+       hermite.c    73            Y1 = pop();
+    000000C2 D81C                   MOV.L       L1073+14,R8; _pop
+    000000C4 DE26                   MOV.L       L1073+58,R14; _p4
+    000000C6 480B                   JSR         @R8
+    000000C8 0009                   NOP
+    000000CA 2E02                   MOV.L       R0,@R14
+       hermite.c    74    
+       hermite.c    75            for (i = 0; i < n; i++) {
+    000000CC D925                   MOV.L       L1073+62,R9; _p5
+    000000CE DC1B                   MOV.L       L1073+22,R12; _push
+    000000D0 DD25                   MOV.L       L1073+66,R13; _multiply
+    000000D2 63F2                   MOV.L       @R15,R3
+    000000D4 4315                   CMP/PL      R3
+    000000D6 8F1C                   BF/S        L1071
+    000000D8 EA00                   MOV         #0,R10
+    000000DA              L1072:                            
+       hermite.c    76    
+       hermite.c    77                    Y0 = Y1;
+    000000DA 61E2                   MOV.L       @R14,R1
+       hermite.c    78    
+       hermite.c    79                    Y1 = pop();
+    000000DC 480B                   JSR         @R8
+    000000DE 2912                   MOV.L       R1,@R9
+    000000E0 2E02                   MOV.L       R0,@R14
+       hermite.c    80    
+       hermite.c    81                    push(X);
+    000000E2 D315                   MOV.L       L1073+18,R3; _p1
+    000000E4 4C0B                   JSR         @R12
+    000000E6 6432                   MOV.L       @R3,R4
+       hermite.c    82                    push(Y1);
+    000000E8 4C0B                   JSR         @R12
+    000000EA 64E2                   MOV.L       @R14,R4
+       hermite.c    83                    multiply();
+    000000EC 4D0B                   JSR         @R13
+    000000EE 0009                   NOP
+       hermite.c    84    
+       hermite.c    85                    push_integer(i);
+    000000F0 4B0B                   JSR         @R11
+    000000F2 64A3                   MOV         R10,R4
+       hermite.c    86                    push(Y0);
+    000000F4 4C0B                   JSR         @R12
+    000000F6 6492                   MOV.L       @R9,R4
+       hermite.c    87                    multiply();
+    000000F8 4D0B                   JSR         @R13
+    000000FA 0009                   NOP
+       hermite.c    88    
+       hermite.c    89                    subtract();
+    000000FC D21B                   MOV.L       L1073+70,R2; _subtract
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:02  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000FE 420B                   JSR         @R2
+    00000100 0009                   NOP
+       hermite.c    90    
+       hermite.c    91                    push_integer(2);
+    00000102 4B0B                   JSR         @R11
+    00000104 E402                   MOV         #2,R4
+       hermite.c    92                    multiply();
+    00000106 4D0B                   JSR         @R13
+    00000108 0009                   NOP
+    0000010A 7A01                   ADD         #1,R10
+    0000010C 63F2                   MOV.L       @R15,R3
+    0000010E 3A33                   CMP/GE      R3,R10
+    00000110 8BE3                   BF          L1072
+    00000112              L1071:                            
+       hermite.c    93            }
+       hermite.c    94    }
+    00000112 7F04                   ADD         #4,R15
+    00000114 4F26                   LDS.L       @R15+,PR
+    00000116 68F6                   MOV.L       @R15+,R8
+    00000118 69F6                   MOV.L       @R15+,R9
+    0000011A 6AF6                   MOV.L       @R15+,R10
+    0000011C 6BF6                   MOV.L       @R15+,R11
+    0000011E 6CF6                   MOV.L       @R15+,R12
+    00000120 6DF6                   MOV.L       @R15+,R13
+    00000122 000B                   RTS
+    00000124 6EF6                   MOV.L       @R15+,R14
+    00000126              L1073:                            
+    00000126 05E8                   .DATA.W     H'05E8
+    00000128 <00000000>             .DATA.L     _save
+    0000012C <00000000>             .DATA.L     _restore
+    00000130 <00000000>             .DATA.L     _p2
+    00000134 <00000000>             .DATA.L     _pop
+    00000138 <00000000>             .DATA.L     _p1
+    0000013C <00000000>             .DATA.L     _push
+    00000140 <00000000>             .DATA.L     _pop_integer
+    00000144 <00000000>             .DATA.L     _push_symbol
+    00000148 <00000000>             .DATA.L     _list
+    0000014C <00000000>             .DATA.L     _p3
+    00000150 <00000000>             .DATA.L     _symtab
+    00000154 <00000000>             .DATA.L     _subst
+    00000158 <00000000>             .DATA.L     _eval
+    0000015C <00000000>             .DATA.L     _push_integer
+    00000160 <00000000>             .DATA.L     _p4
+    00000164 <00000000>             .DATA.L     _p5
+    00000168 <00000000>             .DATA.L     _multiply
+    0000016C <00000000>             .DATA.L     _subtract
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:02  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       94
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000170 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000170 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           18
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            26
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk7177.tmp 
+

@@ -1,0 +1,137 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:50  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\cons.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          cons.c     1    // Cons two things on the stack.
+          cons.c     2    
+          cons.c     3    #include "stdafx.h"
+          cons.c     4    #include "defs.h"
+          cons.c     5    
+          cons.c     6    void
+          cons.c     7    cons(void)
+P   00000000              _cons:                           ; function: cons
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+          cons.c     8    {
+          cons.c     9            // auto var ok, no opportunity for garbage collection after p = alloc()
+          cons.c    10            U *p;
+          cons.c    11            p = alloc();
+    00000004 D308                   MOV.L       L1060+2,R3 ; _alloc
+    00000006 430B                   JSR         @R3
+    00000008 0009                   NOP
+    0000000A 6E03                   MOV         R0,R14
+          cons.c    12            p->k = CONS;
+          cons.c    13            p->u.cons.cdr = pop();
+    0000000C D307                   MOV.L       L1060+6,R3 ; _pop
+    0000000E E000                   MOV         #0,R0
+    00000010 430B                   JSR         @R3
+    00000012 80E8                   MOV.B       R0,@(8,R14)
+          cons.c    14            p->u.cons.car = pop();
+    00000014 D205                   MOV.L       L1060+6,R2 ; _pop
+    00000016 420B                   JSR         @R2
+    00000018 1E01                   MOV.L       R0,@(4,R14)
+          cons.c    15            push(p);
+    0000001A 64E3                   MOV         R14,R4
+    0000001C D304                   MOV.L       L1060+10,R3; _push
+    0000001E 2E02                   MOV.L       R0,@R14
+    00000020 4F26                   LDS.L       @R15+,PR
+    00000022 432B                   JMP         @R3
+    00000024 6EF6                   MOV.L       @R15+,R14
+    00000026              L1060:                            
+    00000026 0000                   .DATA.W     0
+    00000028 <00000000>             .DATA.L     _alloc
+    0000002C <00000000>             .DATA.L     _pop
+    00000030 <00000000>             .DATA.L     _push
+          cons.c    16    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:50  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       16
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000034 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000034 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            3
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk43BD.tmp 
+

@@ -1,0 +1,203 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:05  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\isprime.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       isprime.c     1    #include "stdafx.h"
+       isprime.c     2    #include "defs.h"
+       isprime.c     3    
+       isprime.c     4    void
+       isprime.c     5    eval_isprime(void)
+P   00000000              _eval_isprime:                   ; function: eval_isprime
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+       isprime.c     6    {
+       isprime.c     7            push(cadr(p1));
+    00000004 DE1E                   MOV.L       L1068+2,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1060
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1062
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1060:                            
+    00000014 9333                   MOV.W       L1068,R3   ; H'0570
+    00000016 D21B                   MOV.L       L1068+6,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1062:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1059
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1061
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1063
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1061:                            
+    00000030 9325                   MOV.W       L1068,R3   ; H'0570
+    00000032 D214                   MOV.L       L1068+6,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1063:                            
+    00000038 A004                   BRA         L1064
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1059:                            
+    0000003C 931F                   MOV.W       L1068,R3   ; H'0570
+    0000003E D211                   MOV.L       L1068+6,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1064:                            
+    00000044 D310                   MOV.L       L1068+10,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+       isprime.c     8            eval();
+    0000004A D210                   MOV.L       L1068+14,R2; _eval
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:05  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+       isprime.c     9            p1 = pop();
+    00000050 D30F                   MOV.L       L1068+18,R3; _pop
+    00000052 430B                   JSR         @R3
+    00000054 0009                   NOP
+    00000056 2E02                   MOV.L       R0,@R14
+       isprime.c    10            if (isnonnegativeinteger(p1) && mprime(p1->u.q.a))
+    00000058 D20E                   MOV.L       L1068+22,R2; _isnonnegativeinteger
+    0000005A 420B                   JSR         @R2
+    0000005C 6403                   MOV         R0,R4
+    0000005E 2008                   TST         R0,R0
+    00000060 8908                   BT          L1065
+    00000062 D307                   MOV.L       L1068+2,R3 ; _p1
+    00000064 D20C                   MOV.L       L1068+26,R2; _mprime
+    00000066 6432                   MOV.L       @R3,R4
+    00000068 420B                   JSR         @R2
+    0000006A 6442                   MOV.L       @R4,R4
+    0000006C 2008                   TST         R0,R0
+    0000006E 8901                   BT          L1065
+       isprime.c    11                    push_integer(1);
+    00000070 A001                   BRA         L1067
+    00000072 E401                   MOV         #1,R4
+    00000074              L1065:                            
+       isprime.c    12            else
+       isprime.c    13                    push_integer(0);
+    00000074 E400                   MOV         #0,R4
+    00000076              L1067:                            
+    00000076 4F26                   LDS.L       @R15+,PR
+    00000078 D208                   MOV.L       L1068+30,R2; _push_integer
+    0000007A 422B                   JMP         @R2
+    0000007C 6EF6                   MOV.L       @R15+,R14
+    0000007E              L1068:                            
+    0000007E 0570                   .DATA.W     H'0570
+    00000080 <00000000>             .DATA.L     _p1
+    00000084 <00000000>             .DATA.L     _symtab
+    00000088 <00000000>             .DATA.L     _push
+    0000008C <00000000>             .DATA.L     _eval
+    00000090 <00000000>             .DATA.L     _pop
+    00000094 <00000000>             .DATA.L     _isnonnegativeinteger
+    00000098 <00000000>             .DATA.L     _mprime
+    0000009C <00000000>             .DATA.L     _push_integer
+       isprime.c    14    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:05  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       14
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000A0 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000A0 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            8
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            18
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk7ED9.tmp 
+

@@ -1,0 +1,11 @@
+[DLSimRunSpace]
+
+[Breakpoint]
+File=E:\Anderain\fx-9860\fxTaumath\mmul.c
+Line=161
+Flags=00001012
+
+[Breakpoint]
+File=E:\Anderain\fx-9860\fxTaumath\mmul.c
+Line=175
+Flags=00001012

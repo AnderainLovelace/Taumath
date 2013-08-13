@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\expcos.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expcos.c     1    // Do the exponential cosine function.
+        expcos.c     2    
+        expcos.c     3    #include "stdafx.h"
+        expcos.c     4    #include "defs.h"
+        expcos.c     5    
+        expcos.c     6    void
+        expcos.c     7    eval_expcos(void)
+P   00000000              _eval_expcos:                    ; function: eval_expcos
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+        expcos.c     8    {
+        expcos.c     9            push(cadr(p1));
+    00000004 DE31                   MOV.L       L1066+4,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1061
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1063
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1061:                            
+    00000014 9358                   MOV.W       L1066,R3   ; H'0570
+    00000016 D22E                   MOV.L       L1066+8,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1063:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1060
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1062
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1064
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1062:                            
+    00000030 934A                   MOV.W       L1066,R3   ; H'0570
+    00000032 D227                   MOV.L       L1066+8,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1064:                            
+    00000038 A004                   BRA         L1065
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1060:                            
+    0000003C 9344                   MOV.W       L1066,R3   ; H'0570
+    0000003E D224                   MOV.L       L1066+8,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1065:                            
+    00000044 D323                   MOV.L       L1066+12,R3; _push
+    00000046 430B                   JSR         @R3
+    00000048 0009                   NOP
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        expcos.c    10            eval();
+    0000004A D223                   MOV.L       L1066+16,R2; _eval
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+        expcos.c    11            expcos();
+    00000050 4F26                   LDS.L       @R15+,PR
+    00000052 6EF6                   MOV.L       @R15+,R14
+        expcos.c    12    }
+        expcos.c    13    
+        expcos.c    14    void
+        expcos.c    15    expcos(void)
+    00000054              _expcos:                         ; function: expcos
+                                                           ; frame size=16
+    00000054 2FE6                   MOV.L       R14,@-R15
+    00000056 2FD6                   MOV.L       R13,@-R15
+    00000058 2FC6                   MOV.L       R12,@-R15
+    0000005A 4F22                   STS.L       PR,@-R15
+        expcos.c    16    {
+        expcos.c    17            save();
+    0000005C D31F                   MOV.L       L1066+20,R3; _save
+    0000005E 430B                   JSR         @R3
+    00000060 0009                   NOP
+        expcos.c    18    
+        expcos.c    19            p1 = pop();
+    00000062 DC1A                   MOV.L       L1066+4,R12; _p1
+    00000064 D21E                   MOV.L       L1066+24,R2; _pop
+    00000066 420B                   JSR         @R2
+    00000068 0009                   NOP
+    0000006A 2C02                   MOV.L       R0,@R12
+        expcos.c    20    
+        expcos.c    21            push(imaginaryunit);
+    0000006C DD19                   MOV.L       L1066+12,R13; _push
+    0000006E D31D                   MOV.L       L1066+28,R3; _imaginaryunit
+    00000070 4D0B                   JSR         @R13
+    00000072 6432                   MOV.L       @R3,R4
+        expcos.c    22            push(p1);
+    00000074 4D0B                   JSR         @R13
+    00000076 64C2                   MOV.L       @R12,R4
+        expcos.c    23            multiply();
+    00000078 DE1B                   MOV.L       L1066+32,R14; _multiply
+    0000007A 4E0B                   JSR         @R14
+    0000007C 0009                   NOP
+        expcos.c    24            exponential();
+    0000007E D21B                   MOV.L       L1066+36,R2; _exponential
+    00000080 420B                   JSR         @R2
+    00000082 0009                   NOP
+        expcos.c    25            push_rational(1, 2);
+    00000084 D31A                   MOV.L       L1066+40,R3; _push_rational
+    00000086 E502                   MOV         #2,R5
+    00000088 430B                   JSR         @R3
+    0000008A E401                   MOV         #1,R4
+        expcos.c    26            multiply();
+    0000008C 4E0B                   JSR         @R14
+    0000008E 0009                   NOP
+        expcos.c    27    
+        expcos.c    28            push(imaginaryunit);
+    00000090 D214                   MOV.L       L1066+28,R2; _imaginaryunit
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000092 4D0B                   JSR         @R13
+    00000094 6422                   MOV.L       @R2,R4
+        expcos.c    29            negate();
+    00000096 D317                   MOV.L       L1066+44,R3; _negate
+    00000098 430B                   JSR         @R3
+    0000009A 0009                   NOP
+        expcos.c    30            push(p1);
+    0000009C 4D0B                   JSR         @R13
+    0000009E 64C2                   MOV.L       @R12,R4
+        expcos.c    31            multiply();
+    000000A0 4E0B                   JSR         @R14
+    000000A2 0009                   NOP
+        expcos.c    32            exponential();
+    000000A4 D211                   MOV.L       L1066+36,R2; _exponential
+    000000A6 420B                   JSR         @R2
+    000000A8 0009                   NOP
+        expcos.c    33            push_rational(1, 2);
+    000000AA E502                   MOV         #2,R5
+    000000AC D310                   MOV.L       L1066+40,R3; _push_rational
+    000000AE 430B                   JSR         @R3
+    000000B0 E401                   MOV         #1,R4
+        expcos.c    34            multiply();
+    000000B2 4E0B                   JSR         @R14
+    000000B4 0009                   NOP
+        expcos.c    35    
+        expcos.c    36            add();
+    000000B6 D210                   MOV.L       L1066+48,R2; _add
+    000000B8 420B                   JSR         @R2
+    000000BA 0009                   NOP
+        expcos.c    37    
+        expcos.c    38            restore();
+    000000BC 4F26                   LDS.L       @R15+,PR
+    000000BE 6CF6                   MOV.L       @R15+,R12
+    000000C0 D30E                   MOV.L       L1066+52,R3; _restore
+    000000C2 6DF6                   MOV.L       @R15+,R13
+    000000C4 432B                   JMP         @R3
+    000000C6 6EF6                   MOV.L       @R15+,R14
+    000000C8              L1066:                            
+    000000C8 0570                   .DATA.W     H'0570
+    000000CA 0000                   .DATA.W     0
+    000000CC <00000000>             .DATA.L     _p1
+    000000D0 <00000000>             .DATA.L     _symtab
+    000000D4 <00000000>             .DATA.L     _push
+    000000D8 <00000000>             .DATA.L     _eval
+    000000DC <00000000>             .DATA.L     _save
+    000000E0 <00000000>             .DATA.L     _pop
+    000000E4 <00000000>             .DATA.L     _imaginaryunit
+    000000E8 <00000000>             .DATA.L     _multiply
+    000000EC <00000000>             .DATA.L     _exponential
+    000000F0 <00000000>             .DATA.L     _push_rational
+    000000F4 <00000000>             .DATA.L     _negate
+    000000F8 <00000000>             .DATA.L     _add
+    000000FC <00000000>             .DATA.L     _restore
+        expcos.c    39    }
+        expcos.c    40    
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:36:57  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       40
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000100 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000100 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           13
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            22
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk5FFB.tmp 
+

@@ -1,0 +1,203 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\mpow.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          mpow.c     1    // Bignum power
+          mpow.c     2    
+          mpow.c     3    #include "stdafx.h"
+          mpow.c     4    #include "defs.h"
+          mpow.c     5    
+          mpow.c     6    unsigned int *
+          mpow.c     7    mpow(unsigned int *a, unsigned int n)
+P   00000000              _mpow:                           ; function: mpow
+                                                           ; frame size=32
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F96                   MOV.L       R9,@-R15
+    0000000C 2F86                   MOV.L       R8,@-R15
+    0000000E 4F22                   STS.L       PR,@-R15
+          mpow.c     8    {
+          mpow.c     9            unsigned int *aa, *t;
+          mpow.c    10    
+          mpow.c    11            a = mcopy(a);
+    00000010 D315                   MOV.L       L1071,R3   ; _mcopy
+    00000012 430B                   JSR         @R3
+    00000014 6B53                   MOV         R5,R11
+    00000016 6E03                   MOV         R0,R14
+          mpow.c    12    
+          mpow.c    13            aa = mint(1);
+    00000018 D214                   MOV.L       L1071+4,R2 ; _mint
+    0000001A 420B                   JSR         @R2
+    0000001C E401                   MOV         #1,R4
+    0000001E 6D03                   MOV         R0,R13
+    00000020 DA13                   MOV.L       L1071+8,R10; _mmul
+    00000022 E901                   MOV         #1,R9
+    00000024 DC13                   MOV.L       L1071+12,R12; _mfree
+          mpow.c    14    
+          mpow.c    15            for (;;) {
+    00000026              L1066:                            
+          mpow.c    16    
+          mpow.c    17                    if (n & 1) {
+    00000026 62B3                   MOV         R11,R2
+    00000028 2298                   TST         R9,R2
+    0000002A 8906                   BT          L1067
+          mpow.c    18                            t = mmul(aa, a);
+    0000002C 65E3                   MOV         R14,R5
+    0000002E 4A0B                   JSR         @R10
+    00000030 64D3                   MOV         R13,R4
+    00000032 6803                   MOV         R0,R8
+          mpow.c    19                            mfree(aa);
+    00000034 4C0B                   JSR         @R12
+    00000036 64D3                   MOV         R13,R4
+          mpow.c    20                            aa = t;
+    00000038 6D83                   MOV         R8,R13
+    0000003A              L1067:                            
+          mpow.c    21                    }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          mpow.c    22    
+          mpow.c    23                    n >>= 1;
+    0000003A 4B01                   SHLR        R11
+          mpow.c    24    
+          mpow.c    25                    if (n == 0)
+    0000003C 2BB8                   TST         R11,R11
+    0000003E 8907                   BT          L1069
+          mpow.c    26                            break;
+          mpow.c    27    
+          mpow.c    28                    t = mmul(a, a);
+    00000040 65E3                   MOV         R14,R5
+    00000042 4A0B                   JSR         @R10
+    00000044 64E3                   MOV         R14,R4
+    00000046 6803                   MOV         R0,R8
+          mpow.c    29                    mfree(a);
+    00000048 4C0B                   JSR         @R12
+    0000004A 64E3                   MOV         R14,R4
+          mpow.c    30                    a = t;
+    0000004C AFEB                   BRA         L1066
+    0000004E 6E83                   MOV         R8,R14
+    00000050              L1069:                            
+          mpow.c    31            }
+          mpow.c    32    
+          mpow.c    33            mfree(a);
+    00000050 4C0B                   JSR         @R12
+    00000052 64E3                   MOV         R14,R4
+          mpow.c    34    
+          mpow.c    35            return aa;
+          mpow.c    36    }
+    00000054 4F26                   LDS.L       @R15+,PR
+    00000056 60D3                   MOV         R13,R0
+    00000058 68F6                   MOV.L       @R15+,R8
+    0000005A 69F6                   MOV.L       @R15+,R9
+    0000005C 6AF6                   MOV.L       @R15+,R10
+    0000005E 6BF6                   MOV.L       @R15+,R11
+    00000060 6CF6                   MOV.L       @R15+,R12
+    00000062 6DF6                   MOV.L       @R15+,R13
+    00000064 000B                   RTS
+    00000066 6EF6                   MOV.L       @R15+,R14
+    00000068              L1071:                            
+    00000068 <00000000>             .DATA.L     _mcopy
+    0000006C <00000000>             .DATA.L     _mint
+    00000070 <00000000>             .DATA.L     _mmul
+    00000074 <00000000>             .DATA.L     _mfree
+          mpow.c    37    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       37
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000078 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000078 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            4
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkAE28.tmp 
+

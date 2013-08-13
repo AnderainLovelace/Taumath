@@ -1,0 +1,2645 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\scan.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c     1    // This scanner uses the recursive descent method.
+          scan.c     2    //
+          scan.c     3    // The char pointers token_str and scan_str are pointers to the input string as
+          scan.c     4    // in the following example.
+          scan.c     5    //
+          scan.c     6    //      | g | a | m | m | a |   | a | l | p | h | a |
+          scan.c     7    //        ^                   ^
+          scan.c     8    //        token_str           scan_str
+          scan.c     9    //
+          scan.c    10    // The char pointer token_buf points to a malloc buffer.
+          scan.c    11    //
+          scan.c    12    //      | g | a | m | m | a | \0 |
+          scan.c    13    //        ^
+          scan.c    14    //        token_buf
+          scan.c    15    
+          scan.c    16    #include "stdafx.h"
+          scan.c    17    #include "defs.h"
+          scan.c    18    
+          scan.c    19    #define T_INTEGER 1001
+          scan.c    20    #define T_DOUBLE 1002
+          scan.c    21    #define T_SYMBOL 1003
+          scan.c    22    #define T_FUNCTION 1004
+          scan.c    23    #define T_NEWLINE 1006
+          scan.c    24    #define T_STRING 1007
+          scan.c    25    #define T_GTEQ 1008
+          scan.c    26    #define T_LTEQ 1009
+          scan.c    27    #define T_EQ 1010
+          scan.c    28    
+          scan.c    29    #ifdef ARM9
+          scan.c    30    #define GLYPH_INTEGRAL 151
+          scan.c    31    #define GLYPH_DERIVATE 152
+          scan.c    32    #define GLYPH_ROOT 153
+          scan.c    33    #define GLYPH_SUM 154
+          scan.c    34    #define GLYPH_PI 155
+          scan.c    35    #define GLYPH_IMAGINARY 156
+          scan.c    36    #define GLYPH_EULER 157
+          scan.c    37    #endif
+          scan.c    38    
+          scan.c    39    static int token, newline_flag, meta_mode;
+          scan.c    40    static char *input_str, *scan_str, *token_str, *token_buf;
+          scan.c    41    
+          scan.c    42    // Returns number of chars scanned and expr on stack.
+          scan.c    43    
+          scan.c    44    // Returns zero when nothing left to scan.
+          scan.c    45    
+          scan.c    46    int
+          scan.c    47    scan(char *s)
+P   00000000              _scan:                           ; function: scan
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+          scan.c    48    {
+          scan.c    49            meta_mode = 0;
+    00000002 E300                   MOV         #0,R3
+    00000004 D237                   MOV.L       L1339+4,R2 ; __$meta_mode
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000006 4F22                   STS.L       PR,@-R15
+    00000008 2232                   MOV.L       R3,@R2
+          scan.c    50            expanding++;
+    0000000A DE37                   MOV.L       L1339+8,R14; _expanding
+          scan.c    51            input_str = s;
+    0000000C D137                   MOV.L       L1339+12,R1; __$input_str
+    0000000E 63E2                   MOV.L       @R14,R3
+    00000010 7301                   ADD         #1,R3
+    00000012 2E32                   MOV.L       R3,@R14
+    00000014 2142                   MOV.L       R4,@R1
+          scan.c    52            scan_str = s;
+    00000016 D336                   MOV.L       L1339+16,R3; __$scan_str
+          scan.c    53            get_next_token();
+    00000018 B41C                   BSR         _get_next_token
+    0000001A 2342                   MOV.L       R4,@R3
+          scan.c    54            if (token == 0) {
+    0000001C D235                   MOV.L       L1339+20,R2; __$token
+    0000001E 6122                   MOV.L       @R2,R1
+    00000020 2118                   TST         R1,R1
+    00000022 8B0C                   BF          L1214
+          scan.c    55                    push(symbol(NIL));
+    00000024 935C                   MOV.W       L1339,R3   ; H'0570
+    00000026 D134                   MOV.L       L1339+24,R1; _symtab
+    00000028 D234                   MOV.L       L1339+28,R2; _push
+    0000002A 6412                   MOV.L       @R1,R4
+    0000002C 420B                   JSR         @R2
+    0000002E 343C                   ADD         R3,R4
+          scan.c    56                    expanding--;
+    00000030 63E2                   MOV.L       @R14,R3
+          scan.c    57                    return 0;
+    00000032 E000                   MOV         #0,R0
+    00000034 73FF                   ADD         #-1,R3
+    00000036 2E32                   MOV.L       R3,@R14
+    00000038 4F26                   LDS.L       @R15+,PR
+    0000003A 000B                   RTS
+    0000003C 6EF6                   MOV.L       @R15+,R14
+    0000003E              L1214:                            
+          scan.c    58            }
+          scan.c    59            scan_stmt();
+    0000003E B037                   BSR         _scan_stmt
+    00000040 0009                   NOP
+          scan.c    60            expanding--;
+    00000042 63E2                   MOV.L       @R14,R3
+    00000044 D229                   MOV.L       L1339+12,R2; __$input_str
+    00000046 73FF                   ADD         #-1,R3
+    00000048 D12D                   MOV.L       L1339+32,R1; __$token_str
+    0000004A 2E32                   MOV.L       R3,@R14
+    0000004C 6322                   MOV.L       @R2,R3
+    0000004E 6012                   MOV.L       @R1,R0
+    00000050 3038                   SUB         R3,R0
+          scan.c    61            return (int) (token_str - input_str);
+          scan.c    62    }
+    00000052              L1215:                            
+    00000052 4F26                   LDS.L       @R15+,PR
+    00000054 000B                   RTS
+    00000056 6EF6                   MOV.L       @R15+,R14
+          scan.c    63    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c    64    int
+          scan.c    65    scan_meta(char *s)
+    00000058              _scan_meta:                      ; function: scan_meta
+                                                           ; frame size=8
+    00000058 2FE6                   MOV.L       R14,@-R15
+          scan.c    66    {
+          scan.c    67            meta_mode = 1;
+    0000005A E301                   MOV         #1,R3
+    0000005C D221                   MOV.L       L1339+4,R2 ; __$meta_mode
+    0000005E 4F22                   STS.L       PR,@-R15
+    00000060 2232                   MOV.L       R3,@R2
+          scan.c    68            expanding++;
+    00000062 DE21                   MOV.L       L1339+8,R14; _expanding
+          scan.c    69            input_str = s;
+    00000064 D121                   MOV.L       L1339+12,R1; __$input_str
+    00000066 63E2                   MOV.L       @R14,R3
+    00000068 7301                   ADD         #1,R3
+    0000006A 2E32                   MOV.L       R3,@R14
+    0000006C 2142                   MOV.L       R4,@R1
+          scan.c    70            scan_str = s;
+    0000006E D320                   MOV.L       L1339+16,R3; __$scan_str
+          scan.c    71            get_next_token();
+    00000070 B3F0                   BSR         _get_next_token
+    00000072 2342                   MOV.L       R4,@R3
+          scan.c    72            if (token == 0) {
+    00000074 D21F                   MOV.L       L1339+20,R2; __$token
+    00000076 6122                   MOV.L       @R2,R1
+    00000078 2118                   TST         R1,R1
+    0000007A 8B0C                   BF          L1216
+          scan.c    73                    push(symbol(NIL));
+    0000007C 9330                   MOV.W       L1339,R3   ; H'0570
+    0000007E D11E                   MOV.L       L1339+24,R1; _symtab
+    00000080 D21E                   MOV.L       L1339+28,R2; _push
+    00000082 6412                   MOV.L       @R1,R4
+    00000084 420B                   JSR         @R2
+    00000086 343C                   ADD         R3,R4
+          scan.c    74                    expanding--;
+    00000088 63E2                   MOV.L       @R14,R3
+          scan.c    75                    return 0;
+    0000008A E000                   MOV         #0,R0
+    0000008C 73FF                   ADD         #-1,R3
+    0000008E 2E32                   MOV.L       R3,@R14
+    00000090 4F26                   LDS.L       @R15+,PR
+    00000092 000B                   RTS
+    00000094 6EF6                   MOV.L       @R15+,R14
+    00000096              L1216:                            
+          scan.c    76            }
+          scan.c    77            scan_stmt();
+    00000096 B00B                   BSR         _scan_stmt
+    00000098 0009                   NOP
+          scan.c    78            expanding--;
+    0000009A 63E2                   MOV.L       @R14,R3
+    0000009C D213                   MOV.L       L1339+12,R2; __$input_str
+    0000009E 73FF                   ADD         #-1,R3
+    000000A0 D117                   MOV.L       L1339+32,R1; __$token_str
+    000000A2 2E32                   MOV.L       R3,@R14
+    000000A4 6322                   MOV.L       @R2,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000A6 6012                   MOV.L       @R1,R0
+    000000A8 3038                   SUB         R3,R0
+          scan.c    79            return (int) (token_str - input_str);
+          scan.c    80    }
+    000000AA              L1217:                            
+    000000AA 4F26                   LDS.L       @R15+,PR
+    000000AC 000B                   RTS
+    000000AE 6EF6                   MOV.L       @R15+,R14
+          scan.c    81    
+          scan.c    82    void
+          scan.c    83    scan_stmt(void)
+    000000B0              _scan_stmt:                      ; function: scan_stmt
+                                                           ; frame size=4
+    000000B0 4F22                   STS.L       PR,@-R15
+          scan.c    84    {
+          scan.c    85            scan_relation();
+    000000B2 B02D                   BSR         _scan_relation
+    000000B4 0009                   NOP
+          scan.c    86            if (token == '=') {
+    000000B6 D20F                   MOV.L       L1339+20,R2; __$token
+    000000B8 6022                   MOV.L       @R2,R0
+    000000BA 883D                   CMP/EQ      #61,R0
+    000000BC 8B0D                   BF          L1218
+          scan.c    87                    get_next_token();
+    000000BE B3C9                   BSR         _get_next_token
+    000000C0 0009                   NOP
+          scan.c    88                    push_symbol(SETQ);
+    000000C2 D310                   MOV.L       L1339+36,R3; _push_symbol
+    000000C4 430B                   JSR         @R3
+    000000C6 E45F                   MOV         #95,R4
+          scan.c    89                    swap();
+    000000C8 D20F                   MOV.L       L1339+40,R2; _swap
+    000000CA 420B                   JSR         @R2
+    000000CC 0009                   NOP
+          scan.c    90                    scan_relation();
+    000000CE B01F                   BSR         _scan_relation
+    000000D0 0009                   NOP
+          scan.c    91                    list(3);
+    000000D2 E403                   MOV         #3,R4
+    000000D4 D20D                   MOV.L       L1339+44,R2; _list
+    000000D6 422B                   JMP         @R2
+    000000D8 4F26                   LDS.L       @R15+,PR
+    000000DA              L1218:                            
+          scan.c    92            }
+          scan.c    93    }
+    000000DA 4F26                   LDS.L       @R15+,PR
+    000000DC 000B                   RTS
+    000000DE 0009                   NOP
+    000000E0              L1339:                            
+    000000E0 0570                   .DATA.W     H'0570
+    000000E2 0000                   .DATA.W     0
+    000000E4 <00000000>             .DATA.L     __$meta_mode
+    000000E8 <00000000>             .DATA.L     _expanding
+    000000EC <00000000>             .DATA.L     __$input_str
+    000000F0 <00000000>             .DATA.L     __$scan_str
+    000000F4 <00000000>             .DATA.L     __$token
+    000000F8 <00000000>             .DATA.L     _symtab
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000FC <00000000>             .DATA.L     _push
+    00000100 <00000000>             .DATA.L     __$token_str
+    00000104 <00000000>             .DATA.L     _push_symbol
+    00000108 <00000000>             .DATA.L     _swap
+    0000010C <00000000>             .DATA.L     _list
+          scan.c    94    
+          scan.c    95    void
+          scan.c    96    scan_relation(void)
+    00000110              _scan_relation:                  ; function: scan_relation
+                                                           ; frame size=8
+    00000110 2FE6                   MOV.L       R14,@-R15
+    00000112 4F22                   STS.L       PR,@-R15
+          scan.c    97    {
+          scan.c    98            scan_expression();
+    00000114 B032                   BSR         _scan_expression
+    00000116 0009                   NOP
+          scan.c    99            switch (token) {
+    00000118 DE30                   MOV.L       L1340+6,R14; _push_symbol
+    0000011A D231                   MOV.L       L1340+10,R2; __$token
+    0000011C 915B                   MOV.W       L1340,R1   ; H'03F2
+    0000011E 6022                   MOV.L       @R2,R0
+    00000120 3010                   CMP/EQ      R1,R0
+    00000122 890B                   BT          L1169
+    00000124 9158                   MOV.W       L1340+2,R1 ; H'03F1
+    00000126 3010                   CMP/EQ      R1,R0
+    00000128 890A                   BT          L1170
+    0000012A 9156                   MOV.W       L1340+4,R1 ; H'03F0
+    0000012C 3010                   CMP/EQ      R1,R0
+    0000012E 890C                   BT          L1171
+    00000130 883C                   CMP/EQ      #60,R0
+    00000132 890E                   BT          L1172
+    00000134 883E                   CMP/EQ      #62,R0
+    00000136 8910                   BT          L1173
+    00000138 A01D                   BRA         L1219
+    0000013A 0009                   NOP
+    0000013C              L1169:                           ; case label 
+    0000013C A001                   BRA         L1331
+          scan.c   100            case T_EQ:
+          scan.c   101                    push_symbol(TESTEQ);
+    0000013E E46C                   MOV         #108,R4
+    00000140              L1170:                           ; case label 
+          scan.c   102                    swap();
+          scan.c   103                    get_next_token();
+          scan.c   104                    scan_expression();
+          scan.c   105                    list(3);
+          scan.c   106                    break;
+          scan.c   107            case T_LTEQ:
+          scan.c   108                    push_symbol(TESTLE);
+    00000140 E46F                   MOV         #111,R4
+    00000142              L1331:                            
+    00000142 4E0B                   JSR         @R14
+    00000144 0009                   NOP
+    00000146 A00A                   BRA         L1156
+    00000148 0009                   NOP
+    0000014A              L1171:                           ; case label 
+          scan.c   109                    swap();
+          scan.c   110                    get_next_token();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   111                    scan_expression();
+          scan.c   112                    list(3);
+          scan.c   113                    break;
+          scan.c   114            case T_GTEQ:
+          scan.c   115                    push_symbol(TESTGE);
+    0000014A 4E0B                   JSR         @R14
+    0000014C E46D                   MOV         #109,R4
+    0000014E A006                   BRA         L1156
+    00000150 0009                   NOP
+    00000152              L1172:                           ; case label 
+          scan.c   116                    swap();
+          scan.c   117                    get_next_token();
+          scan.c   118                    scan_expression();
+          scan.c   119                    list(3);
+          scan.c   120                    break;
+          scan.c   121            case '<':
+          scan.c   122                    push_symbol(TESTLT);
+    00000152 4E0B                   JSR         @R14
+    00000154 E470                   MOV         #112,R4
+    00000156 A002                   BRA         L1156
+    00000158 0009                   NOP
+    0000015A              L1173:                           ; case label 
+          scan.c   123                    swap();
+          scan.c   124                    get_next_token();
+          scan.c   125                    scan_expression();
+          scan.c   126                    list(3);
+          scan.c   127                    break;
+          scan.c   128            case '>':
+          scan.c   129                    push_symbol(TESTGT);
+    0000015A 4E0B                   JSR         @R14
+    0000015C E46E                   MOV         #110,R4
+    0000015E              L1156:
+          scan.c   130                    swap();
+    0000015E D321                   MOV.L       L1340+14,R3; _swap
+    00000160 430B                   JSR         @R3
+    00000162 0009                   NOP
+          scan.c   131                    get_next_token();
+    00000164 B376                   BSR         _get_next_token
+    00000166 0009                   NOP
+          scan.c   132                    scan_expression();
+    00000168 B008                   BSR         _scan_expression
+    0000016A 0009                   NOP
+          scan.c   133                    list(3);
+    0000016C 4F26                   LDS.L       @R15+,PR
+    0000016E E403                   MOV         #3,R4
+    00000170 D21D                   MOV.L       L1340+18,R2; _list
+    00000172 422B                   JMP         @R2
+    00000174 6EF6                   MOV.L       @R15+,R14
+    00000176              L1219:                            
+          scan.c   134                    break;
+          scan.c   135            default:
+          scan.c   136                    break;
+          scan.c   137            }
+          scan.c   138    }
+    00000176 4F26                   LDS.L       @R15+,PR
+    00000178 000B                   RTS
+    0000017A 6EF6                   MOV.L       @R15+,R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   139    
+          scan.c   140    void
+          scan.c   141    scan_expression(void)
+    0000017C              _scan_expression:                ; function: scan_expression
+                                                           ; frame size=20
+    0000017C 2FE6                   MOV.L       R14,@-R15
+    0000017E 2FD6                   MOV.L       R13,@-R15
+    00000180 2FC6                   MOV.L       R12,@-R15
+    00000182 4F22                   STS.L       PR,@-R15
+          scan.c   142    {
+          scan.c   143            int h = tos;
+    00000184 D219                   MOV.L       L1340+22,R2; _tos
+    00000186 7FFC                   ADD         #-4,R15
+          scan.c   144            switch (token) {
+    00000188 DD15                   MOV.L       L1340+10,R13; __$token
+    0000018A 6322                   MOV.L       @R2,R3
+    0000018C DE18                   MOV.L       L1340+26,R14; _negate
+    0000018E 2F32                   MOV.L       R3,@R15
+    00000190 60D2                   MOV.L       @R13,R0
+    00000192 882B                   CMP/EQ      #43,R0
+    00000194 8903                   BT          L1175
+    00000196 882D                   CMP/EQ      #45,R0
+    00000198 8907                   BT          L1176
+    0000019A A00E                   BRA         L1177
+    0000019C 0009                   NOP
+    0000019E              L1175:                           ; case label 
+          scan.c   145            case '+':
+          scan.c   146                    get_next_token();
+    0000019E B359                   BSR         _get_next_token
+    000001A0 0009                   NOP
+          scan.c   147                    scan_term();
+    000001A2 B095                   BSR         _scan_term
+    000001A4 0009                   NOP
+          scan.c   148                    break;
+    000001A6 A00A                   BRA         L1220
+    000001A8 0009                   NOP
+    000001AA              L1176:                           ; case label 
+          scan.c   149            case '-':
+          scan.c   150                    get_next_token();
+    000001AA B353                   BSR         _get_next_token
+    000001AC 0009                   NOP
+          scan.c   151                    scan_term();
+    000001AE B08F                   BSR         _scan_term
+    000001B0 0009                   NOP
+          scan.c   152                    negate();
+    000001B2 4E0B                   JSR         @R14
+    000001B4 0009                   NOP
+          scan.c   153                    break;
+    000001B6 A002                   BRA         L1220
+    000001B8 0009                   NOP
+    000001BA              L1177:                           ; default label 
+          scan.c   154            default:
+          scan.c   155                    scan_term();
+    000001BA B089                   BSR         _scan_term
+    000001BC 0009                   NOP
+          scan.c   156                    break;
+    000001BE              L1220:                            
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001BE DC0D                   MOV.L       L1340+30,R12; __$newline_flag
+          scan.c   157            }
+          scan.c   158            while (newline_flag == 0 && (token == '+' || token == '-')) {
+    000001C0 A020                   BRA         L1221
+    000001C2 0009                   NOP
+    000001C4              L1222:                            
+          scan.c   159                    if (token == '+') {
+    000001C4 60D2                   MOV.L       @R13,R0
+    000001C6 882B                   CMP/EQ      #43,R0
+    000001C8 8B16                   BF          L1223
+          scan.c   160                            get_next_token();
+    000001CA B343                   BSR         _get_next_token
+    000001CC 0009                   NOP
+          scan.c   161                            scan_term();
+    000001CE B07F                   BSR         _scan_term
+    000001D0 0009                   NOP
+    000001D2 A017                   BRA         L1221
+    000001D4 0009                   NOP
+    000001D6              L1340:                            
+    000001D6 03F2                   .DATA.W     H'03F2
+    000001D8 03F1                   .DATA.W     H'03F1
+    000001DA 03F0                   .DATA.W     H'03F0
+    000001DC <00000000>             .DATA.L     _push_symbol
+    000001E0 <00000000>             .DATA.L     __$token
+    000001E4 <00000000>             .DATA.L     _swap
+    000001E8 <00000000>             .DATA.L     _list
+    000001EC <00000000>             .DATA.L     _tos
+    000001F0 <00000000>             .DATA.L     _negate
+    000001F4 <00000000>             .DATA.L     __$newline_flag
+    000001F8              L1223:                            
+          scan.c   162                    } else {
+          scan.c   163                            get_next_token();
+    000001F8 B32C                   BSR         _get_next_token
+    000001FA 0009                   NOP
+          scan.c   164                            scan_term();
+    000001FC B068                   BSR         _scan_term
+    000001FE 0009                   NOP
+          scan.c   165                            negate();
+    00000200 4E0B                   JSR         @R14
+    00000202 0009                   NOP
+    00000204              L1221:                            
+    00000204 62C2                   MOV.L       @R12,R2
+    00000206 2228                   TST         R2,R2
+    00000208 8B06                   BF          L1225
+    0000020A D328                   MOV.L       L1341+12,R3; __$token
+    0000020C 6032                   MOV.L       @R3,R0
+    0000020E 882B                   CMP/EQ      #43,R0
+    00000210 89D8                   BT          L1222
+    00000212 6032                   MOV.L       @R3,R0
+    00000214 882D                   CMP/EQ      #45,R0
+    00000216 89D5                   BT          L1222
+    00000218              L1225:                            
+    00000218 63F2                   MOV.L       @R15,R3
+    0000021A E101                   MOV         #1,R1
+    0000021C D224                   MOV.L       L1341+16,R2; _tos
+    0000021E 6422                   MOV.L       @R2,R4
+    00000220 3438                   SUB         R3,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000222 3417                   CMP/GT      R1,R4
+    00000224 8B0F                   BF          L1226
+          scan.c   166                    }
+          scan.c   167            }
+          scan.c   168            if (tos - h > 1) {
+          scan.c   169                    list(tos - h);
+    00000226 D223                   MOV.L       L1341+20,R2; _list
+    00000228 420B                   JSR         @R2
+    0000022A 0009                   NOP
+          scan.c   170                    push_symbol(ADD);
+    0000022C D322                   MOV.L       L1341+24,R3; _push_symbol
+    0000022E 430B                   JSR         @R3
+    00000230 E401                   MOV         #1,R4
+          scan.c   171                    swap();
+    00000232 D222                   MOV.L       L1341+28,R2; _swap
+    00000234 420B                   JSR         @R2
+    00000236 0009                   NOP
+          scan.c   172                    cons();
+    00000238 D321                   MOV.L       L1341+32,R3; _cons
+    0000023A 7F04                   ADD         #4,R15
+    0000023C 4F26                   LDS.L       @R15+,PR
+    0000023E 6CF6                   MOV.L       @R15+,R12
+    00000240 6DF6                   MOV.L       @R15+,R13
+    00000242 432B                   JMP         @R3
+    00000244 6EF6                   MOV.L       @R15+,R14
+    00000246              L1226:                            
+          scan.c   173            }
+          scan.c   174    }
+    00000246 7F04                   ADD         #4,R15
+    00000248 4F26                   LDS.L       @R15+,PR
+    0000024A 6CF6                   MOV.L       @R15+,R12
+    0000024C 6DF6                   MOV.L       @R15+,R13
+    0000024E 000B                   RTS
+    00000250 6EF6                   MOV.L       @R15+,R14
+          scan.c   175    
+          scan.c   176    int
+          scan.c   177    is_factor(void)
+    00000252              _is_factor:                      ; function: is_factor
+                                                           ; frame size=0
+          scan.c   178    {
+          scan.c   179            switch (token) {
+    00000252 D316                   MOV.L       L1341+12,R3; __$token
+    00000254 6032                   MOV.L       @R3,R0
+    00000256 882A                   CMP/EQ      #42,R0
+    00000258 891D                   BT          L1157
+    0000025A 882F                   CMP/EQ      #47,R0
+    0000025C 891B                   BT          L1157
+    0000025E 8828                   CMP/EQ      #40,R0
+    00000260 8910                   BT          L1180
+    00000262 911D                   MOV.W       L1341,R1   ; H'03EB
+    00000264 3010                   CMP/EQ      R1,R0
+    00000266 890D                   BT          L1181
+    00000268 911B                   MOV.W       L1341+2,R1 ; H'03EC
+    0000026A 3010                   CMP/EQ      R1,R0
+    0000026C 890A                   BT          L1182
+    0000026E 9119                   MOV.W       L1341+4,R1 ; H'03E9
+    00000270 3010                   CMP/EQ      R1,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000272 8907                   BT          L1183
+    00000274 9117                   MOV.W       L1341+6,R1 ; H'03EA
+    00000276 3010                   CMP/EQ      R1,R0
+    00000278 8904                   BT          L1184
+    0000027A 9115                   MOV.W       L1341+8,R1 ; H'03EF
+    0000027C 3010                   CMP/EQ      R1,R0
+    0000027E 8901                   BT          L1185
+    00000280 A00B                   BRA         L1158
+    00000282 0009                   NOP
+    00000284              L1180:                           ; case label 
+          scan.c   180            case '*':
+          scan.c   181            case '/':
+          scan.c   182                    return 1;
+          scan.c   183            case '(':
+          scan.c   184            case T_SYMBOL:
+    00000284              L1181:                           ; case label 
+          scan.c   185            case T_FUNCTION:
+    00000284              L1182:                           ; case label 
+          scan.c   186            case T_INTEGER:
+    00000284              L1183:                           ; case label 
+          scan.c   187            case T_DOUBLE:
+    00000284              L1184:                           ; case label 
+          scan.c   188            case T_STRING:
+    00000284              L1185:                           ; case label 
+          scan.c   189                    if (newline_flag) {     // implicit mul can't cross line
+    00000284 D20F                   MOV.L       L1341+36,R2; __$newline_flag
+    00000286 6322                   MOV.L       @R2,R3
+    00000288 2338                   TST         R3,R3
+    0000028A 8904                   BT          L1157
+          scan.c   190                            scan_str = token_str;   // better error display
+    0000028C D10E                   MOV.L       L1341+40,R1; __$token_str
+    0000028E 6312                   MOV.L       @R1,R3
+    00000290 D00E                   MOV.L       L1341+44,R0; __$scan_str
+    00000292 A002                   BRA         L1158
+    00000294 2032                   MOV.L       R3,@R0
+    00000296              L1157:
+          scan.c   191                            return 0;
+          scan.c   192                    } else
+          scan.c   193                            return 1;
+    00000296 000B                   RTS
+    00000298 E001                   MOV         #1,R0
+    0000029A              L1158:
+          scan.c   194            default:
+          scan.c   195                    break;
+          scan.c   196            }
+          scan.c   197            return 0;
+    0000029A E000                   MOV         #0,R0
+          scan.c   198    }
+    0000029C              L1228:                            
+    0000029C 000B                   RTS
+    0000029E 0009                   NOP
+    000002A0              L1341:                            
+    000002A0 03EB                   .DATA.W     H'03EB
+    000002A2 03EC                   .DATA.W     H'03EC
+    000002A4 03E9                   .DATA.W     H'03E9
+    000002A6 03EA                   .DATA.W     H'03EA
+    000002A8 03EF                   .DATA.W     H'03EF
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000002AA 0000                   .DATA.W     0
+    000002AC <00000000>             .DATA.L     __$token
+    000002B0 <00000000>             .DATA.L     _tos
+    000002B4 <00000000>             .DATA.L     _list
+    000002B8 <00000000>             .DATA.L     _push_symbol
+    000002BC <00000000>             .DATA.L     _swap
+    000002C0 <00000000>             .DATA.L     _cons
+    000002C4 <00000000>             .DATA.L     __$newline_flag
+    000002C8 <00000000>             .DATA.L     __$token_str
+    000002CC <00000000>             .DATA.L     __$scan_str
+          scan.c   199    
+          scan.c   200    void
+          scan.c   201    scan_term(void)
+    000002D0              _scan_term:                      ; function: scan_term
+                                                           ; frame size=24
+    000002D0 2FE6                   MOV.L       R14,@-R15
+    000002D2 2FD6                   MOV.L       R13,@-R15
+    000002D4 2FC6                   MOV.L       R12,@-R15
+    000002D6 2FB6                   MOV.L       R11,@-R15
+    000002D8 2FA6                   MOV.L       R10,@-R15
+    000002DA 4F22                   STS.L       PR,@-R15
+    000002DC DC69                   MOV.L       L1342+2,R12; _pop
+    000002DE DE6A                   MOV.L       L1342+6,R14; _tos
+          scan.c   202    {
+          scan.c   203            int h = tos;
+          scan.c   204    
+          scan.c   205            scan_power();
+    000002E0 B0A6                   BSR         _scan_power
+    000002E2 6DE2                   MOV.L       @R14,R13
+          scan.c   206    
+          scan.c   207            // discard integer 1
+          scan.c   208    
+          scan.c   209            if (tos > h && isrational(stack[tos - 1]) && equaln(stack[tos - 1], 1))
+    000002E4 62E2                   MOV.L       @R14,R2
+    000002E6 32D7                   CMP/GT      R13,R2
+    000002E8 8B15                   BF          L1231
+    000002EA 60E2                   MOV.L       @R14,R0
+    000002EC D267                   MOV.L       L1342+10,R2; _stack
+    000002EE 70FF                   ADD         #-1,R0
+    000002F0 6322                   MOV.L       @R2,R3
+    000002F2 4008                   SHLL2       R0
+    000002F4 003E                   MOV.L       @(R0,R3),R0
+    000002F6 8408                   MOV.B       @(8,R0),R0
+    000002F8 600C                   EXTU.B      R0,R0
+    000002FA 8801                   CMP/EQ      #1,R0
+    000002FC 8B0B                   BF          L1231
+    000002FE E501                   MOV         #1,R5
+    00000300 64E2                   MOV.L       @R14,R4
+    00000302 74FF                   ADD         #-1,R4
+    00000304 6022                   MOV.L       @R2,R0
+    00000306 4408                   SHLL2       R4
+    00000308 D361                   MOV.L       L1342+14,R3; _equaln
+    0000030A 430B                   JSR         @R3
+    0000030C 044E                   MOV.L       @(R0,R4),R4
+    0000030E 2008                   TST         R0,R0
+    00000310 8901                   BT          L1231
+          scan.c   210                    pop();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000312 4C0B                   JSR         @R12
+    00000314 0009                   NOP
+    00000316              L1231:                            
+    00000316 6BD3                   MOV         R13,R11
+          scan.c   211    
+          scan.c   212            while (is_factor()) {
+    00000318 A05D                   BRA         L1232
+    0000031A 7B01                   ADD         #1,R11
+    0000031C              L1233:                            
+    0000031C D55D                   MOV.L       L1342+18,R5; __$token
+    0000031E 6052                   MOV.L       @R5,R0
+    00000320 882A                   CMP/EQ      #42,R0
+    00000322 8F04                   BF/S        L1234
+    00000324 6403                   MOV         R0,R4
+          scan.c   213                    if (token == '*') {
+          scan.c   214                            get_next_token();
+    00000326 B295                   BSR         _get_next_token
+    00000328 0009                   NOP
+    0000032A A00C                   BRA         L1159
+    0000032C 0009                   NOP
+    0000032E              L1234:                            
+          scan.c   215                            scan_power();
+          scan.c   216                    } else if (token == '/') {
+    0000032E 6043                   MOV         R4,R0
+    00000330 882F                   CMP/EQ      #47,R0
+    00000332 8B08                   BF          L1159
+          scan.c   217                            get_next_token();
+    00000334 B28E                   BSR         _get_next_token
+    00000336 0009                   NOP
+          scan.c   218                            scan_power();
+    00000338 B07A                   BSR         _scan_power
+    0000033A 0009                   NOP
+          scan.c   219                            inverse();
+    0000033C DA56                   MOV.L       L1342+22,R10; _inverse
+    0000033E 4A0B                   JSR         @R10
+    00000340 0009                   NOP
+    00000342 A002                   BRA         L1235
+    00000344 0009                   NOP
+    00000346              L1159:
+          scan.c   220                    } else
+          scan.c   221                            scan_power();
+    00000346 B073                   BSR         _scan_power
+    00000348 0009                   NOP
+    0000034A              L1235:                            
+          scan.c   222    
+          scan.c   223                    // fold constants
+          scan.c   224    
+          scan.c   225                    if (tos > h + 1 && isnum(stack[tos - 2]) && isnum(stack[tos - 1]))
+    0000034A 63E2                   MOV.L       @R14,R3
+    0000034C 33B7                   CMP/GT      R11,R3
+    0000034E 8B29                   BF          L1238
+    00000350 60E2                   MOV.L       @R14,R0
+    00000352 70FE                   ADD         #-2,R0
+    00000354 D24D                   MOV.L       L1342+10,R2; _stack
+    00000356 4008                   SHLL2       R0
+    00000358 6322                   MOV.L       @R2,R3
+    0000035A 003E                   MOV.L       @(R0,R3),R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000035C 8408                   MOV.B       @(8,R0),R0
+    0000035E 600C                   EXTU.B      R0,R0
+    00000360 8801                   CMP/EQ      #1,R0
+    00000362 8908                   BT          L1239
+    00000364 60E2                   MOV.L       @R14,R0
+    00000366 70FE                   ADD         #-2,R0
+    00000368 6322                   MOV.L       @R2,R3
+    0000036A 4008                   SHLL2       R0
+    0000036C 003E                   MOV.L       @(R0,R3),R0
+    0000036E 8408                   MOV.B       @(8,R0),R0
+    00000370 600C                   EXTU.B      R0,R0
+    00000372 8802                   CMP/EQ      #2,R0
+    00000374 8B16                   BF          L1238
+    00000376              L1239:                            
+    00000376 60E2                   MOV.L       @R14,R0
+    00000378 D244                   MOV.L       L1342+10,R2; _stack
+    0000037A 70FF                   ADD         #-1,R0
+    0000037C 6322                   MOV.L       @R2,R3
+    0000037E 4008                   SHLL2       R0
+    00000380 003E                   MOV.L       @(R0,R3),R0
+    00000382 8408                   MOV.B       @(8,R0),R0
+    00000384 600C                   EXTU.B      R0,R0
+    00000386 8801                   CMP/EQ      #1,R0
+    00000388 8909                   BT          L1240
+    0000038A 60E2                   MOV.L       @R14,R0
+    0000038C D23F                   MOV.L       L1342+10,R2; _stack
+    0000038E 70FF                   ADD         #-1,R0
+    00000390 6322                   MOV.L       @R2,R3
+    00000392 4008                   SHLL2       R0
+    00000394 003E                   MOV.L       @(R0,R3),R0
+    00000396 8408                   MOV.B       @(8,R0),R0
+    00000398 600C                   EXTU.B      R0,R0
+    0000039A 8802                   CMP/EQ      #2,R0
+    0000039C 8B02                   BF          L1238
+    0000039E              L1240:                            
+          scan.c   226                            multiply();
+    0000039E DA3F                   MOV.L       L1342+26,R10; _multiply
+    000003A0 4A0B                   JSR         @R10
+    000003A2 0009                   NOP
+    000003A4              L1238:                            
+          scan.c   227    
+          scan.c   228                    // discard integer 1
+          scan.c   229    
+          scan.c   230                    if (tos > h && isrational(stack[tos - 1]) && equaln(stack[tos - 1], 1))
+    000003A4 62E2                   MOV.L       @R14,R2
+    000003A6 32D7                   CMP/GT      R13,R2
+    000003A8 8B15                   BF          L1232
+    000003AA 60E2                   MOV.L       @R14,R0
+    000003AC D237                   MOV.L       L1342+10,R2; _stack
+    000003AE 70FF                   ADD         #-1,R0
+    000003B0 6322                   MOV.L       @R2,R3
+    000003B2 4008                   SHLL2       R0
+    000003B4 003E                   MOV.L       @(R0,R3),R0
+    000003B6 8408                   MOV.B       @(8,R0),R0
+    000003B8 600C                   EXTU.B      R0,R0
+    000003BA 8801                   CMP/EQ      #1,R0
+    000003BC 8B0B                   BF          L1232
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000003BE E501                   MOV         #1,R5
+    000003C0 64E2                   MOV.L       @R14,R4
+    000003C2 74FF                   ADD         #-1,R4
+    000003C4 6022                   MOV.L       @R2,R0
+    000003C6 4408                   SHLL2       R4
+    000003C8 D331                   MOV.L       L1342+14,R3; _equaln
+    000003CA 430B                   JSR         @R3
+    000003CC 044E                   MOV.L       @(R0,R4),R4
+    000003CE 2008                   TST         R0,R0
+    000003D0 8901                   BT          L1232
+          scan.c   231                            pop();
+    000003D2 4C0B                   JSR         @R12
+    000003D4 0009                   NOP
+    000003D6              L1232:                            
+    000003D6 BF3C                   BSR         _is_factor
+    000003D8 0009                   NOP
+    000003DA 2008                   TST         R0,R0
+    000003DC 8B9E                   BF          L1233
+          scan.c   232            }
+          scan.c   233    
+          scan.c   234            if (h == tos)
+    000003DE 63E2                   MOV.L       @R14,R3
+    000003E0 3D30                   CMP/EQ      R3,R13
+    000003E2 8B08                   BF          L1242
+          scan.c   235                    push_integer(1);
+    000003E4 4F26                   LDS.L       @R15+,PR
+    000003E6 E401                   MOV         #1,R4
+    000003E8 D32D                   MOV.L       L1342+30,R3; _push_integer
+    000003EA 6AF6                   MOV.L       @R15+,R10
+    000003EC 6BF6                   MOV.L       @R15+,R11
+    000003EE 6CF6                   MOV.L       @R15+,R12
+    000003F0 6DF6                   MOV.L       @R15+,R13
+    000003F2 432B                   JMP         @R3
+    000003F4 6EF6                   MOV.L       @R15+,R14
+    000003F6              L1242:                            
+    000003F6 E301                   MOV         #1,R3
+    000003F8 64E2                   MOV.L       @R14,R4
+    000003FA 34D8                   SUB         R13,R4
+    000003FC 3437                   CMP/GT      R3,R4
+    000003FE 8B10                   BF          L1243
+          scan.c   236            else if (tos - h > 1) {
+          scan.c   237                    list(tos - h);
+    00000400 D128                   MOV.L       L1342+34,R1; _list
+    00000402 410B                   JSR         @R1
+    00000404 0009                   NOP
+          scan.c   238                    push_symbol(MULTIPLY);
+    00000406 D328                   MOV.L       L1342+38,R3; _push_symbol
+    00000408 430B                   JSR         @R3
+    0000040A E44B                   MOV         #75,R4
+          scan.c   239                    swap();
+    0000040C D227                   MOV.L       L1342+42,R2; _swap
+    0000040E 420B                   JSR         @R2
+    00000410 0009                   NOP
+          scan.c   240                    cons();
+    00000412 4F26                   LDS.L       @R15+,PR
+    00000414 D326                   MOV.L       L1342+46,R3; _cons
+    00000416 6AF6                   MOV.L       @R15+,R10
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000418 6BF6                   MOV.L       @R15+,R11
+    0000041A 6CF6                   MOV.L       @R15+,R12
+    0000041C 6DF6                   MOV.L       @R15+,R13
+    0000041E 432B                   JMP         @R3
+    00000420 6EF6                   MOV.L       @R15+,R14
+    00000422              L1243:                            
+          scan.c   241            }
+          scan.c   242    }
+    00000422 4F26                   LDS.L       @R15+,PR
+    00000424 6AF6                   MOV.L       @R15+,R10
+    00000426 6BF6                   MOV.L       @R15+,R11
+    00000428 6CF6                   MOV.L       @R15+,R12
+    0000042A 6DF6                   MOV.L       @R15+,R13
+    0000042C 000B                   RTS
+    0000042E 6EF6                   MOV.L       @R15+,R14
+          scan.c   243    
+          scan.c   244    void
+          scan.c   245    scan_power(void)
+    00000430              _scan_power:                     ; function: scan_power
+                                                           ; frame size=4
+    00000430 4F22                   STS.L       PR,@-R15
+          scan.c   246    {
+          scan.c   247            scan_factor();
+    00000432 B015                   BSR         _scan_factor
+    00000434 0009                   NOP
+          scan.c   248            if (token == '^') {
+    00000436 D217                   MOV.L       L1342+18,R2; __$token
+    00000438 6022                   MOV.L       @R2,R0
+    0000043A 885E                   CMP/EQ      #94,R0
+    0000043C 8B0D                   BF          L1245
+          scan.c   249                    get_next_token();
+    0000043E B209                   BSR         _get_next_token
+    00000440 0009                   NOP
+          scan.c   250                    push_symbol(POWER);
+    00000442 D319                   MOV.L       L1342+38,R3; _push_symbol
+    00000444 430B                   JSR         @R3
+    00000446 E454                   MOV         #84,R4
+          scan.c   251                    swap();
+    00000448 D218                   MOV.L       L1342+42,R2; _swap
+    0000044A 420B                   JSR         @R2
+    0000044C 0009                   NOP
+          scan.c   252                    scan_power();
+    0000044E BFEF                   BSR         _scan_power
+    00000450 0009                   NOP
+          scan.c   253                    list(3);
+    00000452 E403                   MOV         #3,R4
+    00000454 D213                   MOV.L       L1342+34,R2; _list
+    00000456 422B                   JMP         @R2
+    00000458 4F26                   LDS.L       @R15+,PR
+    0000045A              L1245:                            
+          scan.c   254            }
+          scan.c   255    }
+    0000045A 4F26                   LDS.L       @R15+,PR
+    0000045C 000B                   RTS
+    0000045E 0009                   NOP
+          scan.c   256    
+          scan.c   257    void
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   16
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   258    scan_factor(void)
+    00000460              _scan_factor:                    ; function: scan_factor
+                                                           ; frame size=24
+    00000460 2FE6                   MOV.L       R14,@-R15
+    00000462 2FD6                   MOV.L       R13,@-R15
+    00000464 2FC6                   MOV.L       R12,@-R15
+    00000466 2FB6                   MOV.L       R11,@-R15
+    00000468 4F22                   STS.L       PR,@-R15
+    0000046A 7FFC                   ADD         #-4,R15
+    0000046C DE09                   MOV.L       L1342+18,R14; __$token
+          scan.c   259    {
+          scan.c   260            int h;
+          scan.c   261    
+          scan.c   262            h = tos;
+    0000046E D206                   MOV.L       L1342+6,R2 ; _tos
+    00000470 6322                   MOV.L       @R2,R3
+    00000472 2F32                   MOV.L       R3,@R15
+          scan.c   263    
+          scan.c   264            if (token == '(')
+    00000474 60E2                   MOV.L       @R14,R0
+    00000476 8828                   CMP/EQ      #40,R0
+    00000478 8B1C                   BF          L1246
+          scan.c   265                    scan_subexpr();
+    0000047A B125                   BSR         _scan_subexpr
+    0000047C 0009                   NOP
+    0000047E A04A                   BRA         L1247
+    00000480 0009                   NOP
+    00000482              L1342:                            
+    00000482 0000                   .DATA.W     0
+    00000484 <00000000>             .DATA.L     _pop
+    00000488 <00000000>             .DATA.L     _tos
+    0000048C <00000000>             .DATA.L     _stack
+    00000490 <00000000>             .DATA.L     _equaln
+    00000494 <00000000>             .DATA.L     __$token
+    00000498 <00000000>             .DATA.L     _inverse
+    0000049C <00000000>             .DATA.L     _multiply
+    000004A0 <00000000>             .DATA.L     _push_integer
+    000004A4 <00000000>             .DATA.L     _list
+    000004A8 <00000000>             .DATA.L     _push_symbol
+    000004AC <00000000>             .DATA.L     _swap
+    000004B0 <00000000>             .DATA.L     _cons
+    000004B4              L1246:                            
+          scan.c   266            else if (token == T_SYMBOL)
+    000004B4 9155                   MOV.W       L1343,R1   ; H'03EB
+    000004B6 63E2                   MOV.L       @R14,R3
+    000004B8 3310                   CMP/EQ      R1,R3
+    000004BA 8B03                   BF          L1248
+          scan.c   267                    scan_symbol();
+    000004BC B07A                   BSR         _scan_symbol
+    000004BE 0009                   NOP
+    000004C0 A029                   BRA         L1247
+    000004C2 0009                   NOP
+    000004C4              L1248:                            
+          scan.c   268            else if (token == T_FUNCTION)
+    000004C4 904E                   MOV.W       L1343+2,R0 ; H'03EC
+    000004C6 63E2                   MOV.L       @R14,R3
+    000004C8 3300                   CMP/EQ      R0,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   17
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000004CA 8B03                   BF          L1250
+          scan.c   269                    scan_function_call();
+    000004CC B0B8                   BSR         _scan_function_call
+    000004CE 0009                   NOP
+    000004D0 A021                   BRA         L1247
+    000004D2 0009                   NOP
+    000004D4              L1250:                            
+    000004D4 D325                   MOV.L       L1343+10,R3; __$token_buf
+    000004D6 9246                   MOV.W       L1343+4,R2 ; H'03E9
+    000004D8 61E2                   MOV.L       @R14,R1
+    000004DA 3120                   CMP/EQ      R2,R1
+    000004DC 8F05                   BF/S        L1252
+    000004DE 6432                   MOV.L       @R3,R4
+          scan.c   270            else if (token == T_INTEGER) {
+          scan.c   271                    bignum_scan_integer(token_buf);
+    000004E0 D123                   MOV.L       L1343+14,R1; _bignum_scan_integer
+    000004E2 410B                   JSR         @R1
+    000004E4 0009                   NOP
+    000004E6 A007                   BRA         L1160
+    000004E8 0009                   NOP
+    000004EA              L1252:                            
+          scan.c   272                    get_next_token();
+          scan.c   273            } else if (token == T_DOUBLE) {
+    000004EA 913D                   MOV.W       L1343+6,R1 ; H'03EA
+    000004EC 60E2                   MOV.L       @R14,R0
+    000004EE 3010                   CMP/EQ      R1,R0
+    000004F0 8B06                   BF          L1254
+          scan.c   274                    bignum_scan_float(token_buf);
+    000004F2 D320                   MOV.L       L1343+18,R3; _bignum_scan_float
+    000004F4 430B                   JSR         @R3
+    000004F6 0009                   NOP
+    000004F8              L1160:
+          scan.c   275                    get_next_token();
+    000004F8 B1AC                   BSR         _get_next_token
+    000004FA 0009                   NOP
+    000004FC A00B                   BRA         L1247
+    000004FE 0009                   NOP
+    00000500              L1254:                            
+          scan.c   276            } else if (token == T_STRING)
+    00000500 9033                   MOV.W       L1343+8,R0 ; H'03EF
+    00000502 63E2                   MOV.L       @R14,R3
+    00000504 3300                   CMP/EQ      R0,R3
+    00000506 8B03                   BF          L1256
+          scan.c   277                    scan_string();
+    00000508 B093                   BSR         _scan_string
+    0000050A 0009                   NOP
+    0000050C A003                   BRA         L1247
+    0000050E 0009                   NOP
+    00000510              L1256:                            
+          scan.c   278            else
+          scan.c   279                    error("syntax error");
+    00000510 D419                   MOV.L       L1343+22,R4; L1097
+    00000512 B100                   BSR         _error
+    00000514 0009                   NOP
+    00000516              L1247:                            
+          scan.c   280    
+          scan.c   281            // index
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   18
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   282    
+          scan.c   283            if (token == '[') {
+    00000516 DB19                   MOV.L       L1343+26,R11; _list
+    00000518 DC19                   MOV.L       L1343+30,R12; _swap
+    0000051A DD1A                   MOV.L       L1343+34,R13; _push_symbol
+    0000051C 60E2                   MOV.L       @R14,R0
+    0000051E 885B                   CMP/EQ      #91,R0
+    00000520 8B3E                   BF          L1262
+          scan.c   284                    get_next_token();
+    00000522 B197                   BSR         _get_next_token
+    00000524 0009                   NOP
+          scan.c   285                    push_symbol(INDEX);
+    00000526 4D0B                   JSR         @R13
+    00000528 E43D                   MOV         #61,R4
+          scan.c   286                    swap();
+    0000052A 4C0B                   JSR         @R12
+    0000052C 0009                   NOP
+          scan.c   287                    scan_expression();
+    0000052E BE25                   BSR         _scan_expression
+    00000530 0009                   NOP
+          scan.c   288                    while (token == ',') {
+    00000532 A004                   BRA         L1259
+    00000534 0009                   NOP
+    00000536              L1260:                            
+          scan.c   289                            get_next_token();
+    00000536 B18D                   BSR         _get_next_token
+    00000538 0009                   NOP
+          scan.c   290                            scan_expression();
+    0000053A BE1F                   BSR         _scan_expression
+    0000053C 0009                   NOP
+    0000053E              L1259:                            
+    0000053E 60E2                   MOV.L       @R14,R0
+    00000540 882C                   CMP/EQ      #44,R0
+    00000542 89F8                   BT          L1260
+          scan.c   291                    }
+          scan.c   292                    if (token != ']')
+    00000544 60E2                   MOV.L       @R14,R0
+    00000546 885D                   CMP/EQ      #93,R0
+    00000548 8902                   BT          L1261
+          scan.c   293                            error("] expected");
+    0000054A D40F                   MOV.L       L1343+38,R4; L1100
+    0000054C B0E3                   BSR         _error
+    0000054E 0009                   NOP
+    00000550              L1261:                            
+          scan.c   294                    get_next_token();
+    00000550 B180                   BSR         _get_next_token
+    00000552 0009                   NOP
+          scan.c   295                    list(tos - h);
+    00000554 63F2                   MOV.L       @R15,R3
+    00000556 D20D                   MOV.L       L1343+42,R2; _tos
+    00000558 6422                   MOV.L       @R2,R4
+    0000055A 4B0B                   JSR         @R11
+    0000055C 3438                   SUB         R3,R4
+          scan.c   296            }
+          scan.c   297    
+          scan.c   298            while (token == '!') {
+    0000055E A01F                   BRA         L1262
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   19
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000560 0009                   NOP
+    00000562              L1343:                            
+    00000562 03EB                   .DATA.W     H'03EB
+    00000564 03EC                   .DATA.W     H'03EC
+    00000566 03E9                   .DATA.W     H'03E9
+    00000568 03EA                   .DATA.W     H'03EA
+    0000056A 03EF                   .DATA.W     H'03EF
+    0000056C <00000000>             .DATA.L     __$token_buf
+    00000570 <00000000>             .DATA.L     _bignum_scan_integer
+    00000574 <00000000>             .DATA.L     _bignum_scan_float
+    00000578 <00000000>             .DATA.L     L1097
+    0000057C <00000000>             .DATA.L     _list
+    00000580 <00000000>             .DATA.L     _swap
+    00000584 <00000000>             .DATA.L     _push_symbol
+    00000588 <00000000>             .DATA.L     L1100
+    0000058C <00000000>             .DATA.L     _tos
+    00000590              L1263:                            
+          scan.c   299                    get_next_token();
+    00000590 B160                   BSR         _get_next_token
+    00000592 0009                   NOP
+          scan.c   300                    push_symbol(FACTORIAL);
+    00000594 4D0B                   JSR         @R13
+    00000596 E432                   MOV         #50,R4
+          scan.c   301                    swap();
+    00000598 4C0B                   JSR         @R12
+    0000059A 0009                   NOP
+          scan.c   302                    list(2);
+    0000059C 4B0B                   JSR         @R11
+    0000059E E402                   MOV         #2,R4
+    000005A0              L1262:                            
+    000005A0 60E2                   MOV.L       @R14,R0
+    000005A2 8821                   CMP/EQ      #33,R0
+    000005A4 89F4                   BT          L1263
+          scan.c   303            }
+          scan.c   304    }
+    000005A6 7F04                   ADD         #4,R15
+    000005A8 4F26                   LDS.L       @R15+,PR
+    000005AA 6BF6                   MOV.L       @R15+,R11
+    000005AC 6CF6                   MOV.L       @R15+,R12
+    000005AE 6DF6                   MOV.L       @R15+,R13
+    000005B0 000B                   RTS
+    000005B2 6EF6                   MOV.L       @R15+,R14
+          scan.c   305    
+          scan.c   306    void
+          scan.c   307    scan_symbol(void)
+    000005B4              _scan_symbol:                    ; function: scan_symbol
+                                                           ; frame size=16
+    000005B4 2FE6                   MOV.L       R14,@-R15
+    000005B6 2FD6                   MOV.L       R13,@-R15
+    000005B8 2FC6                   MOV.L       R12,@-R15
+    000005BA 4F22                   STS.L       PR,@-R15
+          scan.c   308    {
+          scan.c   309            if (token != T_SYMBOL)
+    000005BC 9357                   MOV.W       L1344,R3   ; H'03EB
+    000005BE D12E                   MOV.L       L1344+10,R1; __$token
+    000005C0 6212                   MOV.L       @R1,R2
+    000005C2 3230                   CMP/EQ      R3,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   20
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000005C4 8902                   BT          L1264
+          scan.c   310                    error("symbol expected");
+    000005C6 D42D                   MOV.L       L1344+14,R4; L1103
+    000005C8 B0A5                   BSR         _error
+    000005CA 0009                   NOP
+    000005CC              L1264:                            
+          scan.c   311            if (meta_mode && strlen(token_buf) == 1)
+    000005CC DC2C                   MOV.L       L1344+18,R12; __$token_buf
+    000005CE DE2D                   MOV.L       L1344+22,R14; _push
+    000005D0 D22D                   MOV.L       L1344+26,R2; __$meta_mode
+    000005D2 6322                   MOV.L       @R2,R3
+    000005D4 2338                   TST         R3,R3
+    000005D6 8922                   BT          L1265
+    000005D8 D329                   MOV.L       L1344+18,R3; __$token_buf
+    000005DA D12C                   MOV.L       L1344+30,R1; _strlen
+    000005DC 410B                   JSR         @R1
+    000005DE 6432                   MOV.L       @R3,R4
+    000005E0 8801                   CMP/EQ      #1,R0
+    000005E2 8B1C                   BF          L1265
+    000005E4 D22A                   MOV.L       L1344+34,R2; _symtab
+    000005E6 60C2                   MOV.L       @R12,R0
+    000005E8 6000                   MOV.B       @R0,R0
+    000005EA 8861                   CMP/EQ      #97,R0
+    000005EC 8D06                   BT/S        L1190
+    000005EE 6D22                   MOV.L       @R2,R13
+    000005F0 8862                   CMP/EQ      #98,R0
+    000005F2 8906                   BT          L1191
+    000005F4 8878                   CMP/EQ      #120,R0
+    000005F6 8907                   BT          L1192
+    000005F8 A009                   BRA         L1193
+    000005FA 0009                   NOP
+    000005FC              L1190:                           ; case label 
+          scan.c   312                    switch (token_buf[0]) {
+          scan.c   313                    case 'a':
+          scan.c   314                            push(symbol(METAA));
+    000005FC 9438                   MOV.W       L1344+2,R4 ; H'05C4
+          scan.c   315                            break;
+    000005FE A004                   BRA         L1333
+    00000600 0009                   NOP
+    00000602              L1191:                           ; case label 
+          scan.c   316                    case 'b':
+          scan.c   317                            push(symbol(METAB));
+    00000602 9436                   MOV.W       L1344+4,R4 ; H'05D0
+          scan.c   318                            break;
+    00000604 A001                   BRA         L1333
+    00000606 0009                   NOP
+    00000608              L1192:                           ; case label 
+          scan.c   319                    case 'x':
+          scan.c   320                            push(symbol(METAX));
+    00000608 9434                   MOV.W       L1344+6,R4 ; H'05DC
+          scan.c   321                            break;
+    0000060A              L1333:                            
+    0000060A A004                   BRA         L1334
+    0000060C 34DC                   ADD         R13,R4
+    0000060E              L1193:                           ; default label 
+          scan.c   322                    default:
+          scan.c   323                            push(usr_symbol(token_buf));
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   21
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000060E D121                   MOV.L       L1344+38,R1; _usr_symbol
+    00000610 410B                   JSR         @R1
+    00000612 64C2                   MOV.L       @R12,R4
+    00000614 6403                   MOV         R0,R4
+          scan.c   324                            break;
+    00000616              L1334:                            
+    00000616 4E0B                   JSR         @R14
+    00000618 0009                   NOP
+    0000061A A005                   BRA         L1267
+    0000061C 0009                   NOP
+    0000061E              L1265:                            
+          scan.c   325                    }
+          scan.c   326            else
+          scan.c   327                    push(usr_symbol(token_buf));
+    0000061E D31D                   MOV.L       L1344+38,R3; _usr_symbol
+    00000620 430B                   JSR         @R3
+    00000622 64C2                   MOV.L       @R12,R4
+    00000624 4E0B                   JSR         @R14
+    00000626 6403                   MOV         R0,R4
+    00000628              L1267:                            
+          scan.c   328            get_next_token();
+    00000628 4F26                   LDS.L       @R15+,PR
+    0000062A 6CF6                   MOV.L       @R15+,R12
+    0000062C 6DF6                   MOV.L       @R15+,R13
+    0000062E A111                   BRA         _get_next_token
+    00000630 6EF6                   MOV.L       @R15+,R14
+          scan.c   329    }
+          scan.c   330    
+          scan.c   331    void
+          scan.c   332    scan_string(void)
+    00000632              _scan_string:                    ; function: scan_string
+                                                           ; frame size=4
+    00000632 4F22                   STS.L       PR,@-R15
+          scan.c   333    {
+          scan.c   334            new_string(token_buf);
+    00000634 D312                   MOV.L       L1344+18,R3; __$token_buf
+    00000636 D218                   MOV.L       L1344+42,R2; _new_string
+    00000638 420B                   JSR         @R2
+    0000063A 6432                   MOV.L       @R3,R4
+          scan.c   335            get_next_token();
+    0000063C A10A                   BRA         _get_next_token
+    0000063E 4F26                   LDS.L       @R15+,PR
+          scan.c   336    }
+          scan.c   337    
+          scan.c   338    void
+          scan.c   339    scan_function_call(void)
+    00000640              _scan_function_call:             ; function: scan_function_call
+                                                           ; frame size=12
+    00000640 2FE6                   MOV.L       R14,@-R15
+          scan.c   340    {
+          scan.c   341            int n = 1;
+    00000642 EE01                   MOV         #1,R14
+          scan.c   342            U *p;
+          scan.c   343            p = usr_symbol(token_buf);
+    00000644 D30E                   MOV.L       L1344+18,R3; __$token_buf
+    00000646 2FD6                   MOV.L       R13,@-R15
+    00000648 4F22                   STS.L       PR,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   22
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000064A D212                   MOV.L       L1344+38,R2; _usr_symbol
+    0000064C 420B                   JSR         @R2
+    0000064E 6432                   MOV.L       @R3,R4
+          scan.c   344            push(p);
+    00000650 D30C                   MOV.L       L1344+22,R3; _push
+    00000652 430B                   JSR         @R3
+    00000654 6403                   MOV         R0,R4
+          scan.c   345            get_next_token();       // function name
+    00000656 B0FD                   BSR         _get_next_token
+    00000658 0009                   NOP
+          scan.c   346            get_next_token();       // left paren
+    0000065A B0FB                   BSR         _get_next_token
+    0000065C 0009                   NOP
+          scan.c   347            if (token != ')') {
+    0000065E DD06                   MOV.L       L1344+10,R13; __$token
+    00000660 60D2                   MOV.L       @R13,R0
+    00000662 8829                   CMP/EQ      #41,R0
+    00000664 8928                   BT          L1271
+          scan.c   348                    scan_stmt();
+    00000666 BD23                   BSR         _scan_stmt
+    00000668 0009                   NOP
+          scan.c   349                    n++;
+          scan.c   350                    while (token == ',') {
+    0000066A A01B                   BRA         L1335
+    0000066C 0009                   NOP
+    0000066E              L1344:                            
+    0000066E 03EB                   .DATA.W     H'03EB
+    00000670 05C4                   .DATA.W     H'05C4
+    00000672 05D0                   .DATA.W     H'05D0
+    00000674 05DC                   .DATA.W     H'05DC
+    00000676 0000                   .DATA.W     0
+    00000678 <00000000>             .DATA.L     __$token
+    0000067C <00000000>             .DATA.L     L1103
+    00000680 <00000000>             .DATA.L     __$token_buf
+    00000684 <00000000>             .DATA.L     _push
+    00000688 <00000000>             .DATA.L     __$meta_mode
+    0000068C <00000000>             .DATA.L     _strlen
+    00000690 <00000000>             .DATA.L     _symtab
+    00000694 <00000000>             .DATA.L     _usr_symbol
+    00000698 <00000000>             .DATA.L     _new_string
+    0000069C              L1270:                            
+          scan.c   351                            get_next_token();
+    0000069C B0DA                   BSR         _get_next_token
+    0000069E 0009                   NOP
+          scan.c   352                            scan_stmt();
+    000006A0 BD06                   BSR         _scan_stmt
+    000006A2 0009                   NOP
+          scan.c   353                            n++;
+    000006A4              L1335:                            
+    000006A4 60D2                   MOV.L       @R13,R0
+    000006A6 882C                   CMP/EQ      #44,R0
+    000006A8 8DF8                   BT/S        L1270
+    000006AA 7E01                   ADD         #1,R14
+          scan.c   354                    }
+          scan.c   355            }
+          scan.c   356            if (token != ')')
+    000006AC 60D2                   MOV.L       @R13,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   23
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000006AE 8829                   CMP/EQ      #41,R0
+    000006B0 8902                   BT          L1271
+          scan.c   357                    error(") expected");
+    000006B2 D457                   MOV.L       L1345,R4   ; L1111
+    000006B4 B02F                   BSR         _error
+    000006B6 0009                   NOP
+    000006B8              L1271:                            
+          scan.c   358            get_next_token();
+    000006B8 B0CC                   BSR         _get_next_token
+    000006BA 0009                   NOP
+          scan.c   359            list(n);
+    000006BC 4F26                   LDS.L       @R15+,PR
+    000006BE 64E3                   MOV         R14,R4
+    000006C0 D354                   MOV.L       L1345+4,R3 ; _list
+    000006C2 6DF6                   MOV.L       @R15+,R13
+    000006C4 432B                   JMP         @R3
+    000006C6 6EF6                   MOV.L       @R15+,R14
+          scan.c   360    }
+          scan.c   361    
+          scan.c   362    // scan subexpression
+          scan.c   363    
+          scan.c   364    void
+          scan.c   365    scan_subexpr(void)
+    000006C8              _scan_subexpr:                   ; function: scan_subexpr
+                                                           ; frame size=12
+    000006C8 2FE6                   MOV.L       R14,@-R15
+    000006CA 2FD6                   MOV.L       R13,@-R15
+    000006CC 4F22                   STS.L       PR,@-R15
+          scan.c   366    {
+          scan.c   367            int n;
+          scan.c   368            if (token != '(')
+    000006CE DE52                   MOV.L       L1345+8,R14; __$token
+    000006D0 60E2                   MOV.L       @R14,R0
+    000006D2 8828                   CMP/EQ      #40,R0
+    000006D4 8902                   BT          L1272
+          scan.c   369                    error("( expected");
+    000006D6 D451                   MOV.L       L1345+12,R4; L1114
+    000006D8 B01D                   BSR         _error
+    000006DA 0009                   NOP
+    000006DC              L1272:                            
+          scan.c   370            get_next_token();
+    000006DC B0BA                   BSR         _get_next_token
+    000006DE 0009                   NOP
+          scan.c   371            scan_stmt();
+    000006E0 BCE6                   BSR         _scan_stmt
+    000006E2 0009                   NOP
+          scan.c   372            if (token == ',') {
+    000006E4 60E2                   MOV.L       @R14,R0
+    000006E6 882C                   CMP/EQ      #44,R0
+    000006E8 8B0B                   BF          L1273
+          scan.c   373                    n = 1;
+          scan.c   374                    while (token == ',') {
+    000006EA A005                   BRA         L1274
+    000006EC ED01                   MOV         #1,R13
+    000006EE              L1275:                            
+          scan.c   375                            get_next_token();
+    000006EE B0B1                   BSR         _get_next_token
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   24
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000006F0 0009                   NOP
+          scan.c   376                            scan_stmt();
+    000006F2 BCDD                   BSR         _scan_stmt
+    000006F4 0009                   NOP
+          scan.c   377                            n++;
+    000006F6 7D01                   ADD         #1,R13
+    000006F8              L1274:                            
+    000006F8 60E2                   MOV.L       @R14,R0
+    000006FA 882C                   CMP/EQ      #44,R0
+    000006FC 89F7                   BT          L1275
+          scan.c   378                    }
+          scan.c   379                    build_tensor(n);
+    000006FE B04E                   BSR         _build_tensor
+    00000700 64D3                   MOV         R13,R4
+    00000702              L1273:                            
+          scan.c   380            }
+          scan.c   381            if (token != ')')
+    00000702 60E2                   MOV.L       @R14,R0
+    00000704 8829                   CMP/EQ      #41,R0
+    00000706 8902                   BT          L1276
+          scan.c   382                    error(") expected");
+    00000708 D441                   MOV.L       L1345,R4   ; L1111
+    0000070A B004                   BSR         _error
+    0000070C 0009                   NOP
+    0000070E              L1276:                            
+          scan.c   383            get_next_token();
+    0000070E 4F26                   LDS.L       @R15+,PR
+    00000710 6DF6                   MOV.L       @R15+,R13
+    00000712 A09F                   BRA         _get_next_token
+    00000714 6EF6                   MOV.L       @R15+,R14
+          scan.c   384    }
+          scan.c   385    
+          scan.c   386    void
+          scan.c   387    error(char *errmsg)
+    00000716              _error:                          ; function: error
+                                                           ; frame size=20
+    00000716 2FE6                   MOV.L       R14,@-R15
+    00000718 2FD6                   MOV.L       R13,@-R15
+    0000071A 2FC6                   MOV.L       R12,@-R15
+    0000071C 4F22                   STS.L       PR,@-R15
+    0000071E 2F46                   MOV.L       R4,@-R15
+          scan.c   388    {
+          scan.c   389            printchar('\n');
+    00000720 DD3F                   MOV.L       L1345+16,R13; _printchar
+    00000722 4D0B                   JSR         @R13
+    00000724 E40A                   MOV         #10,R4
+    00000726 DC3F                   MOV.L       L1345+20,R12; __$scan_str
+    00000728 DE3F                   MOV.L       L1345+24,R14; __$input_str
+          scan.c   390    
+          scan.c   391            // try not to put question mark on orphan line
+          scan.c   392    
+          scan.c   393            while (input_str != scan_str) {
+    0000072A A014                   BRA         L1277
+    0000072C 0009                   NOP
+    0000072E              L1278:                            
+          scan.c   394                    if ((*input_str == '\n' || *input_str == '\r') && input_str + 1 == scan_str)
+    0000072E 64E2                   MOV.L       @R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   25
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000730 6440                   MOV.B       @R4,R4
+    00000732 6043                   MOV         R4,R0
+    00000734 880A                   CMP/EQ      #10,R0
+    00000736 8902                   BT          L1280
+    00000738 6043                   MOV         R4,R0
+    0000073A 880D                   CMP/EQ      #13,R0
+    0000073C 8B05                   BF          L1279
+    0000073E              L1280:                            
+    0000073E 63E2                   MOV.L       @R14,R3
+    00000740 D138                   MOV.L       L1345+20,R1; __$scan_str
+    00000742 7301                   ADD         #1,R3
+    00000744 6212                   MOV.L       @R1,R2
+    00000746 3320                   CMP/EQ      R2,R3
+    00000748 8909                   BT          L1281
+    0000074A              L1279:                            
+          scan.c   395                            break;
+          scan.c   396                    printchar(*input_str++);
+    0000074A 64E2                   MOV.L       @R14,R4
+    0000074C 7401                   ADD         #1,R4
+    0000074E 2E42                   MOV.L       R4,@R14
+    00000750 74FF                   ADD         #-1,R4
+    00000752 4D0B                   JSR         @R13
+    00000754 6440                   MOV.B       @R4,R4
+    00000756              L1277:                            
+    00000756 63C2                   MOV.L       @R12,R3
+    00000758 62E2                   MOV.L       @R14,R2
+    0000075A 3230                   CMP/EQ      R3,R2
+    0000075C 8BE7                   BF          L1278
+    0000075E              L1281:                            
+          scan.c   397            }
+          scan.c   398    
+          scan.c   399            printstr(" ? ");
+    0000075E D433                   MOV.L       L1345+28,R4; L1120
+    00000760 D333                   MOV.L       L1345+32,R3; _printstr
+    00000762 430B                   JSR         @R3
+    00000764 0009                   NOP
+          scan.c   400    
+          scan.c   401            while (*input_str && (*input_str != '\n' && *input_str != '\r'))
+    00000766 A006                   BRA         L1282
+    00000768 0009                   NOP
+    0000076A              L1283:                            
+          scan.c   402                    printchar(*input_str++);
+    0000076A 64E2                   MOV.L       @R14,R4
+    0000076C 7401                   ADD         #1,R4
+    0000076E 2E42                   MOV.L       R4,@R14
+    00000770 74FF                   ADD         #-1,R4
+    00000772 4D0B                   JSR         @R13
+    00000774 6440                   MOV.B       @R4,R4
+    00000776              L1282:                            
+    00000776 64E2                   MOV.L       @R14,R4
+    00000778 6440                   MOV.B       @R4,R4
+    0000077A 2448                   TST         R4,R4
+    0000077C 8905                   BT          L1284
+    0000077E 604E                   EXTS.B      R4,R0
+    00000780 880A                   CMP/EQ      #10,R0
+    00000782 8902                   BT          L1284
+    00000784 604E                   EXTS.B      R4,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   26
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000786 880D                   CMP/EQ      #13,R0
+    00000788 8BEF                   BF          L1283
+    0000078A              L1284:                            
+          scan.c   403    
+          scan.c   404            printchar('\n');
+    0000078A 4D0B                   JSR         @R13
+    0000078C E40A                   MOV         #10,R4
+          scan.c   405    
+          scan.c   406            stop(errmsg);
+    0000078E 64F2                   MOV.L       @R15,R4
+    00000790 D328                   MOV.L       L1345+36,R3; _stop
+    00000792 7F04                   ADD         #4,R15
+    00000794 4F26                   LDS.L       @R15+,PR
+    00000796 6CF6                   MOV.L       @R15+,R12
+    00000798 6DF6                   MOV.L       @R15+,R13
+    0000079A 432B                   JMP         @R3
+    0000079C 6EF6                   MOV.L       @R15+,R14
+          scan.c   407    }
+          scan.c   408    
+          scan.c   409    // There are n expressions on the stack, possibly tensors.
+          scan.c   410    //
+          scan.c   411    // This function assembles the stack expressions into a single tensor.
+          scan.c   412    //
+          scan.c   413    // For example, at the top level of the expression ((a,b),(c,d)), the vectors
+          scan.c   414    // (a,b) and (c,d) would be on the stack.
+          scan.c   415    
+          scan.c   416    void
+          scan.c   417    build_tensor(int n)
+    0000079E              _build_tensor:                   ; function: build_tensor
+                                                           ; frame size=20
+    0000079E 2FE6                   MOV.L       R14,@-R15
+    000007A0 2FD6                   MOV.L       R13,@-R15
+    000007A2 2FC6                   MOV.L       R12,@-R15
+    000007A4 2FB6                   MOV.L       R11,@-R15
+    000007A6 4F22                   STS.L       PR,@-R15
+          scan.c   418    {
+          scan.c   419            // int i, j, k, ndim, nelem;
+          scan.c   420    
+          scan.c   421            int i;
+          scan.c   422    
+          scan.c   423            U **s;
+          scan.c   424    
+          scan.c   425            save();
+    000007A8 D323                   MOV.L       L1345+40,R3; _save
+    000007AA 430B                   JSR         @R3
+    000007AC 6E43                   MOV         R4,R14
+          scan.c   426    
+          scan.c   427            s = stack + tos - n;
+    000007AE 63E3                   MOV         R14,R3
+          scan.c   428    
+          scan.c   429            p2 = alloc_tensor(n);
+    000007B0 DD24                   MOV.L       L1345+52,R13; _p2
+    000007B2 4308                   SHLL2       R3
+    000007B4 D124                   MOV.L       L1345+56,R1; _alloc_tensor
+    000007B6 DB21                   MOV.L       L1345+44,R11; _tos
+    000007B8 6CB2                   MOV.L       @R11,R12
+    000007BA 4C08                   SHLL2       R12
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   27
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000007BC 3C38                   SUB         R3,R12
+    000007BE D320                   MOV.L       L1345+48,R3; _stack
+    000007C0 6232                   MOV.L       @R3,R2
+    000007C2 3C2C                   ADD         R2,R12
+    000007C4 410B                   JSR         @R1
+    000007C6 64E3                   MOV         R14,R4
+    000007C8 2D02                   MOV.L       R0,@R13
+          scan.c   430            p2->u.tensor->ndim = 1;
+    000007CA 6303                   MOV         R0,R3
+    000007CC 6232                   MOV.L       @R3,R2
+    000007CE E101                   MOV         #1,R1
+    000007D0 2212                   MOV.L       R1,@R2
+          scan.c   431            p2->u.tensor->dim[0] = n;
+          scan.c   432            for (i = 0; i < n; i++)
+    000007D2 E600                   MOV         #0,R6
+    000007D4 63D2                   MOV.L       @R13,R3
+    000007D6 4E15                   CMP/PL      R14
+    000007D8 6232                   MOV.L       @R3,R2
+    000007DA 6563                   MOV         R6,R5
+    000007DC 12E1                   MOV.L       R14,@(4,R2)
+    000007DE 8F0A                   BF/S        L1286
+    000007E0 6063                   MOV         R6,R0
+    000007E2              L1287:                            
+    000007E2 7501                   ADD         #1,R5
+          scan.c   433                    p2->u.tensor->elem[i] = s[i];
+    000007E4 63D2                   MOV.L       @R13,R3
+    000007E6 35E3                   CMP/GE      R14,R5
+    000007E8 02CE                   MOV.L       @(R0,R12),R2
+    000007EA 6332                   MOV.L       @R3,R3
+    000007EC 7368                   ADD         #104,R3
+    000007EE 330C                   ADD         R0,R3
+    000007F0 2322                   MOV.L       R2,@R3
+    000007F2 8FF6                   BF/S        L1287
+    000007F4 7004                   ADD         #4,R0
+    000007F6              L1286:                            
+          scan.c   434    
+          scan.c   435            tos -= n;
+    000007F6 62B2                   MOV.L       @R11,R2
+          scan.c   436    
+          scan.c   437            push(p2);
+    000007F8 D314                   MOV.L       L1345+60,R3; _push
+    000007FA 32E8                   SUB         R14,R2
+    000007FC 2B22                   MOV.L       R2,@R11
+    000007FE 430B                   JSR         @R3
+    00000800 64D2                   MOV.L       @R13,R4
+          scan.c   438    
+          scan.c   439            restore();
+    00000802 4F26                   LDS.L       @R15+,PR
+    00000804 D212                   MOV.L       L1345+64,R2; _restore
+    00000806 6BF6                   MOV.L       @R15+,R11
+    00000808 6CF6                   MOV.L       @R15+,R12
+    0000080A 6DF6                   MOV.L       @R15+,R13
+    0000080C 422B                   JMP         @R2
+    0000080E 6EF6                   MOV.L       @R15+,R14
+    00000810              L1345:                            
+    00000810 <00000000>             .DATA.L     L1111
+    00000814 <00000000>             .DATA.L     _list
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   28
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000818 <00000000>             .DATA.L     __$token
+    0000081C <00000000>             .DATA.L     L1114
+    00000820 <00000000>             .DATA.L     _printchar
+    00000824 <00000000>             .DATA.L     __$scan_str
+    00000828 <00000000>             .DATA.L     __$input_str
+    0000082C <00000000>             .DATA.L     L1120
+    00000830 <00000000>             .DATA.L     _printstr
+    00000834 <00000000>             .DATA.L     _stop
+    00000838 <00000000>             .DATA.L     _save
+    0000083C <00000000>             .DATA.L     _tos
+    00000840 <00000000>             .DATA.L     _stack
+    00000844 <00000000>             .DATA.L     _p2
+    00000848 <00000000>             .DATA.L     _alloc_tensor
+    0000084C <00000000>             .DATA.L     _push
+    00000850 <00000000>             .DATA.L     _restore
+          scan.c   440    }
+          scan.c   441    
+          scan.c   442    void
+          scan.c   443    get_next_token()
+    00000854              _get_next_token:                 ; function: get_next_token
+                                                           ; frame size=20
+    00000854 2FE6                   MOV.L       R14,@-R15
+          scan.c   444    {
+          scan.c   445            newline_flag = 0;
+    00000856 E300                   MOV         #0,R3
+    00000858 2FD6                   MOV.L       R13,@-R15
+    0000085A ED01                   MOV         #1,R13
+    0000085C 2FC6                   MOV.L       R12,@-R15
+    0000085E 2FB6                   MOV.L       R11,@-R15
+    00000860 4F22                   STS.L       PR,@-R15
+    00000862 DE30                   MOV.L       L1346+2,R14; __$newline_flag
+    00000864 DB30                   MOV.L       L1346+6,R11; __$token
+    00000866 2E32                   MOV.L       R3,@R14
+    00000868 9C5B                   MOV.W       L1346,R12  ; H'03EE
+          scan.c   446            while (1) {
+    0000086A              L1289:                            
+          scan.c   447                    get_token();
+    0000086A B00B                   BSR         _get_token
+    0000086C 0009                   NOP
+          scan.c   448                    if (token != T_NEWLINE)
+    0000086E 62B2                   MOV.L       @R11,R2
+    00000870 32C0                   CMP/EQ      R12,R2
+    00000872 8B01                   BF          L1291
+    00000874 AFF9                   BRA         L1289
+          scan.c   449                            break;
+          scan.c   450                    newline_flag = 1;
+    00000876 2ED2                   MOV.L       R13,@R14
+    00000878              L1291:                            
+          scan.c   451            }
+          scan.c   452    }
+    00000878 4F26                   LDS.L       @R15+,PR
+    0000087A 6BF6                   MOV.L       @R15+,R11
+    0000087C 6CF6                   MOV.L       @R15+,R12
+    0000087E 6DF6                   MOV.L       @R15+,R13
+    00000880 000B                   RTS
+    00000882 6EF6                   MOV.L       @R15+,R14
+          scan.c   453    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   29
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   454    void
+          scan.c   455    get_token(void)
+    00000884              _get_token:                      ; function: get_token
+                                                           ; frame size=24
+    00000884 2FE6                   MOV.L       R14,@-R15
+    00000886 2FD6                   MOV.L       R13,@-R15
+    00000888 2FC6                   MOV.L       R12,@-R15
+    0000088A 2FB6                   MOV.L       R11,@-R15
+    0000088C 4F22                   STS.L       PR,@-R15
+    0000088E 7FFC                   ADD         #-4,R15
+    00000890 9747                   MOV.W       L1346,R7   ; H'03EE
+    00000892 D426                   MOV.L       L1346+10,R4; __ctype
+    00000894 DD24                   MOV.L       L1346+6,R13; __$token
+    00000896 DE26                   MOV.L       L1346+14,R14; __$scan_str
+          scan.c   456    {
+          scan.c   457            // skip spaces
+          scan.c   458    
+          scan.c   459            while (isspace(*scan_str)) {
+    00000898 A010                   BRA         L1292
+    0000089A E640                   MOV         #64,R6
+    0000089C              L1293:                            
+          scan.c   460                    if (*scan_str == '\n' || *scan_str == '\r') {
+    0000089C 65E2                   MOV.L       @R14,R5
+    0000089E 6550                   MOV.B       @R5,R5
+    000008A0 6053                   MOV         R5,R0
+    000008A2 880A                   CMP/EQ      #10,R0
+    000008A4 8902                   BT          L1295
+    000008A6 6053                   MOV         R5,R0
+    000008A8 880D                   CMP/EQ      #13,R0
+    000008AA 8B04                   BF          L1294
+    000008AC              L1295:                            
+          scan.c   461                            token = T_NEWLINE;
+    000008AC 2D72                   MOV.L       R7,@R13
+          scan.c   462                            scan_str++;
+    000008AE 63E2                   MOV.L       @R14,R3
+    000008B0 7301                   ADD         #1,R3
+          scan.c   463                            return;
+    000008B2 A112                   BRA         L1296
+    000008B4 2E32                   MOV.L       R3,@R14
+    000008B6              L1294:                            
+          scan.c   464                    }
+          scan.c   465                    scan_str++;
+    000008B6 62E2                   MOV.L       @R14,R2
+    000008B8 7201                   ADD         #1,R2
+    000008BA 2E22                   MOV.L       R2,@R14
+    000008BC              L1292:                            
+    000008BC 60E2                   MOV.L       @R14,R0
+    000008BE 6000                   MOV.B       @R0,R0
+    000008C0 600C                   EXTU.B      R0,R0
+    000008C2 034C                   MOV.B       @(R0,R4),R3
+    000008C4 633C                   EXTU.B      R3,R3
+    000008C6 2368                   TST         R6,R3
+    000008C8 8BE8                   BF          L1293
+          scan.c   466            }
+          scan.c   467    
+          scan.c   468            token_str = scan_str;
+    000008CA DC1A                   MOV.L       L1346+18,R12; __$token_str
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   30
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000008CC 63E2                   MOV.L       @R14,R3
+    000008CE 2C32                   MOV.L       R3,@R12
+          scan.c   469    
+          scan.c   470            // end of string?
+          scan.c   471    
+          scan.c   472            if (*scan_str == 0) {
+    000008D0 62E2                   MOV.L       @R14,R2
+    000008D2 6320                   MOV.B       @R2,R3
+    000008D4 2338                   TST         R3,R3
+    000008D6 8B03                   BF          L1297
+          scan.c   473                    token = 0;
+    000008D8 E100                   MOV         #0,R1
+    000008DA 2D12                   MOV.L       R1,@R13
+          scan.c   474                    return;
+    000008DC A0FD                   BRA         L1296
+    000008DE 0009                   NOP
+    000008E0              L1297:                            
+    000008E0 65E2                   MOV.L       @R14,R5
+    000008E2 6B43                   MOV         R4,R11
+    000008E4 6050                   MOV.B       @R5,R0
+    000008E6 E604                   MOV         #4,R6
+    000008E8 2F02                   MOV.L       R0,@R15
+    000008EA 600C                   EXTU.B      R0,R0
+    000008EC 03BC                   MOV.B       @(R0,R11),R3
+    000008EE 633C                   EXTU.B      R3,R3
+    000008F0 2368                   TST         R6,R3
+    000008F2 8B07                   BF          L1300
+    000008F4 60F2                   MOV.L       @R15,R0
+    000008F6 882E                   CMP/EQ      #46,R0
+    000008F8 8B50                   BF          L1298
+          scan.c   475            }
+          scan.c   476    
+          scan.c   477            // number?
+          scan.c   478    
+          scan.c   479            if (isdigit(*scan_str) || *scan_str == '.') {
+          scan.c   480                    while (isdigit(*scan_str))
+    000008FA A003                   BRA         L1300
+    000008FC 0009                   NOP
+    000008FE              L1301:                            
+          scan.c   481                            scan_str++;
+    000008FE 63E2                   MOV.L       @R14,R3
+    00000900 7301                   ADD         #1,R3
+    00000902 2E32                   MOV.L       R3,@R14
+    00000904              L1300:                            
+    00000904 60E2                   MOV.L       @R14,R0
+    00000906 6000                   MOV.B       @R0,R0
+    00000908 600C                   EXTU.B      R0,R0
+    0000090A 034C                   MOV.B       @(R0,R4),R3
+    0000090C 633C                   EXTU.B      R3,R3
+    0000090E 2368                   TST         R6,R3
+    00000910 8BF5                   BF          L1301
+          scan.c   482                    if (*scan_str == '.') {
+    00000912 60E2                   MOV.L       @R14,R0
+    00000914 6000                   MOV.B       @R0,R0
+    00000916 882E                   CMP/EQ      #46,R0
+    00000918 8B3D                   BF          L1302
+          scan.c   483                            scan_str++;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   31
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000091A 62E2                   MOV.L       @R14,R2
+    0000091C 7201                   ADD         #1,R2
+          scan.c   484                            while (isdigit(*scan_str))
+    0000091E A00E                   BRA         L1303
+    00000920 2E22                   MOV.L       R2,@R14
+    00000922              L1346:                            
+    00000922 03EE                   .DATA.W     H'03EE
+    00000924 <00000000>             .DATA.L     __$newline_flag
+    00000928 <00000000>             .DATA.L     __$token
+    0000092C <00000000>             .DATA.L     __ctype
+    00000930 <00000000>             .DATA.L     __$scan_str
+    00000934 <00000000>             .DATA.L     __$token_str
+    00000938              L1304:                            
+          scan.c   485                                    scan_str++;
+    00000938 61E2                   MOV.L       @R14,R1
+    0000093A 7101                   ADD         #1,R1
+    0000093C 2E12                   MOV.L       R1,@R14
+    0000093E              L1303:                            
+    0000093E 60E2                   MOV.L       @R14,R0
+    00000940 6000                   MOV.B       @R0,R0
+    00000942 600C                   EXTU.B      R0,R0
+    00000944 034C                   MOV.B       @(R0,R4),R3
+    00000946 633C                   EXTU.B      R3,R3
+    00000948 2368                   TST         R6,R3
+    0000094A 8BF5                   BF          L1304
+          scan.c   486                            if (*scan_str == 'e' && (scan_str[1] == '+' || scan_str[1] == '-' || isdigit(scan_
+                         +str[1]))) {
+    0000094C 60E2                   MOV.L       @R14,R0
+    0000094E 6000                   MOV.B       @R0,R0
+    00000950 8865                   CMP/EQ      #101,R0
+    00000952 8B1D                   BF          L1305
+    00000954 62E2                   MOV.L       @R14,R2
+    00000956 8421                   MOV.B       @(1,R2),R0
+    00000958 882B                   CMP/EQ      #43,R0
+    0000095A 890B                   BT          L1306
+    0000095C 62E2                   MOV.L       @R14,R2
+    0000095E 8421                   MOV.B       @(1,R2),R0
+    00000960 882D                   CMP/EQ      #45,R0
+    00000962 8907                   BT          L1306
+    00000964 62E2                   MOV.L       @R14,R2
+    00000966 8421                   MOV.B       @(1,R2),R0
+    00000968 D124                   MOV.L       L1347+8,R1 ; __ctype
+    0000096A 600C                   EXTU.B      R0,R0
+    0000096C 001C                   MOV.B       @(R0,R1),R0
+    0000096E 600C                   EXTU.B      R0,R0
+    00000970 C804                   TST         #4,R0
+    00000972 890D                   BT          L1305
+    00000974              L1306:                            
+          scan.c   487                                    scan_str += 2;
+    00000974 62E2                   MOV.L       @R14,R2
+    00000976 7202                   ADD         #2,R2
+          scan.c   488                                    while (isdigit(*scan_str))
+    00000978 A003                   BRA         L1307
+    0000097A 2E22                   MOV.L       R2,@R14
+    0000097C              L1308:                            
+          scan.c   489                                            scan_str++;
+    0000097C 61E2                   MOV.L       @R14,R1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   32
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000097E 7101                   ADD         #1,R1
+    00000980 2E12                   MOV.L       R1,@R14
+    00000982              L1307:                            
+    00000982 60E2                   MOV.L       @R14,R0
+    00000984 6000                   MOV.B       @R0,R0
+    00000986 600C                   EXTU.B      R0,R0
+    00000988 034C                   MOV.B       @(R0,R4),R3
+    0000098A 633C                   EXTU.B      R3,R3
+    0000098C 2368                   TST         R6,R3
+    0000098E 8BF5                   BF          L1308
+    00000990              L1305:                            
+          scan.c   490                            }
+          scan.c   491                            token = T_DOUBLE;
+    00000990 9130                   MOV.W       L1347,R1   ; H'03EA
+    00000992 A01E                   BRA         L1161
+    00000994 2D12                   MOV.L       R1,@R13
+    00000996              L1302:                            
+          scan.c   492                    } else
+          scan.c   493                            token = T_INTEGER;
+    00000996 922E                   MOV.W       L1347+2,R2 ; H'03E9
+    00000998 A01B                   BRA         L1161
+    0000099A 2D22                   MOV.L       R2,@R13
+    0000099C              L1298:                            
+          scan.c   494                    update_token_buf(token_str, scan_str);
+          scan.c   495                    return;
+          scan.c   496            }
+          scan.c   497    
+          scan.c   498            // symbol?
+          scan.c   499    
+          scan.c   500            if (isalpha(*scan_str)) {
+    0000099C 6050                   MOV.B       @R5,R0
+    0000099E 600C                   EXTU.B      R0,R0
+    000009A0 00BC                   MOV.B       @(R0,R11),R0
+    000009A2 600C                   EXTU.B      R0,R0
+    000009A4 C803                   TST         #3,R0
+    000009A6 891D                   BT          L1310
+          scan.c   501                    while (isalnum(*scan_str))
+    000009A8 A003                   BRA         L1311
+    000009AA E507                   MOV         #7,R5
+    000009AC              L1312:                            
+          scan.c   502                            scan_str++;
+    000009AC 63E2                   MOV.L       @R14,R3
+    000009AE 7301                   ADD         #1,R3
+    000009B0 2E32                   MOV.L       R3,@R14
+    000009B2              L1311:                            
+    000009B2 60E2                   MOV.L       @R14,R0
+    000009B4 6000                   MOV.B       @R0,R0
+    000009B6 600C                   EXTU.B      R0,R0
+    000009B8 034C                   MOV.B       @(R0,R4),R3
+    000009BA 633C                   EXTU.B      R3,R3
+    000009BC 2358                   TST         R5,R3
+    000009BE 8BF5                   BF          L1312
+          scan.c   503                    if (*scan_str == '(')
+    000009C0 60E2                   MOV.L       @R14,R0
+    000009C2 6000                   MOV.B       @R0,R0
+    000009C4 8828                   CMP/EQ      #40,R0
+    000009C6 8B02                   BF          L1313
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   33
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   504                            token = T_FUNCTION;
+    000009C8 9216                   MOV.W       L1347+4,R2 ; H'03EC
+    000009CA A002                   BRA         L1161
+    000009CC 2D22                   MOV.L       R2,@R13
+    000009CE              L1313:                            
+          scan.c   505                    else
+          scan.c   506                            token = T_SYMBOL;
+    000009CE 9114                   MOV.W       L1347+6,R1 ; H'03EB
+    000009D0 2D12                   MOV.L       R1,@R13
+    000009D2              L1161:
+          scan.c   507                    update_token_buf(token_str, scan_str);
+    000009D2 65E2                   MOV.L       @R14,R5
+    000009D4 64C2                   MOV.L       @R12,R4
+    000009D6 7F04                   ADD         #4,R15
+    000009D8 4F26                   LDS.L       @R15+,PR
+    000009DA 6BF6                   MOV.L       @R15+,R11
+    000009DC 6CF6                   MOV.L       @R15+,R12
+    000009DE 6DF6                   MOV.L       @R15+,R13
+    000009E0 A086                   BRA         _update_token_buf
+    000009E2 6EF6                   MOV.L       @R15+,R14
+    000009E4              L1310:                            
+          scan.c   508                    return;
+          scan.c   509            }
+          scan.c   510    
+          scan.c   511    #ifdef ARM9
+          scan.c   512            //special keys for functions on nds
+          scan.c   513            
+          scan.c   514            switch(*scan_str) {
+          scan.c   515                    case GLYPH_INTEGRAL:
+          scan.c   516                    case GLYPH_DERIVATE:
+          scan.c   517                    case GLYPH_ROOT:
+          scan.c   518                    case GLYPH_SUM:
+          scan.c   519                    case GLYPH_PI:
+          scan.c   520                    case GLYPH_IMAGINARY:
+          scan.c   521                    case GLYPH_EULER: 
+          scan.c   522                            scan_str++;
+          scan.c   523                            if (*scan_str == '(')
+          scan.c   524                                    token = T_FUNCTION;
+          scan.c   525                            else
+          scan.c   526                                    token = T_SYMBOL;
+          scan.c   527                            update_token_buf(token_str, scan_str);
+          scan.c   528                            return;
+          scan.c   529            }
+          scan.c   530    #endif
+          scan.c   531    
+          scan.c   532            // string ?
+          scan.c   533    
+          scan.c   534            if (*scan_str == '"') {
+    000009E4 6050                   MOV.B       @R5,R0
+    000009E6 8822                   CMP/EQ      #34,R0
+    000009E8 8B2F                   BF          L1315
+          scan.c   535                    scan_str++;
+    000009EA 62E2                   MOV.L       @R14,R2
+    000009EC DB04                   MOV.L       L1347+12,R11; L1137
+    000009EE 7201                   ADD         #1,R2
+          scan.c   536                    while (*scan_str != '"') {
+    000009F0 A017                   BRA         L1316
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   34
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000009F2 2E22                   MOV.L       R2,@R14
+    000009F4              L1347:                            
+    000009F4 03EA                   .DATA.W     H'03EA
+    000009F6 03E9                   .DATA.W     H'03E9
+    000009F8 03EC                   .DATA.W     H'03EC
+    000009FA 03EB                   .DATA.W     H'03EB
+    000009FC <00000000>             .DATA.L     __ctype
+    00000A00 <00000000>             .DATA.L     L1137
+    00000A04              L1317:                            
+          scan.c   537                            if (*scan_str == 0 || *scan_str == '\n' || *scan_str == '\r')
+    00000A04 64E2                   MOV.L       @R14,R4
+    00000A06 6440                   MOV.B       @R4,R4
+    00000A08 2448                   TST         R4,R4
+    00000A0A 8905                   BT          L1319
+    00000A0C 6043                   MOV         R4,R0
+    00000A0E 880A                   CMP/EQ      #10,R0
+    00000A10 8902                   BT          L1319
+    00000A12 6043                   MOV         R4,R0
+    00000A14 880D                   CMP/EQ      #13,R0
+    00000A16 8B01                   BF          L1318
+    00000A18              L1319:                            
+          scan.c   538                                    error("runaway string");
+    00000A18 BE7D                   BSR         _error
+    00000A1A 64B3                   MOV         R11,R4
+    00000A1C              L1318:                            
+          scan.c   539                            scan_str++;
+    00000A1C 63E2                   MOV.L       @R14,R3
+    00000A1E 7301                   ADD         #1,R3
+    00000A20 2E32                   MOV.L       R3,@R14
+    00000A22              L1316:                            
+    00000A22 60E2                   MOV.L       @R14,R0
+    00000A24 6000                   MOV.B       @R0,R0
+    00000A26 8822                   CMP/EQ      #34,R0
+    00000A28 8BEC                   BF          L1317
+          scan.c   540                    }
+          scan.c   541                    scan_str++;
+    00000A2A 62E2                   MOV.L       @R14,R2
+          scan.c   542                    token = T_STRING;
+    00000A2C 935C                   MOV.W       L1348,R3   ; H'03EF
+    00000A2E 7201                   ADD         #1,R2
+    00000A30 2E22                   MOV.L       R2,@R14
+    00000A32 2D32                   MOV.L       R3,@R13
+          scan.c   543                    update_token_buf(token_str + 1, scan_str - 1);
+    00000A34 65E2                   MOV.L       @R14,R5
+    00000A36 75FF                   ADD         #-1,R5
+    00000A38 64C2                   MOV.L       @R12,R4
+    00000A3A 7F04                   ADD         #4,R15
+    00000A3C 4F26                   LDS.L       @R15+,PR
+    00000A3E 7401                   ADD         #1,R4
+    00000A40 6BF6                   MOV.L       @R15+,R11
+    00000A42 6CF6                   MOV.L       @R15+,R12
+    00000A44 6DF6                   MOV.L       @R15+,R13
+    00000A46 A053                   BRA         _update_token_buf
+    00000A48 6EF6                   MOV.L       @R15+,R14
+    00000A4A              L1315:                            
+          scan.c   544                    return;
+          scan.c   545            }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   35
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   546    
+          scan.c   547            // comment?
+          scan.c   548    
+          scan.c   549            if (*scan_str == '#' || *scan_str == '-' && scan_str[1] == '-') {
+    00000A4A 8823                   CMP/EQ      #35,R0
+    00000A4C 8D0B                   BT/S        L1322
+    00000A4E 6403                   MOV         R0,R4
+    00000A50 6043                   MOV         R4,R0
+    00000A52 882D                   CMP/EQ      #45,R0
+    00000A54 8B1A                   BF          L1320
+    00000A56 8451                   MOV.B       @(1,R5),R0
+    00000A58 882D                   CMP/EQ      #45,R0
+    00000A5A 8B17                   BF          L1320
+          scan.c   550                    while (*scan_str && *scan_str != '\n' && *scan_str != '\r')
+    00000A5C A003                   BRA         L1322
+    00000A5E 0009                   NOP
+    00000A60              L1323:                            
+          scan.c   551                            scan_str++;
+    00000A60 63E2                   MOV.L       @R14,R3
+    00000A62 7301                   ADD         #1,R3
+    00000A64 2E32                   MOV.L       R3,@R14
+    00000A66              L1322:                            
+    00000A66 64E2                   MOV.L       @R14,R4
+    00000A68 6440                   MOV.B       @R4,R4
+    00000A6A 2448                   TST         R4,R4
+    00000A6C 8905                   BT          L1324
+    00000A6E 604E                   EXTS.B      R4,R0
+    00000A70 880A                   CMP/EQ      #10,R0
+    00000A72 8902                   BT          L1324
+    00000A74 604E                   EXTS.B      R4,R0
+    00000A76 880D                   CMP/EQ      #13,R0
+    00000A78 8BF2                   BF          L1323
+    00000A7A              L1324:                            
+          scan.c   552                    if (*scan_str)
+    00000A7A 62E2                   MOV.L       @R14,R2
+    00000A7C 6320                   MOV.B       @R2,R3
+    00000A7E 2338                   TST         R3,R3
+    00000A80 8902                   BT          L1325
+          scan.c   553                            scan_str++;
+    00000A82 63E2                   MOV.L       @R14,R3
+    00000A84 7301                   ADD         #1,R3
+    00000A86 2E32                   MOV.L       R3,@R14
+    00000A88              L1325:                            
+          scan.c   554                    token = T_NEWLINE;
+          scan.c   555                    return;
+    00000A88 A027                   BRA         L1296
+    00000A8A 2D72                   MOV.L       R7,@R13
+    00000A8C              L1320:                            
+          scan.c   556            }
+          scan.c   557    
+          scan.c   558            // relational operator?
+          scan.c   559    
+          scan.c   560            if (*scan_str == '=' && scan_str[1] == '=') {
+    00000A8C 6050                   MOV.B       @R5,R0
+    00000A8E 883D                   CMP/EQ      #61,R0
+    00000A90 8B07                   BF          L1326
+    00000A92 8451                   MOV.B       @(1,R5),R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   36
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000A94 883D                   CMP/EQ      #61,R0
+    00000A96 8B04                   BF          L1326
+          scan.c   561                    scan_str += 2;
+    00000A98 62E2                   MOV.L       @R14,R2
+    00000A9A 7202                   ADD         #2,R2
+          scan.c   562                    token = T_EQ;
+    00000A9C 9325                   MOV.W       L1348+2,R3 ; H'03F2
+          scan.c   563                    return;
+    00000A9E A01B                   BRA         L1338
+    00000AA0 2E22                   MOV.L       R2,@R14
+    00000AA2              L1326:                            
+          scan.c   564            }
+          scan.c   565    
+          scan.c   566            if (*scan_str == '<' && scan_str[1] == '=') {
+    00000AA2 6050                   MOV.B       @R5,R0
+    00000AA4 883C                   CMP/EQ      #60,R0
+    00000AA6 8B07                   BF          L1327
+    00000AA8 8451                   MOV.B       @(1,R5),R0
+    00000AAA 883D                   CMP/EQ      #61,R0
+    00000AAC 8B04                   BF          L1327
+          scan.c   567                    scan_str += 2;
+    00000AAE 62E2                   MOV.L       @R14,R2
+          scan.c   568                    token = T_LTEQ;
+    00000AB0 931C                   MOV.W       L1348+4,R3 ; H'03F1
+    00000AB2 7202                   ADD         #2,R2
+          scan.c   569                    return;
+    00000AB4 A010                   BRA         L1338
+    00000AB6 2E22                   MOV.L       R2,@R14
+    00000AB8              L1327:                            
+          scan.c   570            }
+          scan.c   571    
+          scan.c   572            if (*scan_str == '>' && scan_str[1] == '=') {
+    00000AB8 6050                   MOV.B       @R5,R0
+    00000ABA 883E                   CMP/EQ      #62,R0
+    00000ABC 8B07                   BF          L1328
+    00000ABE 8451                   MOV.B       @(1,R5),R0
+    00000AC0 883D                   CMP/EQ      #61,R0
+    00000AC2 8B04                   BF          L1328
+          scan.c   573                    scan_str += 2;
+    00000AC4 62E2                   MOV.L       @R14,R2
+    00000AC6 7202                   ADD         #2,R2
+          scan.c   574                    token = T_GTEQ;
+    00000AC8 9311                   MOV.W       L1348+6,R3 ; H'03F0
+          scan.c   575                    return;
+    00000ACA A005                   BRA         L1338
+    00000ACC 2E22                   MOV.L       R2,@R14
+    00000ACE              L1328:                            
+          scan.c   576            }
+          scan.c   577    
+          scan.c   578            // single char token
+          scan.c   579    
+          scan.c   580            token = *scan_str++;
+    00000ACE 62E2                   MOV.L       @R14,R2
+    00000AD0 7201                   ADD         #1,R2
+    00000AD2 2E22                   MOV.L       R2,@R14
+    00000AD4 72FF                   ADD         #-1,R2
+    00000AD6 6320                   MOV.B       @R2,R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   37
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   581    }
+    00000AD8              L1338:                            
+    00000AD8 2D32                   MOV.L       R3,@R13
+    00000ADA              L1296:                            
+    00000ADA 7F04                   ADD         #4,R15
+    00000ADC 4F26                   LDS.L       @R15+,PR
+    00000ADE 6BF6                   MOV.L       @R15+,R11
+    00000AE0 6CF6                   MOV.L       @R15+,R12
+    00000AE2 6DF6                   MOV.L       @R15+,R13
+    00000AE4 000B                   RTS
+    00000AE6 6EF6                   MOV.L       @R15+,R14
+    00000AE8              L1348:                            
+    00000AE8 03EF                   .DATA.W     H'03EF
+    00000AEA 03F2                   .DATA.W     H'03F2
+    00000AEC 03F1                   .DATA.W     H'03F1
+    00000AEE 03F0                   .DATA.W     H'03F0
+          scan.c   582    
+          scan.c   583    void
+          scan.c   584    update_token_buf(char *a, char *b)
+    00000AF0              _update_token_buf:               ; function: update_token_buf
+                                                           ; frame size=20
+    00000AF0 2FE6                   MOV.L       R14,@-R15
+    00000AF2 2FD6                   MOV.L       R13,@-R15
+    00000AF4 4F22                   STS.L       PR,@-R15
+    00000AF6 7FF8                   ADD         #-8,R15
+    00000AF8 DE12                   MOV.L       L1349+2,R14; __$token_buf
+    00000AFA 2F42                   MOV.L       R4,@R15
+    00000AFC 1F51                   MOV.L       R5,@(4,R15)
+    00000AFE 64E2                   MOV.L       @R14,R4
+    00000B00 2448                   TST         R4,R4
+    00000B02 8902                   BT          L1329
+          scan.c   585    {
+          scan.c   586            int n;
+          scan.c   587    
+          scan.c   588            if (token_buf)
+          scan.c   589                    free(token_buf);
+    00000B04 D210                   MOV.L       L1349+6,R2 ; _free
+    00000B06 420B                   JSR         @R2
+    00000B08 0009                   NOP
+    00000B0A              L1329:                            
+          scan.c   590    
+          scan.c   591            n = (int) (b - a);
+    00000B0A 63F2                   MOV.L       @R15,R3
+    00000B0C 5DF1                   MOV.L       @(4,R15),R13
+    00000B0E 3D38                   SUB         R3,R13
+          scan.c   592    
+          scan.c   593            token_buf = (char *) malloc(n + 1);
+    00000B10 D20E                   MOV.L       L1349+10,R2; _malloc
+    00000B12 64D3                   MOV         R13,R4
+    00000B14 420B                   JSR         @R2
+    00000B16 7401                   ADD         #1,R4
+          scan.c   594    
+          scan.c   595            if (token_buf == 0)
+    00000B18 6303                   MOV         R0,R3
+    00000B1A 2338                   TST         R3,R3
+    00000B1C 8F04                   BF/S        L1330
+    00000B1E 2E02                   MOV.L       R0,@R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   38
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          scan.c   596                    stop("malloc failure");
+    00000B20 D40B                   MOV.L       L1349+14,R4; L1146
+    00000B22 D30C                   MOV.L       L1349+18,R3; _stop
+    00000B24 430B                   JSR         @R3
+    00000B26 0009                   NOP
+    00000B28              L1330:                            
+          scan.c   597    
+          scan.c   598            strncpy(token_buf, a, n);
+    00000B28 65F2                   MOV.L       @R15,R5
+    00000B2A 66D3                   MOV         R13,R6
+    00000B2C D30A                   MOV.L       L1349+22,R3; _strncpy
+    00000B2E 430B                   JSR         @R3
+    00000B30 64E2                   MOV.L       @R14,R4
+          scan.c   599    
+          scan.c   600            token_buf[n] = 0;
+    00000B32 E200                   MOV         #0,R2
+    00000B34 60E2                   MOV.L       @R14,R0
+    00000B36 0D24                   MOV.B       R2,@(R0,R13)
+          scan.c   601    }
+    00000B38 7F08                   ADD         #8,R15
+    00000B3A 4F26                   LDS.L       @R15+,PR
+    00000B3C 6DF6                   MOV.L       @R15+,R13
+    00000B3E 000B                   RTS
+    00000B40 6EF6                   MOV.L       @R15+,R14
+    00000B42              L1349:                            
+    00000B42 0000                   .DATA.W     0
+    00000B44 <00000000>             .DATA.L     __$token_buf
+    00000B48 <00000000>             .DATA.L     _free
+    00000B4C <00000000>             .DATA.L     _malloc
+    00000B50 <00000000>             .DATA.L     L1146
+    00000B54 <00000000>             .DATA.L     _stop
+    00000B58 <00000000>             .DATA.L     _strncpy
+C   00000000              L1097:
+    00000000 73796E7461             .SDATA      "syntax error"
+             7820657272   
+             6F72         
+    0000000C 00                     .DATA.B     H'00
+    0000000D 00000001               .RES.B      1
+    0000000E 00000002               .RES.W      1
+    00000010              L1100:
+    00000010 5D20657870             .SDATA      "] expected"
+             6563746564   
+    0000001A 00                     .DATA.B     H'00
+    0000001B 00000001               .RES.B      1
+    0000001C              L1103:
+    0000001C 73796D626F             .SDATA      "symbol expected"
+             6C20657870   
+             6563746564   
+    0000002B 00                     .DATA.B     H'00
+    0000002C              L1111:
+    0000002C 2920657870             .SDATA      ") expected"
+             6563746564   
+    00000036 00                     .DATA.B     H'00
+    00000037 00000001               .RES.B      1
+    00000038              L1114:
+    00000038 2820657870             .SDATA      "( expected"
+             6563746564   
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE   39
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000042 00                     .DATA.B     H'00
+    00000043 00000001               .RES.B      1
+    00000044              L1120:
+    00000044 203F20                 .SDATA      " ? "
+    00000047 00                     .DATA.B     H'00
+    00000048              L1137:
+    00000048 72756E6177             .SDATA      "runaway string"
+             6179207374   
+             72696E67     
+    00000056 00                     .DATA.B     H'00
+    00000057 00000001               .RES.B      1
+    00000058              L1146:
+    00000058 6D616C6C6F             .SDATA      "malloc failure"
+             6320666169   
+             6C757265     
+    00000066 00                     .DATA.B     H'00
+B   00000000              __$token:                        ; static: token
+    00000000 00000004               .RES.L      1
+    00000004              __$newline_flag:                 ; static: newline_flag
+    00000004 00000004               .RES.L      1
+    00000008              __$meta_mode:                    ; static: meta_mode
+    00000008 00000004               .RES.L      1
+    0000000C              __$input_str:                    ; static: input_str
+    0000000C 00000004               .RES.L      1
+    00000010              __$scan_str:                     ; static: scan_str
+    00000010 00000004               .RES.L      1
+    00000014              __$token_str:                    ; static: token_str
+    00000014 00000004               .RES.L      1
+    00000018              __$token_buf:                    ; static: token_buf
+    00000018 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:28  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      601
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000B5C Byte(s)
+CONSTANT SECTION (C):                               00000067 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               0000001C Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000BDF Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           31
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          18
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:           190
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkD832.tmp 
+

@@ -1,0 +1,335 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:25  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\qmul.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          qmul.c     1    //      Multiply rational numbers
+          qmul.c     2    //
+          qmul.c     3    //      Input:          tos-2           multiplicand
+          qmul.c     4    //
+          qmul.c     5    //                      tos-1           multiplier
+          qmul.c     6    //
+          qmul.c     7    //      Output:         product on stack
+          qmul.c     8    
+          qmul.c     9    #include "stdafx.h"
+          qmul.c    10    #include "defs.h"
+          qmul.c    11    
+          qmul.c    12    void
+          qmul.c    13    qmul(void)
+P   00000000              _qmul:                           ; function: qmul
+                                                           ; frame size=24
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2F86                   MOV.L       R8,@-R15
+    0000000A 4F22                   STS.L       PR,@-R15
+          qmul.c    14    {
+          qmul.c    15            unsigned int *aa, *bb, *c;
+          qmul.c    16    
+          qmul.c    17            save();
+    0000000C D331                   MOV.L       L1069,R3   ; _save
+    0000000E 430B                   JSR         @R3
+    00000010 0009                   NOP
+          qmul.c    18    
+          qmul.c    19            p2 = pop();
+    00000012 DB31                   MOV.L       L1069+4,R11; _p2
+    00000014 D231                   MOV.L       L1069+8,R2 ; _pop
+    00000016 420B                   JSR         @R2
+    00000018 0009                   NOP
+          qmul.c    20            p1 = pop();
+    0000001A DE31                   MOV.L       L1069+12,R14; _p1
+    0000001C D32F                   MOV.L       L1069+8,R3 ; _pop
+    0000001E 430B                   JSR         @R3
+    00000020 2B02                   MOV.L       R0,@R11
+    00000022 6D03                   MOV         R0,R13
+    00000024 2E02                   MOV.L       R0,@R14
+    00000026 64D2                   MOV.L       @R13,R4
+    00000028 6043                   MOV         R4,R0
+    0000002A 70FC                   ADD         #-4,R0
+    0000002C 6002                   MOV.L       @R0,R0
+    0000002E 8801                   CMP/EQ      #1,R0
+    00000030 8B02                   BF          L1067
+    00000032 6242                   MOV.L       @R4,R2
+    00000034 2228                   TST         R2,R2
+    00000036 890B                   BT          L1066
+    00000038              L1067:                            
+    00000038 D327                   MOV.L       L1069+4,R3 ; _p2
+    0000003A 6032                   MOV.L       @R3,R0
+    0000003C 6202                   MOV.L       @R0,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:25  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003E E0FC                   MOV         #-4,R0
+    00000040 002E                   MOV.L       @(R0,R2),R0
+    00000042 8801                   CMP/EQ      #1,R0
+    00000044 8B0A                   BF          L1065
+    00000046 6132                   MOV.L       @R3,R1
+    00000048 6212                   MOV.L       @R1,R2
+    0000004A 6022                   MOV.L       @R2,R0
+    0000004C 2008                   TST         R0,R0
+    0000004E 8B05                   BF          L1065
+    00000050              L1066:                            
+          qmul.c    21    
+          qmul.c    22            // zero?
+          qmul.c    23    
+          qmul.c    24            if (MZERO(p1->u.q.a) || MZERO(p2->u.q.a)) {
+          qmul.c    25                    push(zero);
+    00000050 D324                   MOV.L       L1069+16,R3; _zero
+    00000052 D225                   MOV.L       L1069+20,R2; _push
+    00000054 420B                   JSR         @R2
+    00000056 6432                   MOV.L       @R3,R4
+    00000058 A034                   BRA         L1063
+    0000005A 0009                   NOP
+    0000005C              L1065:                            
+          qmul.c    26                    restore();
+          qmul.c    27                    return;
+          qmul.c    28            }
+          qmul.c    29    
+          qmul.c    30            aa = mmul(p1->u.q.a, p2->u.q.a);
+    0000005C 65B2                   MOV.L       @R11,R5
+    0000005E 6552                   MOV.L       @R5,R5
+    00000060 D322                   MOV.L       L1069+24,R3; _mmul
+    00000062 430B                   JSR         @R3
+    00000064 64D2                   MOV.L       @R13,R4
+    00000066 6C03                   MOV         R0,R12
+          qmul.c    31            bb = mmul(p1->u.q.b, p2->u.q.b);
+    00000068 65B2                   MOV.L       @R11,R5
+    0000006A 5551                   MOV.L       @(4,R5),R5
+    0000006C 64E2                   MOV.L       @R14,R4
+    0000006E D31F                   MOV.L       L1069+24,R3; _mmul
+    00000070 430B                   JSR         @R3
+    00000072 5441                   MOV.L       @(4,R4),R4
+          qmul.c    32    
+          qmul.c    33            c = mgcd(aa, bb);
+    00000074 D21E                   MOV.L       L1069+28,R2; _mgcd
+    00000076 6D03                   MOV         R0,R13
+    00000078 6503                   MOV         R0,R5
+    0000007A 420B                   JSR         @R2
+    0000007C 64C3                   MOV         R12,R4
+          qmul.c    34    
+          qmul.c    35            MSIGN(c) = MSIGN(bb);
+    0000007E 6303                   MOV         R0,R3
+    00000080 73F8                   ADD         #-8,R3
+    00000082 62D3                   MOV         R13,R2
+    00000084 72F8                   ADD         #-8,R2
+    00000086 6122                   MOV.L       @R2,R1
+    00000088 2312                   MOV.L       R1,@R3
+          qmul.c    36    
+          qmul.c    37            p1 = alloc();
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:25  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000008A D31A                   MOV.L       L1069+32,R3; _alloc
+    0000008C 430B                   JSR         @R3
+    0000008E 6B03                   MOV         R0,R11
+    00000090 2E02                   MOV.L       R0,@R14
+          qmul.c    38    
+          qmul.c    39            p1->k = NUM;
+    00000092 6203                   MOV         R0,R2
+    00000094 E001                   MOV         #1,R0
+          qmul.c    40    
+          qmul.c    41            p1->u.q.a = mdiv(aa, c);
+    00000096 65B3                   MOV         R11,R5
+    00000098 8028                   MOV.B       R0,@(8,R2)
+    0000009A 68E2                   MOV.L       @R14,R8
+    0000009C D216                   MOV.L       L1069+36,R2; _mdiv
+    0000009E 420B                   JSR         @R2
+    000000A0 64C3                   MOV         R12,R4
+          qmul.c    42            p1->u.q.b = mdiv(bb, c);
+    000000A2 65B3                   MOV         R11,R5
+    000000A4 D214                   MOV.L       L1069+36,R2; _mdiv
+    000000A6 2802                   MOV.L       R0,@R8
+    000000A8 68E2                   MOV.L       @R14,R8
+    000000AA 7804                   ADD         #4,R8
+    000000AC 420B                   JSR         @R2
+    000000AE 64D3                   MOV         R13,R4
+    000000B0 2802                   MOV.L       R0,@R8
+          qmul.c    43    
+          qmul.c    44            mfree(aa);
+    000000B2 D312                   MOV.L       L1069+40,R3; _mfree
+    000000B4 430B                   JSR         @R3
+    000000B6 64C3                   MOV         R12,R4
+          qmul.c    45            mfree(bb);
+    000000B8 D210                   MOV.L       L1069+40,R2; _mfree
+    000000BA 420B                   JSR         @R2
+    000000BC 64D3                   MOV         R13,R4
+          qmul.c    46    
+          qmul.c    47            push(p1);
+    000000BE D30A                   MOV.L       L1069+20,R3; _push
+    000000C0 430B                   JSR         @R3
+    000000C2 64E2                   MOV.L       @R14,R4
+    000000C4              L1063:
+          qmul.c    48    
+          qmul.c    49            restore();
+    000000C4 4F26                   LDS.L       @R15+,PR
+    000000C6 68F6                   MOV.L       @R15+,R8
+    000000C8 D20D                   MOV.L       L1069+44,R2; _restore
+    000000CA 6BF6                   MOV.L       @R15+,R11
+    000000CC 6CF6                   MOV.L       @R15+,R12
+    000000CE 6DF6                   MOV.L       @R15+,R13
+    000000D0 422B                   JMP         @R2
+    000000D2 6EF6                   MOV.L       @R15+,R14
+    000000D4              L1069:                            
+    000000D4 <00000000>             .DATA.L     _save
+    000000D8 <00000000>             .DATA.L     _p2
+    000000DC <00000000>             .DATA.L     _pop
+    000000E0 <00000000>             .DATA.L     _p1
+    000000E4 <00000000>             .DATA.L     _zero
+    000000E8 <00000000>             .DATA.L     _push
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:25  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000EC <00000000>             .DATA.L     _mmul
+    000000F0 <00000000>             .DATA.L     _mgcd
+    000000F4 <00000000>             .DATA.L     _alloc
+    000000F8 <00000000>             .DATA.L     _mdiv
+    000000FC <00000000>             .DATA.L     _mfree
+    00000100 <00000000>             .DATA.L     _restore
+          qmul.c    50    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:25  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       50
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000104 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000104 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           12
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            18
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkCAEE.tmp 
+

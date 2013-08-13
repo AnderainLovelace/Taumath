@@ -1,0 +1,599 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTaumath\mod.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+           mod.c     1    #include "stdafx.h"
+           mod.c     2    
+           mod.c     3    #include "defs.h"
+           mod.c     4    
+           mod.c     5    void mod(void);
+           mod.c     6    
+           mod.c     7    void
+           mod.c     8    eval_mod(void)
+P   00000000              _eval_mod:                       ; function: eval_mod
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+           mod.c     9    {
+           mod.c    10            push(cadr(p1));
+    00000004 DE34                   MOV.L       L1103+2,R14; _p1
+    00000006 64E2                   MOV.L       @R14,R4
+    00000008 8448                   MOV.B       @(8,R4),R0
+    0000000A 2008                   TST         R0,R0
+    0000000C 8B02                   BF          L1073
+    0000000E 64E2                   MOV.L       @R14,R4
+    00000010 A004                   BRA         L1075
+    00000012 5441                   MOV.L       @(4,R4),R4
+    00000014              L1073:                            
+    00000014 935F                   MOV.W       L1103,R3   ; H'0570
+    00000016 D231                   MOV.L       L1103+6,R2 ; _symtab
+    00000018 6422                   MOV.L       @R2,R4
+    0000001A 343C                   ADD         R3,R4
+    0000001C              L1075:                            
+    0000001C 8448                   MOV.B       @(8,R4),R0
+    0000001E 2008                   TST         R0,R0
+    00000020 8B0C                   BF          L1072
+    00000022 64E2                   MOV.L       @R14,R4
+    00000024 8448                   MOV.B       @(8,R4),R0
+    00000026 2008                   TST         R0,R0
+    00000028 8B02                   BF          L1074
+    0000002A 64E2                   MOV.L       @R14,R4
+    0000002C A004                   BRA         L1076
+    0000002E 5441                   MOV.L       @(4,R4),R4
+    00000030              L1074:                            
+    00000030 9351                   MOV.W       L1103,R3   ; H'0570
+    00000032 D22A                   MOV.L       L1103+6,R2 ; _symtab
+    00000034 6422                   MOV.L       @R2,R4
+    00000036 343C                   ADD         R3,R4
+    00000038              L1076:                            
+    00000038 A004                   BRA         L1077
+    0000003A 6442                   MOV.L       @R4,R4
+    0000003C              L1072:                            
+    0000003C 934B                   MOV.W       L1103,R3   ; H'0570
+    0000003E D227                   MOV.L       L1103+6,R2 ; _symtab
+    00000040 6422                   MOV.L       @R2,R4
+    00000042 343C                   ADD         R3,R4
+    00000044              L1077:                            
+    00000044 D326                   MOV.L       L1103+10,R3; _push
+    00000046 430B                   JSR         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000048 0009                   NOP
+           mod.c    11            eval();
+    0000004A D226                   MOV.L       L1103+14,R2; _eval
+    0000004C 420B                   JSR         @R2
+    0000004E 0009                   NOP
+           mod.c    12            push(caddr(p1));
+    00000050 64E2                   MOV.L       @R14,R4
+    00000052 8448                   MOV.B       @(8,R4),R0
+    00000054 2008                   TST         R0,R0
+    00000056 8B02                   BF          L1080
+    00000058 64E2                   MOV.L       @R14,R4
+    0000005A A004                   BRA         L1085
+    0000005C 5441                   MOV.L       @(4,R4),R4
+    0000005E              L1080:                            
+    0000005E 933A                   MOV.W       L1103,R3   ; H'0570
+    00000060 D21E                   MOV.L       L1103+6,R2 ; _symtab
+    00000062 6422                   MOV.L       @R2,R4
+    00000064 343C                   ADD         R3,R4
+    00000066              L1085:                            
+    00000066 8448                   MOV.B       @(8,R4),R0
+    00000068 2008                   TST         R0,R0
+    0000006A 8B0C                   BF          L1079
+    0000006C 64E2                   MOV.L       @R14,R4
+    0000006E 8448                   MOV.B       @(8,R4),R0
+    00000070 2008                   TST         R0,R0
+    00000072 8B02                   BF          L1081
+    00000074 64E2                   MOV.L       @R14,R4
+    00000076 A004                   BRA         L1086
+    00000078 5441                   MOV.L       @(4,R4),R4
+    0000007A              L1081:                            
+    0000007A 932C                   MOV.W       L1103,R3   ; H'0570
+    0000007C D217                   MOV.L       L1103+6,R2 ; _symtab
+    0000007E 6422                   MOV.L       @R2,R4
+    00000080 343C                   ADD         R3,R4
+    00000082              L1086:                            
+    00000082 A004                   BRA         L1087
+    00000084 5441                   MOV.L       @(4,R4),R4
+    00000086              L1079:                            
+    00000086 9326                   MOV.W       L1103,R3   ; H'0570
+    00000088 D214                   MOV.L       L1103+6,R2 ; _symtab
+    0000008A 6422                   MOV.L       @R2,R4
+    0000008C 343C                   ADD         R3,R4
+    0000008E              L1087:                            
+    0000008E 8448                   MOV.B       @(8,R4),R0
+    00000090 2008                   TST         R0,R0
+    00000092 8B29                   BF          L1078
+    00000094 64E2                   MOV.L       @R14,R4
+    00000096 8448                   MOV.B       @(8,R4),R0
+    00000098 2008                   TST         R0,R0
+    0000009A 8B02                   BF          L1083
+    0000009C 64E2                   MOV.L       @R14,R4
+    0000009E A004                   BRA         L1088
+    000000A0 5441                   MOV.L       @(4,R4),R4
+    000000A2              L1083:                            
+    000000A2 9318                   MOV.W       L1103,R3   ; H'0570
+    000000A4 D20D                   MOV.L       L1103+6,R2 ; _symtab
+    000000A6 6422                   MOV.L       @R2,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000A8 343C                   ADD         R3,R4
+    000000AA              L1088:                            
+    000000AA 8448                   MOV.B       @(8,R4),R0
+    000000AC 2008                   TST         R0,R0
+    000000AE 8B0C                   BF          L1082
+    000000B0 64E2                   MOV.L       @R14,R4
+    000000B2 8448                   MOV.B       @(8,R4),R0
+    000000B4 2008                   TST         R0,R0
+    000000B6 8B02                   BF          L1084
+    000000B8 64E2                   MOV.L       @R14,R4
+    000000BA A004                   BRA         L1089
+    000000BC 5441                   MOV.L       @(4,R4),R4
+    000000BE              L1084:                            
+    000000BE 930A                   MOV.W       L1103,R3   ; H'0570
+    000000C0 D206                   MOV.L       L1103+6,R2 ; _symtab
+    000000C2 6422                   MOV.L       @R2,R4
+    000000C4 343C                   ADD         R3,R4
+    000000C6              L1089:                            
+    000000C6 A004                   BRA         L1090
+    000000C8 5441                   MOV.L       @(4,R4),R4
+    000000CA              L1082:                            
+    000000CA 9304                   MOV.W       L1103,R3   ; H'0570
+    000000CC D203                   MOV.L       L1103+6,R2 ; _symtab
+    000000CE 6422                   MOV.L       @R2,R4
+    000000D0 343C                   ADD         R3,R4
+    000000D2              L1090:                            
+    000000D2 A00D                   BRA         L1091
+    000000D4 6442                   MOV.L       @R4,R4
+    000000D6              L1103:                            
+    000000D6 0570                   .DATA.W     H'0570
+    000000D8 <00000000>             .DATA.L     _p1
+    000000DC <00000000>             .DATA.L     _symtab
+    000000E0 <00000000>             .DATA.L     _push
+    000000E4 <00000000>             .DATA.L     _eval
+    000000E8              L1078:                            
+    000000E8 9345                   MOV.W       L1104,R3   ; H'0570
+    000000EA D223                   MOV.L       L1104+2,R2 ; _symtab
+    000000EC 6422                   MOV.L       @R2,R4
+    000000EE 343C                   ADD         R3,R4
+    000000F0              L1091:                            
+    000000F0 D322                   MOV.L       L1104+6,R3 ; _push
+    000000F2 430B                   JSR         @R3
+    000000F4 0009                   NOP
+           mod.c    13            eval();
+    000000F6 D222                   MOV.L       L1104+10,R2; _eval
+    000000F8 420B                   JSR         @R2
+    000000FA 0009                   NOP
+           mod.c    14            mod();
+    000000FC 4F26                   LDS.L       @R15+,PR
+    000000FE 6EF6                   MOV.L       @R15+,R14
+           mod.c    15    }
+           mod.c    16    
+           mod.c    17    void
+           mod.c    18    mod(void)
+    00000100              _mod:                            ; function: mod
+                                                           ; frame size=32
+    00000100 2FE6                   MOV.L       R14,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000102 2FD6                   MOV.L       R13,@-R15
+    00000104 2FC6                   MOV.L       R12,@-R15
+    00000106 2FB6                   MOV.L       R11,@-R15
+    00000108 2FA6                   MOV.L       R10,@-R15
+    0000010A 2F96                   MOV.L       R9,@-R15
+    0000010C 2F86                   MOV.L       R8,@-R15
+    0000010E 4F22                   STS.L       PR,@-R15
+           mod.c    19    {
+           mod.c    20            int n;
+           mod.c    21    
+           mod.c    22            save();
+    00000110 D31C                   MOV.L       L1104+14,R3; _save
+    00000112 430B                   JSR         @R3
+    00000114 0009                   NOP
+           mod.c    23    
+           mod.c    24            p2 = pop();
+    00000116 DB1C                   MOV.L       L1104+18,R11; _pop
+    00000118 DE1C                   MOV.L       L1104+22,R14; _p2
+    0000011A 4B0B                   JSR         @R11
+    0000011C 0009                   NOP
+           mod.c    25            p1 = pop();
+    0000011E DD1C                   MOV.L       L1104+26,R13; _p1
+    00000120 4B0B                   JSR         @R11
+    00000122 2E02                   MOV.L       R0,@R14
+    00000124 2D02                   MOV.L       R0,@R13
+           mod.c    26    
+           mod.c    27            if (iszero(p2))
+    00000126 DA1B                   MOV.L       L1104+30,R10; _stop
+    00000128 D21B                   MOV.L       L1104+34,R2; _iszero
+    0000012A 420B                   JSR         @R2
+    0000012C 64E2                   MOV.L       @R14,R4
+    0000012E 2008                   TST         R0,R0
+    00000130 8902                   BT          L1092
+           mod.c    28                    stop("mod function: divide by zero");
+    00000132 D41A                   MOV.L       L1104+38,R4; L1061
+    00000134 4A0B                   JSR         @R10
+    00000136 0009                   NOP
+    00000138              L1092:                            
+    00000138 DC10                   MOV.L       L1104+6,R12; _push
+    0000013A 64D2                   MOV.L       @R13,R4
+    0000013C 65E2                   MOV.L       @R14,R5
+    0000013E 8448                   MOV.B       @(8,R4),R0
+    00000140 600C                   EXTU.B      R0,R0
+    00000142 8801                   CMP/EQ      #1,R0
+    00000144 8D03                   BT/S        L1095
+    00000146 6603                   MOV         R0,R6
+    00000148 6063                   MOV         R6,R0
+    0000014A 8802                   CMP/EQ      #2,R0
+    0000014C 8B07                   BF          L1094
+    0000014E              L1095:                            
+    0000014E 8458                   MOV.B       @(8,R5),R0
+    00000150 600C                   EXTU.B      R0,R0
+    00000152 8801                   CMP/EQ      #1,R0
+    00000154 8928                   BT          L1093
+    00000156 8458                   MOV.B       @(8,R5),R0
+    00000158 600C                   EXTU.B      R0,R0
+    0000015A 8802                   CMP/EQ      #2,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000015C 8924                   BT          L1093
+    0000015E              L1094:                            
+           mod.c    29    
+           mod.c    30            if (!isnum(p1) || !isnum(p2)) {
+           mod.c    31                    push_symbol(MOD);
+    0000015E D210                   MOV.L       L1104+42,R2; _push_symbol
+    00000160 420B                   JSR         @R2
+    00000162 E44A                   MOV         #74,R4
+           mod.c    32                    push(p1);
+    00000164 4C0B                   JSR         @R12
+    00000166 64D2                   MOV.L       @R13,R4
+           mod.c    33                    push(p2);
+    00000168 4C0B                   JSR         @R12
+    0000016A 64E2                   MOV.L       @R14,R4
+           mod.c    34                    list(3);
+    0000016C D30D                   MOV.L       L1104+46,R3; _list
+    0000016E 430B                   JSR         @R3
+    00000170 E403                   MOV         #3,R4
+    00000172 A06C                   BRA         L1067
+    00000174 0009                   NOP
+    00000176              L1104:                            
+    00000176 0570                   .DATA.W     H'0570
+    00000178 <00000000>             .DATA.L     _symtab
+    0000017C <00000000>             .DATA.L     _push
+    00000180 <00000000>             .DATA.L     _eval
+    00000184 <00000000>             .DATA.L     _save
+    00000188 <00000000>             .DATA.L     _pop
+    0000018C <00000000>             .DATA.L     _p2
+    00000190 <00000000>             .DATA.L     _p1
+    00000194 <00000000>             .DATA.L     _stop
+    00000198 <00000000>             .DATA.L     _iszero
+    0000019C <00000000>             .DATA.L     L1061
+    000001A0 <00000000>             .DATA.L     _push_symbol
+    000001A4 <00000000>             .DATA.L     _list
+    000001A8              L1093:                            
+           mod.c    35                    restore();
+           mod.c    36                    return;
+           mod.c    37            }
+           mod.c    38    
+           mod.c    39            if (isdouble(p1)) {
+    000001A8 8448                   MOV.B       @(8,R4),R0
+    000001AA 600C                   EXTU.B      R0,R0
+    000001AC 8802                   CMP/EQ      #2,R0
+    000001AE 8B11                   BF          L1097
+           mod.c    40                    push(p1);
+    000001B0 4C0B                   JSR         @R12
+    000001B2 0009                   NOP
+           mod.c    41                    n = pop_integer();
+    000001B4 D22B                   MOV.L       L1105+2,R2 ; _pop_integer
+    000001B6 420B                   JSR         @R2
+    000001B8 0009                   NOP
+    000001BA 6903                   MOV         R0,R9
+           mod.c    42                    if (n == (int) 0x80000000)
+    000001BC D32A                   MOV.L       L1105+6,R3 ; H'80000000
+    000001BE 3930                   CMP/EQ      R3,R9
+    000001C0 8B02                   BF          L1098
+           mod.c    43                            stop("mod function: cannot convert float value to integer");
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001C2 D42A                   MOV.L       L1105+10,R4; L1064
+    000001C4 4A0B                   JSR         @R10
+    000001C6 0009                   NOP
+    000001C8              L1098:                            
+           mod.c    44                    push_integer(n);
+    000001C8 D329                   MOV.L       L1105+14,R3; _push_integer
+    000001CA 430B                   JSR         @R3
+    000001CC 6493                   MOV         R9,R4
+           mod.c    45                    p1 = pop();
+    000001CE 4B0B                   JSR         @R11
+    000001D0 0009                   NOP
+    000001D2 2D02                   MOV.L       R0,@R13
+    000001D4              L1097:                            
+    000001D4 64E2                   MOV.L       @R14,R4
+    000001D6 8448                   MOV.B       @(8,R4),R0
+    000001D8 600C                   EXTU.B      R0,R0
+    000001DA 8802                   CMP/EQ      #2,R0
+    000001DC 8B11                   BF          L1099
+           mod.c    46            }
+           mod.c    47    
+           mod.c    48            if (isdouble(p2)) {
+           mod.c    49                    push(p2);
+    000001DE 4C0B                   JSR         @R12
+    000001E0 0009                   NOP
+           mod.c    50                    n = pop_integer();
+    000001E2 D220                   MOV.L       L1105+2,R2 ; _pop_integer
+    000001E4 420B                   JSR         @R2
+    000001E6 0009                   NOP
+           mod.c    51                    if (n == (int) 0x80000000)
+    000001E8 D31F                   MOV.L       L1105+6,R3 ; H'80000000
+    000001EA 6903                   MOV         R0,R9
+    000001EC 3930                   CMP/EQ      R3,R9
+    000001EE 8B02                   BF          L1100
+           mod.c    52                            stop("mod function: cannot convert float value to integer");
+    000001F0 D41E                   MOV.L       L1105+10,R4; L1064
+    000001F2 4A0B                   JSR         @R10
+    000001F4 0009                   NOP
+    000001F6              L1100:                            
+           mod.c    53                    push_integer(n);
+    000001F6 D31E                   MOV.L       L1105+14,R3; _push_integer
+    000001F8 430B                   JSR         @R3
+    000001FA 6493                   MOV         R9,R4
+           mod.c    54                    p2 = pop();
+    000001FC 4B0B                   JSR         @R11
+    000001FE 0009                   NOP
+    00000200 2E02                   MOV.L       R0,@R14
+    00000202              L1099:                            
+           mod.c    55            }
+           mod.c    56    
+           mod.c    57            if (!isinteger(p1) || !isinteger(p2))
+    00000202 D21C                   MOV.L       L1105+18,R2; _isinteger
+    00000204 420B                   JSR         @R2
+    00000206 64D2                   MOV.L       @R13,R4
+    00000208 2008                   TST         R0,R0
+    0000020A 8905                   BT          L1102
+    0000020C D21A                   MOV.L       L1105+22,R2; _p2
+    0000020E D319                   MOV.L       L1105+18,R3; _isinteger
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000210 430B                   JSR         @R3
+    00000212 6422                   MOV.L       @R2,R4
+    00000214 2008                   TST         R0,R0
+    00000216 8B02                   BF          L1101
+    00000218              L1102:                            
+           mod.c    58                    stop("mod function: integer arguments expected");
+    00000218 D418                   MOV.L       L1105+26,R4; L1066
+    0000021A 4A0B                   JSR         @R10
+    0000021C 0009                   NOP
+    0000021E              L1101:                            
+           mod.c    59    
+           mod.c    60            p3 = alloc();
+    0000021E DB18                   MOV.L       L1105+30,R11; _p3
+    00000220 D318                   MOV.L       L1105+34,R3; _alloc
+    00000222 430B                   JSR         @R3
+    00000224 0009                   NOP
+           mod.c    61            p3->k = NUM;
+    00000226 6203                   MOV         R0,R2
+           mod.c    62            p3->u.q.a = mmod(p1->u.q.a, p2->u.q.a);
+    00000228 D317                   MOV.L       L1105+38,R3; _mmod
+    0000022A 2B02                   MOV.L       R0,@R11
+    0000022C E001                   MOV         #1,R0
+    0000022E 8028                   MOV.B       R0,@(8,R2)
+    00000230 68B2                   MOV.L       @R11,R8
+    00000232 65E2                   MOV.L       @R14,R5
+    00000234 64D2                   MOV.L       @R13,R4
+    00000236 6552                   MOV.L       @R5,R5
+    00000238 430B                   JSR         @R3
+    0000023A 6442                   MOV.L       @R4,R4
+    0000023C 2802                   MOV.L       R0,@R8
+           mod.c    63            p3->u.q.b = mint(1);
+    0000023E 68B2                   MOV.L       @R11,R8
+    00000240 D212                   MOV.L       L1105+42,R2; _mint
+    00000242 7804                   ADD         #4,R8
+    00000244 420B                   JSR         @R2
+    00000246 E401                   MOV         #1,R4
+    00000248 2802                   MOV.L       R0,@R8
+           mod.c    64            push(p3);
+    0000024A 4C0B                   JSR         @R12
+    0000024C 64B2                   MOV.L       @R11,R4
+    0000024E              L1067:
+           mod.c    65    
+           mod.c    66            restore();
+    0000024E 4F26                   LDS.L       @R15+,PR
+    00000250 D30F                   MOV.L       L1105+46,R3; _restore
+    00000252 68F6                   MOV.L       @R15+,R8
+    00000254 69F6                   MOV.L       @R15+,R9
+    00000256 6AF6                   MOV.L       @R15+,R10
+    00000258 6BF6                   MOV.L       @R15+,R11
+    0000025A 6CF6                   MOV.L       @R15+,R12
+    0000025C 6DF6                   MOV.L       @R15+,R13
+    0000025E 432B                   JMP         @R3
+    00000260 6EF6                   MOV.L       @R15+,R14
+    00000262              L1105:                            
+    00000262 0000                   .DATA.W     0
+    00000264 <00000000>             .DATA.L     _pop_integer
+    00000268 80000000               .DATA.L     H'80000000
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000026C <00000000>             .DATA.L     L1064
+    00000270 <00000000>             .DATA.L     _push_integer
+    00000274 <00000000>             .DATA.L     _isinteger
+    00000278 <00000000>             .DATA.L     _p2
+    0000027C <00000000>             .DATA.L     L1066
+    00000280 <00000000>             .DATA.L     _p3
+    00000284 <00000000>             .DATA.L     _alloc
+    00000288 <00000000>             .DATA.L     _mmod
+    0000028C <00000000>             .DATA.L     _mint
+    00000290 <00000000>             .DATA.L     _restore
+           mod.c    67    }
+C   00000000              L1061:
+    00000000 6D6F642066             .SDATA      "mod function: divide by zero"
+             756E637469   
+             6F6E3A2064   
+             6976696465   
+             206279207A   
+             65726F       
+    0000001C 00                     .DATA.B     H'00
+    0000001D 00000001               .RES.B      1
+    0000001E 00000002               .RES.W      1
+    00000020              L1064:
+    00000020 6D6F642066             .SDATA      "mod function: cannot convert float value to integer"
+             756E637469   
+             6F6E3A2063   
+             616E6E6F74   
+             20636F6E76   
+             6572742066   
+             6C6F617420   
+             76616C7565   
+             20746F2069   
+             6E74656765   
+             72           
+    00000053 00                     .DATA.B     H'00
+    00000054              L1066:
+    00000054 6D6F642066             .SDATA      "mod function: integer arguments expected"
+             756E637469   
+             6F6E3A2069   
+             6E74656765   
+             7220617267   
+             756D656E74   
+             7320657870   
+             6563746564   
+    0000007C 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Jul-2013 13:37:17  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       67
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000294 Byte(s)
+CONSTANT SECTION (C):                               0000007D Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000311 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           19
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            58
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmkAA8E.tmp 
+
